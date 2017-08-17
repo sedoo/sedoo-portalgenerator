@@ -1,0 +1,5 @@
+#php_value include_path ".:/usr/share/pear:/usr/share/php:/www/mistrals/squelettes"
+order deny,allow
+deny from all
+allow from 193.52.225.144
+allow from 129.104.53

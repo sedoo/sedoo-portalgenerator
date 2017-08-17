@@ -1,0 +1,1050 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gcmd_science_keywords xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="gcmd_science_keyword.xsd">
+	<topic>
+		<topic_name>Atmosphere</topic_name>
+		<category>
+			<category_name>Aerosols</category_name>
+			<var_level1>
+				<var_level1_name>Aerosol Backscatter</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Aerosol Extinction</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Aerosol Optical Depth/Thickness</var_level1_name>
+				<var_level_2>
+					<var_level2_name>Angstrom Exponent</var_level2_name>
+				</var_level_2>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Aerosol Particle Properties</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Aerosol Radiance</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Carbonaceous Aerosols</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Condensation Nuclei</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Dust/Ash/Smoke</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Nitrate Particles</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Organic Particles</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Particulate Matter</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Sulfate Particles</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Air Quality</category_name>
+			<var_level1>
+				<var_level1_name>Emissions</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Lead</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Particulates</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Smog</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Turbidity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Visibility</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Altitude</category_name>
+			<var_level1>
+				<var_level1_name>Barometric Altitude</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Geopotential Height</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Mesopause</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Planetary Boundary Layer Height</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Station Height</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Stratopause</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Tropopause</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Atmospheric Chemistry</category_name>
+			<var_level1>
+				<var_level1_name>Carbon and Hydrocarbon Compounds</var_level1_name>
+				<var_level_2>
+					<var_level2_name>Carbon Dioxide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Carbon Monoxide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Chlorinated Hydrocarbons</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Hydrogen Cyanide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Hypochlorous Monoxide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Methane</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Methyl Cyanide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Non-methane Hydrocarbons/Volatile Organic Compounds</var_level2_name>
+				</var_level_2>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Halocarbons and Halogens</var_level1_name>
+				<var_level_2>
+					<var_level2_name>Bromine Monoxide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Carbon Tetrachloride</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Chlorine Dioxide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Chlorine Monoxide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Chlorine Nitrate</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Chlorofluorocarbons</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Halocarbons</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Halons</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Hydrochlorofluorocarbons</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Hydrofluorocarbons</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Hydrogen Chloride</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Hydrogen Fluoride</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Hypochlorous Acid</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Methyl Bromide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Methyl Chloride</var_level2_name>
+				</var_level_2>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Hydrogen Compounds</var_level1_name>
+				<var_level_2>
+					<var_level2_name>Hydroperoxy</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Hydroxyl</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Molecular Hydrogen</var_level2_name>
+				</var_level_2>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Nitrogen Compounds</var_level1_name>
+				<var_level_2>
+					<var_level2_name>Ammonia</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Dinitrogen Pentoxide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Molecular Nitrogen</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Nitric Acid</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Nitric Oxide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Nitrogen Dioxide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Nitrogen Oxides</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Nitrous Oxide</var_level2_name>
+				</var_level_2>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Oxygen Compounds</var_level1_name>
+				<var_level_2>
+					<var_level2_name>Molecular Oxygen</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Ozone</var_level2_name>
+				</var_level_2>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Photochemistry</var_level1_name>
+				<var_level_2>
+					<var_level2_name>Photolysis Rates</var_level2_name>
+				</var_level_2>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Sulfur Compounds</var_level1_name>
+				<var_level_2>
+					<var_level2_name>Carbonyl Sulfide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Dimethyl Sulfide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Sulfate</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Sulfur Dioxide</var_level2_name>
+				</var_level_2>
+				<var_level_2>
+					<var_level2_name>Sulfur Oxides</var_level2_name>
+				</var_level_2>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Trace Elements/Trace Metals</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Trace Gases/Trace Species</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Atmospheric Electricity</category_name>
+			<var_level1>
+				<var_level1_name>Atmospheric Conductivity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Electric Field</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Lightning</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Total Electron Content</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Atmospheric Phenomena</category_name>
+			<var_level1>
+				<var_level1_name>Cyclones</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Drought</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Fog</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Freeze</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Frost</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Hurricanes</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Monsoons</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Storms</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Tornadoes</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Typhoons</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Atmospheric Pressure</category_name>
+			<var_level1>
+				<var_level1_name>Anticyclones/Cyclones</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Atmospheric Pressure Measurements</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Differential Pressure</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Gravity Wave</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Hydrostatic Pressure</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Oscillations</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Planetary Boundary Layer Height</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Planetary/Rossby Waves</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Pressure Anomalies</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Pressure Tendency</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Pressure Thickness</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Sea Level Pressure</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Static Pressure</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Surface Pressure</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Topographic Waves</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Atmospheric Radiation</category_name>
+			<var_level1>
+				<var_level1_name>Absorption</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Airglow</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Albedo</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Anisotropy</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Atmospheric Emitted Radiation</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Atmospheric Heating</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Emissivity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Heat Flux</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Incoming Solar Radiation</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Longwave Radiation</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Net Radiation</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Optical Depth/Thickness</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Outgoing Longwave Radiation</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Radiative Flux</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Radiative Forcing</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Scattering</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Shortwave Radiation</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Transmittance</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Ultraviolet Radiation</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Atmospheric Temperature</category_name>
+			<var_level1>
+				<var_level1_name>Air Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Atmospheric Stability</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Boundary Layer Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Degree Days</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Deiced Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Inversion Height</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Maximum/Minimum Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Potential Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Skin Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Static Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Surface Air Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Temperature Anomalies</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Temperature Profiles</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Temperature Tendency</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Virtual Temperature</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Atmospheric Water Vapor</category_name>
+			<var_level1>
+				<var_level1_name>Condensation</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Dew Point Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Evaporation</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Evapotranspiration</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Humidity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Precipitable Water</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Sublimation</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Water Vapor</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Water Vapor Profiles</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Water Vapor Tendency</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Atmospheric Winds</category_name>
+			<var_level1>
+				<var_level1_name>Boundary Layer Winds</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Convection</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Convergence/Divergence</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Flight Level Winds</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Streamfunctions</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Surface Winds</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Turbulence</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Upper Level Winds</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Vertical Wind Motion</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Vorticity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Wind Chill</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Wind Profiles</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Wind Shear</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Wind Stress</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Wind Tendency</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Clouds</category_name>
+			<var_level1>
+				<var_level1_name>Cloud Amount/Frequency</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Asymmetry</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Base</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Base Pressure</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Base Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Ceiling</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Condensation Nuclei</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Emissivity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Forcing</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Height</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Liquid Water/Ice</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Mass Flux</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Midlayer Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Optical Depth/Thickness</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Precipitable Water</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Reflectance</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Top Pressure</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Top Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Types</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cloud Vertical Distribution</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Droplet Concentration/Size</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Precipitation</category_name>
+			<var_level1>
+				<var_level1_name>Acid Rain</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Droplet Size</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Freezing Rain</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Hail</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Hydrometeors</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Liquid Water Equivalent</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Precipitation Amount</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Precipitation Anomalies</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Precipitation Rate</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Rain</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Sleet</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Snow</var_level1_name>
+			</var_level1>
+		</category>
+	</topic>
+	<topic>
+		<topic_name>Land Surface</topic_name>
+		<category>
+			<category_name>Landscape</category_name>
+			<var_level1>
+				<var_level1_name>Landscape Ecology</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Landscape Management</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Landscape Patterns</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Landscape Processes</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Reclamation/Revegetation/Restoration</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Reforestation</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Land Temperature</category_name>
+			<var_level1>
+				<var_level1_name>Land Heat Capacity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Land Surface Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Skin Temperature</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Land Use/Land Cover</category_name>
+			<var_level1>
+				<var_level1_name>Land Cover</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Land Productivity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Land Resources</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Land Use Classes</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Soils</category_name>
+			<var_level1>
+				<var_level1_name>Calcium</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Carbon</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Cation Exchange Capacity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Denitrification Rate</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Electrical Conductivity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Heavy Metals</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Hydraulic Conductivity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Macrofauna</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Magnesium</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Microfauna</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Microflora</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Micronutrients/Trace Elements</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Nitrogen</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Organic Matter</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Permafrost</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Phosphorus</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Potassium</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Absorption</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Bulk Density</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Chemistry</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Classification</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Color</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Compaction</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Consistence</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Depth</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Erosion</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Fertility</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Gas/Air</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Heat Budget</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Horizons/Profile</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Impedance</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Infiltration</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Mechanics</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Moisture/Water Content</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil pH</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Plasticity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Porosity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Productivity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Respiration</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Rooting Depth</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Salinity/Soil Sodicity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Structure</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Texture</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Soil Water Holding Capacity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Sulfur</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Thermal Conductivity</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Surface Radiative Properties</category_name>
+			<var_level1>
+				<var_level1_name>Albedo</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Anisotropy</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Emissivity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Thermal Properties</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Topography</category_name>
+			<var_level1>
+				<var_level1_name>Contours</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Landforms</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Surface Roughness</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Terrain Elevation</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Topographical Relief</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Topographic Effects</var_level1_name>
+			</var_level1>
+		</category>
+	</topic>
+	<topic>
+		<topic_name>Spectral/Engineering</topic_name>
+		<category>
+			<category_name>Gamma Ray</category_name>
+			<var_level1>
+				<var_level1_name>Gamma Ray Flux</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Infrared Wavelengths</category_name>
+			<var_level1>
+				<var_level1_name>Brightness Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Infrared Flux</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Infrared Imagery</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Infrared Radiance</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Reflected Infrared</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Sensor Counts</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Thermal Infrared</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Lidar</category_name>
+			<var_level1>
+				<var_level1_name>Lidar Backscatter</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Lidar Depolarization Ratio</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Microwave</category_name>
+			<var_level1>
+				<var_level1_name>Antenna Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Brightness Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Microwave Imagery</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Microwave Radiance</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Sensor Counts</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Platform Characteristics</category_name>
+			<var_level1>
+				<var_level1_name>Airspeed/Ground Speed</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Attitude Characteristics</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Data Synchronization Time</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Flight Data Logs</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Line Of Sight Velocity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Orbital Characteristics</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Viewing Geometry</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Radar</category_name>
+			<var_level1>
+				<var_level1_name>Doppler Velocity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Radar Backscatter</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Radar Cross-section</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Radar Imagery</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Radar Reflectivity</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Return Power</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Sensor Counts</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Sigma Naught</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Radio Wave</category_name>
+			<var_level1>
+				<var_level1_name>Radio Wave Flux</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Sensor Characteristics</category_name>
+			<var_level1>
+				<var_level1_name>Dome Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Electrical Properties</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Phase and Amplitude</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Sink Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Thermal Properties</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Total Pressure</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Total Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Ultraviolet Sensor Temperature</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Viewing Geometry</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Ultraviolet Wavelengths</category_name>
+			<var_level1>
+				<var_level1_name>Sensor Counts</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Ultraviolet Flux</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Ultraviolet Radiance</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>Visible Wavelengths</category_name>
+			<var_level1>
+				<var_level1_name>Sensor Counts</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Visible Flux</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Visible Imagery</var_level1_name>
+			</var_level1>
+			<var_level1>
+				<var_level1_name>Visible Radiance</var_level1_name>
+			</var_level1>
+		</category>
+		<category>
+			<category_name>X-ray</category_name>
+			<var_level1>
+				<var_level1_name>X-ray Flux</var_level1_name>
+			</var_level1>
+		</category>
+	</topic>
+</gcmd_science_keywords>

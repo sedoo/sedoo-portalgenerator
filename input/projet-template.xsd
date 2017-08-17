@@ -1,0 +1,1133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="portal" type="portal"></xsd:element>
+
+    <xsd:complexType name="portal">
+        <xsd:annotation>
+        	<xsd:documentation>Paramètres de la carte dans la recherche avancée</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+    		<xsd:element name="name" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le nom du projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="website" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le site web du portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="3"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="googleAnalyticAccount" minOccurs="0"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					L'id du compte analytique
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="depot" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le répertoire du dépôt des données
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="faviconPath" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le chemin de l'icône du portail niveau onglet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="bannerHeight" minOccurs="0"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					La hauteur de la bannière en pixels
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="displayBannerTitle" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Affichage ou pas du nom du projet dans la
+    					bannière
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="displayLogoOnBanner" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Affichage ou pas du logo dans la bannière
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="logoPath" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le chemin du logo du portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="topbarPath" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le chemin de l'image de l'arrière plan de la
+    					bannière
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="footerTextPeriod" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					L'année du développement du portail au niveau du
+    					pied de page
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="footerTextDeveloper" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le nom du développeur du portail au niveau du
+    					pied de page
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="footerTextDeveloperWebsite" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le lien du site web du développeur au niveau du
+    					pied de page
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="webPath" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le chemin du répertoire du portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="portal_version" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					La version du portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="dns" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					le nom dns du portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="java_bin" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le chemin du bin java
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="maven_bin" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le chemin du bin maven
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="dataPath" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Répertoire des données
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="portalWorkPath" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Répertoire où sont placés les fichiers à
+    					télécharger
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="extractInformPi" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					téléchargements des jeux insérés - informer le
+    					PI ou pas
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="publicDataRole" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Role public pour les données
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="wkhtmlBinPath" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Répertoire de l'outil permettant la conversion
+    					html/pdf
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="doiPrefix" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Prefixe pour les tests : 10.5072/
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="testMode" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Si le portail en mode test
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="yearStart" minOccurs="0" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Année du début du portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="monthStart" minOccurs="0"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Mois du début du portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="ftp" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Répertoires pour les dépots ftp
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="adminGroupEmail" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					L'adresse mail du groupe admin (ex
+    					mistralsAdmins@sedoo.fr)
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="rootEmail" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Une autre adresse du groupe admin mail
+    					mistralsdb-admin@sedoo.fr
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="managerEmail" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Email du responsable du portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="datapolicy" minOccurs="0"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Lien vers la datapolicy du portail s'il y en a
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="homePage" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le code de la page d'acceuil : 0 si c'est une
+    					page d'acceuil normale 1 pour afficher les jeux
+    					de données par paramètre 2 pour afficher les
+    					jeux de données par instruments 3 pour afficher
+    					les jeux de données par pays 4 pour afficher les
+    					jeux de données par plateforme 5 pour afficher
+    					les jeux de données par projet 6 pour afficher
+    					les jeux de données par événement 7 pour
+    					afficher les jeux de données par campagne
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:int">
+    					<xsd:minInclusive value="0"></xsd:minInclusive>
+    					<xsd:maxInclusive value="7"></xsd:maxInclusive>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="roles" type="roles" minOccurs="0"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Les roles que peut avoir un utilisateur du
+    					portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="database" type="database" maxOccurs="1"
+    			minOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Paramètres pour la connexion avec la BDD
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="ldap" type="ldap" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Paramètres pour la connexion avec LDAP
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="signDatapolicies" type="signDatapolicies"
+    			minOccurs="0" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Chartes de la datapolicy à signer
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="parameters" type="parameters"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Les paramètres du projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+            <xsd:element name="map" type="MAP" minOccurs="1" maxOccurs="1"></xsd:element>
+            <xsd:element name="mainProjects" type="mainProjects"
+    			minOccurs="0" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Les projets principaux du portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="otherProjects" type="otherProjects"
+    			minOccurs="0" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Autres projets du portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    	</xsd:sequence>
+
+    </xsd:complexType>
+
+
+
+    <xsd:complexType name="ldap">
+    	<xsd:sequence>
+    		<xsd:element name="host" minOccurs="1" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="port" minOccurs="1" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="base" minOccurs="1" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="dn" minOccurs="1" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="password" minOccurs="1" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+
+
+
+
+    <xsd:complexType name="database">
+    	<xsd:sequence>
+    		<xsd:element name="host" minOccurs="1" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="name" minOccurs="1" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="user" minOccurs="1" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="password" minOccurs="0" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+
+
+
+
+    <xsd:complexType name="mainProjects">
+    	<xsd:sequence>
+    		<xsd:element name="project" type="project" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="otherProjects">
+    	<xsd:sequence>
+    		<xsd:element name="project" type="project" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+
+    <xsd:complexType name="project">
+    	<xsd:sequence>
+    		<xsd:element name="name" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le nom du projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="googleAnalyticAccount" minOccurs="0"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le compte google analytic
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="sites" minOccurs="0" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Les différents ID des sites que le projet peut
+    					avoir
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="bannerHeight" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					La hauteur de la barre du haut
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="displayBannerTitle" type="xsd:boolean" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>Affichage du titre du projet ou pas dans la barre du haut</xsd:documentation>
+    			</xsd:annotation></xsd:element>
+    		<xsd:element name="displayLogoOnBanner" type="xsd:boolean" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>Affichage du logo ou pas dans la bannière</xsd:documentation>
+    			</xsd:annotation></xsd:element>
+    		<xsd:element name="logoPath" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le chemin du logo du projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="topbarPath" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					La barre du haut pour le projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="HomePageAssoLogosPath" type="HomePageAssoLogosPath" minOccurs="0" maxOccurs="unbounded">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Les chemins des images des logos de la page
+    					d'acceuil d'un projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="yearStart" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Année du début du projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="monthStart" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Mois de début du projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="website" minOccurs="0" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Site web du projet s'il y en a
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="managerEmail" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Email du responsable du projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="adminGroupEmail" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					l'adresse mail des admin du projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="depot" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Répertoires pour les dépots ftp
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="roles" type="roles" minOccurs="0" maxOccurs="unbounded">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Les roles des utilisateurs du projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="datapolicy" minOccurs="0"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Datapolicy générale du projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="signDatapolicies" type="signDatapolicies" minOccurs="0" maxOccurs="unbounded">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Les chartes à signer du projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="homePage" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le code de la page d'acceuil : 0 si c'est une
+    					page d'acceuil normale 1 pour afficher les jeux
+    					de données par paramètre 2 pour afficher les
+    					jeux de données par instruments 3 pour afficher
+    					les jeux de données par pays 4 pour afficher les
+    					jeux de données par plateforme 5 pour afficher
+    					les jeux de données par projet 6 pour afficher
+    					les jeux de données par événement 7 pour
+    					afficher les jeux de données par campagne
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:int">
+    					<xsd:minInclusive value="0"></xsd:minInclusive>
+    					<xsd:maxInclusive value="7"></xsd:maxInclusive>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		
+    		
+    		<xsd:element name="parameters" type="parameters"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Les différents paramètres du projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="subprojects" type="subprojects"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Les sous-projets
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    
+    
+    <xsd:complexType name="parameters">
+    	<xsd:annotation>
+    		<xsd:documentation>
+    			Les paramètres du projet
+    		</xsd:documentation>
+    	</xsd:annotation>
+    	<xsd:sequence>
+    		<xsd:element name="HasAdminCorner" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Si le projet a ou pas la partie administrateur
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasParameterSearch" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de recherche des jeux de données par
+    					paramètre
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasInstrumentSearch" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de recherche des jeux de données par
+    					instrument
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasCountrySearch" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de recherche des jeux de données par pays
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasPlatformSearch" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de recherche des jeux de données par
+    					plateforme
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasProjectSearch" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de recherche des jeux de données par
+    					projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasEventSearch" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de recherche des jeux de données par
+    					événement
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasCampaignSearch" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de recherche des jeux de données par
+    					campagne
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasModelRequest" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de demander des jeux de données modèle
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasSatelliteRequest" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de demander des jeux de données satellite
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasInsituRequest" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de demander des jeux de données
+    					instrument
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasModelOutputs" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de saisir des fiche de metadonnées
+    					'modèle'
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasSatelliteProducts" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de saisir des fiche de metadonnées
+    					'satellite'
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasInsituProducts" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de saisir des fiche de metadonnées
+    					'instrument'
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasMultiInsituProducts"
+    			type="xsd:boolean" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de saisir des fiche de metadonnées 'multi
+    					instruments'
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasValueAddedProducts" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Possibilité dans le menu du gauche de la page du
+    					projet de saisir des fiche de metadonnées 'value
+    					Added'
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasProvideData" type="xsd:boolean" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>Si le projet a les formulaire de publications de données</xsd:documentation>
+    			</xsd:annotation></xsd:element>
+    		<xsd:element name="HasRequestData" type="xsd:boolean" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>Si le projet a les formulaire de demandes de données</xsd:documentation>
+    			</xsd:annotation></xsd:element>
+    		<xsd:element name="HasAssociatedUsers" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Les chemins des images des partenaires dans la
+    					page d'acceuil
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="DisplayOnlyProjectOnTopBar"
+    			type="xsd:boolean" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Pour l'affichage ou pas des autres projets du
+    					portail dans le menu du haut comme pour Hymex
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasBlueTag" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Si le projet a le tag bleu
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasPurpleTag" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Si le projet a le tag violet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasOrangeTag" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Si le projet a le tag orange
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    		<xsd:element name="HasGreenTag" type="xsd:boolean"
+    			minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Si le projet a le tag vert
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="subprojects">
+        <xsd:annotation>
+        	<xsd:documentation>Les différents sous-projets</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+    		<xsd:element name="subproject" type="subproject" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="subproject">
+    	<xsd:annotation>
+    		<xsd:documentation>sous-projet</xsd:documentation>
+    	</xsd:annotation>
+    	<xsd:sequence>
+    		<xsd:element name="name" minOccurs="1" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="roles">
+        <xsd:annotation>
+        	<xsd:documentation>Les différents roles que peuvent avoir les utilisateurs d'un projet</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+    		<xsd:element name="role" minOccurs="0"
+    			maxOccurs="unbounded">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="HomePageAssoLogosPath">
+        <xsd:annotation>
+        	<xsd:documentation>Les chemins des logos dans la page d'acceuil</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+    		<xsd:element name="logo" type="xsd:string" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="signDatapolicies">
+        <xsd:annotation>
+        	<xsd:documentation>Les chartes de datapolicy à signer</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+    		<xsd:element name="signDatapolicy" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+    			<xsd:annotation>
+    				<xsd:documentation></xsd:documentation>
+    			</xsd:annotation></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="NewElementType"></xsd:complexType>
+
+    <xsd:complexType name="MAP">
+    	<xsd:sequence>
+    		<xsd:element name="MAP_DEFAULT_LAT_MIN" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
+    		<xsd:element name="MAP_DEFAULT_LAT_MAX" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
+    		<xsd:element name="MAP_DEFAULT_LON_MIN" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
+    		<xsd:element name="MAP_DEFAULT_LON_MAX" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

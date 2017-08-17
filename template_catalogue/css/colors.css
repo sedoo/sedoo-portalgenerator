@@ -1,0 +1,61 @@
+/*****
+* main color bleu aeris: #4765a0;
+*/
+
+h1,
+h2,
+h3,
+blockquote,
+[role="legend"],
+.main-navigation ul ul li:first-child,
+.main-navigation .nav-menu > .current_page_item > a,
+.main-navigation .nav-menu > .current-menu-item > a,
+.main-navigation .nav-menu > .current_page_ancestor > a,
+.main-navigation .nav-menu > .current-menu-ancestor > a {
+	border-color: #4765a0; 
+}
+
+a,
+.main-navigation .nav-menu > li > a:hover,
+.main-navigation .nav-menu > li > a:focus,
+.main-navigation .nav-menu > .current_page_item > a,
+.main-navigation .nav-menu > .current-menu-item > a,
+.main-navigation .nav-menu > .current_page_ancestor > a,
+.main-navigation .nav-menu > .current-menu-ancestor > a
+ {
+	color: #4765a0;
+}
+
+[role="leftMenu"] section h2 {
+	background: #4765a0;
+}
+
+a:hover,
+a:focus,
+a:active {
+	color: #009FDE;
+}
+
+.site-branding h1 {
+	background-color: rgba(50, 76, 128, 0.5);
+}
+
+[data-color="Blue"],
+[data-color="Green"],
+[data-color="Purple"],
+[data-color="Orange"] {
+	font-size: 1.5em;
+}
+
+[data-color="Blue"] {
+	color: #5475B6;
+}
+[data-color="Green"] {
+	color: green;
+}
+[data-color="Purple"] {
+	color: purple;
+}
+[data-color="Orange"] {
+	color: orange;
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requete xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://mistrals.sedoo.fr/extract/requete" xsi:schemaLocation="http://mistrals.sedoo.fr/extract/requete http://mistrals.sedoo.fr/extract/requete.xsd ">
+	<projet>MISTRALS</projet>
+	<selection>
+		<periode />
+		<zone />
+		<datasets />
+		<places />
+		<variables />
+	</selection>
+	<utilisateur>
+		<utilisateur_email />
+		<utilisateur_nom />
+		<utilisateur_institute />
+	</utilisateur>
+	<options>
+		<format />
+		<format_version />
+		<compression />
+		<valeurs_absentes>-9999.9</valeurs_absentes>
+		<separateur>;</separateur>
+		<valeur_flag>false</valeur_flag>
+		<valeur_delta>false</valeur_delta>
+	</options>
+</requete>
