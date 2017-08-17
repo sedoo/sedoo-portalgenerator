@@ -1,0 +1,70 @@
+.orange_tag{
+	background-color: #f1930b;
+	padding: 2px;
+	font-size: 10px;
+	color: white;
+	margin:8px;
+	border-radius:4px;
+	font-weight: bold;
+}
+
+.green_tag {
+	background-color: #345d00;
+	padding: 2px;
+	font-size: 10px;
+	color: white;
+	margin:8px;
+	border-radius:4px;
+	font-weight: bold;
+}
+
+.lightblue_tag{
+	background-color: #42C9E4;
+	padding: 2px;
+	font-size: 10px;
+	color: white;
+	margin:8px;
+	border-radius:4px;
+	font-weight: bold;
+}
+
+
+.pink_tag{
+	background-color: #CB04DD;
+	padding: 2px;
+	font-size: 10px;
+	color: white;
+	margin:8px;
+	border-radius:4px;
+	font-weight: bold;
+}
+
+.lightpink_tag{
+	background-color: #F46696;
+	padding: 2px;
+	font-size: 10px;
+	color: white;
+	margin:8px;
+	border-radius:4px;
+	font-weight: bold;
+}
+
+.blue_tag{
+    background-color: #1C29E4;
+    padding: 2px;
+    font-size: 10px;
+    color: white;
+    margin:8px;
+    border-radius:4px;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+

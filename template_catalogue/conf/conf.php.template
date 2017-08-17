@@ -1,0 +1,69 @@
+<?php
+
+/*****************************/
+/* DO NOT EDIT conf/conf.php */
+/*****************************/
+
+define('TEST_MODE', @testMode@);
+
+define("DATA_PATH","/export1/#MainProject");
+define("WEB_PATH","/www/#MainProject");
+
+/* Database */
+
+define("DB_HOST","@db.host@");
+define("DB_NAME","@db.name@");
+define("DB_USER","@db.user@");
+define("DB_PASS","@db.passwd@");
+
+
+/* Annuaire utilisateurs */
+
+define("LDAP_HOST","@ldap.host@");
+define("LDAP_PORT",389);
+define("LDAP_BASE","@ldap.base@");
+define("LDAP_DN","cn=@ldap.user@,".LDAP_BASE);
+define("LDAP_PASSWD","@ldap.passwd@");
+
+//Prefixe pour les tests : 10.5072/
+define("DOI_PREFIX","@doi.prefix@");
+
+/* Téléchargement des jeux originaux */
+
+define("WKHTML_BIN_PATH","@wkhtml.binPath@");
+
+
+//Répertoire où sont placés les fichiers à télécharger.
+define("DATA_PATH_DL","/export1/#MainProject/dl");
+
+define("PUBLIC_DATA_ROLE","public");
+
+define("LOG_DL","/export1/#MainProject/log/dl.log");
+
+//Fichier de log utilisé par logger.php (log des requetes sql) 
+define('LOG_FILE','/export1/#MainProject/log/catalogue.log');
+
+//Répertoire où sont les fichiers permettant de générer les cartes (liste des points à afficher)
+//define("MAP_PATH","/export1/#MainProject/hymex_data/maps");
+
+//Répertoire où est placée la doc associée aux données d'un jeu. 
+//Il est ajouté au résultat de toutes les requetes concernant le jeu.
+define("DOC_DIR","0_Documentation");
+
+define("README_FILE","README");
+
+define("ATT_FILES_PATH","/export1/#MainProject/attached");
+define("ATT_IMG_URL_PATH","/att_img/");
+
+/* Téléchargement des jeux insérés */
+
+define('EXTRACT_CGI','http://@extract.host@/extract/cgi-bin/extract.cgi');
+define('EXTRACT_CGI_FICHIERS','http://@extract.host@/extract/cgi-bin/extractFiles.cgi');
+
+define('EXTRACT_RESULT_PATH','@extract.result.path@');
+
+
+define('EXTRACT_INFORM_PI',@extract.mail.pis@);
+
+
+?>

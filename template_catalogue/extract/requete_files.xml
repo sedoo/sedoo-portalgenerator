@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requete_files xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://mistrals.sedoo.fr/extract/requete_files" xsi:schemaLocation="http://mistrals.sedoo.fr/extract/requete_files http://mistrals.sedoo.fr/extract/requete_files.xsd">
+<projet>MISTRALS</projet>
+	<utilisateur>
+		<utilisateur_email />
+		<utilisateur_nom />
+		<utilisateur_institute />
+	</utilisateur>
+	<compression>zip</compression>
+	<selection>
+		<datsId />
+		<racine />
+	</selection>
+
+</requete_files>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="projet-template.xsd">
+  <name>KASCADE</name>
+  <website>http://kascade.sedoo.fr</website>
+  <googleAnalyticAccount>UA-74848043-1</googleAnalyticAccount>
+  <depot>/home/kascade</depot>
+  <faviconPath>/img/favicon.ico</faviconPath>
+  <bannerHeight>100px</bannerHeight>
+  <displayBannerTitle>true</displayBannerTitle>
+  <displayLogoOnBanner>false</displayLogoOnBanner>
+  <logoPath>/img/logo_mistrals.jpg</logoPath>
+  <topbarPath>/img/bg_head_middle2.jpg</topbarPath>
+  <footerTextPeriod>2015</footerTextPeriod>
+  <footerTextDeveloper>Sedoo</footerTextDeveloper>
+  <footerTextDeveloperWebsite>http://www.obs-mip.fr/recherche/plates-formes/sedoo</footerTextDeveloperWebsite>
+  <webPath>/export1/kascade/catalogue</webPath>
+  <portal_version>0.1.0</portal_version>
+  <dns>kascade.sedoo.fr</dns>
+  <java_bin>/usr/local/j2sdk/bin</java_bin>
+  <maven_bin>/usr/local/maven/bin</maven_bin>
+  <dataPath>/export1/kascade/data</dataPath>
+  <portalWorkPath>/export1/kascade/work</portalWorkPath>
+  <extractInformPi>false</extractInformPi>
+  <publicDataRole>public</publicDataRole>
+  <wkhtmlBinPath>/usr/bin/wkhtmltopdf</wkhtmlBinPath>
+  <doiPrefix>10.6096/</doiPrefix>
+  <testMode>true</testMode>
+  <ftp>ftp://kascade.sedoo.fr</ftp>
+  <adminGroupEmail>kascadeAdmin@sedoo.fr</adminGroupEmail>
+  <rootEmail>kascadeRoot@sedoo.fr</rootEmail>
+  <managerEmail>kascadeManager@sedoo.fr</managerEmail>
+  <homePage>0</homePage>
+  <database>
+      <host>localhost</host>
+      <name>kascade_catalogue</name>
+      <user>wwwadm</user>
+      <password></password>
+  </database>
+  <ldap>
+      <host>localhost</host>
+      <port>389</port>
+      <base>dc=kascade,dc=sedoo,dc=fr</base>
+      <dn>cn=wwwadm,dc=kascade,dc=sedoo,dc=fr</dn>
+      <password>www001</password>
+  </ldap>
+  <signDatapolicies>
+      <signDatapolicy>I apply for access to the data in order to perform the work described above.</signDatapolicy>
+      <signDatapolicy>I commit to never redistribute data to any other person nor institution.</signDatapolicy>
+      <signDatapolicy>I commit not to use data for commercial applications.</signDatapolicy>
+      <signDatapolicy>I commit to contact the provider of the required data in order to offer collaboration.</signDatapolicy>
+      <signDatapolicy>I commit to agree on either co-authorship or acknowledgement with the principal investigators of the datasets.</signDatapolicy>
+      <signDatapolicy>I commit to acknowledge the agencies which have funded the data collection and the database centres, using the mentions indicated in the dataset metadata and files.</signDatapolicy>
+      <signDatapolicy>I commit to inform the database managers.</signDatapolicy>
+  </signDatapolicies>
+  <parameters>
+	  <HasAdminCorner>true</HasAdminCorner>
+	  <HasParameterSearch>true</HasParameterSearch>
+	  <HasInstrumentSearch>true</HasInstrumentSearch>
+	  <HasCountrySearch>false</HasCountrySearch>
+	  <HasPlatformSearch>true</HasPlatformSearch>
+	  <HasProjectSearch>false</HasProjectSearch>
+	  <HasEventSearch>false</HasEventSearch>
+	  <HasCampaignSearch>false</HasCampaignSearch>
+	  <HasModelRequest>false</HasModelRequest>
+	  <HasSatelliteRequest>false</HasSatelliteRequest>
+	  <HasInsituRequest>false</HasInsituRequest>
+	  <HasModelOutputs>false</HasModelOutputs>
+	  <HasSatelliteProducts>false</HasSatelliteProducts>
+	  <HasInsituProducts>true</HasInsituProducts>
+	  <HasMultiInsituProducts>false</HasMultiInsituProducts>
+	  <HasValueAddedProducts>false</HasValueAddedProducts>
+	  <HasProvideData>true</HasProvideData>
+	  <HasRequestData>false</HasRequestData>
+	  <HasAssociatedUsers>false</HasAssociatedUsers>
+	  <DisplayOnlyProjectOnTopBar>false</DisplayOnlyProjectOnTopBar>
+	  <HasBlueTag>true</HasBlueTag>
+	  <HasPurpleTag>false</HasPurpleTag>
+	  <HasOrangeTag>false</HasOrangeTag>
+	  <HasGreenTag>false</HasGreenTag>
+  </parameters>
+  <map>
+	      <MAP_DEFAULT_LAT_MIN>43</MAP_DEFAULT_LAT_MIN>
+	      <MAP_DEFAULT_LAT_MAX>46</MAP_DEFAULT_LAT_MAX>
+	      <MAP_DEFAULT_LON_MIN>3</MAP_DEFAULT_LON_MIN>
+	      <MAP_DEFAULT_LON_MAX>9</MAP_DEFAULT_LON_MAX>
+  </map> 
+  <mainProjects>
+  </mainProjects>
+  <otherProjects>
+  </otherProjects>
+</portal>

@@ -1,0 +1,60 @@
+package org.sedoo.mistrals.extract.requetes;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.sedoo.mistrals.extract.utils.Zone;
+
+public class RequeteJeuStation {
+	
+	int datsId;
+	int placeId;
+	List<Integer> varIds;
+
+	Timestamp dateMin = null;
+	Timestamp dateMax = null;
+	
+	private Zone zone;
+	
+	private String compression;
+			
+	public RequeteJeuStation(int datsId, int placeId, List<Integer> varIds, Timestamp dateMin, Timestamp dateMax, Zone zone, String compression) {
+		super();
+		this.datsId = datsId;
+		this.placeId = placeId;
+		this.varIds = varIds;
+		this.dateMin = dateMin;
+		this.dateMax = dateMax;
+		this.zone = zone;
+		this.compression = compression;
+	}
+
+	public int getDatsId() {
+		return datsId;
+	}
+
+	public int getPlaceId() {
+		return placeId;
+	}
+
+	public List<Integer> getVarIds() {
+		return varIds;
+	}
+
+	public Timestamp getDateMin() {
+		return dateMin;
+	}
+
+	public Timestamp getDateMax() {
+		return dateMax;
+	}
+
+	public Zone getZone() {
+		return zone;
+	}
+	
+	public String getCompression() {
+		return compression;
+	}
+	
+}
