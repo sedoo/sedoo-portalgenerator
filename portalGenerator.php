@@ -2,7 +2,6 @@
 <?php
 include('config.php');
 
-define ( 'Portal_ldap_id', '9' );
 define ( 'REP_LDAP', '/export1/eurequa/ldap' );
 define ( 'Duplicated_db_host', $databaseConf['host']);
 define ( 'Duplicated_db_user', $databaseConf['db_user']);
@@ -876,7 +875,8 @@ function generateFile($filepath, $content) {
 }
 function generateProjectsSchemas($ldapProjects) {
 	global $Portal_name;
-	$x = Portal_ldap_id;
+	$l = new ldapIds();
+	$x = $l->getId($Portal_name);
 	$x1 = 1;
 	$x2 = 1;
 	$content .= "dn: cn=" . strtolower ( $Portal_name ) . ",cn=schema,cn=config\n";
