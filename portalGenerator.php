@@ -1081,7 +1081,7 @@ function generateLdapCreationScript() {
 // PHP server configuration
 function generateConfdFile($server_name, $app_path) {
 	global $Portal_name;
-	$content .= "<VirtualHost *:80> \n" . "\t ServerName $server_name \n" . "\t DocumentRoot $app_path \n" . "\t CustomLog    /var/log/httpd/access_log." . strtolower ( $Portal_name ) . " combined \n" . "\t ErrorLog     /var/log/httpd/error_log." . strtolower ( $Portal_name ) . " \n" . "\t <Directory $app_path> \n" . "\t\t php_value include_path \".:/usr/share/pear:/usr/share/php:$app_path/scripts:$app_path/:$app_path/template:/usr/share/php/jpgraph\" \n" . "\t </Directory> \n" . "\t <Directory $app_path/att_img> \n" . "\t\t AllowOverride All \n" . "\t </Directory> \n" . "\t ScriptAlias /extract/cgi-bin/ /www/" . strtolower ( $Portal_name ) . "_catalogue_extract/cgi-bin/ \n" . "</VirtualHost> \n";
+	$content .= "<VirtualHost *:80> \n" . "\t ServerName $server_name \n" . "\t DocumentRoot $app_path \n" . "\t CustomLog    /var/log/httpd/access_log." . strtolower ( $Portal_name ) . " combined \n" . "\t ErrorLog     /var/log/httpd/error_log." . strtolower ( $Portal_name ) . " \n" . "\t <Directory $app_path> \n" . "\t\t php_value include_path \".:/usr/share/pear:/usr/share/php:$app_path/scripts:$app_path/:$app_path/template:/usr/share/php/jpgraph\" \n" . "\t </Directory> \n" . "\t <Directory $app_path/att_img> \n" . "\t\t AllowOverride All \n" . "\t </Directory> \n" . "\t ScriptAlias /extract/cgi-bin/ /www/" . strtolower ( $Portal_name ) . "-extract/cgi-bin/ \n" . "</VirtualHost> \n";
 	generateFile ( './target/apache/' . strtolower ( $Portal_name ) . '.conf', $content );
 }
 
