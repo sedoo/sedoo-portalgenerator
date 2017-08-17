@@ -16,8 +16,6 @@
   <webPath>/www/workspace/mistrals</webPath>
   <portal_version>0.0.1</portal_version>
   <dns>localhost</dns>
-  <java_bin>/usr/local/j2sdk/bin</java_bin>
-  <maven_bin>/usr/local/apache-maven-3.0.4/bin</maven_bin>
   <dataPath>/export1/mistrals</dataPath>
   <portalWorkPath>/export1/data_local</portalWorkPath>
   <extractInformPi>false</extractInformPi>

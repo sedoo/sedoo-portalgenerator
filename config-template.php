@@ -51,4 +51,15 @@ $ldapConf = array(
 	'user' 		=> 'LDAP-USER',
 	'group' 	=> 'LDAP-GROUP',
 	);
+
+/**
+* JAVA BIN
+* depend de l'OS
+************/
+$javaBin = array(
+	'maven_bin'		=> '/usr/bin',
+	'java_bin'		=> '/usr/local/j2sdk/bin',
+)
+
+
 ?>

@@ -8,10 +8,10 @@ define ( 'Duplicated_db_host', $databaseConf['host']);
 define ( 'Duplicated_db_user', $databaseConf['db_user']);
 define ( 'Duplicated_db_name', $databaseConf['db_name']);
 define ( 'Duplicated_db_password', $databaseConf['db_password']);
-define ( 'Sphinx_Duplicated_db_host', $sphinxDatabaseConf['host']);
-define ( 'Sphinx_Duplicated_db_user', $sphinxDatabaseConf['db_user']);
-define ( 'Sphinx_Duplicated_db_name', $sphinxDatabaseConf['db_name']);
-define ( 'Sphinx_Duplicated_db_password', $sphinxDatabaseConf['db_password']);
+// define ( 'Sphinx_Duplicated_db_host', $sphinxDatabaseConf['host']);
+// define ( 'Sphinx_Duplicated_db_user', $sphinxDatabaseConf['db_user']);
+// define ( 'Sphinx_Duplicated_db_name', $sphinxDatabaseConf['db_name']);
+// define ( 'Sphinx_Duplicated_db_password', $sphinxDatabaseConf['db_password']);
 
 // Portal generation functions
 function comment($com) {
@@ -1092,7 +1092,7 @@ function generateExtractFilter() {
 		$db_password = $result_array ['database'] ['password'];
 	else
 		$db_password = '';
-	$content .= "log.level=INFO \n" . "log.appender=fileDlyAppender \n" . "\n#root_path = racine definie dans le template.xml \n" . "log.path=" . $result_array ['portalWorkPath'] . "/log \n" . "result.path=" . $result_array ['portalWorkPath'] . "/download \n" . "\n#A partir de l'élement database \n" . "db.host=" . $result_array ['database'] ['host'] . " \n" . "db.name=" . $result_array ['database'] ['name'] . " \n" . "db.username=" . $result_array ['database'] ['user'] . " \n" . "db.password=" . $db_password . " \n" . "\n#A partir de l'element ldap \n" . "ldap.host=" . $result_array ['ldap'] ['host'] . "\n" . "ldap.base=" . $result_array ['ldap'] ['base'] . " \n" . "\n#A partir du nom DNS configure dans le template \n" . "ui.dl=http://" . $result_array ['dns'] . "/extract/download.php \n" . "ui.dl.pub=http://" . $result_array ['dns'] . "/extract/downloadPub.php \n" . "\nxml.response.schema.uri=http://" . $result_array ['dns'] . "/extract/reponse \n" . "xml.response.schema.xsd=http://" . $result_array ['dns'] . "/extract/reponse.xsd \n" . "\n#bin defini dans le template.xml \n" . "java.bin=" . $result_array ['java_bin'] . " \n" . "\n#rootEmail \n" . "mail.admin=" . $result_array ['rootEmail'] . " \n" . "mail.from=" . $result_array ['rootEmail'] . " \n" . "mail.topic.prefix=[" . $result_array ['name'] . "-DATABASE] \n";
+	$content .= "log.level=INFO \n" . "log.appender=fileDlyAppender \n" . "\n#root_path = racine definie dans le template.xml \n" . "log.path=" . $result_array ['portalWorkPath'] . "/log \n" . "result.path=" . $result_array ['portalWorkPath'] . "/download \n" . "\n#A partir de l'élement database \n" . "db.host=" . $result_array ['database'] ['host'] . " \n" . "db.name=" . $result_array ['database'] ['name'] . " \n" . "db.username=" . $result_array ['database'] ['user'] . " \n" . "db.password=" . $db_password . " \n" . "\n#A partir de l'element ldap \n" . "ldap.host=" . $result_array ['ldap'] ['host'] . "\n" . "ldap.base=" . $result_array ['ldap'] ['base'] . " \n" . "\n#A partir du nom DNS configure dans le template \n" . "ui.dl=http://" . $result_array ['dns'] . "/extract/download.php \n" . "ui.dl.pub=http://" . $result_array ['dns'] . "/extract/downloadPub.php \n" . "\nxml.response.schema.uri=http://" . $result_array ['dns'] . "/extract/reponse \n" . "xml.response.schema.xsd=http://" . $result_array ['dns'] . "/extract/reponse.xsd \n" . "\n#bin defini dans le template.xml \n" . "java.bin=" . $javaBin['java_bin'] . " \n" . "\n#rootEmail \n" . "mail.admin=" . $result_array ['rootEmail'] . " \n" . "mail.from=" . $result_array ['rootEmail'] . " \n" . "mail.topic.prefix=[" . $result_array ['name'] . "-DATABASE] \n";
 	generateFile ( "./target/extraction/PORTAL.properties", $content );
 	generateFile ( "./input/extraction/template-catalogue-extract/src/main/filters/PORTAL.properties", $content );
 }
@@ -1100,7 +1100,7 @@ function generateExtractFilter() {
 function generateExtractor() {
 	global $Portal_name, $result_array;
 	// exec("cd ./input/extraction/template-catalogue-extract");
-	exec ( "cd ./input/extraction/template-catalogue-extract; " . $result_array ['maven_bin'] . "/mvn package -Dcible=PORTAL -Dproject.name=" . strtolower ( $Portal_name ) . "_catalogue", $message );
+	exec ( "cd ./input/extraction/template-catalogue-extract; " . $javaBin['maven_bin'] . "/mvn package -Dcible=PORTAL -Dproject.name=" . strtolower ( $Portal_name ) . "_catalogue", $message );
 	echo "\n";
 	foreach ( $message as $m )
 		echo $m . "\n";

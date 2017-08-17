@@ -214,31 +214,7 @@
     					<xsd:minLength value="2"></xsd:minLength>
     				</xsd:restriction>
     			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="java_bin" minOccurs="1" maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Le chemin du bin java
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="maven_bin" minOccurs="1" maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Le chemin du bin maven
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
+    		</xsd:element>    		
     		<xsd:element name="dataPath" minOccurs="1" maxOccurs="1">
     			<xsd:annotation>
     				<xsd:documentation>
