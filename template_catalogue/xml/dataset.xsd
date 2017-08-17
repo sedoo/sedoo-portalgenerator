@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Hassan Makhmara (Medias France) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="dataset">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="dats_title">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="dats_pub_date" type="xs:date"/>
+				<xs:element name="dats_version" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="dats_process_level" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="dats_other_cit" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="250"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="dats_abstract">
+					<xs:simpleType>
+						<xs:restriction base="xs:string"/>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="dats_purpose" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string"/>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="dats_elevation_min" type="xs:double" minOccurs="0"/>
+				<xs:element name="dats_elevation_max" type="xs:double" minOccurs="0"/>
+				<xs:element name="dats_date_begin" type="xs:date" minOccurs="0"/>
+				<xs:element name="dats_date_end" type="xs:date" minOccurs="0"/>
+				<xs:element name="dats_use_constraints" type="xs:string" minOccurs="0"/>
+				<xs:element name="dats_access_constraints" type="xs:string" minOccurs="0"/>
+				<xs:element name="dats_reference" type="xs:string" minOccurs="0"/>
+				<xs:element name="dats_quality" type="xs:time" minOccurs="0"/>
+				<xs:element name="dats_image" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="dats_dats_end_not_planned" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="dats_vars" type="variable" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="dats_sensors" type="sensor" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="dats_places" type="place" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="dats_originators" type="personne" maxOccurs="unbounded"/>
+				<xs:element name="dats_organism" type="organism" minOccurs="0"/>
+				<xs:element name="dats_progress_status" type="status_progress" minOccurs="0"/>
+				<xs:element name="dats_final_status" type="status_final" minOccurs="0"/>
+				<xs:element name="dats_database" type="database" minOccurs="0"/>
+				<xs:element name="dats_period" type="period" minOccurs="0"/>
+				<xs:element name="dats_project" type="project" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="dats_role" type="role" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="dats_types" type="dataset_type" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="data_formats" type="data_format" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="data_policy" type="data_policy" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="personne">
+		<xs:sequence>
+			<xs:element name="pers_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="pers_email1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="pers_email2" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="pers_organism" type="organism" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="organism">
+		<xs:sequence>
+			<xs:element name="org_sname">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="org_fname">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="org_url" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="period">
+		<xs:sequence>
+			<xs:element name="period_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="period_begin" type="xs:date" minOccurs="0"/>
+			<xs:element name="period_end" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="database">
+		<xs:sequence>
+			<xs:element name="database_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="database_url" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="boundings">
+		<xs:sequence>
+			<xs:element name="west_bounding_coord" type="xs:double"/>
+			<xs:element name="east_bounding_coord" type="xs:double"/>
+			<xs:element name="north_bounding_coord" type="xs:double"/>
+			<xs:element name="south_bounding_coord" type="xs:double"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="place">
+		<xs:sequence>
+			<xs:element name="parent_place" type="place" minOccurs="0"/>
+			<xs:element name="place_boundings" type="boundings" minOccurs="0"/>
+			<xs:element name="gcmd_plateform_keyword" type="gcmd_plateform_keyword"/>
+			<xs:element name="place_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="place_elevation_min" type="xs:double" minOccurs="0"/>
+			<xs:element name="place_elevation_max" type="xs:double" minOccurs="0"/>
+			<xs:element name="sensors" type="sensor" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="sensor_environment" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="variable">
+		<xs:sequence>
+			<xs:element name="gcmd_science_keyword" type="gcmd_science_keyword"/>
+			<xs:element name="var_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="var_unit" type="unit"/>
+			<xs:element name="var_min_possible_value" type="xs:double" minOccurs="0"/>
+			<xs:element name="var_max_possible_value" type="xs:double" minOccurs="0"/>
+			<xs:element name="vertical_level_type" type="vertical_level_type" minOccurs="0"/>
+			<xs:element name="var_acquisition_method" type="xs:string" minOccurs="0"/>
+			<xs:element name="flag_param_calc" type="xs:boolean"/>
+			<xs:element name="var_date_deb" type="xs:date" minOccurs="0"/>
+			<xs:element name="var_date_end" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="gcmd_science_keyword">
+		<xs:sequence>
+			<xs:element name="gcmd_science_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="gcmd_parent" type="gcmd_science_keyword" minOccurs="0"/>
+			<xs:element name="gcmd_level" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="sensor">
+		<xs:sequence>
+			<xs:element name="sensor_manufacturer" type="manufacturer"/>
+			<xs:element name="gcmd_sensor" type="gcmd_instrument_keyword"/>
+			<xs:element name="boundings" type="boundings" minOccurs="0"/>
+			<xs:element name="sensor_model">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="sensor_calibration" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="sensor_date_begin" type="xs:date" minOccurs="0"/>
+			<xs:element name="sensor_date_end" type="xs:date" minOccurs="0"/>
+			<xs:element name="sensor_resol_temp" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="sensor_lat_resol" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="sensor_lon_resol" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="sensor_vert_resol" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="sensor_url" type="xs:string" minOccurs="0"/>
+			<xs:element name="sensor_height_above_ground" type="xs:double" minOccurs="0"/>
+			<xs:element name="sensor_nb" type="xs:int" minOccurs="0"/>
+			<xs:element name="places" type="place" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="variables" type="variable" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="sensor_environment" type="xs:string" minOccurs="0"/>
+			<xs:element name="sensor_precision" type="xs:string" minOccurs="0"/>
+			<xs:element name="grid_original" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="grid_process" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="gcmd_plateform_keyword">
+		<xs:sequence>
+			<xs:element name="gcmd_plat_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="gcmd_instrument_keyword">
+		<xs:sequence>
+			<xs:element name="gcmd_sensor_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="unit">
+		<xs:sequence>
+			<xs:element name="unit_fname">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="unit_code" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="manufacturer">
+		<xs:sequence>
+			<xs:element name="manufacturer_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="manufacturer_url" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="project">
+		<xs:sequence>
+			<xs:element name="project_parent" type="project" minOccurs="0"/>
+			<xs:element name="project_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="dataset_type">
+		<xs:sequence>
+			<xs:element name="dats_type_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="dats_type_desc" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="250"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="vertical_level_type">
+		<xs:sequence>
+			<xs:element name="vertical_level_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="data_format">
+		<xs:sequence>
+			<xs:element name="data_format_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="data_policy">
+		<xs:sequence>
+			<xs:element name="data_policy_name" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="status_progress">
+		<xs:sequence>
+			<xs:element name="status_progress_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="status_final">
+		<xs:sequence>
+			<xs:element name="status_final_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="role">
+		<xs:sequence>
+			<xs:element name="role_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

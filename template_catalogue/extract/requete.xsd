@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://mistrals.sedoo.fr/extract/requete" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:req="http://mistrals.sedoo.fr/extract/requete">
+    <xsd:element name="requete" type="req:requete_Type"></xsd:element>
+
+    <xsd:complexType name="requete_Type">
+    	<xsd:sequence>
+            <xsd:element name="projet" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+            <xsd:element name="selection" type="req:selection_Type"
+    			maxOccurs="1" minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="utilisateur" type="req:utilisateur_Type"
+    			maxOccurs="1" minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="options" type="req:options_Type"
+    			maxOccurs="1" minOccurs="1">
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="zone_Type">
+    	<xsd:sequence>
+    		<xsd:element name="lat_min" type="xsd:double" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="lat_max" type="xsd:double" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="lon_min" type="xsd:double" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="lon_max" type="xsd:double" maxOccurs="1" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="period_Type">
+    	<xsd:sequence>
+    		<xsd:element name="date_min" type="xsd:dateTime" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="date_max" type="xsd:dateTime" maxOccurs="1" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="selection_Type">
+    	<xsd:sequence>
+    		<xsd:element name="periode" type="req:period_Type" maxOccurs="1" minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="zone" type="req:zone_Type" maxOccurs="1" minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="datasets" type="req:datasets_Type" maxOccurs="1" minOccurs="1"></xsd:element>
+    		<xsd:element name="places" type="req:places_Type" maxOccurs="1" minOccurs="1"></xsd:element>
+    		<xsd:element name="variables" type="req:variables_Type" maxOccurs="1" minOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="datasets_Type">
+    	<xsd:sequence>
+    		<xsd:element name="dats_id" type="xsd:int" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="places_Type">
+    	<xsd:sequence>
+    		<xsd:element name="place_id" type="xsd:int" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="variables_Type">
+    	<xsd:sequence>
+    		<xsd:element name="var_id" type="xsd:int" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="utilisateur_Type">
+    	<xsd:sequence>
+    		<xsd:element name="utilisateur_email" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+    		<xsd:element name="utilisateur_nom" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+    		<xsd:element name="utilisateur_institute" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="options_Type">
+    	<xsd:sequence>
+    		<xsd:element name="format" type="xsd:string" maxOccurs="1" minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="format_version" type="xsd:string" maxOccurs="1" minOccurs="0">
+    		</xsd:element>
+    		<xsd:element name="compression" type="xsd:string" maxOccurs="1" minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="valeurs_absentes" type="xsd:string" maxOccurs="1" minOccurs="0">
+    		</xsd:element>
+    		<xsd:element name="separateur" type="xsd:string" maxOccurs="1" minOccurs="0">
+    		</xsd:element>
+    		<xsd:element name="valeur_flag" type="xsd:boolean" maxOccurs="1" minOccurs="1"></xsd:element>
+    		<xsd:element name="valeur_delta" type="xsd:boolean" maxOccurs="1" minOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

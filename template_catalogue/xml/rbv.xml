@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <identification>
+    <title />
+    <abstract />
+    <status>planned</status>
+    <updateRythm>unknown</updateRythm>
+    <urls>
+    	<url link="http://www.ohmcv.fr/" />	
+    </urls>
+    <contacts >
+      <contact email="admins@sedoo.fr" person="Admin Sedoo" organisation="Sedoo" role="pointOfContact" />
+    </contacts>
+    <identifiers />
+  </identification>
+  <constraints>
+    <useConditions />
+  </constraints>
+  
+  <metametadata>
+  	<uuid />
+    <language>eng</language>
+    <contacts>
+      <contact email="admins@sedoo.fr" organisation="Sedoo" role="pointOfContact" />
+    </contacts>
+  </metametadata>
+  <temporal>
+    <beginDate />
+    <endDate />
+  </temporal>
+  <localisation>
+    <!--box /-->
+    <observatory />
+    <basin />
+    <site />
+  </localisation>
+
+  <others>
+    <languages>
+      <language>eng</language>
+    </languages>
+    <charset>utf8</charset>
+    <format />
+    <creationDate />
+  </others>
+</metadata>

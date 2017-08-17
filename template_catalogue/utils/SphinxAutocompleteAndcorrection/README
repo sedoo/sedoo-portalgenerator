@@ -1,0 +1,47 @@
+
+--------------------------------------
+Steps to install sphinx with mistrals:
+--------------------------------------
+
+http://sphinxsearch.com/docs/current.html
+
+
+1-  Install sphinx by executing the following command :
+    yum install sphinx
+    
+Et : 
+yum install php-mysqlnd.x86_64
+yum install php-mbstring.x86_64
+    
+2-  "utils/SphinxAutocompleteAndcorrection" contains all the files you need to install sphinx successfully 
+
+3-  Copy "sphinx.conf" in the sphinx installation directory and erase the old one (/etc/sphinx/)
+
+4-  Execute the creation script existing under the following directory "creation-table-pg"
+
+5-  Uncomment this line "$this->insert_keywords_docs_suggest();" in SmartSearch function located in the file "forms/search_form-menu.php", this function
+    allow to fill the database with the information we need for sphinx indexation
+    
+6-  Start sphinx by executing the following command line : searchd
+
+7-  Try to search a keyword in mistrals web page once, after comment again the line mentionned in step 5.
+
+8-  Stop sphinx by using the following command line : searchd --stop
+
+9-  Clean the database tables "suggest" and "docs" from bad words by executing the following requests:
+    --> delete from suggest where keyword ilike '%13%';
+    --> delete from docs where title ilike '%13%';
+
+10-  Once our database is filled, we can execute the following command to perform the indexation : /usr/bin/indexer --config /etc/sphinx/sphinx.conf --all
+
+11-  Restart sphinx using : searchd
+
+12-  Now, you only need to check if everything work like you want
+
+
+NB: - You have to empty the following directory "/var/lib/" before every indexation
+    - You must re-index sphinx after every modification in the database (planning to do a script for it later) if you want it to be visible in sphinx search
+
+	
+
+

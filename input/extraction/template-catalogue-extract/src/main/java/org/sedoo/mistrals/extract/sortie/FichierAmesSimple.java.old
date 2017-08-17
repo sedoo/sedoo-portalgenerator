@@ -1,0 +1,354 @@
+package org.sedoo.mistrals.extract.sortie;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
+import org.apache.log4j.Logger;
+import org.medias.utils.Coordonnees;
+import org.medias.utils.DatesUtils;
+import org.sedoo.mistrals.bd.beans.Dataset;
+import org.sedoo.mistrals.bd.beans.DatsData;
+import org.sedoo.mistrals.bd.beans.GcmdScienceKeyword;
+import org.sedoo.mistrals.bd.beans.InsertedDataset;
+import org.sedoo.mistrals.bd.beans.Localisation;
+import org.sedoo.mistrals.bd.beans.Mesure;
+import org.sedoo.mistrals.bd.beans.Param;
+import org.sedoo.mistrals.bd.beans.Place;
+import org.sedoo.mistrals.bd.beans.Unit;
+import org.sedoo.mistrals.bd.beans.Valeur;
+import org.sedoo.mistrals.bd.beans.Variable;
+import org.sedoo.mistrals.bd.dao.DatasetDAO;
+import org.sedoo.mistrals.bd.dao.DatsDataDAO;
+import org.sedoo.mistrals.bd.dao.GcmdScienceKeywordDAO;
+import org.sedoo.mistrals.bd.dao.InsertedDatasetDAO;
+import org.sedoo.mistrals.bd.dao.LocalisationDAO;
+import org.sedoo.mistrals.bd.dao.MesureDAO;
+import org.sedoo.mistrals.bd.dao.ParamDAO;
+import org.sedoo.mistrals.bd.dao.PlaceDAO;
+import org.sedoo.mistrals.bd.dao.UnitDAO;
+import org.sedoo.mistrals.bd.dao.ValeurDAO;
+import org.sedoo.mistrals.bd.dao.VariableDAO;
+import org.sedoo.mistrals.extract.Props;
+import org.sedoo.mistrals.extract.requetes.RequeteAmesSimple;
+import org.sedoo.mistrals.extract.utils.Contact;
+import org.sedoo.mistrals.extract.utils.ContactsJeu;
+
+/**
+ * Fichier Ames pour un jeu et un site (localisation fixe).
+ * @author brissebr
+ *
+ */
+public class FichierAmesSimple extends FichierSortie {
+
+	private final static Logger logger = Logger.getLogger(FichierAmesSimple.class);
+
+	private PrintStream out;
+		
+	private RequeteAmesSimple requete;
+	
+	private Collection<DatsData> dds;
+	private Collection<InsertedDataset> insertedDatasets;
+	
+	/*private int datsId;
+	private int placeId;*/
+	
+	private ContactsJeu contacts;	
+	//private Dataset dats;
+	private Place site;
+	
+	//private File path;
+	
+	private String insDatsIdStr = "";
+	private Timestamp lastUpdate;
+	
+	public FichierAmesSimple(RequeteAmesSimple requete,Connection dbCon,int requeteId,File path) throws Exception {
+		super(dbCon,requeteId);
+		/*this.datsId = datsId;
+		this.placeId = placeId;*/
+		this.requete = requete;
+		this.destPath = path;
+		this.dds = DatsDataDAO.getService().getByDatsId(dbCon, requete.getDatsId());
+		this.insertedDatasets = new ArrayList<InsertedDataset>();
+		
+		for (DatsData dd: dds){
+			InsertedDataset insDats = InsertedDatasetDAO.getService().getById(dbCon, dd.getInsDatsId());
+			insertedDatasets.add(insDats);
+			insDatsIdStr += "," + dd.getInsDatsId();
+			
+			if (lastUpdate == null || insDats.getDatsDateLastUpdate().after(lastUpdate)){
+				lastUpdate = insDats.getDatsDateLastUpdate();
+			}
+			
+		}
+		insDatsIdStr = insDatsIdStr.substring(1);
+		Dataset dats = DatasetDAO.getService().getById(dbCon, requete.getDatsId());
+		this.site = PlaceDAO.getService().getById(dbCon, requete.getPlaceId());		
+		this.contacts = new ContactsJeu(dats);	
+	}
+
+	
+	@Override
+	public Collection<ContactsJeu> getContacts() {
+		return Collections.singletonList(contacts);
+	}
+	
+	@Override
+	protected String getFilename() throws Exception {
+		return site.getPlaceName().replaceAll("/", "_") + FichierAmes.EXTENSION;
+	}
+
+	@Override
+	public void closeFile() throws Exception {
+		logger.debug("close()");
+		out.close();
+	}
+
+	@Override
+	public boolean executeRequete() throws Exception {
+
+		logger.debug("executeRequete()");
+
+		PreparedStatement stmt = dbCon.prepareStatement(
+				"SELECT * FROM mesure WHERE ins_dats_id in (" + insDatsIdStr + ") " +
+				"AND mesure_date BETWEEN ? AND ? AND place_id = ?" +
+				"ORDER BY mesure_date");
+
+			
+		stmt.setTimestamp(1, requete.getDateMin());
+		stmt.setTimestamp(2, requete.getDateMax());
+		stmt.setInt(3, site.getPlaceId());
+		
+		ResultSet rs = stmt.executeQuery();
+		int cptMes = 0;
+		while (rs.next()) {
+			Mesure mesure = MesureDAO.buildMesure(rs);
+						
+			Collection<Valeur> valeurs = ValeurDAO.getService().getByMesureIdAndVarIds(dbCon,mesure.getMesureId(),requete.getVarIds());
+			if (valeurs.isEmpty()) {
+				continue;
+			}else{
+				out.print(DatesUtils.distanceSecondes(requete.getDateMin(), mesure
+						.getMesureDate()));
+
+				cptMes++;
+				
+				for (int varId : requete.getVarIds()) {
+					boolean valeurTrouvee = false;
+					for (Valeur valeur: valeurs){
+						if (varId == valeur.getVarId()){
+							out.print(FichierAmes.SEPARATOR + valeur.getValeur());
+							valeurTrouvee = true;
+							break;
+						}
+					}
+					if (!valeurTrouvee)
+						out.print(FichierAmes.SEPARATOR + FichierAmes.VMISS);
+				}
+				
+				
+				
+			}
+			/*for (int varId : requete.getVariablesIds()) {
+				Collection<Valeur> valeurs = ValeurDAO.getService()
+						.getByMesureIdAndVarId(dbCon,
+								mesure.getMesureId(), varId);
+
+				if (valeurs.isEmpty()) {
+					out.print("\t" + requete.getValeursAbsentes());
+				} else if (valeurs.size() >= 1) {
+					Valeur valeur = valeurs.iterator().next();
+					out.print("\t" + valeur.getValeur());
+					if (valeurs.size() > 1)
+						logger.warn("Plusieurs valeurs pour le param " + varId + " et la mesure " + mesure.getMesureId());
+				}
+
+			}*/
+			
+			if (!rs.isLast())
+				out.println();
+
+		}
+
+		stmt.close();
+		
+		return (cptMes > 0);
+	}
+
+	private OutputStream getOutputStream() throws Exception {
+		/*if (Requete.COMPRESSION_ZIP.equalsIgnoreCase(requete.getCompression())) {
+			ZipEntry zip = new ZipEntry(file);
+			file += ".zip";
+			ZipOutputStream out = new ZipOutputStream(
+					new FileOutputStream(file));
+			out.setLevel(6);
+			out.putNextEntry(zip);
+			return out;
+		} else if (Requete.COMPRESSION_GZ.equalsIgnoreCase(requete
+				.getCompression())) {
+			file += ".gz";
+			GZIPOutputStream out = new GZIPOutputStream(new FileOutputStream(
+					file + ".zip"));
+			return out;
+		}*/
+
+	/*	Date d = new Date();
+		SimpleDateFormat myformat = new SimpleDateFormat("yyyyMMddhhmmss");
+		this.file = new File(Props.FILE_DEST_PATH + myformat.format(d) + "-" + requete.getRequeteId() + "-" + site.getPlaceId() + "." + getExtension());
+*/
+		//this.file = new File(path.getAbsolutePath() + "/" + site.getPlaceName() + "." + getExtension());
+		
+		// pas de compression
+		return new FileOutputStream(file);
+	}
+
+	
+	@Override
+	protected void open() throws Exception {
+		logger.debug("open()");
+		this.out = new PrintStream(getOutputStream(), true, Props.FILE_ENCODING);
+	}
+
+	@Override
+	public void printHeader() throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("printHeader()");
+		int nbParams = requete.getVarIds().size();//+4
+				
+		//Contacts
+		logger.debug("Contacts...");
+		PreparedStatement stmt = dbCon.prepareStatement(
+				"select dats_id,contact_type_id,pers_name,pers_email_1,coalesce(org_fname,org_sname,'Unknown Affiliation') as org_name, contact_type_name " +
+				"from dats_data join dats_originators using (dats_id) join personne using (pers_id) join organism using (org_id) join contact_type using (contact_type_id) " +
+				"where dats_id = ?");
+		stmt.setInt(1, contacts.getJeu().getDatsId());
+		ResultSet rs = stmt.executeQuery();
+		//List<Contact> contacts = new ArrayList<Contact>();
+		while (rs.next()) {
+			contacts.getContacts().add(new Contact(rs.getString("pers_name"), rs.getString("pers_email_1"),rs.getString("org_name"),rs.getString("contact_type_name")));
+		}
+		stmt.close();
+		
+		int headerLength = 12 + nbParams + 2 + 4 + 1 + contacts.getContacts().size() + 3;
+		out.println(headerLength + " 1001");
+		
+			
+		Contact firstContact;
+		if (contacts.getContacts().isEmpty()){
+			logger.warn("No Contact for dataset " + contacts.getJeu().getDatsId());
+			out.println("Unknown Originator");
+			out.println("Unknown Affiliation");
+		}else{
+			firstContact = contacts.getContacts().iterator().next();
+			out.println(FichierAmes.supprimerAccents(firstContact.getNom()));
+			out.println(FichierAmes.supprimerAccents(firstContact.getOrganisme()));
+		}
+				
+		logger.debug("Dataset...");
+		out.println(FichierAmes.supprimerAccents(contacts.getJeu().getDatsTitle()));
+		out.println("HyMeX database");
+		out.println("1 1");
+		
+		logger.debug("Time...");
+		out.println(DatesUtils.dateToString(requete.getDateMin(), "yyyy MM dd")
+				+ " "
+				+ DatesUtils.dateToString(lastUpdate, "yyyy MM dd"));
+		out.println("0.0");
+		out.println("Time (seconds since " + DatesUtils.dateToString(requete.getDateMin(),"yyyy-MM-dd HH:mm:ss") + " +00:00)");
+
+		logger.debug("Params...");
+		out.println(nbParams);
+
+		String ligneCoef = "";
+		String ligneAbs = "";
+		for (int i = 0; i < nbParams; i++) {
+			if (i != 0) {
+				ligneCoef += " ";
+				ligneAbs += " ";
+			}
+			ligneCoef += "1.0";
+			ligneAbs += FichierAmes.VMISS;
+		}
+		out.println(ligneCoef);
+		out.println(ligneAbs);
+/*
+		out.println("Latitude (degree)");
+		out.println("Longitude (degree)");
+		out.println("Altitude (m)");
+		out.println("Height above ground (m)");
+*/
+		//String colHeaders = "Time\tLat\tLon\tAlt\tHeight";
+		String colHeaders = "Time";
+		for (int varId : requete.getVarIds()) {
+			
+			Param param = ParamDAO.getService().getById(dbCon, varId);
+			Variable var = VariableDAO.getService().getById(dbCon,varId);
+			GcmdScienceKeyword gcmd = GcmdScienceKeywordDAO.getService().getById(dbCon, var.getGcmdId());
+			Unit unit = UnitDAO.getService().getById(dbCon, param.getUnitId());
+			
+			if (var.getVarName() != null && !var.getVarName().isEmpty())
+				out.print(var.getVarName());
+			else
+				out.print(gcmd.getGcmdName());
+
+			out.println(" (" + FichierAmes.supprimerAccents(unit.getUnitCode()) + ")");
+			
+			colHeaders += FichierAmes.SEPARATOR+param.getParamCode();
+		}
+
+		//Localisation
+		stmt = dbCon.prepareStatement(
+				"select min(localisation_id) as localisation_id from localisation where localisation_id in (" +
+				"select distinct localisation_id from mesure where ins_dats_id in (" + insDatsIdStr + ") and mesure_date between ? AND ? AND place_id = ?" +
+				") group by bound_id,localisation_alt");
+		
+		stmt.setTimestamp(1, requete.getDateMin());
+		stmt.setTimestamp(2, requete.getDateMax());
+		stmt.setInt(3, site.getPlaceId());
+		
+		logger.debug(stmt.toString());
+		
+		rs = stmt.executeQuery();
+		if (rs.next()){
+			Localisation localisation = LocalisationDAO.getService().getById(dbCon, rs.getInt("localisation_id"));
+			//Place place = PlaceDAO.getService().getById(dbAccess.get_con(), rs.getInt("place_id"));
+			
+			out.println("4");
+			//out.println("site_name: " + place.getPlaceName());
+			out.println("site_name: " + site.getPlaceName());
+			out.println("longitude: " + Coordonnees.convertLatIntToDouble(localisation.getBoundings().getEast()) + " degrees_east");
+			out.println("latitude: " + Coordonnees.convertLatIntToDouble(localisation.getBoundings().getNorth()) + " degrees_north");
+			out.println("height_above_sea_level: " + Coordonnees.convertAltIntToDouble(localisation.getAlt()) + " m");
+		}
+		
+		if (rs.next()){
+			throw new Exception("La localisation n'est pas fixe!");
+		}
+		
+		stmt.close();
+		
+
+		//"select distinct localisation_id from mesure where ins_dats_id = 71 and mesure_date between '2011-01-01 00:00:00' AND '2011-01-31 23:59:59' ;"
+		//select distinct place_id from mesure where ins_dats_id = 71 and mesure_date between '2011-01-01 00:00:00' AND '2011-01-31 23:59:59' ;
+		
+
+		//Contacts
+		out.println(contacts.getContacts().size() + 3 + 1);
+		out.println("---------------------------------------------------------------------------------------------------");
+		out.println("Contacts:");
+		for (Contact contact: contacts.getContacts())
+			out.println("- " + FichierAmes.supprimerAccents(contact.toString()));
+		out.println("---------------------------------------------------------------------------------------------------");
+		out.println(colHeaders);
+		
+	}
+
+}

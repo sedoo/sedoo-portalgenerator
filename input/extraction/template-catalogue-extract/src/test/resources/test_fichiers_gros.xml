@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requete_files xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://mistrals.sedoo.fr/extract/requete_files" xsi:schemaLocation="http://mistrals.sedoo.fr/extract/requete_files http://mistrals.sedoo.fr/extract/requete_files.xsd">
+<projet>HyMeX</projet>
+	<utilisateur>
+		<utilisateur_email>guillaume.brissebrat@obs-mip.fr</utilisateur_email>
+		<utilisateur_nom>Guillaume Brissebrat</utilisateur_nom>
+		<utilisateur_institute>Sedoo</utilisateur_institute>
+	</utilisateur>
+	<compression>zip</compression>
+	<selection>
+		<datsId>627</datsId>
+		<racine>/export1/mistrals/hymex_data/bdclim/hourly</racine>
+		<file>/export1/mistrals/hymex_data/bdclim/hourly/0_Documentation</file>
+		<file>/export1/mistrals/hymex_data/bdclim/hourly/1995</file>
+		<file>/export1/mistrals/hymex_data/bdclim/hourly/2012</file>
+		<file>/export1/mistrals/hymex_data/bdclim/hourly/2005</file>
+		<file>/export1/mistrals/hymex_data/bdclim/hourly/1994/01</file>
+		<file>/export1/mistrals/hymex_data/bdclim/hourly/1993/01</file>
+	</selection>
+
+</requete_files>
