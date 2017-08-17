@@ -4,7 +4,7 @@ if (! isset ( $_SESSION ))
 require_once ('conf/conf.php');
 $project_name = "#project";
 $project_url = "/#project";
-$titreMilieu = "";
+$titreMilieu = "<span style='font-style: italic;'>In situ</span> instrument registration";
 ob_start ();
 include ("loginCat.php");
 include ("frminstr.php");

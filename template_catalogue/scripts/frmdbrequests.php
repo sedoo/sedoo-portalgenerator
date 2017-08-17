@@ -7,7 +7,7 @@ echo '<h1>Database requests</h1>';
 $dbform = new db_requests_forms;
 $dbform->createForm(isset($_REQUEST['adm']));
 
-if ($dbform->isPortalUser()){
+if ($dbform->isLogged()){
 	
 	foreach (array_keys($_POST) as $key){
 		//echo $key.'<br>';

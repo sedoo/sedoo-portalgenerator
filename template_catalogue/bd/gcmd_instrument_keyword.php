@@ -182,11 +182,11 @@
     	
     	
     	function chargeFormInstr($form, $label, $titre) {
-    		$array_topic [0] = "-- Topic --";
-    		$array_categorie [0] [0] = "-- Term --";
-    		$array_variable [0] [0] [0] = "-- Var_level1 --";
-    		 
-    		$query = "select * from gcmd_instrument_keyword where gcmd_level = 2 or gcmd_level is null order by gcmd_sensor_name";
+    		$array_topic [0] = "-- Level 1 --";
+			$array_categorie [0] [0] = "-- Level 2 --";
+			$array_variable [0] [0] [0] = "-- Level 3 --";
+		   
+		    $query = "select * from gcmd_instrument_keyword where gcm_gcmd_id is null order by gcmd_sensor_name";
     		$liste_topic = $this->getByQuery ( $query );
     		 
     		 
@@ -197,7 +197,7 @@
     			 
     			$query2 = "select * from gcmd_instrument_keyword where gcm_gcmd_id = " . $j . " order by gcmd_sensor_name";
     			$liste_categ = $this->getByQuery ( $query2 );
-    			$array_categorie [$j] [0] = "-- Term --";
+    			$array_categorie [$j] [0] = "-- Level 2 --";
     			 
     			for($k = 0; $k < count ( $liste_categ ); $k ++) {
     				 
@@ -206,7 +206,7 @@
     				 
     				$query3 = "select * from gcmd_instrument_keyword where gcm_gcmd_id = " . $l . " order by gcmd_sensor_name";
     				$liste_instr = $this->getByQuery ( $query3 );
-    				$array_variable [$j] [$l] [0] = "-- Var_level1 --";
+    				$array_variable [$j] [$l] [0] = "-- Level 3 --";
     				for($m = 0; $m < count ( $liste_instr ); $m ++) {
     					$n = $liste_instr [$m]->gcmd_sensor_id;
     					$array_variable [$j] [$l] [$n] = $liste_instr [$m]->gcmd_sensor_name;

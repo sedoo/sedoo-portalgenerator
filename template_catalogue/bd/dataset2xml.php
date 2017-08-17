@@ -1,7 +1,7 @@
 <?php
 require_once ("bd/dataset.php");
 require_once ("xml/xmlTemplate.php");
-require_once 'utils/SphinxAutocompleteAndcorrection/sphinx_keyword_insertion.php';
+//require_once 'utils/SphinxAutocompleteAndcorrection/sphinx_keyword_insertion.php';
 function createOriginatorXml($originator_xml, $originator) {
 	$originator_xml->addChild ( 'pers_name', $originator->pers_name );
 	$originator_xml->addChild ( 'pers_email1', $originator->pers_email_1 );
@@ -244,7 +244,7 @@ function dataset2xml($dataset) {
 	$tagXml = str_replace ( "'", "\'", $xml->asXml () );
 	$tagXml = preg_replace ( '/(<\/[^>]+?>)(<[^>\/][^>]*?>)/', '$1 $2', $tagXml );
 	$dataset->insertXml ( strip_tags ( $tagXml ) );
-	insert_keywords_docs_suggest ( strip_tags ( $tagXml ) );
-	update_sphinx_indexes ();
+	//insert_keywords_docs_suggest ( strip_tags ( $tagXml ) );
+	//update_sphinx_indexes ();
 }
 ?>

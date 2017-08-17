@@ -103,7 +103,7 @@ function editDataAvailability(& $dataset,$project_name){
 	}else{
 		echo '<tr><td><b>Data availability</b></td>';
 		echo '<td colspan="3">No data are currently available for this dataset.&nbsp;';
-		$suscribeUrl = '/'.$project_name.'/Your-Account?p&pageId=6&datsId='.$dataset->dats_id;
+		$suscribeUrl = '/Your-Account?p&pageId=6&datsId='.$dataset->dats_id;
 				if (isset($_SESSION['loggedUserAbos'])){
                         $aboIds = unserialize($_SESSION['loggedUserAbos']);
                         if ( !isset($aboIds) )

@@ -116,9 +116,9 @@ class user_form_new extends login_form {
 		$this->applyFilter ( 'abstract', 'trim' );
 		$this->addElement ( 'text', 'phone', 'Phone Number' );
 		$this->applyFilter ( 'phone', 'trim' );
-		$this->addElement ( 'text', 'supervisor_name', 'Supervisor Name',array ('disabled' => TRUE ));
+		$this->addElement ( 'text', 'supervisor_name', 'Supervisor Name',array ( ));
 		$this->applyFilter ( 'supervisor_name', 'trim' );
-		$this->addElement ( 'text', 'supervisor_affiliation', 'Supervisor Affiliation',array('disabled' => TRUE));
+		$this->addElement ( 'text', 'supervisor_affiliation', 'Supervisor Affiliation',array( ));
 		$this->applyFilter ( 'supervisor_affiliation', 'trim' );
 		$this->addElement ( 'select', 'project_data_policy', '' );
 		for($i = 0; $i < PortalNbSignDataPolicy; $i ++) {
@@ -268,7 +268,7 @@ class user_form_new extends login_form {
 				echo '<tr><td><font>' . $this->getElement ( 'abstract' )->getLabel () . '</font></td><td colspan="2">' . $this->getElement ( 'abstract' )->toHTML () . '</td></tr>';
 			echo '<tr><td colspan="3" align="center"><font color="#467AA7">Data and Publication Policy</font></td></tr>';
 			echo '<tr><td colspan="3" >';
-			echo' With this form, I fully accept the Passy-2015 data and publication policy (<a href="/Passy/Data-Policy/Passy_DataPolicy.pdf" target="_blank">click here to access pdf file</a>) that must be sent back <a href="#" onclick=\'window.open("/../template/mail2.php","email","menubar=no, status=no, scrollbars=no, menubar=no, width=450, height=150");return false\'>here</a> with your signature in order to complete your registration on this site).<br> <br> In particular :<br>';
+			echo 'With this form, I fully accept the <a href="/portal/Data-Policy" target="_blank" >data and publication policy</a><br/><br/>In particular :<br>';
 			echo $this->getElement ( 'chkChart' )->toHTML ();
 			/*
 			echo "<br/><br/>In the case of any publication or communication using datasets or products obtained in the database:<br>";
@@ -288,7 +288,7 @@ class user_form_new extends login_form {
 		echo '<table><tr><td colspan="3" align="center"><font color="#467AA7">Mandatory fields are in blue</font></td></tr>';
 		echo '<tr><td><font color="#467AA7">' . $this->getElement ( 'firstname' )->getLabel () . '</font></td><td colspan="2">' . $this->getElement ( 'firstname' )->toHTML () . '</td></tr>';
 		echo '<tr><td><font color="#467AA7">' . $this->getElement ( 'lastname' )->getLabel () . '</font></td><td colspan="2">' . $this->getElement ( 'lastname' )->toHTML () . '</td></tr>';
-                $this->getElement ( 'affiliation' )->setValue('Météo-France CNRM-GAME');
+		
 		echo '<tr><td><font color="#467AA7">' . $this->getElement ( 'affiliation' )->getLabel () . '</font></td><td colspan="2">' . $this->getElement ( 'affiliation' )->toHTML () . '</td></tr>';
 		echo '<tr><td colspan="3" align="center"><b>Place of Work</b></td></tr>';
 		echo '<tr><td><font color="#467AA7">' . $this->getElement ( 'street' )->getLabel () . '</font></td><td colspan="2">' . $this->getElement ( 'street' )->toHTML () . '</td></tr>';

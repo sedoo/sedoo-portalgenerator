@@ -151,6 +151,12 @@ class admin_form extends login_form {
 		sendMailSimple ( $userEmail, "[$project_name-DATABASE] Registration: Rejected Request", $texte, ROOT_EMAIL );
 		sendMailSimple ( ROOT_EMAIL, "[$project_name-DATABASE] Rejected User", "User $userEmail has been rejected", ROOT_EMAIL );
 	}
+
+	function  getProjectAdminEmail ( $project_name ){
+		//TODO
+		return ROOT_EMAIL;
+	}
+
 	function rejectUser($i) {
 		global $project_name;
 		$ldapConn = new ldapConnect ();
@@ -158,7 +164,7 @@ class admin_form extends login_form {
 		try {
 			$ldapConn->openAdm ();
 			if ($ldapConn->modifyAttribute ( $user->dn, strtolower ( $project_name ) . "Status", STATUS_REJECTED )) {
-				$this->sendMailRejet ( $user->mail, getProjectAdminEmail ( $project_name ) );
+				$this->sendMailRejet ( $user->mail, $this->getProjectAdminEmail ( $project_name ) );
 				$this->readPendingRequestsList ();
 				$this->readRejectedRequestsList ();
 				echo "<font size=\"3\" color='green'><b>The request has been rejected successfully.</b></font><br>";

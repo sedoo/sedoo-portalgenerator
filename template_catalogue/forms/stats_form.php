@@ -334,7 +334,7 @@ class stats_form extends login_form{
 		global $project_name;
 		$requetes = $this->getNbRequetesByMonth();
 		$graph = getGraphByYear($requetes);
-		displayGraph($graph,"graph_req_year_".$this->projectName."png");
+		displayGraph($graph,"graph_req_year_".$this->projectName.".png");
 		echo '<br>';
 		$yDeb = 2011;
 		if (constant(strtolower($project_name).'yDeb') != ''){

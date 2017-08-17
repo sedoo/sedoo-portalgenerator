@@ -122,11 +122,11 @@ class gcmd_location_keyword {
 		//if (constant(strtoupper ( $project_name) . '_' != '')) {
 			//$types = $gcmd->getById ( constant(strtoupper ( $project_name ) . '_PROJ' ));
 		//$types = 57;
-		$array_topic [0] = "-- Location Type --";
-		$array_categorie [0] [0] = "-- Location Subregion1 --";
-		$array_variable [0] [0] [0] = "-- Location Subregion2 --";
+		$array_topic [0] = "-- Level 1 --";
+		$array_categorie [0] [0] = "-- Level 2 --";
+		$array_variable [0] [0] [0] = "-- Level 3 --";
 
-		$query = "select * from gcmd_location_keyword where gcmd_level = 3  order by gcmd_loc_name";
+		$query = "select * from gcmd_location_keyword where gcmd_level = 2  order by gcmd_loc_name";
 		//$query = "select * from gcmd_location_keyword where gcmd_level = 3  and gcmd_loc_id in (select gcmd_loc_id from proj_loc_keyword where project_id=".$types.") order by gcmd_loc_name";
 		$liste_topic = $this->getByQuery ( $query );
 
@@ -138,7 +138,7 @@ class gcmd_location_keyword {
 
 			$query2 = "select * from gcmd_location_keyword where gcm_gcmd_id = " . $j . " order by gcmd_loc_name";
 			$liste_categ = $this->getByQuery ( $query2 );
-			$array_categorie [$j] [0] = "-- Location Subregion1 --";
+			$array_categorie [$j] [0] = "-- Level 2 --";
 
 			for($k = 0; $k < count ( $liste_categ ); $k ++) {
 
@@ -147,7 +147,7 @@ class gcmd_location_keyword {
 
 				$query3 = "select * from gcmd_location_keyword where gcm_gcmd_id = " . $l . " order by gcmd_loc_name";
 				$liste_param = $this->getByQuery ( $query3 );
-				$array_variable [$j] [$l] [0] = "-- Location Subregion2 --";
+				$array_variable [$j] [$l] [0] = "-- Level 3 --";
 				for($m = 0; $m < count ( $liste_param ); $m ++) {
 					$n = $liste_param [$m]->gcmd_loc_id;
 					$array_variable [$j] [$l] [$n] = $liste_param [$m]->gcmd_loc_name;

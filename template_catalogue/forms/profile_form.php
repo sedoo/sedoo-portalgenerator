@@ -8,7 +8,7 @@ class profile_form extends login_form {
 		if (isset ( $_SESSION ['loggedUser'] )) {
 			$this->user = unserialize ( $_SESSION ['loggedUser'] );
 		}
-		if ($this->isRoot () || $this->isPortalUser ()) {
+		if ($this->isLogged () ) {
 			$this->initGroups ();
 		} else {
 			$this->createLoginForm ( 'Mail' );

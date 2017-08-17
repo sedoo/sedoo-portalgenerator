@@ -10,9 +10,9 @@ require_once("bd/bdConnect.php");
 require_once("HTML/QuickForm.php");
 require_once("scripts/filtreProjets.php");
 require_once("scripts/lstDataUtils.php");
-require_once 'utils/SphinxAutocompleteAndcorrection/common.php';
-require_once 'utils/SphinxAutocompleteAndcorrection/functions.php';
-require_once 'utils/SphinxAutocompleteAndcorrection/sphinx_keyword_insertion.php';
+// require_once 'utils/SphinxAutocompleteAndcorrection/common.php';
+// require_once 'utils/SphinxAutocompleteAndcorrection/functions.php';
+// require_once 'utils/SphinxAutocompleteAndcorrection/sphinx_keyword_insertion.php';
 
 
 class search_form_menu extends HTML_QuickForm{

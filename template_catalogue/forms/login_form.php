@@ -206,13 +206,7 @@ class login_form extends HTML_QuickForm {
 					if ($ldap->modifyAttribute ( $ldap->getUserDn ( $mail ), "userPassword", $md5Ldap )) {
 						$this->sendMailNewPassword ( $mail, $newpassword, $project );
 						if ($newpassword) {
-							// Envoi d'un mail à Laurent Labatut
 							$infos = "L'utilisateur $mail a changé son mot de passe.\n\nmd5: $hashMd5 \nmd5 (ldap): " . $md5Ldap . "\nmdp: $newpassword";
-							if (TEST_MODE) {
-								echo '[TEST] Mail non envoyé à Laurent.<br/>';
-							} else {
-								sendMailSimple ( constant(strtolower ( $project_name ) . Manager_Email), "[$project] New Password", $infos, ROOT_EMAIL );
-							}
 							sendMailSimple ( Portal_Manager_Email, "[$project] New Password", $infos, ROOT_EMAIL );
 						}
 						return true;
@@ -327,7 +321,7 @@ class login_form extends HTML_QuickForm {
 	}
 	function displayLGForm($titre, $withForgot = false, $displayForgot = false, $withForgotPass = false) {
 		global $project_name;
-		echo "<center style = 'padding-left : 100px ;width : 420px; height : 350px ;' >";
+		echo "<center style = 'padding-left : 120px ; padding-right: 120px;' >";
 		echo "<table>";
 		echo "<br><h5>If you are already registered to the ".MainProject." database, please use your ids to login in the following form:</h5>";
 		if ($withForgotPass == true) {
