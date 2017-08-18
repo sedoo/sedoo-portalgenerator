@@ -56,11 +56,9 @@ function getGraphByMonth($requetes, $year) {
 	
 	return getBarGraph ( $datay, $datax, $year, ECHELLE_GRAPHE_MOIS );
 }
-function getGraphByYear($requetes, $titre = '') {
-	global $project_name;
+function getGraphByYear($requetes, $yDeb, $titre = '') {
 	$datax = array ();
 	$datay = array ();
-	$yDeb = constant(strtolower ( $project_name ) . 'yDeb');
 	$yFin = date ( 'Y' );
 	for($y = $yDeb; $y <= $yFin; $y ++) {
 		$nb = 0;
@@ -81,8 +79,7 @@ function getGraphDataTypes($requetes) {
 	
 	return getPieGraph ( $data, $labels );
 }
-function getGraphUsers($requetes) {
-	global $project_name;
+function getGraphUsers($requetes, $project_name) {
 	$datax = array ();
 	$datay = array ();
 	$yDeb = constant(strtolower ( $project_name ) . 'yDeb');

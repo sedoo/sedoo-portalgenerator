@@ -20,6 +20,8 @@ define("DB_PASS","@db.passwd@");
 define('ELASTIC_HOST',"@elastic.host@");
 define('ELASTIC_INDEX',"@elastic.index@");
 
+define('STATS_DEFAULT_MIN_YEAR', 2015);
+
 /* Annuaire utilisateurs */
 
 define("LDAP_HOST","@ldap.host@");

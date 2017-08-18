@@ -206,6 +206,9 @@ function generatePHPFile($filepath, $confFile = 'default') {
 	if (! file_exists ( $result_array ['portalWorkPath'] . "/maps" )) {
 		exec ( "mkdir -p " . $result_array ['portalWorkPath'] . "/maps" );
 	}
+	
+	$content .= "define('STATS_DEFAULT_MIN_YEAR', 2015);\n";
+	
 	$content .= comment ( "répertoire du site web" );
 	if (isset ( $result_array ['webPath'] ) && ! empty ( $result_array ['webPath'] ))
 		$content .= "define('WEB_PATH','" . $result_array ['webPath'] . "');\n";
@@ -1094,7 +1097,7 @@ function generateLdapCreationScript() {
 // PHP server configuration
 function generateConfdFile($server_name, $app_path) {
 	global $Portal_name;
-	$content .= "<VirtualHost *:80> \n" . "\t ServerName $server_name \n" . "\t DocumentRoot $app_path \n" . "\t CustomLog    /var/log/httpd/access_log." . strtolower ( $Portal_name ) . " combined \n" . "\t ErrorLog     /var/log/httpd/error_log." . strtolower ( $Portal_name ) . " \n" . "\t <Directory $app_path> \n" . "\t\t php_value include_path \".:/usr/share/pear:/usr/share/php:$app_path/scripts:$app_path/:$app_path/template:/usr/share/php/jpgraph\" \n" . "\t </Directory> \n" . "\t <Directory $app_path/att_img> \n" . "\t\t AllowOverride All \n" . "\t </Directory> \n" . "\t ScriptAlias /extract/cgi-bin/ /www/" . strtolower ( $Portal_name ) . "-extract/cgi-bin/ \n" . "</VirtualHost> \n";
+	$content .= "<VirtualHost *:80> \n" . "\t ServerName $server_name \n" . "\t DocumentRoot $app_path \n" . "\t CustomLog    /var/log/httpd/access_log." . strtolower ( $Portal_name ) . " combined \n" . "\t ErrorLog     /var/log/httpd/error_log." . strtolower ( $Portal_name ) . " \n" . "\t <Directory $app_path> \n" . "\t\t php_value include_path \".:/usr/share/pear:/usr/share/php:/usr/local/lib/php/:$app_path/scripts:$app_path/:$app_path/template:/usr/share/php/jpgraph\" \n" . "\t </Directory> \n" . "\t <Directory $app_path/att_img> \n" . "\t\t AllowOverride All \n" . "\t </Directory> \n" . "\t ScriptAlias /extract/cgi-bin/ /www/" . strtolower ( $Portal_name ) . "-extract/cgi-bin/ \n" . "</VirtualHost> \n";
 	generateFile ( './target/apache/' . strtolower ( $Portal_name ) . '.conf', $content );
 }
 
@@ -1212,7 +1215,7 @@ if (! $xml->schemaValidate ( './input/projet-template.xsd' )) {
 		mkdir ( path . '/graphs' );
 	}
 	exec ( 'chmod -R 777 target' );
-	exec ( 'chown -R '.$apacheConf['user'].':'.$apacheConf['group'].' target' );
+	//exec ( 'chown -R '.$apacheConf['user'].':'.$apacheConf['group'].' target' );
 	exec ( "cp ./input/.htaccess " . path . "/att_img/" );
 	// copie des images dans le répertoire image du projet généré
 	ScanDirectory ( './input/img' );
@@ -1241,14 +1244,11 @@ if (! $xml->schemaValidate ( './input/projet-template.xsd' )) {
 	eraseDirectory ( './target/' . strtolower ( $Portal_name ) . '_catalogue' . '/project-directory-template' );
 	exec ( 'mkdir ./target/database');
 	exec ( 'chmod -R 777 target' );
-	exec ( 'chown -R '.$apacheConf['user'].':'.$apacheConf['group'].' target' );
+	//exec ( 'chown -R '.$apacheConf['user'].':'.$apacheConf['group'].' target' );
 	// Database creation
 	echo "Creating portal databases ... 4/9 \n";
 	if (isset ( $database ) && ! empty ( $database ))
 		duplicateDatabase ( $database );
-	$sphinx_db = array(0 => $database[0] ,1 => $database[1] , 2 => 'sphinx_'.$Portal_name );
-	if (isset ( $sphinx_db ) && ! empty ( $sphinx_db ))
-		duplicateSphinxDatabase ( $sphinx_db );
 	// Ldap files generation
 	echo "Generating ldap config and creation files ... 5/9 \n";
 	generateLdapConfigFiles ( $ldapProjects );

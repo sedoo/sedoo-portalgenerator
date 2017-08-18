@@ -41,42 +41,45 @@ class stats_form extends login_form{
 
 	function displayNbEnregistrements(){
 		echo '<h1>User registrations ('.$this->statsUsers[0][0].')</h1><br><br>';
-		if(isset($_REQUEST['stype']) && !empty($_REQUEST['stype']))
-			$stype = $_REQUEST['stype'];
-		else 
-			$stype = null;
-		$selectedStyle = 'style="font-size:110%;font-weight:bold;"';
-		echo '<table><tr><th>';
-		if ($stype == 0) echo "<font $selectedStyle >By date</font>";
-		else echo '<a href="'.self::getUrl(1,0).'">By date</a>';
-		echo '</th><th>';
 		
-		if ($this->projectName != MainProject){
-		if ($stype == 1) echo "<font $selectedStyle>By role</font>";
-		else echo '<a href="'.self::getUrl(1,1).'">By role</a>';
-		echo '</th><th>';
-		}
-		
-		if ($stype == 2) echo "<font $selectedStyle>By country</font>";
-		else echo '<a href="'.self::getUrl(1,2).'">By country</a>';
-		echo '</th></tr>';
-		echo '</table><br>';
-
-		switch ($stype) {
-			case 1:
-				$graph = getGraphRoles($this->statsUsers);
-				displayGraph($graph,"graph_roles_$this->projectName.png");
-				//$this->displayUsersByRole();
-				break;
-			case 2:
-				$graph = getGraphCountries($this->statsUsers);
-				displayGraph($graph,"graph_pays_$this->projectName.png");
-				//$this->displayUsersByCountry();
-				break;
-			default:
-				$graph = getGraphUsers($this->statsUsers,$this->projectName);
-				displayGraph($graph,"graph_users_$this->projectName.png");
-				//$this->displayByMonth($this->statsUsers);
+		if ($this->statsUsers[0][0] > 0) {
+			if(isset($_REQUEST['stype']) && !empty($_REQUEST['stype']))
+				$stype = $_REQUEST['stype'];
+			else 
+				$stype = null;
+			$selectedStyle = 'style="font-size:110%;font-weight:bold;"';
+			echo '<table><tr><th>';
+			if ($stype == 0) echo "<font $selectedStyle >By date</font>";
+			else echo '<a href="'.self::getUrl(1,0).'">By date</a>';
+			echo '</th><th>';
+			
+			if ($this->projectName != MainProject){
+			if ($stype == 1) echo "<font $selectedStyle>By role</font>";
+			else echo '<a href="'.self::getUrl(1,1).'">By role</a>';
+			echo '</th><th>';
+			}
+			
+			if ($stype == 2) echo "<font $selectedStyle>By country</font>";
+			else echo '<a href="'.self::getUrl(1,2).'">By country</a>';
+			echo '</th></tr>';
+			echo '</table><br>';
+	
+			switch ($stype) {
+				case 1:
+					$graph = getGraphRoles($this->statsUsers);
+					displayGraph($graph,"graph_roles_$this->projectName.png");
+					//$this->displayUsersByRole();
+					break;
+				case 2:
+					$graph = getGraphCountries($this->statsUsers);
+					displayGraph($graph,"graph_pays_$this->projectName.png");
+					//$this->displayUsersByCountry();
+					break;
+				default:
+					$graph = getGraphUsers($this->statsUsers, $this->projectName);
+					displayGraph($graph,"graph_users_$this->projectName.png");
+					//$this->displayByMonth($this->statsUsers);
+			}
 		}
 	}
 
@@ -332,15 +335,15 @@ class stats_form extends login_form{
 
 	function displayNbRequetesByMonth(){
 		global $project_name;
-		$requetes = $this->getNbRequetesByMonth();
-		$graph = getGraphByYear($requetes);
-		displayGraph($graph,"graph_req_year_".$this->projectName.".png");
-		echo '<br>';
-		$yDeb = 2011;
+		$yDeb = STATS_DEFAULT_MIN_YEAR;
 		if (constant(strtolower($project_name).'yDeb') != ''){
 			$yDeb = constant(strtolower($project_name).'yDeb');
 		}
-		
+		$requetes = $this->getNbRequetesByMonth();
+		$graph = getGraphByYear($requetes, $yDeb);
+		displayGraph($graph,"graph_req_year_".$this->projectName.".png");
+		echo '<br>';
+				
 	    $yFin = date('Y');
 	    for ($y = $yDeb;$y <= $yFin;$y++){
 			$graph = getGraphByMonth($requetes,$y);
