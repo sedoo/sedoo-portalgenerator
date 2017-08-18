@@ -145,7 +145,6 @@ class ElasticClient {
 		$result .= print_r($ret, true);
 			
 		if ($verbose){
-			//echo "$datsJson<br/>";
 			echo "$result<br/>";		
 		}
 		return $result;	

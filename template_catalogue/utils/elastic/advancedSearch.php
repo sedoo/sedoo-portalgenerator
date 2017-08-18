@@ -139,9 +139,7 @@ if(isset($_REQUEST['datsId']) && !empty($_REQUEST['datsId'])){
 		$form->addValidationRules ();
 		if ($form->validate ()) {
 			$recherche = $form->toSearchRequest();
-			
-			print_r($recherche);
-			
+							
 			echo '<h1>Search result</h1>';
 			ElasticSearchUtils::lstQueryData($recherche, $project_name);
 		} else {
