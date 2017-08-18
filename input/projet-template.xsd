@@ -437,6 +437,14 @@
     				</xsd:documentation>
     			</xsd:annotation>
     		</xsd:element>
+    		<xsd:element name="elastic" type="elastic" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Paramètres pour la connexion avec ElasticSearch
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
     		<xsd:element name="signDatapolicies" type="signDatapolicies"
     			minOccurs="0" maxOccurs="1">
     			<xsd:annotation>
@@ -517,6 +525,24 @@
     </xsd:complexType>
 
 
+    <xsd:complexType name="elastic">
+    	<xsd:sequence>
+    		<xsd:element name="host" minOccurs="1" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="index" minOccurs="1" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
 
 
 

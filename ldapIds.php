@@ -40,9 +40,4 @@ class ldapIds {
 	}
 }
 
-$l = new ldapIds();
-
-echo $l->getId('baobab');
-echo $l->getId('titi');
-
 ?>

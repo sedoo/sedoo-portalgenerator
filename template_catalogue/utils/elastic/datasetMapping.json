@@ -1,0 +1,104 @@
+{
+"_source" : {
+	"enabled" : true
+}, 
+"_all": {
+    "analyzer": "nGram_analyzer",
+    "search_analyzer": "whitespace_analyzer"
+},
+"properties" : {
+	"id" : {
+		"type" : "long"
+    },
+	"title" : {
+    	"type" : "string",
+    	"fields": {
+        	"raw": { 
+            	"type":  "string",
+            	"analyzer": "case_insensitive_sort"
+        	}
+    	}
+    },
+	"abstract" : {
+		"type" : "string"
+	},
+	"purpose" : {
+        "type" : "string"
+	},
+	"dateBegin" : {
+		"type" : "date",
+		"format" : "date_optional_time"
+    },
+	"dateEnd" : {
+		"type" : "date",
+		"format" : "date_optional_time"
+	},
+	"periodName" : {
+		"type" : "string"
+	},
+	"projects" : {
+		"type" : "string"
+	},
+	"contacts" : {
+		"properties" : {
+			"name" : {
+				"type" : "string"
+			},
+			"organisation" : {
+				"type" : "string"
+			}
+		}
+	},
+    "variables" : {
+         "properties" : {
+        	"gcmd" : {
+				"type" : "string"
+            },
+            "name" : {
+            	"type" : "string"
+            }
+         }
+    },
+    "sensors" : {
+         "properties" : {
+        	"gcmd" : {
+				"type" : "string"
+            },
+            "manufacturer" : {
+            	"type" : "string"
+            },
+            "model" : {
+            	"type" : "string"
+            }
+         }
+    },
+    "places" : {
+         "properties" : {
+        	"gcmd" : {
+				"type" : "string"
+            },
+            "name" : {
+            	"type" : "string"
+            }
+         }
+    },
+    "features" : {
+    	"type" : "geo_shape"
+    },
+    "dataAvailability" : {
+    	"type" : "integer"
+    },
+    "urls" : {
+    	 "properties" : {
+        	"type" : {
+				"type" : "string",
+				"index":    "not_analyzed"
+            },
+            "url" : {
+            	"type" : "string",
+            	"index":    "not_analyzed"
+            }
+         }
+    }
+}
+}

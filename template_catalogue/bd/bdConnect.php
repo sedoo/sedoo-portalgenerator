@@ -19,15 +19,10 @@
 
     	function db_open()
     	{
-//     		if ( !$this->conn = pg_pconnect("host=".$this->hote." user=".$this->db_user." dbname=".$this->db_name))
-//jlb suppression des connections persistantes qui saturent postgres le 06/03/2013
-     		if ( !$this->conn = pg_pconnect("host=".$this->hote." user=".$this->db_user." dbname=".$this->db_name))
-      		{
+     		if ( !$this->conn = pg_pconnect("host=".$this->hote." user=".$this->db_user." dbname=".$this->db_name . " password=".$this->db_password )){
         		echo "Cannot connect to database.\n";
         		exit;
       		}
-      		
-      		//$this->exec('SET datestyle TO iso');
       		
 	    }
 

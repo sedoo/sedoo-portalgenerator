@@ -65,6 +65,11 @@ else {
 </section>
 
 <section>
+        <h2>Search</h2>
+        <a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=19">Search index</a>
+</section>
+
+<section>
 	<h2>Database</h2>
 	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=9">Inserted datasets</a>
 	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=10">Params</a>

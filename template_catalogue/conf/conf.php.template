@@ -16,6 +16,9 @@ define("DB_NAME","@db.name@");
 define("DB_USER","@db.user@");
 define("DB_PASS","@db.passwd@");
 
+/* Elastic Search */
+define('ELASTIC_HOST',"@elastic.host@");
+define('ELASTIC_INDEX',"@elastic.index@");
 
 /* Annuaire utilisateurs */
 

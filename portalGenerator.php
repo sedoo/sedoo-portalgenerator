@@ -1,16 +1,13 @@
 #!/usr/bin/php
 <?php
 include('config.php');
+include("ldapIds.php");
 
 define ( 'REP_LDAP', '/export1/eurequa/ldap' );
 define ( 'Duplicated_db_host', $databaseConf['host']);
 define ( 'Duplicated_db_user', $databaseConf['db_user']);
 define ( 'Duplicated_db_name', $databaseConf['db_name']);
 define ( 'Duplicated_db_password', $databaseConf['db_password']);
-// define ( 'Sphinx_Duplicated_db_host', $sphinxDatabaseConf['host']);
-// define ( 'Sphinx_Duplicated_db_user', $sphinxDatabaseConf['db_user']);
-// define ( 'Sphinx_Duplicated_db_name', $sphinxDatabaseConf['db_name']);
-// define ( 'Sphinx_Duplicated_db_password', $sphinxDatabaseConf['db_password']);
 
 // Portal generation functions
 function comment($com) {
@@ -380,6 +377,22 @@ function generatePHPFile($filepath, $confFile = 'default') {
 		$content .= "define('LDAP_BASE','@ldap.base@');\n";
 		$content .= "define('LDAP_DN','cn=@ldap.user@," . LDAP_BASE . "');\n";
 		$content .= "define('LDAP_PASSWD','@ldap.passwd@');\n";
+	}
+	// elastic
+	if ($confFile == 'default') {
+		if (isset ( $result_array ['elastic'] ['host'] ) && ! empty ( $result_array ['elastic'] ['host'] ))
+			$content .= "define('ELASTIC_HOST','" . $result_array ['elastic'] ['host'] . "');\n";
+		else
+			$content .= "define('ELASTIC_HOST','');\n";
+		if (isset ( $result_array ['elastic'] ['index'] ) && ! empty ( $result_array ['elastic'] ['index'] ))
+			$content .= "define('ELASTIC_INDEX','" . $result_array ['elastic'] ['index'] . "');\n";
+		else
+			$content .= "define('ELASTIC_INDEX','');\n";
+	} else {
+		define ( "ELASTIC_HOST", "@elastic.host@" );
+		define ( "ELASTIC_INDEX", "@elastic.index@" );
+		$content .= "define('ELASTIC_HOST','@elastic.host@');\n";
+		$content .= "define('ELASTIC_INDEX','@elastic.index@');\n";
 	}
 	$content .= comment ( "Nombre de chartes à signer" );
 	// datapolicy
@@ -1226,8 +1239,6 @@ if (! $xml->schemaValidate ( './input/projet-template.xsd' )) {
 	changeWordInDirectory ( path . "/build.properties", '#PORTAL_VERSION', $result_array ['portal_version'] );
 	moveDirectory ( path, './target/' . strtolower ( $Portal_name ) . '_catalogue' );
 	eraseDirectory ( './target/' . strtolower ( $Portal_name ) . '_catalogue' . '/project-directory-template' );
-	exec ( 'mkdir ./target/sphinx');
-	exec ( 'mv ./target/' . strtolower ( $Portal_name ) . '_catalogue/utils/SphinxAutocompleteAndcorrection/sphinx.conf ./target/sphinx');
 	exec ( 'mkdir ./target/database');
 	exec ( 'chmod -R 777 target' );
 	exec ( 'chown -R '.$apacheConf['user'].':'.$apacheConf['group'].' target' );

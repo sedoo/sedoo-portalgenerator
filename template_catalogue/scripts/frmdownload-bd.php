@@ -2,9 +2,13 @@
 require_once("forms/extraction_form.php");
 
 $dats_id = $_REQUEST['datsId'];
-$search = $_REQUEST['search'];
+//$search = $_REQUEST['search'];
 
-//echo "$dats_id $search<br>";
+$search = 0;
+if ( array_key_exists('terms',$_REQUEST) ){
+	$search = 1;
+	$queryString = ElasticSearchUtils::getQueryString();
+}
 
 $form = new extraction_form();
 $form->createForm($project_name,$dats_id,$search);

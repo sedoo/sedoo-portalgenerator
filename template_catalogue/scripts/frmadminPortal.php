@@ -88,6 +88,8 @@ if ($form->isPortalAdmin ()) {
 		include 'frmroles.php';
 	} else if (($pageId == 13)) {
 		include 'frmquality.php';
+	}else if (($pageId == 19)){
+		include 'utils/elastic/frmElastic.php';
 	}
 } else if ($form->isLogged ()) {
 	echo "<h1>Admin Corner</h1>";

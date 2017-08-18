@@ -10,7 +10,7 @@ require_once ("bd/variable.php");
 require_once ("bd/gcmd_instrument_keyword.php");
 require_once ("bd/gcmd_science_keyword.php");
 require_once ("bd/place.php");
-require_once ("validation.php");
+require_once ("forms/validation.php");
 require_once ("utils/datepicker_utils.php");
 require_once ("conf/conf.php");
 class search_form extends HTML_QuickForm {
@@ -28,17 +28,16 @@ class search_form extends HTML_QuickForm {
 	var $order_by;
 	var $filter_data;
 	var $filter_data_db;
+	var $projectName;
 	function createForm($projectName) {
-		global $project_name;
-		if (! isset ( $projectName ))
-			$projectName = $project_name;
-		$this->addElement ( 'text', 'keywords', 'Keywords : ', array (
+		$this->projectName = $projectName;
+		$this->addElement ( 'text', 'keywords', "Keywords", array (
 				'size' => '50' 
 		) );
 		$this->applyFilter ( 'keywords', 'trim' );
-		$and_or [] = & HTML_QuickForm::createElement ( 'radio', null, null, 'All of the above keywords', 'and' );
-		$and_or [] = & HTML_QuickForm::createElement ( 'radio', null, null, 'Any of the above keywords', 'or' );
-		$this->addGroup ( $and_or, 'and_or', 'Search with: ', '&nbsp;&nbsp;&nbsp;' );
+		$and_or [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;'."All of the above keywords", 'and' );
+		$and_or [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;'."Any of the above keywords", 'or' );
+		$this->addGroup ( $and_or, 'and_or', "Search with", '&nbsp;&nbsp;&nbsp;' );
 		$defaultValues ['and_or'] = 'or';
 		$this->setDefaults ( $defaultValues );
 		$this->createFormVariable ();
@@ -51,46 +50,46 @@ class search_form extends HTML_QuickForm {
 		$this->addElement ( 'submit', 'bouton_search', 'search' );
 	}
 	function createFormOrderBy() {
-		$order_by [] = & HTML_QuickForm::createElement ( 'radio', null, null, ' By instruments', '1' );
-		$order_by [] = & HTML_QuickForm::createElement ( 'radio', null, null, ' By platform types', '2' );
-		$order_by [] = & HTML_QuickForm::createElement ( 'radio', null, null, ' By dataset name', '3' );
-		$this->addGroup ( $order_by, 'order_by', 'Sort result: ', '&nbsp;&nbsp;&nbsp;' );
+		$order_by [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;'."By instruments", '1' );        
+		$order_by [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;'."By platform types", '2' );
+		$order_by [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;'."By dataset name", '3' );
+		$this->addGroup ( $order_by, 'order_by', "Sort result:", '&nbsp;&nbsp;&nbsp;' );
 		$defaultValues ['order_by'] = '3';
 		$this->setDefaults ( $defaultValues );
 	}
 	function createFormFilterData() {
-		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;yes', 1 );
-		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;no', 0 );
-		$this->addGroup ( $options, 'filter_data', 'Show only datasets with available data ?', '&nbsp;&nbsp;' );
+		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;'."yes", 1 );
+		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null,'&nbsp;'."no", 0 );
+		$this->addGroup ( $options, 'filter_data', "Show only datasets with available data ?", '&nbsp;&nbsp;' );
 		$defaultValues ['filter_data'] = 0;
 		$this->setDefaults ( $defaultValues );
 	}
 	function createFormFilterDataDb() {
-		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;yes', 1 );
-		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;no', 0 );
-		$this->addGroup ( $options, 'filter_data_db', 'Show only datasets with homogenized data ?', '&nbsp;&nbsp;' );
+		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;'."yes", 1 );
+		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;'."no", 0 );
+		$this->addGroup ( $options, 'filter_data_db', "Show only datasets with homogenized data?", '&nbsp;&nbsp;' );
 		$defaultValues ['filter_data_db'] = 0;
 		$this->setDefaults ( $defaultValues );
 	}
 	function createFormVariable() {
 		$key = new gcmd_science_keyword ();
-		$key_select = $key->chargeForm ( $this, 'gcmd_science_key', 'Parameter keyword' );
+		$key_select = $key->chargeForm ( $this, 'gcmd_science_key', "Parameter keyword" );
 		$this->addElement ( $key_select );
 	}
 	function createFormInstrumentType() {
 		$key = new gcmd_instrument_keyword ();
-		$key_select = $key->chargeForm ( $this, 'sensor_gcmd', 'Instrument type' );
+		$key_select = $key->chargeForm ( $this, 'sensor_gcmd', "Instrument type" );
 		$this->addElement ( $key_select );
 	}
 	function createFormPeriode() {
 		$key = new period ();
-		$key_select = $key->chargeFormWithDates ( $this, 'period', 'Period' );
+		$key_select = $key->chargeFormWithDates ( $this, 'period', "Period" );
 		$this->addElement ( $key_select );
-		$this->addElement ( 'text', 'date_begin', 'Date begin (yyyy-mm-dd)', array (
+		$this->addElement ( 'text', 'date_begin', "Date begin (yyyy-mm-dd)", array (
 				'size' => 10,
 				'id' => 'date_begin' 
 		) );
-		$this->addElement ( 'text', 'date_end', 'Date end (yyyy-mm-dd)', array (
+		$this->addElement ( 'text', 'date_end', "Date end (yyyy-mm-dd)", array (
 				'size' => 10,
 				'id' => 'date_end' 
 		) );
@@ -106,6 +105,8 @@ class search_form extends HTML_QuickForm {
 		$this->addElement ( 'hidden', 'startMaxLat', MAP_DEFAULT_LAT_MAX );
 		$this->addElement ( 'hidden', 'startMinLon', MAP_DEFAULT_LON_MIN );
 		$this->addElement ( 'hidden', 'startMaxLon', MAP_DEFAULT_LON_MAX );
+		
+		
 		$this->addElement ( 'text', 'maxLatDeg', 'Lat: ', array (
 				'id' => 'maxLatDeg',
 				'size' => 3 
@@ -277,7 +278,7 @@ class search_form extends HTML_QuickForm {
 		
 		echo '<tr><td rowspan="2">Period</td>' . '<td>' . $this->getElement ( 'date_begin' )->getLabel () . '</td>' . '<td>' . $this->getElement ( 'date_end' )->getLabel () . "</td></tr>";
 		echo '<tr><td>' . $this->getElement ( 'date_begin' )->toHTML () . '</td>' . '<td>' . $this->getElement ( 'date_end' )->toHTML () . '</td></tr>';
-		echo '<tr><td>' . $this->getElement ( 'order_by' )->getLabel () . '</td><td colspan="3">' . $this->getElement ( 'order_by' )->toHTML () . '</td></tr>';
+		//echo '<tr><td>' . $this->getElement ( 'order_by' )->getLabel () . '</td><td colspan="3">' . $this->getElement ( 'order_by' )->toHTML () . '</td></tr>';
 		echo '<tr><td colspan="4">';
 		echo '<div id="line1"></div><div id="line2"></div>
                 <table border="0">
@@ -334,12 +335,8 @@ class search_form extends HTML_QuickForm {
 		echo '</form>';
 	}
 	function saveForm() {
-		$keys = $this->exportValue ( 'keywords' );
-		// $this->keywords = split(' ',$keys);
-		if (isset ( $keys ) && ! empty ( $keys ))
-			$this->keywords = explode ( ' ', $keys );
-		else
-			$this->keywords = array ();
+		$this->keywords = $this->exportValue ( 'keywords' );
+		
 		$this->and_or = $this->exportValue ( 'and_or' );
 		$this->period = $this->exportValue ( 'period' );
 		$this->date_begin = $this->exportValue ( 'date_begin' );
@@ -364,7 +361,7 @@ class search_form extends HTML_QuickForm {
 		$this->filter_data = $this->exportValue ( 'filter_data' );
 		$this->filter_data_db = $this->exportValue ( 'filter_data_db' );
 		
-		$_SESSION ['requete_search_form'] = serialize ( $this );
+		//$_SESSION ['requete_search_form'] = serialize ( $this );
 	}
 	function deg2Double($deg, $min, $sec) {
 		if ($deg == "")
@@ -383,7 +380,95 @@ class search_form extends HTML_QuickForm {
 		} else {
 			$sign = 1;
 		}
-		return ($d + $sign * $m / 60 + $sign * $s / 3600) * 10000;
+		return ($d + $sign * $m / 60 + $sign * $s / 3600);
+	}
+	function toSearchRequest(){
+		$recherche = array();
+	
+		if ($this->keywords){
+			$recherche['keywords'] = $this->keywords;
+		}
+		$recherche['keywords_all'] = $this->and_or == 'and';
+	
+		if ($this->date_begin) {
+			$recherche['period']['min'] = $this->date_begin;
+		}
+		if ($this->date_end) {
+			$recherche['period']['max'] = $this->date_end;
+		}
+		if ($this->projectName){
+			$recherche['project'] = $this->projectName;
+		}
+		if (isset ( $this->gcmd_variable ) && $this->gcmd_variable > 0){
+			$gcmd = new gcmd_science_keyword();
+			$k = $gcmd->getById($this->gcmd_variable);
+			$recherche['parameter'] = $k->gcmd_name;
+		}
+		if (isset ( $this->gcmd_sensor ) && $this->gcmd_sensor > 0){
+			$gcmd = new gcmd_instrument_keyword();
+			$s = $gcmd->getById($this->gcmd_sensor);
+			$recherche['instrument'] = $s->gcmd_sensor_name;
+		}
+	
+		if ( $this->latMin && $this->latMax && $this->lonMin && $this->lonMax) {
+			$recherche['zone'] = array(
+					'west' => $this->lonMin,
+					'south' => $this->latMin,
+					'east' => $this->lonMax,
+					'north' => $this->latMax
+			);
+		}
+	
+		if ($this->filter_data_db) {
+			$recherche['availability'] = dataset_json::WITH_INSERTED_DATA;
+		} else if ($this->filter_data) {
+			$recherche['availability'] = dataset_json::WITH_DATA;
+		}
+	
+		return $recherche;
+	}
+	function toQueryArray(){
+		$query_array = array();
+	
+		$query_array['terms'] = $this->keywords;
+					
+		if ($this->and_or == 'and'){
+			$query_array['allKeywords'] = 1;
+		}
+		
+		if ($this->date_begin) {
+			$query_array['dtstart'] = $this->date_begin;
+		}
+		if ($this->date_end) {
+			$query_array['dtend'] = $this->date_end;
+		}
+	
+		if ($this->projectName){
+			$query_array['project'] = $this->projectName;
+		}
+		
+		if (isset ( $this->gcmd_variable ) && $this->gcmd_variable > 0){
+			$gcmd = new gcmd_science_keyword();
+			$k = $gcmd->getById($this->gcmd_variable);
+			$query_array['parameter'] = $k->gcmd_name;
+		}
+		if (isset ( $this->gcmd_sensor ) && $this->gcmd_sensor > 0){
+			$gcmd = new gcmd_instrument_keyword();
+			$s = $gcmd->getById($this->gcmd_sensor);
+			$query_array['instrument'] = $s->gcmd_sensor_name;
+		}
+	
+		if ( $this->latMin && $this->latMax && $this->lonMin && $this->lonMax) {
+			$query_array['bbox'] = "$this->lonMin,$this->latMin,$this->lonMax,$this->latMax";
+		}
+	
+		if ($this->filter_data_db) {
+			$query_array['availability'] = dataset_json::WITH_INSERTED_DATA;
+		} else if ($this->filter_data) {
+			$query_array['availability'] = dataset_json::WITH_DATA;
+		}
+	
+		return $query_array;
 	}
 }
 ?>

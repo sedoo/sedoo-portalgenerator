@@ -1,5 +1,6 @@
 <?php
 
+require_once ("utils/elastic/ElasticSearchUtils.php");
 require_once('bd/dataset.php');
 require_once("bd/url.php");
 
@@ -20,7 +21,13 @@ function getAvailableDataLinks($dts,$project_name){
         }
 	if (isset($nodeConf['qlLink'])){
                 $liste[] = '<a href="'.$nodeConf['qlLink'].'" target="_blank"><img width="15" height="16" class="text" src="'.$nodeConf['qlIcon'].'" />&nbsp;'.$nodeConf['qlTitle'].'</a>';
-        }
+    }
+    /*if (isset($nodeConf['quicklooksLink'])){
+      	$liste[] = '<a href="'.$nodeConf['quicklooksLink'].'" ><img width="15" height="16" class="text" src="'.$nodeConf['quicklooksIcon'].'" />&nbsp;'.$nodeConf['quicklooksTitle'].'</a>';
+    }
+    if (isset($nodeConf['calLink'])){
+       	$liste[] = '<a href="'.$nodeConf['calLink'].'" ><img width="15" height="16" class="text" src="'.$nodeConf['calIcon'].'" />&nbsp;'.$nodeConf['calTitle'].'</a>';
+    }*/
 	return $liste;
 }
 
@@ -29,30 +36,7 @@ function getAvailableDataLinks($dts,$project_name){
  */
 function printDataset($dts, $queryArgs = array(),$withTitle = false){
 	global $project_name;
-	$nodeConf = getDataNodeConf($dts,$project_name);
-
-	//$nodeConf['link'] = "?editDatsId=$dts->dats_id&datsId=$dts->dats_id";
-
-	foreach($queryArgs as $arg => $val){
-		$nodeConf['link'] .= "&$arg=$val";
-	}
-	
-	if ($withTitle == false) $result = "<a href='".$nodeConf['link']."'>".$nodeConf['text']."</a>";
-	else $result = "<a href='".$nodeConf['link']."'>View</a><br>";
-	
-	if (isset($nodeConf['dataLink']) ){ 
-		$result .= '&nbsp;&nbsp;<a href="'.$nodeConf['dataLink'].'"><img width="15" height="16" class="text" src="'.$nodeConf['dataIcon'].'" title="'.$nodeConf['dataTitle'].'" /></a>';
-	}
-	if (isset($nodeConf['extDataLink'])){
-        $result .= '&nbsp;&nbsp;<a href="'.$nodeConf['extDataLink'].'" target="_blank"><img width="15" height="16" class="text" src="'.$nodeConf['extDataIcon'].'" title="'.$nodeConf['extDataTitle'].'" /></a>';
-	}
-	if (isset($nodeConf['bdLink'])){
-        $result .= '&nbsp;&nbsp;<a href="'.$nodeConf['bdLink'].'"><img width="15" height="16" class="text" src="'.$nodeConf['bdIcon'].'" title="'.$nodeConf['bdTitle'].'" /></a>';
-	}
-	if (isset($nodeConf['qlLink'])){
-		$result .= '&nbsp;&nbsp;<a href="'.$nodeConf['qlLink'].'" target="_blank"><img width="15" height="16" class="text" src="'.$nodeConf['qlIcon'].'" title="'.$nodeConf['qlTitle'].'" /></a>';
-	}
-    return $result;
+	return ElasticSearchUtils::printDataset($dts->dats_id, $dts->dats_title, $dts->isInsertedDataset(), $project_name, $queryArgs, $withTitle);
 }
 
 /*
@@ -93,62 +77,12 @@ function lstQueryData($query, $queryArgs = array()){
 	}
 }
 
-function getDataNodeConf($dts,$project_name,$search = 0){
-	global $root;
-	$nodeConf = array('text' => $dts->dats_title,'link' => "http://".$_SERVER['HTTP_HOST']."?editDatsId=$dts->dats_id&datsId=$dts->dats_id&project_name=$project_name", 'datsId' => $dts->dats_id);
-	$u = new url();
-        $urls = $u->getByDataset($dts->dats_id);
-	foreach ($urls as $url){
-		if (strpos($url->url,'/') === 0){
-			$nodeConf['dataLink'] = "http://".$_SERVER['HTTP_HOST'].$url->url."&search=$search&project_name=$project_name";
-			if ( ($url->url_type == 'http' )
-				|| ($url->url_type == 'ftp' && strpos($url->url,'climserv.ipsl') > 0) ){
-				//Original dataset (Sedoo ou IPSL)
-	                	$nodeConf['dataIcon'] =  $root."/scripts/images/dataBlue.gif";
-				$nodeConf['dataTitle'] = 'Original dataset as provided by the Principal Investigator';
-			}else if ($url->url_type == 'ftp' && strpos($url->url,'climserv.ipsl') === false) {
-				//Jeu ftp pas ipsl
-				$nodeConf['dataIcon'] =  $root."/scripts/images/dataPurple.gif";
-				$db = new database;
-			        $database = $db->getByDatsId($dts->dats_id);
-				if (isset($database)){
-					$nodeConf['dataLink'] .= "&target_database=$database->database_name";
-                                	$nodeConf['dataTitle'] = $database->database_name.' FTP access';
-                        	}else{
-	                                $nodeConf['dataTitle'] = 'Dataset available in another database';
-        	                }
-			}
-		}else if ($url->url_type == 'ql'){
-                        $nodeConf['qlLink'] = $url->url;
-                        $nodeConf['qlIcon'] =  $root."/scripts/images/dataOrange.gif";
-                        $nodeConf['qlTitle'] = 'Campaign website quicklook charts';
-		}else if (strpos($url->url,'http') === 0){
-			//Autre centre de données
-			$nodeConf['extDataLink'] = $url->url;
-                        $nodeConf['extDataIcon'] =  $root."/scripts/images/dataPurple.gif";
-			$db = new database;
-		        $database = $db->getByDatsId($dts->dats_id);
-			if (isset($database)){
-				$nodeConf['extDataTitle'] = $database->database_name;
-			}else{
-				$nodeConf['extDataTitle'] = 'Dataset available in another database';
-			}
-		}
-	}
-
-	if( $dts->isInsertedDataset() ) {
-		//Données insérées
-                $nodeConf['bdLink'] = "http://".$_SERVER['HTTP_HOST']."/Data-Download-BD/?search=$search&datsId=$dts->dats_id&project_name=$project_name";
-                $nodeConf['bdIcon'] =  $root."/scripts/images/dataGreen.gif";
-		$nodeConf['bdTitle'] = 'Homogenized dataset';
-        }
-	//TODO autres urls (opendap, thredds, ...)
-
-	return $nodeConf;
+function getDataNodeConf($dts, $projectName, $queryArgs = array()){
+	return ElasticSearchUtils::getDataNodeConf($dts->dats_id, $dts->dats_title, $dts->isInsertedDataset(), $projectName, $queryArgs);
 }
 
-function addDataset(&$node,$dts,$project_name,$search = 0){
-	$nodeConf = getDataNodeConf($dts,$project_name,$search);
+function addDataset(&$node, $dts, $projectName){
+	$nodeConf = getDataNodeConf($dts, $projectName);
 	$subnode = new HTML_TreeNode($nodeConf);
 	$node->addItem($subnode);
 }
