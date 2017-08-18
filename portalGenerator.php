@@ -1,16 +1,13 @@
 #!/usr/bin/php
 <?php
 include('config.php');
+include("ldapIds.php");
 
 define ( 'REP_LDAP', '/export1/eurequa/ldap' );
 define ( 'Duplicated_db_host', $databaseConf['host']);
 define ( 'Duplicated_db_user', $databaseConf['db_user']);
 define ( 'Duplicated_db_name', $databaseConf['db_name']);
 define ( 'Duplicated_db_password', $databaseConf['db_password']);
-// define ( 'Sphinx_Duplicated_db_host', $sphinxDatabaseConf['host']);
-// define ( 'Sphinx_Duplicated_db_user', $sphinxDatabaseConf['db_user']);
-// define ( 'Sphinx_Duplicated_db_name', $sphinxDatabaseConf['db_name']);
-// define ( 'Sphinx_Duplicated_db_password', $sphinxDatabaseConf['db_password']);
 
 // Portal generation functions
 function comment($com) {
@@ -1199,9 +1196,12 @@ if (! $xml->schemaValidate ( './input/projet-template.xsd' )) {
 		mkdir ( path . '/graphs' );
 	}
 	exec ( 'chmod -R 777 target' );
-	exec ( 'chown -R '.$apacheConf['user'].':'.$apacheConf['group'].' target' );
+	//exec ( 'chown -R '.$apacheConf['user'].':'.$apacheConf['group'].' target' );
 	exec ( "cp ./input/.htaccess " . path . "/att_img/" );
 	// copie des images dans le répertoire image du projet généré
+	if (! file_exists ( './input/img' )) {
+		exec ( "mkdir ./input/img" );
+	}
 	ScanDirectory ( './input/img' );
 	foreach ( $Files_list as $img ) {
 		exec ( "cp $img " . path . "/img/" );
@@ -1230,7 +1230,7 @@ if (! $xml->schemaValidate ( './input/projet-template.xsd' )) {
 	exec ( 'mv ./target/' . strtolower ( $Portal_name ) . '_catalogue/utils/SphinxAutocompleteAndcorrection/sphinx.conf ./target/sphinx');
 	exec ( 'mkdir ./target/database');
 	exec ( 'chmod -R 777 target' );
-	exec ( 'chown -R '.$apacheConf['user'].':'.$apacheConf['group'].' target' );
+	//exec ( 'chown -R '.$apacheConf['user'].':'.$apacheConf['group'].' target' );
 	// Database creation
 	echo "Creating portal databases ... 4/9 \n";
 	if (isset ( $database ) && ! empty ( $database ))
@@ -1250,7 +1250,7 @@ if (! $xml->schemaValidate ( './input/projet-template.xsd' )) {
 	echo "Generating backup files... 9/9 \n";
 	generateBackupFiles();
 	exec ( 'chmod -R 777 target/backup' );
-	exec ( 'chown -R '.$apacheConf['user'].':'.$apacheConf['group'].' target/backup' );
+	//exec ( 'chown -R '.$apacheConf['user'].':'.$apacheConf['group'].' target/backup' );
 	echo "Done !!! \n";
 	exec ( 'chmod -R 777 /export1/data_local/log' );
 	exec ( 'chown -R '.$apacheConf['user'].':'.$apacheConf['group'].' /export1/data_local/log' );
