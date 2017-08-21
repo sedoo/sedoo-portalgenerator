@@ -53,18 +53,15 @@ function editContact(& $pis){
 }
 
 function editDOI($doi){
-	if (isset($doi) && !empty($doi)){
-		$f = fopen(DATACITE_CITATION.$doi,'r');
-		if ($f){
-			$cit = fgets($f);
-		}else{
-			$cit = "doi:$doi";
-		}
-		echo "<tr><td><b>Dataset DOI</b></td><td colspan='3'><a href='".DATACITE_WEB.$doi."' target='_blank'>$doi</a>";
-		echo '<a class="lightblue_tag" href="'.DATACITE_CITATION.$doi.'" style="color: white;margin-right:0px;" title="How to cite">Citation</a>';
-		echo '<a class="lightblue_tag" href="'.DATACITE_BIBTEX.$doi.'" style="color: white;" title="Export to BibTeX">BibTeX</a>';
-		echo "</td></tr>";
-	}
+        if (isset($doi) && !empty($doi)){
+                echo "<tr><td><b>Dataset DOI</b></td><td colspan='3'>$doi";
+                $f = fopen(DATACITE_CITATION.$doi,'r');
+                if ($f){
+                        echo '<br/><b>How to cite: </b>'.fgets($f);
+                }
+                echo '<a target="_blank" class="lightblue_tag" href="'.DATACITE_BIBTEX.$doi.'" style="color: white;" title="Export to BibTeX">BibTeX</a>';
+                echo "</td></tr>";
+        }
 }
 
 function editDataAvailability(& $dataset,$project_name){

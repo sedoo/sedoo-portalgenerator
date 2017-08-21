@@ -5,9 +5,8 @@ require_once("conf/conf.php");
 define('DOI_RESOLVER','http://dx.doi.org/');
 
 define('DATACITE_WEB','http://data.datacite.org/');
-define('DATACITE_CITATION','http://data.datacite.org/text/x-bibliography/');
-define('DATACITE_BIBTEX','http://data.datacite.org/application/x-bibtex/');
-
+define('DATACITE_CITATION','http://catalogue.sedoo.fr/metadata-services/datacite/citation?doi=');
+define('DATACITE_BIBTEX','http://catalogue.sedoo.fr/metadata-services/datacite/citation?style=bibtex&doi=');
 
 define("SERVICE_DOI_USER","INIST.OMP");
 define("SERVICE_DOI_PASSWD","18071971");
