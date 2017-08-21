@@ -166,7 +166,7 @@
     	
  	function insert(& $bd)
     	{
-    		if ($this->manufacturer_id == 0){
+    		if ($this->manufacturer_id === 0){
     			$this->manufacturer_id =$this->manufacturer->insert($bd);
     			//echo 'manufacturer_id:'.$this->manufacturer_id.'<br>';
     		}

@@ -21,12 +21,12 @@ class download_form extends login_form {
 	var $mailNotif;
 	var $projectName;
 	var $dataPath;
-	var $search;
+	var $queryString;
 	var $jeuRoles;
 	var $isPublic = false;
-	function createForm($projectName, $search = 0) {
+	function createForm($projectName, $queryString = '') {
 		$this->projectName = $projectName;
-		$this->search = $search;
+		$this->queryString = $queryString;
 		if (isset ( $_SESSION ['loggedUser'] )) {
 			$this->user = unserialize ( $_SESSION ['loggedUser'] );
 			$this->dataPath = DATA_PATH;
@@ -36,7 +36,7 @@ class download_form extends login_form {
 			}
 		}
 		if (! $this->isLogged ()) {
-			$jeuId = $_REQUEST ['jeu'];
+			$jeuId = $_REQUEST ['datsId'];
 			if (! isset ( $jeuId ) || empty ( $jeuId )) {
 			} else {
 				$this->jeuRoles = $this->getJeuRoles ( $jeuId );
@@ -110,8 +110,14 @@ class download_form extends login_form {
 		}
 	}
 	function getTitle() {
-		$info = '';
-		return $this->getJeuNom () . $info;
+		$href = '/Data-Search/?datsId='.$this->jeu->dats_id;
+		if (isset($this->queryString) && !empty($this->queryString)){
+			$href .= "&$this->queryString";
+		}
+		if (isset($this->projectName) && !empty($this->projectName)){
+			$href .= "&project_name=$this->projectName";
+		}
+		return "<a href='$href'>".$this->getJeuNom().'</a>';
 	}
 	function getJeuNom() {
 		return $this->jeu->dats_title;
@@ -132,7 +138,7 @@ class download_form extends login_form {
 		return $ret;
 	}
 	function initForm() {
-		$jeuId = $_REQUEST ['jeu'];
+		$jeuId = $_REQUEST ['datsId'];
 		if (! isset ( $jeuId ) || empty ( $jeuId )) {
 			echo "<font size=\"3\" color='red'><b>No dataset specified.</b></font><br>";
 			return false;
@@ -363,12 +369,12 @@ function displayDirectory() {
 		  height: 400 
 	    });
 		
-	    $( '#preview' ).click(function() {
+	    $( 'img[id=preview]' ).click(function() {
 	      $( '#popUpFilePreviewDiv' ).dialog( 'open' );
 	    }); </script>";
 	}
 	function getReqUri($withPath = true) {
-		return parse_url ( $_SERVER ['REQUEST_URI'], PHP_URL_PATH ) . '?jeu=' . $_GET ['jeu'] . '&search=' . $_GET ['search'] . (($withPath) ? '&path=' . $_GET ['path'] : '');
+		return parse_url ( $_SERVER ['REQUEST_URI'], PHP_URL_PATH ) . '?datsId=' . $_GET ['datsId'] . "&$this->queryString" . (($withPath) ? '&path=' . $_GET ['path'] : '');
 	}
 	private function displaySelectedFiles() {
 		foreach ( array_keys ( $this->selection ) as $i ) {
@@ -513,6 +519,10 @@ function displayDirectory() {
 		$requete = new requeteFilesXml ( $this->user, $this->projectName, $this->jeu, $this->pathJeu );
 		foreach ( array_keys ( $this->selection ) as $i ) {
 			$requete->addFile ( $this->selection [$i] );
+		}
+		
+		if ($this->mailNotif){
+			journal::addAboEntry ( $this->user->mail,  $this->jeu->dats_id );
 		}
 		
 		if (send_to_cgi_fichiers ( $requete->toXml (), $retour )) {

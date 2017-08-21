@@ -206,6 +206,9 @@ function generatePHPFile($filepath, $confFile = 'default') {
 	if (! file_exists ( $result_array ['portalWorkPath'] . "/maps" )) {
 		exec ( "mkdir -p " . $result_array ['portalWorkPath'] . "/maps" );
 	}
+	
+	$content .= "define('STATS_DEFAULT_MIN_YEAR', 2015);\n";
+	
 	$content .= comment ( "répertoire du site web" );
 	if (isset ( $result_array ['webPath'] ) && ! empty ( $result_array ['webPath'] ))
 		$content .= "define('WEB_PATH','" . $result_array ['webPath'] . "');\n";
@@ -377,6 +380,22 @@ function generatePHPFile($filepath, $confFile = 'default') {
 		$content .= "define('LDAP_BASE','@ldap.base@');\n";
 		$content .= "define('LDAP_DN','cn=@ldap.user@," . LDAP_BASE . "');\n";
 		$content .= "define('LDAP_PASSWD','@ldap.passwd@');\n";
+	}
+	// elastic
+	if ($confFile == 'default') {
+		if (isset ( $result_array ['elastic'] ['host'] ) && ! empty ( $result_array ['elastic'] ['host'] ))
+			$content .= "define('ELASTIC_HOST','" . $result_array ['elastic'] ['host'] . "');\n";
+		else
+			$content .= "define('ELASTIC_HOST','');\n";
+		if (isset ( $result_array ['elastic'] ['index'] ) && ! empty ( $result_array ['elastic'] ['index'] ))
+			$content .= "define('ELASTIC_INDEX','" . $result_array ['elastic'] ['index'] . "');\n";
+		else
+			$content .= "define('ELASTIC_INDEX','');\n";
+	} else {
+		define ( "ELASTIC_HOST", "@elastic.host@" );
+		define ( "ELASTIC_INDEX", "@elastic.index@" );
+		$content .= "define('ELASTIC_HOST','@elastic.host@');\n";
+		$content .= "define('ELASTIC_INDEX','@elastic.index@');\n";
 	}
 	$content .= comment ( "Nombre de chartes à signer" );
 	// datapolicy
@@ -1078,7 +1097,7 @@ function generateLdapCreationScript() {
 // PHP server configuration
 function generateConfdFile($server_name, $app_path) {
 	global $Portal_name;
-	$content .= "<VirtualHost *:80> \n" . "\t ServerName $server_name \n" . "\t DocumentRoot $app_path \n" . "\t CustomLog    /var/log/httpd/access_log." . strtolower ( $Portal_name ) . " combined \n" . "\t ErrorLog     /var/log/httpd/error_log." . strtolower ( $Portal_name ) . " \n" . "\t <Directory $app_path> \n" . "\t\t php_value include_path \".:/usr/share/pear:/usr/share/php:$app_path/scripts:$app_path/:$app_path/template:/usr/share/php/jpgraph\" \n" . "\t </Directory> \n" . "\t <Directory $app_path/att_img> \n" . "\t\t AllowOverride All \n" . "\t </Directory> \n" . "\t ScriptAlias /extract/cgi-bin/ /www/" . strtolower ( $Portal_name ) . "-extract/cgi-bin/ \n" . "</VirtualHost> \n";
+	$content .= "<VirtualHost *:80> \n" . "\t ServerName $server_name \n" . "\t DocumentRoot $app_path \n" . "\t CustomLog    /var/log/httpd/access_log." . strtolower ( $Portal_name ) . " combined \n" . "\t ErrorLog     /var/log/httpd/error_log." . strtolower ( $Portal_name ) . " \n" . "\t <Directory $app_path> \n" . "\t\t php_value include_path \".:/usr/share/pear:/usr/share/php:/usr/local/lib/php/:$app_path/scripts:$app_path/:$app_path/template:/usr/share/php/jpgraph\" \n" . "\t </Directory> \n" . "\t <Directory $app_path/att_img> \n" . "\t\t AllowOverride All \n" . "\t </Directory> \n" . "\t ScriptAlias /extract/cgi-bin/ /www/" . strtolower ( $Portal_name ) . "-extract/cgi-bin/ \n" . "</VirtualHost> \n";
 	generateFile ( './target/apache/' . strtolower ( $Portal_name ) . '.conf', $content );
 }
 
@@ -1226,8 +1245,6 @@ if (! $xml->schemaValidate ( './input/projet-template.xsd' )) {
 	changeWordInDirectory ( path . "/build.properties", '#PORTAL_VERSION', $result_array ['portal_version'] );
 	moveDirectory ( path, './target/' . strtolower ( $Portal_name ) . '_catalogue' );
 	eraseDirectory ( './target/' . strtolower ( $Portal_name ) . '_catalogue' . '/project-directory-template' );
-	exec ( 'mkdir ./target/sphinx');
-	exec ( 'mv ./target/' . strtolower ( $Portal_name ) . '_catalogue/utils/SphinxAutocompleteAndcorrection/sphinx.conf ./target/sphinx');
 	exec ( 'mkdir ./target/database');
 	exec ( 'chmod -R 777 target' );
 	//exec ( 'chown -R '.$apacheConf['user'].':'.$apacheConf['group'].' target' );
@@ -1235,9 +1252,6 @@ if (! $xml->schemaValidate ( './input/projet-template.xsd' )) {
 	echo "Creating portal databases ... 4/9 \n";
 	if (isset ( $database ) && ! empty ( $database ))
 		duplicateDatabase ( $database );
-	$sphinx_db = array(0 => $database[0] ,1 => $database[1] , 2 => 'sphinx_'.$Portal_name );
-	if (isset ( $sphinx_db ) && ! empty ( $sphinx_db ))
-		duplicateSphinxDatabase ( $sphinx_db );
 	// Ldap files generation
 	echo "Generating ldap config and creation files ... 5/9 \n";
 	generateLdapConfigFiles ( $ldapProjects );

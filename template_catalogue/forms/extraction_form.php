@@ -11,11 +11,15 @@ require_once ('lstDataUtils.php');
 require_once ("validation.php");
 require_once ("utils/datepicker_utils.php");
 require_once ("scripts/mail.php");
+
+
+
 class extraction_form extends map_form {
 	var $projectName;
 	var $requete;
 	var $msg;
 	var $datsId;
+	var $multipleDatasets;
 	var $search;
 	var $minValidDate = null;
 	var $maxValidDate = null;
@@ -25,8 +29,11 @@ class extraction_form extends map_form {
 		if (isset ( $_SESSION ['loggedUser'] )) {
 			$this->user = unserialize ( $_SESSION ['loggedUser'] );
 			$this->requete = new requeteXml ( $this->user, $projectName );
+			
+			$withBbox = false;
+			
 			if ($search) {
-				if (isset ( $_SESSION ['requete_search_form'] )) {
+				/*if (isset ( $_SESSION ['requete_search_form'] )) {
 					$requete = unserialize ( $_SESSION ['requete_search_form'] );
 					$this->requete->latMin = round ( $requete->latMin / 10000.0, 5 );
 					$this->requete->latMax = round ( $requete->latMax / 10000.0, 5 );
@@ -35,14 +42,41 @@ class extraction_form extends map_form {
 					$this->requete->dateMin = $requete->date_begin;
 					$this->requete->dateMax = $requete->date_end;
 					$gcmd_id = $requete->gcmd_variable;
+				}*/
+				if ( array_key_exists('bbox',$_REQUEST) ){
+					if (!empty($_REQUEST['bbox'])){
+						$coords = explode(',', $_REQUEST['bbox']);
+						$this->requete->latMin = $coords[1];
+						$this->requete->latMax = $coords[3];
+						$this->requete->lonMin = $coords[0];
+						$this->requete->lonMax = $coords[2];
+						$withBbox = true;
+					}
 				}
+				/*if ($dtstart) {
+					$recherche['period']['min'] = $dtstart;
+				}
+				if ($dtend) {
+					$recherche['period']['max'] = $dtend;
+				}*/
+				if ( array_key_exists('dtstart',$_REQUEST) ){
+					if (!empty($_REQUEST['dtstart'])){
+						$this->requete->dateMin = $_REQUEST['dtstart'];
+					}
+				}
+				
+				if ( array_key_exists('dtend',$_REQUEST) ){
+					if (!empty($_REQUEST['dtend'])){
+						$this->requete->dateMax = $_REQUEST['dtend'];
+					}
+				}
+				
 			}
 			if (isset ( $dats_id )) {
 				$dats_ids = $dats_id;
-				$this->datsId = $dats_id;
-			} else if (isset ( $_SESSION ['result_search_form_datasets'] )) {
-				$datasets = unserialize ( $_SESSION ['result_search_form_datasets'] );
-				$dats_ids = implode ( ", ", $datasets );
+			} else if (!empty($_REQUEST['searchDatsIds']) ) {
+				//$datasets = unserialize ( $_SESSION ['result_search_form_datasets'] );
+				$dats_ids = $_REQUEST['searchDatsIds']; //implode ( ", ", $datasets );
 			}
 			$this->registerRule ( 'validDate', 'function', 'validDate' );
 			$this->registerRule ( 'validPeriod', 'function', 'validPeriod' );
@@ -54,13 +88,21 @@ class extraction_form extends map_form {
 			$this->createFormFormatOption ();
 			$this->createFormFlag ();
 			$this->createFormDelta ();
-			if ($search)
-				$this->createFormZone ();
-			else {
+			//if (isset ( $this->datsId ) && $this->datsId > 0) {
+			
+			
+			if ($withBbox){
+				$this->createFormMap ($this->requete->latMin, $this->requete->latMax,
+					$this->requete->lonMin,	$this->requete->lonMax);
+			}else{
 				$this->createFormMap ();
-				$this->addValidationRulesMap ();
 			}
-			$this->createFormPeriod ();
+			$this->addValidationRulesMap ();
+			
+			/*}else{
+				$this->createFormZone ();
+			}*/
+			$this->createFormPeriod ($dats_ids);
 			
 			$this->addElement ( 'submit', 'bouton_submit', 'Submit' );
 		} else {
@@ -69,9 +111,9 @@ class extraction_form extends map_form {
 	}
 	function createFormDatasets($dats_ids) {
 		if (isset ( $dats_ids ) && ! empty ( $dats_ids )) {
-			$query = "SELECT dats_id, dats_title FROM dataset where dats_id IN ($dats_ids);";
+			$query = "SELECT dats_id, dats_title FROM dataset where dats_id IN ($dats_ids) ORDER BY dats_title;";
 		} else {
-			$query = "SELECT dats_id, dats_title FROM dataset where dats_id IN (SELECT dats_id FROM dats_data);";
+			$query = "SELECT dats_id, dats_title FROM dataset where dats_id IN (SELECT dats_id FROM dats_data) ORDER BY dats_title;";
 		}
 		$dts = new dataset ();
 		$liste = $dts->getOnlyTitles ( $query );
@@ -80,13 +122,19 @@ class extraction_form extends map_form {
 			$id = $liste [$i]->dats_id;
 			$array [$id] = $liste [$i]->dats_title;
 		}
+		if ( !isset ( $this->datsId ) && count($liste) == 1){
+			$this->datsId = $liste[0]->dats_id;
+		}
+		
 		$select = $this->createElement ( 'select', 'dataset', 'Dataset(s)', $array, array (
 				'style' => 'width:400px;' 
 		) );
 		$select->setMultiple ( true );
 		$select->setSize ( 5 );
 		$this->addElement ( $select );
+				
 		$this->requete->datasets = array_keys ( $array );
+		
 		if (isset ( $this->datsId ) && $this->datsId > 0) {
 			$this->getElement ( 'dataset' )->setValue ( array (
 					$this->datsId 
@@ -130,11 +178,11 @@ class extraction_form extends map_form {
 			$this->getElement ( 'param' )->freeze ();
 		}
 	}
-	function createFormPeriod() {
-		if ($this->search) {
+	function createFormPeriod( $dats_ids ) {
+		/*if ($this->search) {
 			$this->addElement ( 'hidden', 'date_min' );
 			$this->addElement ( 'hidden', 'date_max' );
-		} else {
+		} else {*/
 			$this->addElement ( 'text', 'date_min', 'Date min (yyyy-mm-dd)', array (
 					'size' => 10,
 					'id' => 'date_min' 
@@ -145,31 +193,40 @@ class extraction_form extends map_form {
 			) );
 			$this->addRule ( 'date_min', 'Date min is not a date', 'validDate' );
 			$this->addRule ( 'date_max', 'Date max is not a date', 'validDate' );
-		}
-		if ($this->search) {
-			$defaultValues ['date_min'] = $this->requete->dateMin;
-			$defaultValues ['date_max'] = $this->requete->dateMax;
-		} else {
-			$this->minValidDate = null;
-			$this->maxValidDate = null;
-			if (isset ( $this->datsId ) && $this->datsId > 0) {
-				$insD = new inserted_dataset ();
-				$insDatasets = $insD->getByDatsId ( $this->datsId );
-				foreach ( $insDatasets as $insDataset ) {
-					if (($this->minValidDate == null) || ($insDataset->date_min < $this->minValidDate)) {
-						$this->minValidDate = $insDataset->date_min;
-					}
-					if (($this->maxValidDate == null) || ($insDataset->date_max > $this->maxValidDate)) {
-						$this->maxValidDate = $insDataset->date_max;
-					}
+		//}
+		
+		$this->minValidDate = null;
+		$this->maxValidDate = null;
+		//if (isset ( $this->datsId ) && $this->datsId > 0) {
+			$insD = new inserted_dataset ();
+			$insDatasets = $insD->getByDatsIds ( $dats_ids );
+			foreach ( $insDatasets as $insDataset ) {
+				if (($this->minValidDate == null) || ($insDataset->date_min < $this->minValidDate)) {
+					$this->minValidDate = $insDataset->date_min;
+				}
+				if (($this->maxValidDate == null) || ($insDataset->date_max > $this->maxValidDate)) {
+					$this->maxValidDate = $insDataset->date_max;
 				}
 			}
+		//}
+		
+		$defaultValues ['date_min'] = null;
+		$defaultValues ['date_max'] = null;
+			
+		if (isset (  $this->requete->dateMin ) && !empty( $this->requete->dateMin) ) {
+			$defaultValues ['date_min'] = $this->requete->dateMin;
+		}else{
 			$defaultValues ['date_min'] = $this->minValidDate;
+		}
+		if (isset (  $this->requete->dateMax ) && !empty( $this->requete->dateMax) ) {
+			$defaultValues ['date_max'] = $this->requete->dateMax;
+		}else{
 			$defaultValues ['date_max'] = $this->maxValidDate;
 		}
+		
 		$this->setDefaults ( $defaultValues );
 	}
-	function createFormZone() {
+/*	function createFormZone() {
 		$this->addElement ( 'hidden', 'lon_min', 'West bounding coordinate (°)', array (
 				'size' => 3 
 		) );
@@ -222,7 +279,7 @@ class extraction_form extends map_form {
 		$this->getElement ( 'lon_max' )->freeze ();
 		$this->getElement ( 'lat_min' )->freeze ();
 		$this->getElement ( 'lat_max' )->freeze ();
-	}
+	}*/
 	function createFormFlag() {
 		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;yes', 1 );
 		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;no', 0 );
@@ -246,9 +303,9 @@ class extraction_form extends map_form {
 	}
 	function createFormFormat() {
 		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;Ascii (Nasa Ames)', 'ames' );
-		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;netCdf (available soon)', 'netcdf', array (
+		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;netCdf', 'netcdf'/*, array (
 				'disabled' => 'true' 
-		) );
+		)*/ );
 		$this->addGroup ( $options, 'format', 'Format', '&nbsp;&nbsp;' );
 		$defaultValues ['format'] = $this->requete->format;
 		$this->setDefaults ( $defaultValues );
@@ -256,9 +313,7 @@ class extraction_form extends map_form {
 	function createFormFormatOption() {
 		if (isset ( $this->datsId ) && $this->datsId > 0) {
 			// Requete sur un seul jeu
-			$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;yes', '1001m', array (
-					'disabled' => 'true' 
-			) );
+			$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;yes', '1001m' );
 			$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;no', '2160' );
 			$this->addGroup ( $options, 'format_version', 'Split result by station (available soon) ?', '&nbsp;&nbsp;' );
 			$defaultValues ['format_version'] = $this->requete->format_version;
@@ -273,7 +328,9 @@ class extraction_form extends map_form {
 	}
 	function saveRequete() {
 		$this->requete->format = $_POST ['format'];
-		$this->requete->format_version = $_POST ['format_version'];
+		$this->requete->format_version = '1001m';
+				
+		//$this->requete->format_version = $_POST ['format_version'];
 		$this->requete->compression = $_POST ['compression'];
 		if (isset ( $_POST ['param'] ) && ! empty ( $_POST ['param'] ))
 			$this->requete->variables = $_POST ['param'];
@@ -294,6 +351,7 @@ class extraction_form extends map_form {
 	}
 	function send() {
 		if (send_to_cgi ( $this->requete->toXml (), $retour )) {
+			//echo "retour: $retour";
 			$elts = explode ( ':', $retour );
 			if ($elts [0] == '00') {
 				$this->msg = "Request successfully sent. The result will be send to you by email.";
@@ -312,12 +370,12 @@ class extraction_form extends map_form {
 		sendMailSimple ( ROOT_EMAIL, '[' . MainProject . '-DATABASE] Error', $error );
 	}
 	function displayForm() {
-		if (! $this->search) {
-			DatePickerUtils::addScriptPeriod ( 'date_min', 'date_max', $this->minValidDate, $this->maxValidDate );
-		}
+		DatePickerUtils::addScriptPeriod ( 'date_min', 'date_max', $this->minValidDate, $this->maxValidDate );
+		
 		echo '<h1>Data selection</h1>';
 		if ($this->search) {
-			echo "<br /><a href='/$this->projectName/Search-result' style='font-size:110%;font-weight:bold;'>&lt;&lt;&nbsp;Back to search result</a><br /><br />";
+			//echo "<br /><a href='/$this->projectName/Search-result' style='font-size:110%;font-weight:bold;'>&lt;&lt;&nbsp;Back to search result</a><br /><br />";
+			ElasticSearchUtils::addBackToSearchResultLink();
 		}
 		foreach ( $this->_errors as $error ) {
 			echo '<font size="3" color="red">' . $error . '</font><br>';
@@ -327,38 +385,40 @@ class extraction_form extends map_form {
 		echo '<form action="" method="post" name="frmmap" id="frmmap" >';
 		echo "<table>";
 		echo "<tr><th colspan='4' align='center'>Data</th></tr>";
-		if (isset ( $this->datsId ) && $this->datsId > 0)
+		//if (isset ( $this->datsId ) && $this->datsId > 0){
 			echo '<tr><td><b>' . $this->getElement ( 'dataset' )->getLabel () . '</b></td><td colspan="3">' . $this->getElement ( 'dataset' )->toHTML () . '</td></tr>';
+		//}
 		echo '<tr><td><b>' . $this->getElement ( 'param' )->getLabel () . '</b></td><td colspan="3">' . $this->getElement ( 'param' )->toHTML () . '</td></tr>';
 		echo '<tr><td><b>' . $this->getElement ( 'flag' )->getLabel () . '</b></td><td>' . $this->getElement ( 'flag' )->toHTML () . '</td>';
 		echo '<td><b>' . $this->getElement ( 'delta' )->getLabel () . '</b></td><td>' . $this->getElement ( 'delta' )->toHTML () . '</td></tr>';
-		if ($this->search) {
-		} else {
+		/*if ($this->search) {
+			
+		} else {*/
 			echo "<tr><th colspan='4' align='center'>Period</th></tr>";
 			echo '<tr><td><b>' . $this->getElement ( 'date_min' )->getLabel () . '</b></td><td align="right">' . $this->getElement ( 'date_min' )->toHTML () . '</td>';
 			echo '<td><b>' . $this->getElement ( 'date_max' )->getLabel () . '</b></td><td align="right">' . $this->getElement ( 'date_max' )->toHTML () . '</td></tr>';
-		}
-		if ($this->search) {
-		} else {
+		//}
+		
+		//if (isset ( $this->datsId ) && $this->datsId > 0) {
 			echo "<tr><th colspan='4' align='center'>Zone</th></tr>";
 			echo "<tr><td colspan='4'>";
 			$this->displayFormMap ();
 			echo '</td></tr>';
-		}
+		//}
 		echo "<tr><th colspan='4' align='center'>Options</th></tr>";
 		echo '<tr><td><b>' . $this->getElement ( 'format' )->getLabel () . '</b></td><td colspan="3">' . $this->getElement ( 'format' )->toHTML () . '</td></tr>';
-		echo '<tr><td><b>' . $this->getElement ( 'format_version' )->getLabel () . '</b></td><td colspan="3">' . $this->getElement ( 'format_version' )->toHTML () . '</td></tr>';
+		//echo '<tr><td><b>' . $this->getElement ( 'format_version' )->getLabel () . '</b></td><td colspan="3">' . $this->getElement ( 'format_version' )->toHTML () . '</td></tr>';
 		echo '<tr><td><b>' . $this->getElement ( 'compression' )->getLabel () . '</b></td><td colspan="3">' . $this->getElement ( 'compression' )->toHTML () . '</td></tr>';
 		echo '<tr><th colspan="4" align="center">' . $this->getElement ( 'bouton_submit' )->toHTML () . '</th></tr>';
 		echo "</table>";
-		if ($this->search) {
-			echo $this->getElement ( 'date_min' )->toHTML ();
-			echo $this->getElement ( 'date_max' )->toHTML ();
+	/*	if ( !isset ( $this->datsId ) ) {
+			//echo $this->getElement ( 'date_min' )->toHTML ();
+			//echo $this->getElement ( 'date_max' )->toHTML ();
 			echo $this->getElement ( 'lon_min' )->toHTML ();
 			echo $this->getElement ( 'lon_max' )->toHTML ();
 			echo $this->getElement ( 'lat_min' )->toHTML ();
 			echo $this->getElement ( 'lat_max' )->toHTML ();
-		}
+		}*/
 		echo '</form>';
 	}
 }

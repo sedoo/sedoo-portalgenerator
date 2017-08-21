@@ -5,7 +5,7 @@
    $project_url="/";
    $titreMilieu="";
   ob_start();
-  include("frmsearch.php");
+  include("utils/elastic/advancedSearch.php");
 ?>
 <?php
   $milieu = ob_get_clean();

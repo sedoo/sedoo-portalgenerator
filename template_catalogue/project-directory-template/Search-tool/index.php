@@ -6,7 +6,7 @@ $project_name = "#project";
 $project_url = "/#project";
 $titreMilieu = "";
 ob_start ();
-include ("frmsearch.php");
+include("utils/elastic/advancedSearch.php");
 ?>
 <?php
 

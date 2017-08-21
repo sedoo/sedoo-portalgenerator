@@ -44,6 +44,11 @@ class inserted_dataset {
 		 $query = "SELECT * FROM inserted_dataset WHERE ins_dats_id in (SELECT ins_dats_id FROM dats_data WHERE dats_id = $id);";
          return $this->getByQuery($query);
 	}
+	
+	function getByDatsIds($ids) {
+			$query = "SELECT * FROM inserted_dataset WHERE ins_dats_id in (SELECT ins_dats_id FROM dats_data WHERE dats_id IN ($ids));";
+			return $this->getByQuery($query);
+	}
 
 	function existsForDatsId($id) {
 		 $query = "SELECT * FROM dats_data WHERE dats_id = $id LIMIT 1";

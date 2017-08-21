@@ -1,15 +1,15 @@
 <?php
 //require_once("ldap/portalUser.php");
 require_once("forms/download_form_ipsl.php");
+require_once ("utils/elastic/ElasticSearchUtils.php");
 
 session_start();
 $form = new download_form_ipsl();
 
-$db = $_REQUEST['target_database'];
-if (isset($db)){
-	echo "<h1>$db FTP Access</h1><br/>";
-}else{
-	echo "<h1>$project_name Data FTP Access</h1><br/>";
+echo "<h1>$project_name Data FTP Access</h1><br/>";
+
+if ( array_key_exists('terms',$_REQUEST) ){
+	ElasticSearchUtils::addBackToSearchResultLink();
 }
 
 /************************************************/
