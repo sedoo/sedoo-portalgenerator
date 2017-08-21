@@ -2,7 +2,7 @@
 <portal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <name>Passy</name>
-  <website>http://passy.sedoo.fr</website>
+  <website>https://passy.sedoo.fr</website>
   <googleAnalyticAccount>a creer</googleAnalyticAccount>
   <depot>/sites/passy/depot</depot>
   <faviconPath>/img/favicon.ico</faviconPath>
@@ -16,7 +16,7 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <footerTextDeveloperWebsite>http://www.obs-mip.fr/recherche/plates-formes/sedoo</footerTextDeveloperWebsite>
   <webPath>/sites/passy/catalogue</webPath>
   <portal_version>0.1.0</portal_version>
-  <dns>passy.sedoo.fr</dns>
+  <dns>passy-data.sedoo.fr</dns>
   <dataPath>/sites/passy/data</dataPath>
   <portalWorkPath>/sites/passy/work</portalWorkPath>
   <extractInformPi>true</extractInformPi>
