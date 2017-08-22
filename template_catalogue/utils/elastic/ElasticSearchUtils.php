@@ -5,7 +5,7 @@ require_once ('utils/elastic/dataset_json.php');
 require_once ("bd/url.php");
 require_once ("utils/elastic/ElasticClient.php");
 class ElasticSearchUtils {
-	private function queryToQueryArgs($query) {
+	private static function queryToQueryArgs($query) {
 		$query_array = array ();
 		
 		$query_array ['terms'] = $query ['keywords'];
@@ -53,7 +53,7 @@ class ElasticSearchUtils {
 	
 	
 	
-	function lstQueryData($query, $projectName) {
+	static function lstQueryData($query, $projectName) {
 		$client = new ElasticClient ();
 		$result = $client->searchDataset ( $query );
 		
@@ -86,7 +86,8 @@ class ElasticSearchUtils {
 			echo "</ul>";
 		}
 	}
-	function printDataset($datsId, $datsTitle, $withInsertedData, $projectName, $queryArgs = array(), $withTitle = false) {
+	
+	static function printDataset($datsId, $datsTitle, $withInsertedData, $projectName, $queryArgs = array(), $withTitle = false) {
 		$nodeConf = self::getDataNodeConf ( $datsId, $datsTitle, $withInsertedData, $projectName, $queryArgs );
 				
 		if ($withTitle == false)
@@ -115,7 +116,7 @@ class ElasticSearchUtils {
 		return $result;
 	}
 	
-	function getMultipleInsertedDatsLink($searchDatsIds, $projectName, $queryArgs = array()){
+	static function getMultipleInsertedDatsLink($searchDatsIds, $projectName, $queryArgs = array()){
 		
 		if (count($searchDatsIds) > 1){
 			$queryString = "";
@@ -127,13 +128,13 @@ class ElasticSearchUtils {
 			}
 			
 			$queryString = "searchDatsIds=".implode(',', $searchDatsIds).$queryString;
-			$url = "http://" . $_SERVER ['HTTP_HOST'] . "/Data-Download-BD/?$queryString";
+			$url = "/Data-Download-BD/?$queryString";
 			
 			return $url;
 		}
 	}
 	
-	function printLegende($projectName, $searchDatsIds = array(), $queryArg = array()) {
+	static function printLegende($projectName, $searchDatsIds = array(), $queryArg = array()) {
 		$legende = array ();
 		if (constant ( strtolower ( $projectName ) . '_HasBlueTag' ) == 'true'){
 			$legende ['Blue'] = 'Dataset files';
@@ -167,7 +168,7 @@ class ElasticSearchUtils {
 		echo "</ul></section>";
 	}
 	
-	function getDataNodeConf($datsId, $datsTitle, $withInsertedData, $projectName, $queryArgs = array()) {
+	static function getDataNodeConf($datsId, $datsTitle, $withInsertedData, $projectName, $queryArgs = array()) {
 		
 		$queryString = "";
 		if ( isset($projectName) && !empty($projectName) && !array_key_exists('project_name', $queryArgs )){
@@ -179,14 +180,14 @@ class ElasticSearchUtils {
 				
 		$nodeConf = array (
 				'text' => $datsTitle,
-				'link' => "http://" . $_SERVER ['HTTP_HOST'] . "/Data-Search/?datsId=$datsId$queryString",
+				'link' => "/Data-Search/?datsId=$datsId$queryString",
 				'datsId' => $datsId 
 		); 
 		$u = new url ();
 		$urls = $u->getByDataset ( $datsId );
 		foreach ( $urls as $url ) {
 			if ($url->url_type == 'local file') {
-				$nodeConf ['dataLink'] = "http://" . $_SERVER ['HTTP_HOST'] . "/Data-Download/?datsId=$datsId$queryString";
+				$nodeConf ['dataLink'] = "/Data-Download/?datsId=$datsId$queryString";
 				$nodeConf ['dataIcon'] = "/scripts/images/dataBlue.gif";
 				$nodeConf ['dataTitle'] = 'Dataset as provided by the Principal Investigator';
 			} else if ($url->url_type == 'ftp') {
@@ -202,7 +203,7 @@ class ElasticSearchUtils {
 						$nodeConf ['dataTitle'] = 'Dataset available in another database';
 					}
 				} else {
-					$nodeConf ['dataLink'] = "http://" . $_SERVER ['HTTP_HOST'] . "/Data-Download-IPSL/?LnkFTP=$url->url$queryString";
+					$nodeConf ['dataLink'] = "/Data-Download-IPSL/?LnkFTP=$url->url$queryString";
 					$nodeConf ['dataIcon'] = $root . "/scripts/images/dataBlue.gif";
 					$nodeConf ['dataTitle'] = 'Original dataset as provided by the Principal Investigator';
 				}
@@ -226,11 +227,11 @@ class ElasticSearchUtils {
 		
 		if ($withInsertedData) {
 			// Données insérées
-			$nodeConf ['bdLink'] = "http://" . $_SERVER ['HTTP_HOST'] . "/Data-Download-BD/?datsId=$datsId$queryString";
+			$nodeConf ['bdLink'] = "/Data-Download-BD/?datsId=$datsId$queryString";
 			$nodeConf ['bdIcon'] = "/scripts/images/dataGreen.gif";
 			$nodeConf ['bdTitle'] = 'Further selection';
 			
-			$nodeConf ['calLink'] = "http://" . $_SERVER ['HTTP_HOST'] . "/Data-Calendar/?datsId=$datsId$queryString";
+			$nodeConf ['calLink'] = "/Data-Calendar/?datsId=$datsId$queryString";
 			$nodeConf ['calIcon'] = "/scripts/images/dataYellow.gif";
 			$nodeConf ['calTitle'] = 'Data availability calendar';
 		}
@@ -240,7 +241,7 @@ class ElasticSearchUtils {
 		$bd = new bdConnect ();
 		$liste = array ();
 		if ($resultat = $bd->get_data ( $queryConf )) {
-			$nodeConf ['quicklooksLink'] = "http://" . $_SERVER ['HTTP_HOST'] . "/Data-QL/?datsId=$datsId$queryString";
+			$nodeConf ['quicklooksLink'] = "/Data-QL/?datsId=$datsId$queryString";
 			$nodeConf ['quicklooksIcon'] = "/scripts/images/dataPink.gif";
 			$nodeConf ['quicklooksTitle'] = 'Quicklooks';
 		}*/
@@ -250,7 +251,7 @@ class ElasticSearchUtils {
 		$bd = new bdConnect ();
 		$liste = array ();
 		if ($resultat = $bd->get_data ( $queryConf2 )) {
-			$nodeConf ['calLink'] = "http://" . $_SERVER ['HTTP_HOST'] . "/Data-Calendar/?simple&datsId=$datsId$queryString";
+			$nodeConf ['calLink'] = "/Data-Calendar/?simple&datsId=$datsId$queryString";
 			$nodeConf ['calIcon'] = "/scripts/images/dataYellow.gif";
 			$nodeConf ['calTitle'] = 'Data availability calendar';
 		}*/
@@ -260,7 +261,7 @@ class ElasticSearchUtils {
 		$bd = new bdConnect ();
 		$liste = array ();
 		if ($resultat = $bd->get_data ( $queryConf3 )) {
-			$nodeConf ['viewerLink'] = "http://" . $_SERVER ['HTTP_HOST'] . "/Data-Viewer/?datsId=$datsId$queryString";
+			$nodeConf ['viewerLink'] = "/Data-Viewer/?datsId=$datsId$queryString";
 			$nodeConf ['viewerIcon'] = "/scripts/images/dataLightBlue.gif";
 			$nodeConf ['viewerTitle'] = 'Data preview';
 		}
@@ -269,12 +270,12 @@ class ElasticSearchUtils {
 		
 		return $nodeConf;
 	}
-	function getQueryString() {
+	static function getQueryString() {
 		parse_str ( $_SERVER ["QUERY_STRING"], $query_array );
 		unset ( $query_array ['datsId'] );
 		return http_build_query ( $query_array );
 	}
-	function addBackToSearchResultLink() {
+	static function addBackToSearchResultLink() {
 		$queryString = ElasticSearchUtils::getQueryString ();
 		
 		$reqUri = "/Data-Search/?$queryString";

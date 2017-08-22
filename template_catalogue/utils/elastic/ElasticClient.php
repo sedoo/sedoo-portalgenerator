@@ -281,6 +281,9 @@ class ElasticClient {
 			$searchParams['body']['query']['query_string']['query'] = $q;
 		}
 
+		//print_r($searchParams);
+		//echo "<br/>";
+		
 		$retDoc = $this->client->search($searchParams);
 
 		if ($returnJson){

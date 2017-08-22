@@ -674,7 +674,7 @@ function editInSituDatasetSite(& $dataset,$project_name, $queryArgs = array()){
 		for($i = 0; $i < count ( $dataset->dats_sensors ); $i ++) {
 			$nb = $i + 1;
 			echo '</td></tr><tr><th colspan="4" align="center"><b>Instrument ' . $nb . '</b></th></tr>';
-			echo 'TEST';
+			//echo 'TEST';
 			print_r ( $dataset->dats_sensors [0]->gcmd_instrument_keyword );
 			echo "<tr><td><b>Instrument type</b></td><td colspan='3'>"./*$dataset->dats_sensors[$i]->sensor->gcmd_instrument_keyword->gcmd_sensor_name*/printGcmdInstrument ( $dataset->dats_sensors [0]->gcmd_instrument_keyword ) . "</td></tr>";
 			echo "<tr><td><b>Manufacturer</b></td><td colspan='3'>" . $dataset->dats_sensors [$i]->sensor->manufacturer->manufacturer_name;
