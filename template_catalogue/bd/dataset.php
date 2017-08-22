@@ -1278,7 +1278,8 @@ class dataset {
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars] = $sv;
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->variable = & $this->dats_variables [$j]->variable;
 							$gcmd = new gcmd_science_keyword ();
-							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->variable->gcmd = & $gcmd->getById ( $this->dats_variables [$j]->variable->gcmd_id );
+							
+							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->variable->gcmd = $gcmd->getById ( $this->dats_variables [$j]->variable->gcmd_id );
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->var_id = $sv->var_id;
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->unit = & $this->dats_variables [$j]->unit;
 							// $this->dats_sensors[$i]->sensor->sensor_vars[$nbVars]->methode_acq = & $this->dats_variables[$j]->methode_acq;

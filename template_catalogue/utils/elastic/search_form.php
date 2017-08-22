@@ -409,14 +409,19 @@ class search_form extends HTML_QuickForm {
 			$s = $gcmd->getById($this->gcmd_sensor);
 			$recherche['instrument'] = $s->gcmd_sensor_name;
 		}
-	
+			
 		if ( $this->latMin && $this->latMax && $this->lonMin && $this->lonMax) {
-			$recherche['zone'] = array(
+			if ( $this->latMin != MAP_DEFAULT_LAT_MIN
+					|| $this->latMax != MAP_DEFAULT_LAT_MAX
+					|| $this->lonMin != MAP_DEFAULT_LON_MIN
+					|| $this->lonMax != MAP_DEFAULT_LON_MAX ) {
+				$recherche['zone'] = array(
 					'west' => $this->lonMin,
 					'south' => $this->latMin,
 					'east' => $this->lonMax,
 					'north' => $this->latMax
-			);
+				);
+			}
 		}
 	
 		if ($this->filter_data_db) {

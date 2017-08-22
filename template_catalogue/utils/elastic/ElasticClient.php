@@ -24,6 +24,14 @@ class ElasticClient {
 		$params = array();
 		$params['hosts'] = array ($host);
 		$this->client = Elasticsearch\ClientBuilder::fromConfig($params);
+		
+		//Création de l'index s'il n'existe pas
+		$indexParams['index'] = self::ELASTIC_INDEX_NAME;
+		if ( ! $this->client->indices()->exists($indexParams) ){
+			$this->createIndex();
+			$this->indexAllDatasets();
+			$this->indexAllKeywords();
+		}
 	}
 
 	/*
@@ -273,6 +281,9 @@ class ElasticClient {
 			$searchParams['body']['query']['query_string']['query'] = $q;
 		}
 
+		//print_r($searchParams);
+		//echo "<br/>";
+		
 		$retDoc = $this->client->search($searchParams);
 
 		if ($returnJson){

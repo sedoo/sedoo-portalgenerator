@@ -22,7 +22,7 @@ class search_form_menu extends HTML_QuickForm{
 	}
 
 	function displayForm(){
-		$reqUri = "http://".$_SERVER['HTTP_HOST']."/Data-Search/?project_name=$this->projectName";
+		$reqUri = "/Data-Search/?project_name=$this->projectName";
 				
 		echo "<form action='$reqUri' method='post' name='frsearchmenu' id='frsearchmenu' >";
 		echo $this->getElement('search_project')->toHTML().$this->getElement('keywords_search_menu')->toHTML().'&nbsp;'.$this->getElement('bouton_search_menu')->toHTML();
