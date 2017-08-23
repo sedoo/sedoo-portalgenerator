@@ -170,7 +170,7 @@ function generatePHPFile($filepath, $confFile = 'default') {
 		if (! file_exists ( $result_array ['dataPath'] )) {
 			exec ( "mkdir -p " . $result_array ['dataPath'] );
 		}
-		$content .= "define('DATA_PATH', '" . $result_array ['dataPath'] . "' ));\n";
+		$content .= "define('DATA_PATH', '" . $result_array ['dataPath'] . "' );\n";
 	}else {
 		$content .= "define('DATA_PATH','');\n";
 	}
@@ -1109,12 +1109,12 @@ function generateConfdFile($server_name, $app_path) {
 
 // Extraction filter generation
 function generateExtractFilter() {
-	global $result_array;
+	global $result_array, $javaBin;
 	if (isset ( $result_array ['database'] ['password'] ) && ! empty ( $result_array ['database'] ['password'] ))
 		$db_password = $result_array ['database'] ['password'];
 	else
 		$db_password = '';
-	$content .= "log.level=INFO \n" . "log.appender=fileDlyAppender \n" . "\n#root_path = racine definie dans le template.xml \n" . "log.path=" . $result_array ['portalWorkPath'] . "/log \n" . "result.path=" . $result_array ['portalWorkPath'] . "/download \n" . "\n#A partir de l'élement database \n" . "db.host=" . $result_array ['database'] ['host'] . " \n" . "db.name=" . $result_array ['database'] ['name'] . " \n" . "db.username=" . $result_array ['database'] ['user'] . " \n" . "db.password=" . $db_password . " \n" . "\n#A partir de l'element ldap \n" . "ldap.host=" . $result_array ['ldap'] ['host'] . "\n" . "ldap.base=" . $result_array ['ldap'] ['base'] . " \n" . "\n#A partir du nom DNS configure dans le template \n" . "ui.dl=http://" . $result_array ['dns'] . "/extract/download.php \n" . "ui.dl.pub=http://" . $result_array ['dns'] . "/extract/downloadPub.php \n" . "\nxml.response.schema.uri=http://" . $result_array ['dns'] . "/extract/reponse \n" . "xml.response.schema.xsd=http://" . $result_array ['dns'] . "/extract/reponse.xsd \n" . "\n#bin defini dans le template.xml \n" . "java.bin=" . $javaBin['java_bin'] . " \n" . "\n#rootEmail \n" . "mail.admin=" . $result_array ['rootEmail'] . " \n" . "mail.from=" . $result_array ['rootEmail'] . " \n" . "mail.topic.prefix=[" . $result_array ['name'] . "-DATABASE] \n";
+	$content = "log.level=INFO \n" . "log.appender=fileDlyAppender \n" . "\n#root_path = racine definie dans le template.xml \n" . "log.path=" . $result_array ['portalWorkPath'] . "/log \n" . "result.path=" . $result_array ['portalWorkPath'] . "/download \n" . "\n#A partir de l'élement database \n" . "db.host=" . $result_array ['database'] ['host'] . " \n" . "db.name=" . $result_array ['database'] ['name'] . " \n" . "db.username=" . $result_array ['database'] ['user'] . " \n" . "db.password=" . $db_password . " \n" . "\n#A partir de l'element ldap \n" . "ldap.host=" . $result_array ['ldap'] ['host'] . "\n" . "ldap.base=" . $result_array ['ldap'] ['base'] . " \n" . "\n#A partir du nom DNS configure dans le template \n" . "ui.dl=http://" . $result_array ['dns'] . "/extract/download.php \n" . "ui.dl.pub=http://" . $result_array ['dns'] . "/extract/downloadPub.php \n" . "\nxml.response.schema.uri=http://" . $result_array ['dns'] . "/extract/reponse \n" . "xml.response.schema.xsd=http://" . $result_array ['dns'] . "/extract/reponse.xsd \n" . "\n#bin defini dans le template.xml \n" . "java.bin=" . $javaBin['java_bin'] . " \n" . "\n#rootEmail \n" . "mail.admin=" . $result_array ['rootEmail'] . " \n" . "mail.from=" . $result_array ['rootEmail'] . " \n" . "mail.topic.prefix=[" . $result_array ['name'] . "-DATABASE] \n";
 	generateFile ( "./extracteur/src/main/filters/PORTAL.properties", $content );
 }
 // extractor generation
