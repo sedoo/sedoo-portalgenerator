@@ -3,3 +3,5 @@ config.php
 /.settings/
 /.buildpath
 /.project
+
+template_catalogue/conf/doi.conf.php
