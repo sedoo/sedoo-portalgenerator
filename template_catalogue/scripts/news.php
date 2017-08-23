@@ -16,11 +16,11 @@ foreach($liste as $ligne){
        	//echo '<li>';
        	echo '<p>';
        	if ($ligne->type_id == TYPE_NEW){
-       		echo '<span class="pink_tag" style="font-size: 10px;" >NEW</span>';
+       		echo '<span class="pink_tag">NEW ';
        	}else if ($ligne->type_id == TYPE_UPDATE){
-       		echo '<span class="lightpink_tag" style="font-size: 10px;" >UPDATE</span>';
+       		echo '<span class="lightpink_tag">UPDATE ';
        	}
-        echo '<b>'.$ligne->date->format('Y-m-d').'</b>:&nbsp;';
+        echo $ligne->date->format('Y-m-d').'</span>';
 	echo printDataset($ligne->dataset);
         echo '<br><dfn>'.nl2br($ligne->comment).'</dfn>';
 	//echo '</li>';
