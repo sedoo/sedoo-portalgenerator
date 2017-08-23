@@ -11,16 +11,16 @@ function getAvailableDataLinks($dts,$project_name){
 	$nodeConf = getDataNodeConf($dts,$project_name);
 	$liste = array();
 	if (isset($nodeConf['dataLink'])){
-		$liste[] = '<a href="'.$nodeConf['dataLink'].'"><img width="15" height="16" class="text" src="'.$nodeConf['dataIcon'].'" />&nbsp;'.$nodeConf['dataTitle'].'</a>';
+		$liste[] = '<a href="'.$nodeConf['dataLink'].'"><span class="icon-folder-open" data-color="Blue"></span> '.$nodeConf['dataTitle'].'</a>';
 	}
 	if (isset($nodeConf['extDataLink'])){
-		$liste[] = '<a href="'.$nodeConf['extDataLink'].'" target="_blank"><img width="15" height="16" class="text" src="'.$nodeConf['extDataIcon'].'" />&nbsp;'.$nodeConf['extDataTitle'].'</a>';
+		$liste[] = '<a href="'.$nodeConf['extDataLink'].'" target="_blank"><span class="icon-folder-open" data-color="Purple"></span> '.$nodeConf['extDataTitle'].'</a>';
 	}
 	if (isset($nodeConf['bdLink'])){
-                $liste[] = '<a href="'.$nodeConf['bdLink'].'"><img width="15" height="16" class="text" src="'.$nodeConf['bdIcon'].'" />&nbsp;'.$nodeConf['bdTitle'].'</a>';
+                $liste[] = '<a href="'.$nodeConf['bdLink'].'"><span class="icon-folder-open" data-color="Green"></span> '.$nodeConf['bdTitle'].'</a>';
         }
 	if (isset($nodeConf['qlLink'])){
-                $liste[] = '<a href="'.$nodeConf['qlLink'].'" target="_blank"><img width="15" height="16" class="text" src="'.$nodeConf['qlIcon'].'" />&nbsp;'.$nodeConf['qlTitle'].'</a>';
+                $liste[] = '<a href="'.$nodeConf['qlLink'].'" target="_blank"><span class="icon-folder-open" data-color="Orange"></span> '.$nodeConf['qlTitle'].'</a>';
     }
     /*if (isset($nodeConf['quicklooksLink'])){
       	$liste[] = '<a href="'.$nodeConf['quicklooksLink'].'" ><img width="15" height="16" class="text" src="'.$nodeConf['quicklooksIcon'].'" />&nbsp;'.$nodeConf['quicklooksTitle'].'</a>';
