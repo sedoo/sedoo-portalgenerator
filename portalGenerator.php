@@ -166,6 +166,15 @@ function generatePHPFile($filepath, $confFile = 'default') {
 	$content .= "define('README_FILE','README');\n";
 	
 	$content .= comment ( "Répertoire des données" );
+	if (isset ( $result_array ['dataPath'] ) && ! empty ( $result_array ['dataPath'] )) {
+		if (! file_exists ( $result_array ['dataPath'] )) {
+			exec ( "mkdir -p " . $result_array ['dataPath'] );
+		}
+		$content .= "define('DATA_PATH', '" . $result_array ['dataPath'] . "' ));\n";
+	}else {
+		$content .= "define('DATA_PATH','');\n";
+	}
+	
 	if (isset ( $result_array ['portalWorkPath'] ) && ! empty ( $result_array ['portalWorkPath'] )) {
 		$content .= "define('portalWorkPath','" . $result_array ['portalWorkPath'] . "');\n";
 		$content .= comment ( "Répertoire où sont placés les fichiers à télécharger" );
@@ -179,7 +188,6 @@ function generatePHPFile($filepath, $confFile = 'default') {
 		$content .= comment ( "Répertoires des images et fichiers attachés" );
 		$content .= "define('ATT_FILES_PATH','" . $result_array ['portalWorkPath'] . "/attached');\n";
 	} else {
-		$content .= "define('DATA_PATH','');\n";
 		$content .= comment ( "Répertoire où sont placés les fichiers à télécharger" );
 		$content .= "define('DATA_PATH_DL','');\n";
 		$content .= comment ( "Fichier log téléchargement" );
@@ -194,9 +202,7 @@ function generatePHPFile($filepath, $confFile = 'default') {
 	if (! file_exists ( $result_array ['portalWorkPath'] )) {
 		exec ( "mkdir -p " . $result_array ['portalWorkPath'] );
 	}
-	if (! file_exists ( $result_array ['dataPath'] )) {
-		exec ( "mkdir -p " . $result_array ['dataPath'] );
-	}
+	
 	if (! file_exists ( $result_array ['portalWorkPath'] . "/dl" )) {
 		exec ( "mkdir -p " . $result_array ['portalWorkPath'] . "/dl" );
 	}
@@ -217,14 +223,14 @@ function generatePHPFile($filepath, $confFile = 'default') {
 	$content .= comment ( "//téléchargements des jeux insérés" );
 	if ($confFile == 'default') {
 		if (isset ( $result_array ['dns'] ) && ! empty ( $result_array ['dns'] )) {
-			$content .= "define('EXTRACT_CGI','http://" . $result_array ['dns'] . "/extract/cgi-bin/extract.cgi');\n";
-			$content .= "define('EXTRACT_CGI_FICHIERS','http://" . $result_array ['dns'] . "/extract/cgi-bin/extractFiles.cgi');\n";
+			$content .= "define('EXTRACT_CGI', '/extract/cgi-bin/extract.cgi');\n";
+			$content .= "define('EXTRACT_CGI_FICHIERS', '/extract/cgi-bin/extractFiles.cgi');\n";
 		} else {
 			$content .= "define('EXTRACT_CGI','');\n";
 			$content .= "define('EXTRACT_CGI_FICHIERS','');\n";
 		}
 		if (isset ( $result_array ['portalWorkPath'] ) && ! empty ( $result_array ['portalWorkPath'] ))
-			$content .= "define('EXTRACT_RESULT_PATH','" . $result_array ['portalWorkPath'] . "/download');\n";
+			$content .= "define('EXTRACT_RESULT_PATH','" . $result_array ['portalWorkPath'] . "/dl');\n";
 		else
 			$content .= "define('EXTRACT_RESULT_PATH','');\n";
 		if (isset ( $result_array ['extractInformPi'] ) && ! empty ( $result_array ['extractInformPi'] ))
@@ -232,8 +238,8 @@ function generatePHPFile($filepath, $confFile = 'default') {
 		else
 			$content .= "define('EXTRACT_INFORM_PI','');\n";
 	} else {
-		$content .= "define('EXTRACT_CGI','http://@extract.host@/extract/cgi-bin/extract.cgi');\n";
-		$content .= "define('EXTRACT_CGI_FICHIERS','http://@extract.host@/extract/cgi-bin/extractFiles.cgi');\n";
+		$content .= "define('EXTRACT_CGI','/extract/cgi-bin/extract.cgi');\n";
+		$content .= "define('EXTRACT_CGI_FICHIERS','/extract/cgi-bin/extractFiles.cgi');\n";
 		$content .= "define('EXTRACT_RESULT_PATH','@extract.result.path@');\n";
 		$content .= "define('EXTRACT_INFORM_PI','@extract.mail.pis@');\n";
 	}
@@ -1114,7 +1120,8 @@ function generateExtractFilter() {
 }
 // extractor generation
 function generateExtractor() {
-	global $Portal_name, $result_array;
+	global $Portal_name, $result_array, $javaBin;
+	exec ('cp ./target/' . strtolower ( $Portal_name ) . '_catalogue/extract/*.xsd ./input/extraction/template-catalogue-extract/cgi-bin/');
 	// exec("cd ./input/extraction/template-catalogue-extract");
 	exec ( "cd ./input/extraction/template-catalogue-extract; " . $javaBin['maven_bin'] . "/mvn package -Dcible=PORTAL -Dproject.name=" . strtolower ( $Portal_name ) . "_catalogue", $message );
 	echo "\n";
