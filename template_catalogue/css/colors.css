@@ -48,16 +48,16 @@ a:active {
 }
 
 [data-color="Blue"] {
-	color: #5475B6;
+	color: #1F7E9E;
 }
 [data-color="Green"] {
-	color: green;
+	color: #B6CC49;
 }
 [data-color="Purple"] {
-	color: purple;
+	color: #392b58;
 }
 [data-color="Orange"] {
-	color: orange;
+	color: #DD9946;
 }
 
 .pink_tag,
