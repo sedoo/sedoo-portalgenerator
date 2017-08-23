@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<requete xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://mistrals.sedoo.fr/extract/requete" xsi:schemaLocation="http://mistrals.sedoo.fr/extract/requete http://mistrals.sedoo.fr/extract/requete.xsd ">
-	<projet>MISTRALS</projet>
+<requete xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://sedoo.fr/extract/requete" xsi:schemaLocation="http://sedoo.fr/extract/requete requete.xsd ">
+	<projet>#MainProject</projet>
 	<selection>
 		<periode />
 		<zone />
