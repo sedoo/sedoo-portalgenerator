@@ -57,9 +57,9 @@ function editDOI($doi){
                 echo "<tr><td><b>Dataset DOI</b></td><td colspan='3'>$doi";
                 $f = fopen(DATACITE_CITATION.$doi,'r');
                 if ($f){
-                        echo '<br/><b>How to cite: </b>'.fgets($f);
+                        echo '<p><strong>How to cite: </strong>'.fgets($f).'</p>';
                 }
-                echo '<a target="_blank" class="lightblue_tag" href="'.DATACITE_BIBTEX.$doi.'" style="color: white;" title="Export to BibTeX">BibTeX</a>';
+                echo '<a target="_blank" class="btn_tag" href="'.DATACITE_BIBTEX.$doi.'" title="Export to BibTeX">Export to BibTeX</a>';
                 echo "</td></tr>";
         }
 }
@@ -80,15 +80,15 @@ function editDataAvailability(& $dataset, $projectName, $queryArgs = array()){
 				echo '<div style="overflow:auto;height:150px;">';
 			}
 			foreach ($journal as $jEntry){
-				echo '<p style="font-size: 12px;">';
+				echo '<p>';
 				if ($jEntry->type_id == TYPE_NEW){
-					echo '<span class="pink_tag" style="font-size: 10px;" >ISSUE</span>';
+					echo '<span class="pink_tag">ISSUE ';
 				}else if ($jEntry->type_id == TYPE_UPDATE){
-					echo '<span class="lightpink_tag" style="font-size: 10px;">UPDATE</span>';
+					echo '<span class="lightpink_tag">UPDATE ';
 				}
-				echo '<b>'.$jEntry->date->format('Y-m-d').'</b>';
+				echo $jEntry->date->format('Y-m-d').'</span>';
 				if (isset($jEntry->comment) && !empty($jEntry->comment)){
-					echo '<br/>'.$jEntry->comment;
+					echo $jEntry->comment;
 				}
 				echo '</p>';
 			}
@@ -572,15 +572,15 @@ function editDataset($datsId, $project_name, $display_archived = false, $queryAr
 					
 					foreach ( $journal as $jEntry ) {
 						// echo '<td colspan="3">';
-						echo '<p style="font-size: 12px;">';
+						echo '<p>';
 						if ($jEntry->type_id == TYPE_ARCHIVE) {
-							echo '<span class="blue_tag" style="font-size: 10px;" >ARCHIVE</span>';
+							echo '<span class="blue_tag">ARCHIVE ';
 						} else if ($jEntry->type_id == TYPE_UNARCHIVE) {
-							echo '<span class="lightblue_tag" style="font-size: 10px;">UNARCHIVE</span>';
+							echo '<span class="lightblue_tag">UNARCHIVE ';
 						}
-						echo '<b>' . $jEntry->date->format ( 'Y-m-d' ) . '</b>';
+						echo $jEntry->date->format ( 'Y-m-d' ) . '</span>';
 						if (isset ( $jEntry->comment ) && ! empty ( $jEntry->comment )) {
-							echo '<br/>' . $jEntry->comment;
+							echo $jEntry->comment;
 						}
 						echo '</p>';
 					}

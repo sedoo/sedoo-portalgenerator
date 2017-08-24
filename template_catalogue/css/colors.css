@@ -46,16 +46,56 @@ a:active {
 [data-color="Orange"] {
 	font-size: 1.5em;
 }
-
+/* dataLink */
 [data-color="Blue"] {
-	color: #5475B6;
+	color: #1F7E9E;
 }
+/* bdLink */
 [data-color="Green"] {
-	color: green;
+	color: #B6CC49;
 }
+/* extDataLink */
 [data-color="Purple"] {
-	color: purple;
+	color: #392b58;
 }
+/* qlLink */
 [data-color="Orange"] {
-	color: orange;
+	color: #DD9946;
+}
+
+.pink_tag,
+.lightpink_tag,
+.blue_tag, 
+.lightblue_tag {
+	display: inline-block;
+	margin-bottom: 5px;
+	padding: 2px 11px;
+    border-radius: 4px;
+    color: white;    
+}
+
+.pink_tag {
+	background: #e56399;
+}
+.lightpink_tag {
+	background: #DF95B3;
+}
+
+.blue_tag {
+	background: #1C5D75;
+}
+.lightblue_tag {
+	background: #288d9f;
+}
+
+.btn_tag {
+background: #f0f0f0 none repeat scroll 0 0;
+border: 1px solid rgb(170, 170, 170);
+border-radius: 4px;
+color: rgb(0, 0, 0);
+display: inline-block;
+margin: 5px;
+padding: 2px 11px;
+text-align: center;
+text-decoration: none;
 }

@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.sedoo</groupId>
+	<artifactId>portalgenerator-extracteur</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0.0</version>
+	<name>template-catalogue-extract</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<cible>PORTAL</cible>
+		<maven.test.skip>true</maven.test.skip>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>fr.sedoo</groupId>
+			<artifactId>sedoo-portalgenerator-extractor</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>extracteur</finalName>
+		<filters>
+			<filter>src/main/filters/${cible}.properties</filter>
+		</filters>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/assembly/zip.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>sourcesup-releases</id>
+			<url>http://sourcesup.renater.fr/nexus/content/repositories/reposedoo-releases/</url>
+		</repository>
+		<repository>
+			<id>sourcesup-snapshots</id>
+			<url>http://sourcesup.renater.fr/nexus/content/repositories/reposedoo-snapshots/</url>
+		</repository>
+		<repository>
+			<id>unidata-releases</id>
+			<name>Unidata repository</name>
+			<url>http://artifacts.unidata.ucar.edu/content/repositories/unidata-releases/</url>
+		</repository>
+	</repositories>
+</project>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://sedoo.fr/extract/requete_files" 
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+		xmlns:req="http://sedoo.fr/extract/requete_files">
+    <xsd:element name="requete_files" type="req:requete_Type"></xsd:element>
+
+    <xsd:complexType name="requete_Type">
+    	<xsd:sequence>
+    		<xsd:element name="projet" maxOccurs="1" minOccurs="1" type="xsd:string"></xsd:element>
+    		<xsd:element name="utilisateur" type="req:utilisateur_Type"
+    			maxOccurs="1" minOccurs="1">
+    		</xsd:element>
+    		<xsd:element name="compression" maxOccurs="1"
+    			minOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:enumeration value="gzip"></xsd:enumeration>
+    					<xsd:enumeration value="zip"></xsd:enumeration>
+    					<xsd:enumeration value="none"></xsd:enumeration>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="selection">
+    			<xsd:complexType>
+    				<xsd:sequence>
+    					<xsd:element name="datsId" type="xsd:int">
+    					</xsd:element>
+                        <xsd:element name="racine" type="xsd:string">
+    					</xsd:element>
+                        <xsd:element name="file" maxOccurs="unbounded"
+                        	minOccurs="1">
+                        	<xsd:simpleType>
+                        		<xsd:restriction base="xsd:string">
+                        			<xsd:minLength value="10"></xsd:minLength>
+                        		</xsd:restriction>
+                        	</xsd:simpleType>
+                        </xsd:element>
+                        
+    				</xsd:sequence>
+    			</xsd:complexType>
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+
+
+
+
+    <xsd:complexType name="datasets_Type">
+    	<xsd:sequence>
+    		<xsd:element name="dats_id" type="xsd:int" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    
+
+    <xsd:complexType name="utilisateur_Type">
+    	<xsd:sequence>
+    		<xsd:element name="utilisateur_email" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+    		<xsd:element name="utilisateur_nom" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+    		<xsd:element name="utilisateur_institute" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+
+
+</xsd:schema>

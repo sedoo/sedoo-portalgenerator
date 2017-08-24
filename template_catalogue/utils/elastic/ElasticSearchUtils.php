@@ -96,16 +96,16 @@ class ElasticSearchUtils {
 			$result = "<a href='" . $nodeConf ['link'] . "'>View</a><br>";
 		
 		if (isset ( $nodeConf ['dataLink'] )) {
-			$result .= '&nbsp;&nbsp;<a href="' . $nodeConf ['dataLink'] . '"><img width="15" height="16" class="text" src="' . $nodeConf ['dataIcon'] . '" title="' . $nodeConf ['dataTitle'] . '" /></a>';
+			$result .= '&nbsp;&nbsp;<a href="' . $nodeConf ['dataLink'] . '"><span class="icon-folder-open" data-color="Blue" title="' . $nodeConf ['dataTitle'] . '"></span></a>';
 		}
 		if (isset ( $nodeConf ['extDataLink'] )) {
-			$result .= '&nbsp;&nbsp;<a href="' . $nodeConf ['extDataLink'] . '" target="_blank"><img width="15" height="16" class="text" src="' . $nodeConf ['extDataIcon'] . '" title="' . $nodeConf ['extDataTitle'] . '" /></a>';
+			$result .= '&nbsp;&nbsp;<a href="' . $nodeConf ['extDataLink'] . '" target="_blank"><span class="icon-folder-open" data-color="Purple" title="' . $nodeConf ['extDataTitle'] . '"></span></a>';
 		}
 		if (isset ( $nodeConf ['bdLink'] )) {
-			$result .= '&nbsp;&nbsp;<a href="' . $nodeConf ['bdLink'] . '"><img width="15" height="16" class="text" src="' . $nodeConf ['bdIcon'] . '" title="' . $nodeConf ['bdTitle'] . '" /></a>';
+			$result .= '&nbsp;&nbsp;<a href="' . $nodeConf ['bdLink'] . '"><span class="icon-folder-open" data-color="Green" title="' . $nodeConf ['bdTitle'] . '" ></span></a>';
 		}
 		if (isset ( $nodeConf ['qlLink'] )) {
-			$result .= '&nbsp;&nbsp;<a href="' . $nodeConf ['qlLink'] . '" target="_blank"><img width="15" height="16" class="text" src="' . $nodeConf ['qlIcon'] . '" title="' . $nodeConf ['qlTitle'] . '" /></a>';
+			$result .= '&nbsp;&nbsp;<a href="' . $nodeConf ['qlLink'] . '" target="_blank"><span class="icon-folder-open" data-color="Orange" title="' . $nodeConf ['qlTitle'] . '" ></span></a>';
 		}
 		if (isset ( $nodeConf ['viewerLink'] )) {
 			$result .= '&nbsp;&nbsp;<a href="' . $nodeConf ['viewerLink'] . '" ><img width="15" height="16" class="text" src="' . $nodeConf ['viewerIcon'] . '" title="' . $nodeConf ['viewerTitle'] . '" /></a>';
