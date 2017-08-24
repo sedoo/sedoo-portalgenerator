@@ -2,9 +2,11 @@
 <portal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <name>Passy</name>
+  <path>/sites/passy</path>
   <website>https://passy.sedoo.fr</website>
   <googleAnalyticAccount>a creer</googleAnalyticAccount>
-  <depot>/sites/passy/depot</depot>
+  <SSLCertificateFile>/etc/apache2/ssl/passy.crt</SSLCertificateFile>
+  <SSLCertificateKeyFile>/etc/apache2/ssl/passy.key</SSLCertificateKeyFile>
   <faviconPath>/img/favicon.ico</faviconPath>
   <bannerHeight>100px</bannerHeight>
   <displayBannerTitle>false</displayBannerTitle>
@@ -14,15 +16,11 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <footerTextPeriod>2015</footerTextPeriod>
   <footerTextDeveloper>Sedoo</footerTextDeveloper>
   <footerTextDeveloperWebsite>http://www.obs-mip.fr/recherche/plates-formes/sedoo</footerTextDeveloperWebsite>
-  <webPath>/sites/passy/catalogue</webPath>
-  <portal_version>0.1.0</portal_version>
   <dns>passy-data.sedoo.fr</dns>
-  <dataPath>/sites/passy/data</dataPath>
-  <portalWorkPath>/sites/passy/work</portalWorkPath>
-  <extractInformPi>true</extractInformPi>
+  <extractInformPi>false</extractInformPi>
   <publicDataRole>public</publicDataRole>
   <wkhtmlBinPath>/usr/bin/wkhtmltopdf</wkhtmlBinPath>
-  <doiPrefix>10.6096/</doiPrefix>
+  <doiPrefix>10.5072/</doiPrefix>
   <testMode>false</testMode>
   <ftp>ftp://passy.sedoo.fr</ftp>
   <adminGroupEmail>passyAdmin@sedoo.fr</adminGroupEmail>

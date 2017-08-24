@@ -20,6 +20,18 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
+    		<xsd:element name="path" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le répertoire racine où tout sera installé
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
     		<xsd:element name="website" minOccurs="1" maxOccurs="1">
     			<xsd:annotation>
     				<xsd:documentation>
@@ -45,15 +57,29 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
-    		<xsd:element name="depot" minOccurs="1" maxOccurs="1">
+    		<xsd:element name="SSLCertificateFile" minOccurs="0"
+    			maxOccurs="1">
     			<xsd:annotation>
     				<xsd:documentation>
-    					Le répertoire du dépôt des données
+    					chemin absolu vers le certificat pour la directive SSLCertificateFile d'apache
     				</xsd:documentation>
     			</xsd:annotation>
     			<xsd:simpleType>
     				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="SSLCertificateKeyFile" minOccurs="0"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					chemin absolu vers la clé pour la directive SSLCertificateKeyFile d'apache
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
@@ -178,61 +204,10 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
-    		<xsd:element name="webPath" minOccurs="1" maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Le chemin du répertoire du portail
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="portal_version" minOccurs="1"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					La version du portail
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
     		<xsd:element name="dns" minOccurs="1" maxOccurs="1">
     			<xsd:annotation>
     				<xsd:documentation>
     					le nom dns du portail
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>    		
-    		<xsd:element name="dataPath" minOccurs="1" maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Répertoire des données
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="portalWorkPath" minOccurs="1"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Répertoire où sont placés les fichiers à
-    					télécharger
     				</xsd:documentation>
     			</xsd:annotation>
     			<xsd:simpleType>
