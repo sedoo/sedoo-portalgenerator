@@ -105,7 +105,7 @@ class ElasticSearchUtils {
 			$result .= '&nbsp;&nbsp;<a href="' . $nodeConf ['bdLink'] . '"><span class="icon-folder-open" data-color="Green" title="' . $nodeConf ['bdTitle'] . '" ></span></a>';
 		}
 		if (isset ( $nodeConf ['qlLink'] )) {
-			$result .= '&nbsp;&nbsp;<a href="' . $nodeConf ['qlLink'] . '" target="_blank"><img width="15" height="16" class="text" src="' . $nodeConf ['qlIcon'] . '" title="' . $nodeConf ['qlTitle'] . '" /></a>';
+			$result .= '&nbsp;&nbsp;<a href="' . $nodeConf ['qlLink'] . '" target="_blank"><span class="icon-folder-open" data-color="Orange" title="' . $nodeConf ['qlTitle'] . '" ></span></a>';
 		}
 		if (isset ( $nodeConf ['viewerLink'] )) {
 			$result .= '&nbsp;&nbsp;<a href="' . $nodeConf ['viewerLink'] . '" ><img width="15" height="16" class="text" src="' . $nodeConf ['viewerIcon'] . '" title="' . $nodeConf ['viewerTitle'] . '" /></a>';
