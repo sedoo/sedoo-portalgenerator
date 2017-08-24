@@ -27,9 +27,9 @@ else {
 	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&type=3&proj=1">Download history</a>
 	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&type=1&proj=1">Email notifications</a>
 	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&type=2&proj=1">Data updates</a>
-	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&add">Add a news (data update)</a>
+	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&add=1">Add a news (data update)</a>
 	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&type=5">Changes</a>
-	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&type=5&add">Add a change</a>
+	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&type=5&add=1">Add a change</a>
 </section>
 
 <section>
