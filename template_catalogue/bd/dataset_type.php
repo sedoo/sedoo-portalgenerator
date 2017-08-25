@@ -7,8 +7,14 @@
  */
  	require_once("bd/bdConnect.php");
  	
- 	class dataset_type
- 	{
+ 	class dataset_type{
+ 		
+ 		const TYPE_SATELLITE = 'SATELLITE';
+ 		const TYPE_MODEL = 'MODEL';
+ 		const TYPE_VALUE_ADDED = 'VALUE-ADDED DATASET';
+ 		const TYPE_INSTRUMENT = 'INSTRUMENT';
+ 		const TYPE_MULTI_INSTRU = 'MULTI-INSTRUMENT';
+ 		
  		var $dats_type_id;
  		var $dats_type_title;
  		var $dats_type_desc;
@@ -51,15 +57,13 @@
       		return $dataset_type;
     	}
     	
-    	function getByType($name)
-    	{
+    	function getByType($name){
       		if (!isset($name) || empty($name))
         		return new dataset_type;
 
       		$query = "select * from dataset_type where lower(dats_type_title) = lower('".$name."')";
       		$bd = new bdConnect;
-      		if ($resultat = $bd->get_data($query))
-      		{
+      		if ($resultat = $bd->get_data($query)){
         		$dataset_type = new dataset_type;
         		$dataset_type->new_dataset_type($resultat[0]);
       		}

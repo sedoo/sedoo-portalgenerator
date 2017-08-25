@@ -57,7 +57,7 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
-    		<xsd:element name="SSLCertificateFile" minOccurs="0"
+    		<xsd:element name="SSLCertificateFile" minOccurs="1"
     			maxOccurs="1">
     			<xsd:annotation>
     				<xsd:documentation>
@@ -66,11 +66,11 @@
     			</xsd:annotation>
     			<xsd:simpleType>
     				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="0"></xsd:minLength>
+    					<xsd:minLength value="10"></xsd:minLength>
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
-    		<xsd:element name="SSLCertificateKeyFile" minOccurs="0"
+    		<xsd:element name="SSLCertificateKeyFile" minOccurs="1"
     			maxOccurs="1">
     			<xsd:annotation>
     				<xsd:documentation>
@@ -79,10 +79,36 @@
     			</xsd:annotation>
     			<xsd:simpleType>
     				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="10"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="aerisProgram" minOccurs="0"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Nom du programme dans le catalogue aeris (nom du projet par défaut)
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
     					<xsd:minLength value="0"></xsd:minLength>
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
+    		<xsd:element name="aerisDefaultCollection" minOccurs="0"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Collection par défaut dans le catalogue Aeris (nom du projet par défaut)
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>    		
     		<xsd:element name="faviconPath" minOccurs="1"
     			maxOccurs="1">
     			<xsd:annotation>

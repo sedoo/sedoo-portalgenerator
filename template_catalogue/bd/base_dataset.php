@@ -32,9 +32,9 @@ require_once("bd/variable.php");
 require_once("bd/sensor_var.php");
 require_once("scripts/mail.php");
 require_once("sortie/fiche2pdf_functions.php");
-require_once("bd/dataset2xml.php");
 require_once("bd/idataset.php");
 require_once("scripts/displayUtils.php");
+require_once ("utils/elastic/ElasticClient.php");
 
 abstract class base_dataset implements iDataset{
 	
@@ -85,6 +85,11 @@ abstract class base_dataset implements iDataset{
 	var $is_requested;
 
 	var $is_archived;
+	
+	var $dats_funding;
+	var $dats_dmetmaj;
+	var $code;
+	var $dats_uuid;
 
 	//Pour l'affichage
 	var $nbPis;
@@ -154,6 +159,11 @@ abstract class base_dataset implements iDataset{
 		$this->dats_creator = $tab[29];
 
 		$this->is_archived = $tab[30];
+		
+		$this->dats_funding = $tab [31];
+		$this->dats_dmetmaj = $tab [32];
+		$this->code = $tab [33];
+		$this->dats_uuid = $tab [34];
 
 		if (isset($this->status_final_id) && !empty($this->status_final_id))
 		{
@@ -461,7 +471,14 @@ abstract class base_dataset implements iDataset{
 			$this->sendMailDataset();
 			//error_log('[DEBUG] dataset.insert - Insertion réussie, dats_id = '.$this->dats_id."\n",3,LOG_FILE);
 			log_debug('dataset.insert - Insertion réussie, dats_id = '.$this->dats_id);
-			dataset2xml($this);
+			
+			try{
+				$client = new ElasticClient();
+				$client->indexDataset($this);
+			}catch(Exception $ex){
+				log_error ( 'dataset index update - ' . $ex->getMessage () );
+			}
+						
 			return true;
 		}catch(Exception $e){
 			//echo 'Dataset.insert() - Exception reçue : ',  $e->getMessage(), "<br>";
@@ -517,6 +534,11 @@ abstract class base_dataset implements iDataset{
 		{
 			$query_insert .= ",data_policy_id";
 			$query_values .= ",".$this->data_policy_id;
+		}
+		if (isset($this->dats_doi) && !empty($this->dats_doi))
+		{
+			$query_insert .= ",dats_doi";
+			$query_values .= ",'".$this->dats_doi."'";
 		}
 		if (isset($this->status_final_id) && !empty($this->status_final_id))
 		{
@@ -661,7 +683,14 @@ abstract class base_dataset implements iDataset{
 			$this->sendMailDataset();
 			//error_log('[DEBUG] dataset.update - Maj réussie, dats_id = '.$this->dats_id."\n",3,LOG_FILE);
 			log_debug('dataset.update - Maj réussie, dats_id = '.$this->dats_id);
-			dataset2xml($this);
+			
+			try{
+				$client = new ElasticClient();
+				$client->indexDataset($this);
+			}catch(Exception $ex){
+				log_error ( 'dataset index update - ' . $ex->getMessage () );
+			}
+			
 			return true;
 				
 		}catch(Exception $e){
@@ -710,7 +739,11 @@ abstract class base_dataset implements iDataset{
 		}else{
 			$query .= ",bound_id=null";
 		}
-
+		if (isset($this->dats_doi) && !empty($this->dats_doi)){
+			$query .= ",dats_doi='".$this->dats_doi."'";
+		}else{
+			$query .= ",dats_doi=null";
+		}
 		if (isset($this->database_id) && !empty($this->database_id) && $this->database_id != -1)
 		{
 			$query .= ",database_id=".$this->database_id;
@@ -1011,6 +1044,9 @@ abstract class base_dataset implements iDataset{
 		//echo "base_dataset_to_string()<br/>";
 		$result = "Dataset id: ".$this->dats_id."\n";
 		$result .= 'Dataset title: '.$this->dats_title."\n";
+		if (isset($this->dats_doi)){
+			$result .= 'Dataset doi: '.$this->dats_doi."\n";
+		}
 		$result .= 'Creator: '.$this->dats_creator."\n";
 		$result .= "Projects:\n";
 		for ($i = 0; $i < count($this->projects); $i++){
@@ -1071,30 +1107,19 @@ abstract class base_dataset implements iDataset{
 		return $result;
 			
 	}
-	 
-	protected function sendMailErreur(Exception $e){
-		sendMail('mistralsdb@sedoo.fr','[MISTRALS] Catalogue - Erreur',$e->getMessage()."\n\n".$this->toString(),$this->image);
+
+	protected function sendMailErreur(Exception $e) {
+		sendMail ( Portal_AdminGroup_Email, '[' . MainProject . '] Catalogue - Erreur', $e->getMessage () . "\n\n" . $this->toString (), $this->image );
+	}
+	
+	protected function sendMailDataset() {
+		$fichePdf = fiche2pdf ( $this->dats_id, true );
+		sendMail ( Portal_AdminGroup_Email, '[' . MainProject . '] Catalogue - Dataset ok', $this->toString (), array (
+				$this->image,
+				$fichePdf
+		) );
 	}
 
-	protected function sendMailDataset(){
-		//TODO
-		//$fichePdf =	fiche2pdf($this->dats_id,true);
-
-		sendMail('mistralsdb@sedoo.fr','[MISTRALS] Catalogue - Dataset ok',$this->toString());//,array($this->image,$fichePdf));
-	}
-
-	 /*
-	public function isSatelliteDataset(){
-		return $this->datasetTypeEquals('SATELLITE');
-	}
-
-	public function isModelDataset(){
-		return $this->datasetTypeEquals('MODEL');
-	}
-
-	public function isValueAddedDataset(){
-		return $this->datasetTypeEquals('VALUE-ADDED DATASET');
-	}*/
 
 	public function isInsertedDataset() {
 		$bd = new bdConnect;
@@ -1117,15 +1142,7 @@ abstract class base_dataset implements iDataset{
 		//log_error('is '.$type.' dataset: false');
 		return false;
 	}*/
-		
-	public function insertXml($xml){
-		$this->bdConn = new bdConnect;
-		$this->bdConn->db_open();
-		$query = "update dataset set dats_xml = '".$xml."' where dats_id = ".$this->dats_id;
-		$this->bdConn->update($query);
-		$this->bdConn->db_close();
-	}
-
+	
 	public function set_requested($requested){
 		if ($requested)	{
 			$query = "update dataset set is_requested = true where dats_id = ".$this->dats_id;
