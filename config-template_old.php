@@ -36,10 +36,10 @@ $apacheConf = array(
 ************/
 
 $databaseConf = array(
-	'host' 			=> 'shiva', 
-	'db_name'		=> 'mistrals_catalogue_like',
-	'db_user' 		=> 'wwwadm', 
-	'db_password'	=> '',
+	'host' 			=> 'DB-HOST', 
+	'db_name'		=> 'DB-NAME',
+	'db_user' 		=> 'DB-USER', 
+	'db_password'	=> 'DB-PASSWD',
 
 );
 

@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-include('config.php');
+include('config-template.php');
 
 define ( 'Portal_ldap_id', '9' );
 define ( 'REP_LDAP', '/export1/eurequa/ldap' );
@@ -116,8 +116,8 @@ function generatePHPFile($filepath, $confFile = 'default') {
 	else
 		$content .= "define('PortalGoogleAnalytic','');\n";
 	$content .= comment ( "Répertoire pour les dépots ftp" );
-	if (isset ( $result_array ['portalWorkPath']) && ! empty ( $result_array ['portalWorkPath']))
-		$content .= "define('PORTAL_DEPOT','" . $result_array ['portalWorkPath']. "/depot');\n";
+	if (isset ( $result_array ['depot'] ) && ! empty ( $result_array ['depot'] ))
+		$content .= "define('PORTAL_DEPOT','" . $result_array ['depot'] . "');\n";
 	else
 		$content .= "define('PORTAL_DEPOT','');\n";
 	$content .= comment ( "Favicon du portail" );
@@ -173,15 +173,15 @@ function generatePHPFile($filepath, $confFile = 'default') {
 	if (isset ( $result_array ['portalWorkPath'] ) && ! empty ( $result_array ['portalWorkPath'] )) {
 		$content .= "define('portalWorkPath','" . $result_array ['portalWorkPath'] . "');\n";
 		$content .= comment ( "Répertoire où sont placés les fichiers à télécharger" );
-		$content .= "define('DATA_PATH_DL','" . $result_array ['portalWorkPath'] . "/work/dl');\n";
+		$content .= "define('DATA_PATH_DL','" . $result_array ['portalWorkPath'] . "/dl');\n";
 		$content .= comment ( "Fichier log téléchargement" );
-		$content .= "define('LOG_DL','" . $result_array ['portalWorkPath'] . "/work/log/dl.log');\n";
+		$content .= "define('LOG_DL','" . $result_array ['portalWorkPath'] . "/log/dl.log');\n";
 		$content .= comment ( "Fichier de log utilisé par logger.php (log des requetes sql)" );
-		$content .= "define('LOG_FILE','" . $result_array ['portalWorkPath'] . "/work/log/catalogue.log');\n";
+		$content .= "define('LOG_FILE','" . $result_array ['portalWorkPath'] . "/log/catalogue.log');\n";
 		$content .= comment ( "Répertoire où sont les fichiers permettant de générer les cartes (liste des points à afficher)" );
-		$content .= "define('MAP_PATH','" . $result_array ['portalWorkPath'] . "/work/maps');\n";
+		$content .= "define('MAP_PATH','" . $result_array ['portalWorkPath'] . "/maps');\n";
 		$content .= comment ( "Répertoires des images et fichiers attachés" );
-		$content .= "define('ATT_FILES_PATH','" . $result_array ['portalWorkPath'] . "/work/attached');\n";
+		$content .= "define('ATT_FILES_PATH','" . $result_array ['portalWorkPath'] . "/attached');\n";
 	} else {
 		$content .= "define('DATA_PATH','');\n";
 		$content .= comment ( "Répertoire où sont placés les fichiers à télécharger" );
@@ -195,39 +195,26 @@ function generatePHPFile($filepath, $confFile = 'default') {
 		$content .= comment ( "Répertoires des images et fichiers attachés" );
 		$content .= "define('ATT_FILES_PATH','');\n";
 	}
-	if (! file_exists ( $result_array ['portalWorkPath']  )) {
+	if (! file_exists ( $result_array ['portalWorkPath'] )) {
 		exec ( "mkdir -p " . $result_array ['portalWorkPath'] );
 	}
-	if (! file_exists ( $result_array ['portalWorkPath'] . "/depot" ) ) {
-		exec ( "mkdir -p " . $result_array ['portalWorkPath'] . "/depot");
+	if (! file_exists ( $result_array ['dataPath'] )) {
+		exec ( "mkdir -p " . $result_array ['dataPath'] );
 	}
-	if (! file_exists ( $result_array ['portalWorkPath'] . "/data" ) ) {
-		exec ( "mkdir -p " . $result_array ['portalWorkPath'] . "/data");
+	if (! file_exists ( $result_array ['portalWorkPath'] . "/dl" )) {
+		exec ( "mkdir -p " . $result_array ['portalWorkPath'] . "/dl" );
 	}
-	if (! file_exists ( $result_array ['portalWorkPath'] . "/work/dl" )) {
-		exec ( "mkdir -p " . $result_array ['portalWorkPath'] . "work/dl" );
+	if (! file_exists ( $result_array ['portalWorkPath'] . "/log" )) {
+		exec ( "mkdir -p " . $result_array ['portalWorkPath'] . "/log" );
 	}
-	if (! file_exists ( $result_array ['portalWorkPath'] . "/work/log" )) {
-		exec ( "mkdir -p " . $result_array ['portalWorkPath'] . "/work/log" );
+	if (! file_exists ( $result_array ['portalWorkPath'] . "/maps" )) {
+		exec ( "mkdir -p " . $result_array ['portalWorkPath'] . "/maps" );
 	}
-	if (! file_exists ( $result_array ['portalWorkPath'] . "/work/maps" )) {
-		exec ( "mkdir -p " . $result_array ['portalWorkPath'] . "/work/maps" );
-	}
-	if (! file_exists ( $result_array ['portalWorkPath'] . "/backup" ) ) {
-		exec ( "mkdir -p " . $result_array ['portalWorkPath'] . "/backup");
-	}
-	if (! file_exists ( $result_array ['portalWorkPath'] . "/ldap" ) ) {
-		exec ( "mkdir -p " . $result_array ['portalWorkPath'] . "/ldap");
-	}
-	
 	$content .= comment ( "répertoire du site web" );
-	if (isset ( $result_array ['portalWorkPath'] ) && ! empty ( $result_array ['portalWorkPath'] ))
-		$content .= "define('WEB_PATH','" . $result_array ['portalWorkPath'] . "/catalogue');\n";
+	if (isset ( $result_array ['webPath'] ) && ! empty ( $result_array ['webPath'] ))
+		$content .= "define('WEB_PATH','" . $result_array ['webPath'] . "');\n";
 	else
 		$content .= "define('WEB_PATH','');\n";
-		if (! file_exists ( $result_array ['portalWorkPath'] ."/catalogue" )) {
-			exec ( "mkdir -p " . $result_array ['portalWorkPath'] ."/catalogue" );
-		}
 	$content .= comment ( "//téléchargements des jeux insérés" );
 	if ($confFile == 'default') {
 		if (isset ( $result_array ['dns'] ) && ! empty ( $result_array ['dns'] )) {
@@ -238,7 +225,7 @@ function generatePHPFile($filepath, $confFile = 'default') {
 			$content .= "define('EXTRACT_CGI_FICHIERS','');\n";
 		}
 		if (isset ( $result_array ['portalWorkPath'] ) && ! empty ( $result_array ['portalWorkPath'] ))
-			$content .= "define('EXTRACT_RESULT_PATH','" . $result_array ['portalWorkPath'] . "/work/download');\n";
+			$content .= "define('EXTRACT_RESULT_PATH','" . $result_array ['portalWorkPath'] . "/download');\n";
 		else
 			$content .= "define('EXTRACT_RESULT_PATH','');\n";
 		if (isset ( $result_array ['extractInformPi'] ) && ! empty ( $result_array ['extractInformPi'] ))
@@ -845,7 +832,7 @@ function generatePHPFile($filepath, $confFile = 'default') {
 	global $Projects, $Portal_name, $database, $app_path;
 	$Projects = explode ( ',', $mainprojects . ',' . $otherprojects );
 	$Portal_name = $result_array ['name'];
-	$app_path = $result_array ['portalWorkPath'];
+	$app_path = $result_array ['webPath'];
 	$database = array (
 			"0" => $result_array ['database'] ['host'],
 			"1" => $result_array ['database'] ['user'],
@@ -1094,7 +1081,7 @@ function generateLdapCreationScript() {
 // PHP server configuration
 function generateConfdFile($server_name, $app_path) {
 	global $Portal_name;
-	$content .= "<VirtualHost *:80> \n" . "\t ServerName $server_name \n" . "\t DocumentRoot $app_path/catalogue. \n" . "\t CustomLog    /var/log/httpd/access_log." . strtolower ( $Portal_name ) . " combined \n" . "\t ErrorLog     /var/log/httpd/error_log." . strtolower ( $Portal_name ) . " \n" . "\t <Directory $app_path/catalogue> \n" . "\t\t php_value include_path \".:/usr/share/pear:/usr/share/php:$app_path/catalogue/scripts:$app_path/catalogue/:$app_path/catalogue/template:/usr/share/php/jpgraph\" \n" . "\t </Directory> \n" . "\t <Directory $app_path/att_img> \n" . "\t\t AllowOverride All \n" . "\t </Directory> \n" . "\t ScriptAlias /extract/cgi-bin/ /www/" . strtolower ( $Portal_name ) . "-extract/cgi-bin/ \n" . "</VirtualHost> \n";
+	$content .= "<VirtualHost *:80> \n" . "\t ServerName $server_name \n" . "\t DocumentRoot $app_path \n" . "\t CustomLog    /var/log/httpd/access_log." . strtolower ( $Portal_name ) . " combined \n" . "\t ErrorLog     /var/log/httpd/error_log." . strtolower ( $Portal_name ) . " \n" . "\t <Directory $app_path> \n" . "\t\t php_value include_path \".:/usr/share/pear:/usr/share/php:$app_path/scripts:$app_path/:$app_path/template:/usr/share/php/jpgraph\" \n" . "\t </Directory> \n" . "\t <Directory $app_path/att_img> \n" . "\t\t AllowOverride All \n" . "\t </Directory> \n" . "\t ScriptAlias /extract/cgi-bin/ /www/" . strtolower ( $Portal_name ) . "-extract/cgi-bin/ \n" . "</VirtualHost> \n";
 	generateFile ( './target/apache/' . strtolower ( $Portal_name ) . '.conf', $content );
 }
 
@@ -1105,7 +1092,7 @@ function generateExtractFilter() {
 		$db_password = $result_array ['database'] ['password'];
 	else
 		$db_password = '';
-	$content .= "log.level=INFO \n" . "log.appender=fileDlyAppender \n" . "\n#root_path = racine definie dans le template.xml \n" . "log.path=" . $result_array ['portalWorkPath'] . "work/log \n" . "result.path=" . $result_array ['portalWorkPath'] . "work/download \n" . "\n#A partir de l'élement database \n" . "db.host=" . $result_array ['database'] ['host'] . " \n" . "db.name=" . $result_array ['database'] ['name'] . " \n" . "db.username=" . $result_array ['database'] ['user'] . " \n" . "db.password=" . $db_password . " \n" . "\n#A partir de l'element ldap \n" . "ldap.host=" . $result_array ['ldap'] ['host'] . "\n" . "ldap.base=" . $result_array ['ldap'] ['base'] . " \n" . "\n#A partir du nom DNS configure dans le template \n" . "ui.dl=http://" . $result_array ['dns'] . "/extract/download.php \n" . "ui.dl.pub=http://" . $result_array ['dns'] . "/extract/downloadPub.php \n" . "\nxml.response.schema.uri=http://" . $result_array ['dns'] . "/extract/reponse \n" . "xml.response.schema.xsd=http://" . $result_array ['dns'] . "/extract/reponse.xsd \n" . "\n#bin defini dans le template.xml \n" . "java.bin=" . $javaBin['java_bin'] . " \n" . "\n#rootEmail \n" . "mail.admin=" . $result_array ['rootEmail'] . " \n" . "mail.from=" . $result_array ['rootEmail'] . " \n" . "mail.topic.prefix=[" . $result_array ['name'] . "-DATABASE] \n";
+	$content .= "log.level=INFO \n" . "log.appender=fileDlyAppender \n" . "\n#root_path = racine definie dans le template.xml \n" . "log.path=" . $result_array ['portalWorkPath'] . "/log \n" . "result.path=" . $result_array ['portalWorkPath'] . "/download \n" . "\n#A partir de l'élement database \n" . "db.host=" . $result_array ['database'] ['host'] . " \n" . "db.name=" . $result_array ['database'] ['name'] . " \n" . "db.username=" . $result_array ['database'] ['user'] . " \n" . "db.password=" . $db_password . " \n" . "\n#A partir de l'element ldap \n" . "ldap.host=" . $result_array ['ldap'] ['host'] . "\n" . "ldap.base=" . $result_array ['ldap'] ['base'] . " \n" . "\n#A partir du nom DNS configure dans le template \n" . "ui.dl=http://" . $result_array ['dns'] . "/extract/download.php \n" . "ui.dl.pub=http://" . $result_array ['dns'] . "/extract/downloadPub.php \n" . "\nxml.response.schema.uri=http://" . $result_array ['dns'] . "/extract/reponse \n" . "xml.response.schema.xsd=http://" . $result_array ['dns'] . "/extract/reponse.xsd \n" . "\n#bin defini dans le template.xml \n" . "java.bin=" . $javaBin['java_bin'] . " \n" . "\n#rootEmail \n" . "mail.admin=" . $result_array ['rootEmail'] . " \n" . "mail.from=" . $result_array ['rootEmail'] . " \n" . "mail.topic.prefix=[" . $result_array ['name'] . "-DATABASE] \n";
 	generateFile ( "./target/extraction/PORTAL.properties", $content );
 	generateFile ( "./input/extraction/template-catalogue-extract/src/main/filters/PORTAL.properties", $content );
 }
@@ -1175,7 +1162,7 @@ if (isset ( $argv [1] ) && ! empty ( $argv [1] ))
 libxml_use_internal_errors ( true );
 $xml = new DOMDocument ();
 $xml->load ( $xmlFile_path );
-if (! $xml->schemaValidate ( './input/projet-template.xsd' )) {
+if (! $xml->schemaValidate ( './input/projet-template_old.xsd' )) {
 	print 'DOMDocument::schemaValidate() Generated Errors!';
 	libxml_display_errors ();
 } else {
@@ -1216,6 +1203,8 @@ if (! $xml->schemaValidate ( './input/projet-template.xsd' )) {
 	exec ( "cp ./input/.htaccess " . path . "/att_img/" );
 	// copie des images dans le répertoire image du projet généré
 	ScanDirectory ( './input/img' );
+	echo './input/img';
+	file_exists('./input/img')? 'existe et '. (is_dir('./input/img')? 'est un dossier':'n\'est pas un dossier'):'n\'existe pas';
 	foreach ( $Files_list as $img ) {
 		exec ( "cp $img " . path . "/img/" );
 	}

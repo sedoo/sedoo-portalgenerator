@@ -45,6 +45,18 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
+    		<xsd:element name="depot" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le répertoire du dépôt des données
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
     		<xsd:element name="faviconPath" minOccurs="1"
     			maxOccurs="1">
     			<xsd:annotation>
@@ -124,6 +136,73 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
+    		<xsd:element name="footerTextPeriod" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					L'année du développement du portail au niveau du
+    					pied de page
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="footerTextDeveloper" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le nom du développeur du portail au niveau du
+    					pied de page
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="footerTextDeveloperWebsite" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le lien du site web du développeur au niveau du
+    					pied de page
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="webPath" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le chemin du répertoire du portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="portal_version" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					La version du portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
     		<xsd:element name="dns" minOccurs="1" maxOccurs="1">
     			<xsd:annotation>
     				<xsd:documentation>
@@ -136,6 +215,18 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>    		
+    		<xsd:element name="dataPath" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Répertoire des données
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
     		<xsd:element name="portalWorkPath" minOccurs="1"
     			maxOccurs="1">
     			<xsd:annotation>
@@ -633,6 +724,18 @@
     			<xsd:simpleType>
     				<xsd:restriction base="xsd:string">
     					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="depot" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Répertoires pour les dépots ftp
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>

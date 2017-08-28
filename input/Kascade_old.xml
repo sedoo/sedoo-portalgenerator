@@ -4,14 +4,23 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <name>KASCADE</name>
   <website>http://kascade.sedoo.fr</website>
   <googleAnalyticAccount>UA-74848043-1</googleAnalyticAccount>
+  <depot>/home/kascade</depot>
   <faviconPath>/img/favicon.ico</faviconPath>
   <bannerHeight>100px</bannerHeight>
   <displayBannerTitle>true</displayBannerTitle>
   <displayLogoOnBanner>false</displayLogoOnBanner>
   <logoPath>/img/logo_mistrals.jpg</logoPath>
   <topbarPath>/img/bg_head_middle2.jpg</topbarPath>
+  <footerTextPeriod>2015</footerTextPeriod>
+  <footerTextDeveloper>Sedoo</footerTextDeveloper>
+  <footerTextDeveloperWebsite>http://www.obs-mip.fr/recherche/plates-formes/sedoo</footerTextDeveloperWebsite>
+  <webPath>/export1/kascade/catalogue</webPath>
+  <portal_version>0.1.0</portal_version>
   <dns>kascade.sedoo.fr</dns>
-  <portalWorkPath>/export1/kascade</portalWorkPath>
+  <!-- java_bin>/usr/local/j2sdk/bin</java_bin-->
+  <!-- maven_bin>/usr/local/maven/bin</maven_bin-->
+  <dataPath>/export1/kascade/data</dataPath>
+  <portalWorkPath>/export1/kascade/work</portalWorkPath>
   <extractInformPi>false</extractInformPi>
   <publicDataRole>public</publicDataRole>
   <wkhtmlBinPath>/usr/bin/wkhtmltopdf</wkhtmlBinPath>
