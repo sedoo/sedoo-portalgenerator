@@ -1,19 +1,11 @@
 <?php
 require_once ("forms/mod_form.php");
 require_once ("forms/validation.php");
-require_once ("editDataset.php");
+//require_once ("editDataset.php");
+
 require_once ("scripts/upload.php");
 
-if ($project_name != MainProject) {
-	if ($_SERVER ['HTTP_REFERER'] == constant(strtolower( $project_name ) .'WebSite')){
-		$_SESSION ['username'] = strtolower($project_name);
-	}
-} else {
-	if ($_SERVER ['HTTP_REFERER'] == PORTAL_WebSite){
-		$_SESSION ['username'] = strtolower($project_name);
-	}
-}
-
+require_once ("bd/dataset_factory.php");
 
 // include 'login.php';
 
@@ -22,10 +14,17 @@ $form->createLoginForm ();
 
 // user loggé
 // if (isset($form->user)){
-if(isset($_REQUEST['datsId']) && !empty($_REQUEST['datsId']))
+
+if (array_key_exists('datsId', $_REQUEST)){
 	$datsId = $_REQUEST ['datsId'];
-if(isset($_REQUEST['requested']) && !empty($_REQUEST['requested']))
-		$requested = $_REQUEST['requested'];
+}
+
+if (array_key_exists('requested', $_REQUEST)){
+	$requested = $_REQUEST ['requested'];
+}else{
+	$requested = false;
+}
+
 if (! isset ( $datsId ) || empty ( $datsId )) {
 	$datsId = $_SESSION ['datsId_tmp'];
 	$_SESSION ['datsId_tmp'] = null;
@@ -34,8 +33,7 @@ if (! isset ( $datsId ) || empty ( $datsId )) {
 // Creation et affichage du formulaire
 if (isset ( $datsId ) && ! empty ( $datsId )) {
 	// echo 'charge le dataset '.$datsId.'<br>';
-	$form->dataset = new dataset ();
-	$form->dataset = $form->dataset->getById ( $datsId );
+	$form->dataset = dataset_factory::createModelDatasetById($datsId);
 	$_SESSION ['datasetMod'] = serialize ( $form->dataset );
 } else if (isset ( $_SESSION ['datasetMod'] )) {
 	// echo 'dataset trouvé dans la session<br>';
@@ -44,8 +42,9 @@ if (isset ( $datsId ) && ! empty ( $datsId )) {
 if ($form->isCat ( $form->dataset, $project_name )) {
 	if (! isset ( $form->dataset )) {
 		// echo 'creation dataset<br>';
-		$form->dataset = new dataset ();
-		$form->dataset = $form->dataset->getById ( 0 );
+		//$form->dataset = new dataset ();
+		$form->dataset = new model_dataset ();
+		//$form->dataset = $form->dataset->getById ( 0 );
 		
 		$form->dataset->nbPis = 1;
 		$form->dataset->nbSites = 1;
@@ -58,7 +57,7 @@ if ($form->isCat ( $form->dataset, $project_name )) {
 	
 	$form->dataset->dataset_types = array ();
 	$form->dataset->dataset_types [0] = new dataset_type ();
-	$form->dataset->dataset_types [0] = $form->dataset->dataset_types [0]->getByType ( 'MODEL' );
+	$form->dataset->dataset_types [0] = $form->dataset->dataset_types [0]->getByType ( dataset_type::TYPE_MODEL );
 	
 	$form->createForm ();
 	
@@ -84,13 +83,13 @@ if ($form->isCat ( $form->dataset, $project_name )) {
 	} else if (isset ( $_POST ['bouton_add_variable'] )) {
 		$form->saveForm ();
 		$form->dataset->nbVars ++;
-		$form->addVariableMod ( $form->dataset->nbVars );
+		$form->addVariableMod ();
 		$form->displayForm ();
 		$_SESSION ['datasetMod'] = serialize ( $form->dataset );
 	} else if (isset ( $_POST ['bouton_add_pi'] )) {
 		$form->saveForm ();
 		$form->dataset->nbPis ++;
-		$form->addPi ( $form->dataset->nbPis );
+		$form->addPi ( );
 		$form->displayForm ();
 		$_SESSION ['datasetMod'] = serialize ( $form->dataset );
 	} else if (isset ( $_POST ['bouton_add_projet'] )) {
@@ -116,7 +115,9 @@ if ($form->isCat ( $form->dataset, $project_name )) {
 				echo "<font size=\"3\" color='green'><b>The dataset has been succesfully inserted in the database</b></font><br>";
 				
 				$_SESSION ['datasetMod'] = null;
-				editDataset ( $form->dataset->dats_id, $project_name );
+				//editDataset ( $form->dataset->dats_id, $project_name );
+				$dts = dataset_factory::createModelDatasetById($form->dataset->dats_id);
+				$dts->display($project_name);
 			} else {
 				echo "<font size=\"3\" color='red'><b>An error occured during the insertion process.</b></font><br>";
 				

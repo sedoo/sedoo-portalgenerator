@@ -11,7 +11,7 @@ class sat_form_simple extends base_form{
 				
 			$this->addElement('submit','bouton_add_pi','Add a contact',array('onclick' => "document.getElementById('frmsat').action += '#a_contact'"));
 												
-			for ($i = 0; $i < $this->dataset->nbSites-1; $i++){
+			for ($i = 0; $i < $this->dataset->nbSites; $i++){
 				$this->createFormSat($i,$simpleVersion);
 			}
 			
@@ -30,7 +30,7 @@ class sat_form_simple extends base_form{
 			$this->addElement($dformat_select);
 
 			
-			$this->getElement('organism_0')->setLabel("Organism short name");
+			$this->getElement('organism_0')->setLabel("Organization short name");
 			$this->getElement('project_0')->setLabel("Useful in the framework of");
 			$this->getElement('methode_acq_0')->setLabel("Acquisition methodology and processing");
 			if ($simpleVersion){
@@ -51,6 +51,9 @@ class sat_form_simple extends base_form{
 			
 			$this->getElement('data_format_0')->setLabel("Original data format");
 			
+			$place = new place;
+			$categ_select = $place->chargeFormSatCategs($this,'sat_categ','Data type');
+			$this->addElement($categ_select);
 			
 			
 		}
@@ -75,8 +78,8 @@ class sat_form_simple extends base_form{
 			$array = array();
             $array[0] = "";
 
-			if ( isset($this->dataset->sites[$i+1]) && !empty($this->dataset->sites[$i+1]) && $this->dataset->sites[$i+1]->place_id > 0){
-				$satId = $this->dataset->sites[$i+1]->place_id;
+			if ( isset($this->dataset->sats[$i]) && !empty($this->dataset->sats[$i]) && $this->dataset->sats[$i]->place_id > 0){
+				$satId = $this->dataset->sats[$i]->place_id;
 			}else{
 				$satId = $this->exportValue('satellite_'.$i);
 			}
@@ -109,9 +112,7 @@ class sat_form_simple extends base_form{
 			$this->createFormSat($this->dataset->nbSites - 1);
 		}
 			
-		function addProjet(){
-         	       $this->createFormProject($this->dataset->nbProj-1);
-        	}
+
 	
 		function initForm(){
 			$this->initFormBase();
@@ -119,17 +120,20 @@ class sat_form_simple extends base_form{
 			
 			//Coverage
 			$this->initFormGeoCoverage();
-						
+
+			if (isset($this->dataset->dataType) && !empty($this->dataset->dataType)){
+				$this->getElement('sat_categ')->setSelected($this->dataset->dataType->place_id);
+			}
 			//echo 'nb site: '.$this->dataset->nbSites.'<br>';
 				
-			for ($i = 0; $i < $this->dataset->nbSites-1; $i++){
+			for ($i = 0; $i < $this->dataset->nbSites; $i++){
 					
-				if (isset($this->dataset->sites) && !empty($this->dataset->sites)){
+				if (isset($this->dataset->sats) && !empty($this->dataset->sats)){
 					//Satellite
 					
-					if ( isset($this->dataset->sites[$i+1]) && !empty($this->dataset->sites[$i+1]) ){
-						$this->getElement('satellite_'.$i)->setSelected($this->dataset->sites[$i+1]->place_id);
-						$this->getElement('new_satellite_'.$i)->setValue($this->dataset->sites[$i+1]->place_name);
+					if ( isset($this->dataset->sats[$i]) && !empty($this->dataset->sats[$i]) ){
+						$this->getElement('satellite_'.$i)->setSelected($this->dataset->sats[$i]->place_id);
+						$this->getElement('new_satellite_'.$i)->setValue($this->dataset->sats[$i]->place_name);
 					}
 
 				}
@@ -142,12 +146,11 @@ class sat_form_simple extends base_form{
 					
 				//Instrument
 				//echo 'initForm sensor_id:'.$this->dataset->dats_sensors[0]->sensor->sensor_id.'<br>';
-				if(isset($this->dataset->dats_sensors[$i]->sensor->sensor_id) && !empty($this->dataset->dats_sensors[$i]->sensor->sensor_id))
+				if (isset($this->dataset->dats_sensors[$i]->sensor) && !empty($this->dataset->dats_sensors[$i]->sensor)){
 					$this->getElement('instrument_'.$i)->setSelected($this->dataset->dats_sensors[$i]->sensor->sensor_id);
-				if(isset($this->dataset->dats_sensors[$i]->sensor->sensor_id) && !empty($this->dataset->dats_sensors[$i]->sensor->sensor_model))
 					$this->getElement('new_instrument_'.$i)->setValue($this->dataset->dats_sensors[$i]->sensor->sensor_model);
-				if(isset($this->dataset->dats_sensors[$i]->sensor->sensor_id) && !empty($this->dataset->dats_sensors[$i]->sensor->sensor_url))
 					$this->getElement('sensor_url_'.$i)->setValue($this->dataset->dats_sensors[$i]->sensor->sensor_url);
+				}
 
 			}
 			
@@ -177,22 +180,26 @@ class sat_form_simple extends base_form{
 			//Coverage
 			$this->saveFormGeoCoverage();
 			
+			//Data type
+			$this->dataset->dataType = new place;
+			$this->dataset->dataType = $this->dataset->dataType->getById($this->exportValue('sat_categ'));
+			
 			//echo 'nb site: '.$this->dataset->nbSites.'<br>';
 			
 			//Sat
 			$this->dataset->dats_sensors = array();
-			for ($i = 0; $i < $this->dataset->nbSites-1; $i++){
-				$this->dataset->sites[$i+1] = new place;
-				$this->dataset->sites[$i+1]->place_id = $this->exportValue('satellite_'.$i);
-				$this->dataset->sites[$i+1]->place_name = $this->exportValue('new_satellite_'.$i);
+			for ($i = 0; $i < $this->dataset->nbSites; $i++){
+				$this->dataset->sats[$i] = new place;
+				$this->dataset->sats[$i]->place_id = $this->exportValue('satellite_'.$i);
+				$this->dataset->sats[$i]->place_name = $this->exportValue('new_satellite_'.$i);
 					
-				$this->dataset->sites[$i+1]->gcmd_plateform_keyword = new gcmd_plateform_keyword;
-				$this->dataset->sites[$i+1]->gcmd_plateform_keyword = $this->dataset->sites[$i+1]->gcmd_plateform_keyword->getByName("Satellites");
-				$this->dataset->sites[$i+1]->gcmd_plat_id = & $this->dataset->sites[$i+1]->gcmd_plateform_keyword->gcmd_plat_id;
+				$this->dataset->sats[$i]->gcmd_plateform_keyword = new gcmd_plateform_keyword;
+				$this->dataset->sats[$i]->gcmd_plateform_keyword = $this->dataset->sats[$i]->gcmd_plateform_keyword->getByName("Satellites");
+				$this->dataset->sats[$i]->gcmd_plat_id = & $this->dataset->sats[$i]->gcmd_plateform_keyword->gcmd_plat_id;
 					
-				$this->dataset->sites[$i+1]->bound_id = -1;
-				if (empty($this->dataset->sites[$i+1]->place_name)){
-					$this->dataset->sites[$i+1]->place_id = -1;
+				$this->dataset->sats[$i]->bound_id = -1;
+				if (empty($this->dataset->sats[$i]->place_name)){
+					$this->dataset->sats[$i]->place_id = -1;
 				}
 
 				//echo "save site $i: ".$this->dataset->sites[$i+1]->place_name.'<br>';
@@ -305,9 +312,9 @@ class sat_form_simple extends base_form{
 				$this->addRule('pi_name_'.$i,'Contact '.($i+1).': Name exceeds the maximum length allowed (250 characters)','maxlength',250);
 				$this->addRule('email1_'.$i,'Contact '.($i+1).': email1 is incorrect','email');
 				$this->addRule('email2_'.$i,'Contact '.($i+1).': email2 is incorrect','email');
-				$this->addRule('org_fname_'.$i,'Contact '.($i+1).': Organism full name exceeds the maximum length allowed (250 characters)','maxlength',250);
-				$this->addRule('org_sname_'.$i,'Contact '.($i+1).': Organism short name exceeds the maximum length allowed (50 characters)','maxlength',50);
-				$this->addRule('org_url_'.$i,'Contact '.($i+1).': Organism url exceeds the maximum length allowed (250 characters)','maxlength',250);
+				$this->addRule('org_fname_'.$i,'Contact '.($i+1).': Organization full name exceeds the maximum length allowed (250 characters)','maxlength',250);
+				$this->addRule('org_sname_'.$i,'Contact '.($i+1).': Organization short name exceeds the maximum length allowed (50 characters)','maxlength',50);
+				$this->addRule('org_url_'.$i,'Contact '.($i+1).': Organization url exceeds the maximum length allowed (250 characters)','maxlength',250);
 				$this->addRule('email1_'.$i,'Contact '.($i+1).': email1 exceeds the maximum length allowed (250 characters)','maxlength',250);
 				$this->addRule('email2_'.$i,'Contact '.($i+1).': email2 exceeds the maximum length allowed (250 characters)','maxlength',250);
 	
@@ -335,17 +342,17 @@ class sat_form_simple extends base_form{
 	
 				if ($i != 0){
 					$this->addRule('pi_name_'.$i,'Contact '.($i+1).': email1 is required','contact_email_required',array($this,$i));
-					$this->addRule('pi_name_'.$i,'Contact '.($i+1).': organism is required','contact_organism_required',array($this,$i));
+					$this->addRule('pi_name_'.$i,'Contact '.($i+1).': organization is required','contact_organism_required',array($this,$i));
 				}
 			}
 			
-			for ($i = 0; $i < $this->dataset->nbSites-1; $i++){
+			for ($i = 0; $i < $this->dataset->nbSites; $i++){
 				if ( !$simpleVersion && ($i == 0) ){
 					$this->addRule('satellite_'.$i,'Instrument: satellite is required','couple_not_null',array($this,'new_satellite_'.$i));
 					$this->addRule('instrument_'.$i,'Instrument: instrument is required','couple_not_null',array($this,'new_instrument_'.$i));
 				}
 				//Sat
-				if (isset($this->dataset->sites[$i+1]) && !empty($this->dataset->sites[$i+1]) && $this->dataset->sites[$i+1]->place_id > 0){
+				if (isset($this->dataset->sats[$i]) && !empty($this->dataset->sats[$i]) && $this->dataset->sats[$i]->place_id > 0){
 					$this->disableElement('new_satellite_'.$i);
 				}else{
 					$this->addRule('new_satellite_'.$i,'Instrument: This satellite name is already present in the database. Select it in the drop-down list or chose another name.','existe',array('place','place_name'));
@@ -441,6 +448,8 @@ class sat_form_simple extends base_form{
    			echo "&nbsp;<img src='/img/aide-icone-16.png' onmouseout='kill()' onmouseover=\"javascript:bulle('','<br>Enter the title you want to give to your request')\" style='border:0px; margin-right:10px;' />";
    			echo '</td></tr>';
    			
+   			echo '<tr><td><font color="#467AA7">'.$this->getElement('sat_categ')->getLabel().'</font></td><td colspan="3">'.$this->getElement('sat_categ')->toHTML().'</td></tr>';
+   			echo '<tr><td><font>'.$this->getElement('dats_doi')->getLabel().'</font></td><td colspan="3">'.$this->getElement('dats_doi')->toHTML().'</td></tr>';
    			if (!$simpleVersion)
    				echo '<tr><td>'.$this->getElement('dats_version')->getLabel().'</td><td>'.$this->getElement('dats_version')->toHTML().'</td><td colspan="2" /></tr>';
    			
@@ -463,8 +472,8 @@ class sat_form_simple extends base_form{
    				echo '<tr name="gen_desc"><td>'.$this->getElement('dats_reference')->getLabel().'</td><td colspan="3">'.$this->getElement('dats_reference')->toHTML().'</td></tr>';   		
 	
    			echo '<tr><th colspan="4" align="center"><a name="a_site" ></a><a name="a_instru" ></a><b>Provide instrument information if you know it</b></td></tr>';
-   			for ($i = 0; $i < $this->dataset->nbSites-1; $i++){
-   				if ($this->dataset->nbSites > 2){
+   			for ($i = 0; $i < $this->dataset->nbSites; $i++){
+   				if ($this->dataset->nbSites > 1){
    					echo '<tr><td colspan="4" align="center"><b>Instrument '.($i+1).'</b></td></tr>';
    				}
    				$this->displayErrorsInstrument($i);

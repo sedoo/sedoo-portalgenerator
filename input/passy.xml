@@ -7,6 +7,8 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <googleAnalyticAccount>a creer</googleAnalyticAccount>
   <SSLCertificateFile>/etc/apache2/ssl/passy.crt</SSLCertificateFile>
   <SSLCertificateKeyFile>/etc/apache2/ssl/passy.key</SSLCertificateKeyFile>
+  <aerisProgram>Passy</aerisProgram>
+  <aerisDefaultCollection>Passy-2015</aerisDefaultCollection>
   <faviconPath>/img/favicon.ico</faviconPath>
   <bannerHeight>100px</bannerHeight>
   <displayBannerTitle>false</displayBannerTitle>
@@ -26,7 +28,13 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <adminGroupEmail>passyAdmin@sedoo.fr</adminGroupEmail>
   <rootEmail>passyRoot@sedoo.fr</rootEmail>
   <managerEmail>passyManager@sedoo.fr</managerEmail>
+  <datapolicy>true</datapolicy>
   <homePage>0</homePage>
+  <roles>
+  	<role>passy2015Core</role>
+  	<role>regularUsers</role>
+  	<role>associatedScientists</role>
+  </roles>
   <database>
       <host>postgres</host>
       <name>passy_catalogue</name>
@@ -65,8 +73,8 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
 	  <HasModelRequest>false</HasModelRequest>
 	  <HasSatelliteRequest>false</HasSatelliteRequest>
 	  <HasInsituRequest>false</HasInsituRequest>
-	  <HasModelOutputs>false</HasModelOutputs>
-	  <HasSatelliteProducts>false</HasSatelliteProducts>
+	  <HasModelOutputs>true</HasModelOutputs>
+	  <HasSatelliteProducts>true</HasSatelliteProducts>
 	  <HasInsituProducts>true</HasInsituProducts>
 	  <HasMultiInsituProducts>true</HasMultiInsituProducts>
 	  <HasValueAddedProducts>false</HasValueAddedProducts>

@@ -35,6 +35,7 @@ require_once("sortie/fiche2pdf_functions.php");
 require_once("bd/idataset.php");
 require_once("scripts/displayUtils.php");
 require_once ("utils/elastic/ElasticClient.php");
+require_once ("sedoo-metadata/sedoo_metadata_utils.php");
 
 abstract class base_dataset implements iDataset{
 	
@@ -514,12 +515,15 @@ abstract class base_dataset implements iDataset{
 
 		$this->insert_originators();
 
-
 		$query_insert = "insert into dataset (dats_title,dats_pub_date";
 		if (!isset($this->dats_pub_date) || empty($this->dats_pub_date) || ($this->dats_pub_date == '--'))
 			$query_values = "values ('".str_replace("'","\'",$this->dats_title)."',now()";
 		else
 			$query_values = "values ('".str_replace("'","\'",$this->dats_title)."','".$this->dats_pub_date."'";
+		
+		$query_insert .= ",dats_uuid";
+		$query_values .= ",'" . sedooMetadataRandomUUID() . "'";
+			
 		if (isset($this->bound_id) && !empty($this->bound_id))
 		{
 			$query_insert .= ",bound_id";

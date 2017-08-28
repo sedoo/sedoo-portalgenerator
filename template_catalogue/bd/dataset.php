@@ -27,6 +27,7 @@ require_once ("bd/sensor_var.php");
 require_once ("scripts/mail.php");
 require_once ("sortie/fiche2pdf_functions.php");
 require_once ("utils/elastic/ElasticClient.php");
+require_once ("sedoo-metadata/sedoo_metadata_utils.php");
 
 class dataset {
 	var $dats_id;
@@ -622,6 +623,10 @@ class dataset {
 				$query_values = "values ('" . str_replace ( "'", "\'", $this->dats_title ) . "',now()";
 			else
 				$query_values = "values ('" . str_replace ( "'", "\'", $this->dats_title ) . "','" . $this->dats_pub_date . "'";
+															
+			$query_insert .= ",dats_uuid";
+			$query_values .= ",'" . sedooMetadataRandomUUID() . "'";
+				
 			if (isset ( $this->dats_doi ) && ! empty ( $this->dats_doi )) {
 				$query_insert .= ",dats_doi";
 				$query_values .= ",'" . $this->dats_doi . "'";
