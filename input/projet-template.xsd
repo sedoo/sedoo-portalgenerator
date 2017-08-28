@@ -20,6 +20,18 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
+    		<xsd:element name="path" minOccurs="1" maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Le répertoire racine où tout sera installé
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
     		<xsd:element name="website" minOccurs="1" maxOccurs="1">
     			<xsd:annotation>
     				<xsd:documentation>
@@ -37,6 +49,33 @@
     			<xsd:annotation>
     				<xsd:documentation>
     					L'id du compte analytique
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+
+    		<xsd:element name="SSLCertificateFile" minOccurs="0"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					chemin absolu vers le certificat pour la directive SSLCertificateFile d'apache
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="0"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="SSLCertificateKeyFile" minOccurs="0"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					chemin absolu vers la clé pour la directive SSLCertificateKeyFile d'apache
     				</xsd:documentation>
     			</xsd:annotation>
     			<xsd:simpleType>
@@ -136,20 +175,6 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>    		
-    		<xsd:element name="portalWorkPath" minOccurs="1"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Répertoire où sont placés les fichiers à
-    					télécharger
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
     		<xsd:element name="extractInformPi" type="xsd:boolean"
     			minOccurs="1" maxOccurs="1">
     			<xsd:annotation>
@@ -346,6 +371,14 @@
     				</xsd:documentation>
     			</xsd:annotation>
     		</xsd:element>
+    		<xsd:element name="elastic" type="elastic" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Paramètres pour la connexion avec ElasticSearch
+    				</xsd:documentation>
+    			</xsd:annotation>
+    		</xsd:element>
     		<xsd:element name="signDatapolicies" type="signDatapolicies"
     			minOccurs="0" maxOccurs="1">
     			<xsd:annotation>
@@ -426,6 +459,24 @@
     </xsd:complexType>
 
 
+    <xsd:complexType name="elastic">
+    	<xsd:sequence>
+    		<xsd:element name="host" minOccurs="1" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="index" minOccurs="1" maxOccurs="1">
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="1"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
 
 
 

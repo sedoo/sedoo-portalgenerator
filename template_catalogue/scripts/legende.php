@@ -8,6 +8,10 @@ if(constant(strtolower($project_name).'_HasPurpleTag') == 'true')
 	$legende['Purple']='data in another database.';
 if(constant(strtolower($project_name).'_HasOrangeTag') == 'true')
 	$legende['Orange']='the campaign website quicklook charts.';
+/*if(constant(strtolower($project_name).'_HasPinkTag') == 'true')
+	$legende['Pink']='Quicklooks';
+if(constant(strtolower($project_name).'_HasLightBlueTag') == 'true')
+	$legende['LightBlue']='Data preview';*/
 //$legende['Yellow']='Opendap Access.';
 //$legende['Pink']='Pink' => 'THREDDS Catalog.';
 

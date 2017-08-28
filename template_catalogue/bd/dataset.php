@@ -28,7 +28,8 @@ require_once ("bd/variable.php");
 require_once ("bd/sensor_var.php");
 require_once ("scripts/mail.php");
 require_once ("sortie/fiche2pdf_functions.php");
-require_once ("bd/dataset2xml.php");
+require_once ("utils/elastic/ElasticClient.php");
+
 class dataset {
 	var $dats_id;
 	var $status_final_id;
@@ -342,7 +343,8 @@ class dataset {
 		$bd = new bdConnect ();
 		if ($resultat = $bd->get_data ( $query )) {
 			// echo '=>oui<br>';
-			$this->new_dataset ( $resultat [0] );
+			//$this->new_dataset ( $resultat [0] );
+			$this->dats_id = $resultat [0][0];
 			return true;
 		}
 		return false;
@@ -568,7 +570,14 @@ class dataset {
 			$this->sendMailDataset ();
 			// error_log('[DEBUG] dataset.update - Maj réussie, dats_id = '.$this->dats_id."\n",3,LOG_FILE);
 			log_debug ( 'dataset.update - Maj réussie, dats_id = ' . $this->dats_id );
-			dataset2xml ( $this );
+			
+			try{
+				$client = new ElasticClient();
+				$client->indexDataset($this);
+			}catch(Exception $ex){
+				log_error ( 'dataset index update - ' . $ex->getMessage () );
+			}
+			
 			return true;
 		} catch ( Exception $e ) {
 			// echo 'Dataset.update() - Exception reçue : ', $e->getMessage(), "<br>";
@@ -716,7 +725,14 @@ class dataset {
 			$this->bdConn->db_close ();
 			$this->sendMailDataset ();
 			log_debug ( 'dataset.insert - Insertion réussie, dats_id = ' . $this->dats_id );
-			dataset2xml ( $this );
+			
+			try{
+				$client = new ElasticClient();
+				$client->indexDataset($this);
+			}catch(Exception $ex){
+				log_error ( 'dataset index update - ' . $ex->getMessage () );
+			}
+			
 			return true;
 		} catch ( Exception $e ) {
 			log_error ( 'dataset.update - ' . $e->getMessage () );
@@ -1262,7 +1278,8 @@ class dataset {
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars] = $sv;
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->variable = & $this->dats_variables [$j]->variable;
 							$gcmd = new gcmd_science_keyword ();
-							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->variable->gcmd = & $gcmd->getById ( $this->dats_variables [$j]->variable->gcmd_id );
+							
+							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->variable->gcmd = $gcmd->getById ( $this->dats_variables [$j]->variable->gcmd_id );
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->var_id = $sv->var_id;
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->unit = & $this->dats_variables [$j]->unit;
 							// $this->dats_sensors[$i]->sensor->sensor_vars[$nbVars]->methode_acq = & $this->dats_variables[$j]->methode_acq;

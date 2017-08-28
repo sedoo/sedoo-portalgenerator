@@ -115,7 +115,7 @@ function createLoginForm(){
 		$this->registerRule('validUnit_required','function','validUnit_required');
 
 		$this->addRule('dats_title','General information: Metadata informative title is required','required');
-		$this->addRule('dats_title','General information: Dataset name exceeds the maximum length allowed (100 characters)','maxlength',100);
+		$this->addRule('dats_title','General information: Dataset name exceeds the maximum length allowed (250 characters)','maxlength',250);
 			
 		$this->addRule('dats_date_begin','General information: Date begin is not a date','validDate');
 		$this->addRule('dats_date_end','General information: Date end is not a date','validDate');

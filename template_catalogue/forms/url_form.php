@@ -64,9 +64,15 @@ class url_form extends login_form {
 				'rows' => 3 
 		) );
 		$this->createFormRoles ();
-		$this->addElement ( 'submit', 'bouton_add', 'Add', array (
-				'disabled' => 'true' 
-		) );
+		
+		if ($this->type == ADD_URL_MAP) {
+			$this->addElement ( 'submit', 'bouton_add', 'Add');
+		}else{
+			$this->addElement ( 'submit', 'bouton_add', 'Add', array (
+					'disabled' => 'true'
+			) );
+		}
+		
 		$this->addElement ( 'submit', 'bouton_ok', 'Ok' );
 		if (isset($_REQUEST ['datsId']) && !empty($_REQUEST ['datsId'])) {
 			$this->getElement ( 'dataset' )->setSelected ( $_REQUEST ['datsId'] );

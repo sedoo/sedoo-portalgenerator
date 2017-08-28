@@ -16,15 +16,6 @@ if (isset ( $_POST ['loginbutton'] )) {
 		echo "<br/><a style='font-size:110%;font-weight:bold;' href='$reqUri?q=$q&project_name=$project_name'>&lt;&lt;&nbsp;Back to search result</a><br/>";
 	}
 	editDataset($_REQUEST['editDatsId'],$project_name);
-}else if ( isset($_REQUEST['q']) || (isset($_POST['bouton_search_menu_x']) && isset($_POST['keywords_search_menu']) && !empty($_POST['keywords_search_menu'])) ){
-	//Affichage du résultat d'une recherche (menu de gauche ou argument q de l'url)
-	require_once('forms/search_form_menu.php');
-	$form = new search_form_menu();
-	$form->createForm();
-	echo '<h1>Search result</h1>';
-	include('legende.php');
-	//$form->search($project_name);
-	$form->SmartSearch($project_name);
 }else{
 	if(isset($titreMilieu) && !empty($titreMilieu))
 		echo "<h1>".$titreMilieu."</h1>";

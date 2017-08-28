@@ -225,17 +225,17 @@ function arrayCopy(input)
 
 			var linkEnd   = nodes[i].link ? '</a>' : '';
 			var dataLinkStart  = nodes[i].dataLink ? this.stringFormat('<a href="{0}">',nodes[i].dataLink) : '';
-			var dataIcon = nodes[i].dataIcon ? this.stringFormat('<img width="15" height="16" class="text" src="{0}" title="{1}" /></a>',nodes[i].dataIcon,nodes[i].dataTitle) : '';
+			var dataIcon = nodes[i].dataIcon ? this.stringFormat('<span class="icon-folder-open" data-color="Blue" title="{1}" ></span></a>',nodes[i].dataIcon,nodes[i].dataTitle) : '';
 			/*var dataLinkEnd = nodes[i].dataLink ? '</a>' : '';*/
 
 			var bdLinkStart  = nodes[i].bdLink ? this.stringFormat('<a href="{0}">',nodes[i].bdLink) : '';
-			var bdIcon = nodes[i].bdIcon ? this.stringFormat('<img width="15" height="16" class="text" src="{0}" title="{1}" /></a>',nodes[i].bdIcon,nodes[i].bdTitle) : '';
+			var bdIcon = nodes[i].bdIcon ? this.stringFormat('<span class="icon-folder-open" data-color="Green" title="{1}" ></span></a>',nodes[i].bdIcon,nodes[i].bdTitle) : '';
 		
 			var extDataLinkStart  = nodes[i].extDataLink ? this.stringFormat('<a href="{0}" target="_blank">',nodes[i].extDataLink) : '';
-                        var extDataIcon = nodes[i].extDataIcon ? this.stringFormat('<img width="15" height="16" class="text" src="{0}" title="{1}" /></a>',nodes[i].extDataIcon,nodes[i].extDataTitle) : '';
+                        var extDataIcon = nodes[i].extDataIcon ? this.stringFormat('<span class="icon-folder-open" data-color="Purple" title="{1}" ></span></a>',nodes[i].extDataIcon,nodes[i].extDataTitle) : '';
 
 			var qlLinkStart  = nodes[i].qlLink ? this.stringFormat('<a href="{0}" target="_blank">',nodes[i].qlLink) : '';
-                        var qlIcon = nodes[i].qlIcon ? this.stringFormat('<img width="15" height="16" class="text" src="{0}" title="{1}" /></a>',nodes[i].qlIcon,nodes[i].qlTitle) : '';
+                        var qlIcon = nodes[i].qlIcon ? this.stringFormat('<span class="icon-folder-open" data-color="Orange" title="{1}" ></span></a>',nodes[i].qlIcon,nodes[i].qlTitle) : '';
 	
 			this.output += this.stringFormat('{0}<nobr>{1}{2}{3}{4}<span {5}>{6}</span>{7}  {8}{9}  {10}{11}  {12}{13}  {14}{15}</nobr><br></div>',
 			                  layerTag,

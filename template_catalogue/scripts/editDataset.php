@@ -53,22 +53,19 @@ function editContact(& $pis){
 }
 
 function editDOI($doi){
-	if (isset($doi) && !empty($doi)){
-		$f = fopen(DATACITE_CITATION.$doi,'r');
-		if ($f){
-			$cit = fgets($f);
-		}else{
-			$cit = "doi:$doi";
-		}
-		echo "<tr><td><b>Dataset DOI</b></td><td colspan='3'><a href='".DATACITE_WEB.$doi."' target='_blank'>$doi</a>";
-		echo '<a class="lightblue_tag" href="'.DATACITE_CITATION.$doi.'" style="color: white;margin-right:0px;" title="How to cite">Citation</a>';
-		echo '<a class="lightblue_tag" href="'.DATACITE_BIBTEX.$doi.'" style="color: white;" title="Export to BibTeX">BibTeX</a>';
-		echo "</td></tr>";
-	}
+        if (isset($doi) && !empty($doi)){
+                echo "<tr><td><b>Dataset DOI</b></td><td colspan='3'>$doi";
+                $f = fopen(DATACITE_CITATION.$doi,'r');
+                if ($f){
+                        echo '<p><strong>How to cite: </strong>'.fgets($f).'</p>';
+                }
+                echo '<a target="_blank" class="btn_tag" href="'.DATACITE_BIBTEX.$doi.'" title="Export to BibTeX">Export to BibTeX</a>';
+                echo "</td></tr>";
+        }
 }
 
-function editDataAvailability(& $dataset,$project_name){
-	$liens = getAvailableDataLinks($dataset,$project_name);
+function editDataAvailability(& $dataset, $projectName, $queryArgs = array()){
+	$liens = getAvailableDataLinks($dataset, $projectName, $queryArgs);
 	if ( isset($liens) && !empty($liens) ){
 		echo '<tr><td rowspan="'.count($liens).'"><b>Data access</b></td>';
 		foreach($liens as $lien){
@@ -83,15 +80,15 @@ function editDataAvailability(& $dataset,$project_name){
 				echo '<div style="overflow:auto;height:150px;">';
 			}
 			foreach ($journal as $jEntry){
-				echo '<p style="font-size: 12px;">';
+				echo '<p>';
 				if ($jEntry->type_id == TYPE_NEW){
-					echo '<span class="pink_tag" style="font-size: 10px;" >ISSUE</span>';
+					echo '<span class="pink_tag">ISSUE ';
 				}else if ($jEntry->type_id == TYPE_UPDATE){
-					echo '<span class="lightpink_tag" style="font-size: 10px;">UPDATE</span>';
+					echo '<span class="lightpink_tag">UPDATE ';
 				}
-				echo '<b>'.$jEntry->date->format('Y-m-d').'</b>';
+				echo $jEntry->date->format('Y-m-d').'</span>';
 				if (isset($jEntry->comment) && !empty($jEntry->comment)){
-					echo '<br/>'.$jEntry->comment;
+					echo $jEntry->comment;
 				}
 				echo '</p>';
 			}
@@ -260,7 +257,7 @@ function editSensorResolution(& $ds, $isGrid=false){
 	}
 }
 
-function editSatelliteDataset(& $dataset,$project_name){
+function editSatelliteDataset(& $dataset,$project_name, $queryArgs = array()){
 	if (isset ( $dataset ) && ! empty ( $dataset )) {
 		if ($project_name != MainProject)
 			$rubrique_cible = "/$project_name/Satellite-Data";
@@ -285,7 +282,7 @@ function editSatelliteDataset(& $dataset,$project_name){
 		echo "<tr><td><b>Dataset Contact(s)</b></td><td colspan='3'>";
 		editContact($dataset->dats_originators);
 		echo '</td></tr>';
-		editDataAvailability($dataset,$project_name);
+		editDataAvailability($dataset,$project_name, $queryArgs);
 		echo "<tr><td><b>Purpose</b></td><td colspan='3'>".$dataset->dats_purpose."</td></tr>";
 		echo "<tr><td><b>References</b></td><td colspan='3'>".$dataset->dats_reference."</td></tr>";	
 		echo '</td></tr><tr><th colspan="4" align="center"><b>Instrument'.((count($dataset->dats_sensors) > 1)?'s':'').'</b></th></tr>';
@@ -323,7 +320,7 @@ function editSatelliteDataset(& $dataset,$project_name){
 	}
 }
 
-function editValueDataset(& $dataset,$project_name){
+function editValueDataset(& $dataset,$project_name, $queryArgs = array()){
 	if ($project_name != MainProject )
 		$rubrique_cible = "/$project_name/Value-Added-Data";
 	else
@@ -341,7 +338,7 @@ function editValueDataset(& $dataset,$project_name){
 		echo "<tr><td><b>Dataset Contact</b></td><td colspan='3'>";
                 editContact($dataset->dats_originators);
                 echo '</td></tr>';
-                editDataAvailability($dataset,$project_name);
+                editDataAvailability($dataset,$project_name, $queryArgs);
 		echo '</td></tr><tr><th colspan="4" align="center"><b>Data description</b></th></tr>';
                 echo "<tr><td><b>Dataset description</b></td><td colspan='3'>".$dataset->dats_abstract."</td></tr>";
                 echo "<tr><td><b>Purpose</b></td><td colspan='3'>".$dataset->dats_purpose."</td></tr>";
@@ -375,7 +372,7 @@ function editValueDataset(& $dataset,$project_name){
 	}
 }
 
-function editValueAddedDataset(& $dataset,$project_name) {
+function editValueAddedDataset(& $dataset,$project_name, $queryArgs = array()) {
 	if ($project_name != MainProject )
 		$rubrique_cible = "/$project_name/Value-Added-Dataset";
 	else
@@ -394,7 +391,7 @@ function editValueAddedDataset(& $dataset,$project_name) {
 		echo "<tr><td><b>Dataset Contact</b></td><td colspan='3'>";
 		editContact($dataset->dats_originators);
 		echo '</td></tr>';
-		editDataAvailability($dataset,$project_name);
+		editDataAvailability($dataset,$project_name, $queryArgs);
 		echo '</td></tr><tr><th colspan="4" align="center"><b>Data description</b></th></tr>';
 		echo "<tr><td><b>Dataset description</b></td><td colspan='3'>".$dataset->dats_abstract."</td></tr>";
 		echo "<tr><td><b>Purpose</b></td><td colspan='3'>".$dataset->dats_purpose."</td></tr>";
@@ -489,7 +486,7 @@ function editValueAddedDataset(& $dataset,$project_name) {
 }
 
 
-function editModelDataset(& $dataset,$project_name){
+function editModelDataset(& $dataset,$project_name, $queryArgs = array()){
 	if ($project_name != MainProject )
 		$rubrique_cible = "/$project_name/Model-Data";
 	else
@@ -513,7 +510,7 @@ function editModelDataset(& $dataset,$project_name){
 		echo "<tr><td><b>Dataset Contact</b></td><td colspan='3'>";
 		editContact($dataset->dats_originators);
 		echo '</td></tr>';
-		editDataAvailability($dataset,$project_name);
+		editDataAvailability($dataset,$project_name, $queryArgs);
 		echo '</td></tr><tr><th colspan="4" align="center"><b>Model information</b></th></tr>';
 		if ( isset($dataset->sites) && isset($dataset->sites[1]) && !empty($dataset->sites[1])){
 			if (isset($dataset->sites[1]->parent_place)){
@@ -557,7 +554,7 @@ function editModelDataset(& $dataset,$project_name){
 	}
 }
 
-function editDataset($datsId, $project_name, $display_archived = false) {
+function editDataset($datsId, $project_name, $display_archived = false, $queryArgs = array()) {
 	if (isset ( $datsId ) && ! empty ( $datsId )) {
 		$dataset = new dataset ();
 		$dataset = $dataset->getById ( $datsId );
@@ -575,15 +572,15 @@ function editDataset($datsId, $project_name, $display_archived = false) {
 					
 					foreach ( $journal as $jEntry ) {
 						// echo '<td colspan="3">';
-						echo '<p style="font-size: 12px;">';
+						echo '<p>';
 						if ($jEntry->type_id == TYPE_ARCHIVE) {
-							echo '<span class="blue_tag" style="font-size: 10px;" >ARCHIVE</span>';
+							echo '<span class="blue_tag">ARCHIVE ';
 						} else if ($jEntry->type_id == TYPE_UNARCHIVE) {
-							echo '<span class="lightblue_tag" style="font-size: 10px;">UNARCHIVE</span>';
+							echo '<span class="lightblue_tag">UNARCHIVE ';
 						}
-						echo '<b>' . $jEntry->date->format ( 'Y-m-d' ) . '</b>';
+						echo $jEntry->date->format ( 'Y-m-d' ) . '</span>';
 						if (isset ( $jEntry->comment ) && ! empty ( $jEntry->comment )) {
-							echo '<br/>' . $jEntry->comment;
+							echo $jEntry->comment;
 						}
 						echo '</p>';
 					}
@@ -592,15 +589,15 @@ function editDataset($datsId, $project_name, $display_archived = false) {
 				echo "<a href='/sortie/fiche2pdf.php?datsId=$datsId' target='_blank'><img src='/img/pdf-icone-32.png' style='border:0px;float: right; margin-right:10px;' title='Export to pdf' /></a>";
 			}
 			if ($dataset->isSatelliteDataset ()) {
-				editSatelliteDataset ( $dataset, $project_name );
+				editSatelliteDataset ( $dataset, $project_name, $queryArgs );
 			} else if ($dataset->isModelDataset ()) {
-				editModelDataset ( $dataset, $project_name );
+				editModelDataset ( $dataset, $project_name, $queryArgs );
 			} elseif ($dataset->isValueAddedDataset ()) {
-				editValueAddedDataset ( $dataset, $project_name );
+				editValueAddedDataset ( $dataset, $project_name, $queryArgs );
 			} else if (count ( $dataset->dats_sensors ) <= 1) {
-				editInSituDataset ( $dataset, $project_name );
+				editInSituDataset ( $dataset, $project_name, $queryArgs );
 			} else {
-				editInSituDatasetSite ( $dataset, $project_name );
+				editInSituDatasetSite ( $dataset, $project_name, $queryArgs );
 			}
 		}
 	}
@@ -608,8 +605,7 @@ function editDataset($datsId, $project_name, $display_archived = false) {
 
 
 
-//add by lolo
-function editInSituDatasetSite(& $dataset, $project_name) {
+function editInSituDatasetSite(& $dataset,$project_name, $queryArgs = array()){
 	if ($project_name != MainProject)
 		$rubrique_cible = "/$project_name/In-Situ-Site-Registration";
 	else
@@ -635,7 +631,7 @@ function editInSituDatasetSite(& $dataset, $project_name) {
 		editContact ( $dataset->dats_originators );
 		echo '</td></tr>';
 		
-		editDataAvailability ( $dataset, $project_name );
+		editDataAvailability($dataset,$project_name, $queryArgs);
 		
 		editSiteDescr ( $dataset );
 		
@@ -678,7 +674,7 @@ function editInSituDatasetSite(& $dataset, $project_name) {
 		for($i = 0; $i < count ( $dataset->dats_sensors ); $i ++) {
 			$nb = $i + 1;
 			echo '</td></tr><tr><th colspan="4" align="center"><b>Instrument ' . $nb . '</b></th></tr>';
-			echo 'TEST';
+			//echo 'TEST';
 			print_r ( $dataset->dats_sensors [0]->gcmd_instrument_keyword );
 			echo "<tr><td><b>Instrument type</b></td><td colspan='3'>"./*$dataset->dats_sensors[$i]->sensor->gcmd_instrument_keyword->gcmd_sensor_name*/printGcmdInstrument ( $dataset->dats_sensors [0]->gcmd_instrument_keyword ) . "</td></tr>";
 			echo "<tr><td><b>Manufacturer</b></td><td colspan='3'>" . $dataset->dats_sensors [$i]->sensor->manufacturer->manufacturer_name;
@@ -719,8 +715,7 @@ function editInSituDatasetSite(& $dataset, $project_name) {
 }
 
 
-
-function editInSituDataset(& $dataset,$project_name){
+function editInSituDataset(& $dataset,$project_name, $queryArgs = array()){
 	if ($project_name != MainProject )
 		$rubrique_cible = "/$project_name/In-Situ-Instrument-Registration";
 	else
@@ -747,7 +742,7 @@ function editInSituDataset(& $dataset,$project_name){
 		echo "<tr><td><b>Contacts</b></td><td colspan='3'>";
 		editContact($dataset->dats_originators);
 		echo '</td></tr>';
-		editDataAvailability($dataset,$project_name);
+		editDataAvailability($dataset,$project_name, $queryArgs);
 		editDataDescr($dataset);
 		echo '</td></tr>';
 		if (isset($dataset->attFile) && !empty($dataset->attFile)){

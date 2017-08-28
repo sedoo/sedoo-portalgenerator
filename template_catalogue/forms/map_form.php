@@ -20,10 +20,10 @@ class map_form extends login_form{
 		$this->addElement('hidden','startMaxLat', $defaultLatMax);
 		$this->addElement('hidden','startMinLon', $defaultLonMin);
 		$this->addElement('hidden','startMaxLon', $defaultLonMax);
-		$this->addElement('hidden','defaultMinLat',$defaultLatMin);
-		$this->addElement('hidden','defaultMaxLat', $defaultLatMax);
-		$this->addElement('hidden','defaultMinLon', $defaultLonMin);
-		$this->addElement('hidden','defaultMaxLon', $defaultLonMax);
+		$this->addElement('hidden','defaultMinLat', MAP_DEFAULT_LAT_MIN);
+		$this->addElement('hidden','defaultMaxLat', MAP_DEFAULT_LAT_MAX);
+		$this->addElement('hidden','defaultMinLon', MAP_DEFAULT_LON_MIN);
+		$this->addElement('hidden','defaultMaxLon', MAP_DEFAULT_LON_MAX);
 		if ($_POST['minLat']) $this->getElement('startMinLat')->setValue($_POST['minLat']);
 		if ($_POST['maxLat']) $this->getElement('startMaxLat')->setValue($_POST['maxLat']);
 		if ($_POST['minLon']) $this->getElement('startMinLon')->setValue($_POST['minLon']);

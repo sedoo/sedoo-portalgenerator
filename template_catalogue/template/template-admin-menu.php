@@ -27,9 +27,9 @@ else {
 	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&type=3&proj=1">Download history</a>
 	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&type=1&proj=1">Email notifications</a>
 	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&type=2&proj=1">Data updates</a>
-	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&add">Add a news (data update)</a>
+	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&add=1">Add a news (data update)</a>
 	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&type=5">Changes</a>
-	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&type=5&add">Add a change</a>
+	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=5&type=5&add=1">Add a change</a>
 </section>
 
 <section>
@@ -62,6 +62,11 @@ else {
 	<h2>Stats</h2>
 	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=7&type=0&proj=1">Data downloads</a>
 	<a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=7&type=1&proj=1">User registrations</a>
+</section>
+
+<section>
+        <h2>Search</h2>
+        <a href="/<?php echo "".$root_admin_path."";?>?adm&pageId=19">Search index</a>
 </section>
 
 <section>

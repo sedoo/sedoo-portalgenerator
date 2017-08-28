@@ -101,10 +101,11 @@ class search_form extends HTML_QuickForm {
 		$this->addElement ( 'hidden', 'maxLat', MAP_DEFAULT_LAT_MAX);
 		$this->addElement ( 'hidden', 'minLon', MAP_DEFAULT_LON_MIN );
 		$this->addElement ( 'hidden', 'maxLon', MAP_DEFAULT_LON_MAX );
-		$this->addElement ( 'hidden', 'startMinLat', 25 );
-		$this->addElement ( 'hidden', 'startMaxLat', 50 );
-		$this->addElement ( 'hidden', 'startMinLon', - 10 );
-		$this->addElement ( 'hidden', 'startMaxLon', 40 );
+		
+		$this->addElement ( 'hidden', 'startMinLat', MAP_DEFAULT_LAT_MIN );
+		$this->addElement ( 'hidden', 'startMaxLat', MAP_DEFAULT_LAT_MAX );
+		$this->addElement ( 'hidden', 'startMinLon', MAP_DEFAULT_LON_MIN );
+		$this->addElement ( 'hidden', 'startMaxLon', MAP_DEFAULT_LON_MAX );
 		$this->addElement ( 'text', 'maxLatDeg', 'Lat: ', array (
 				'id' => 'maxLatDeg',
 				'size' => 3 

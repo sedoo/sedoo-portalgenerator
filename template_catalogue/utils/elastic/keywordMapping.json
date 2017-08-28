@@ -1,0 +1,27 @@
+{
+"_source" : {
+	"enabled" : true
+},
+"_all": {
+    "analyzer": "nGram_analyzer",
+    "search_analyzer": "whitespace_analyzer"
+},
+"properties" : {
+	"id" : {
+		"type" : "long"
+    },
+	"name" : {
+    	"type" : "string",
+    	"fields": {
+        	"raw": { 
+            	"type":  "string",
+            	"analyzer": "case_insensitive_sort"
+        	}
+    	}
+    },
+	"type" : {
+		"type" : "string",
+		 "include_in_all": false
+	}
+}
+}
