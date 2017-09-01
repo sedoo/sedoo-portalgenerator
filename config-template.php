@@ -44,7 +44,7 @@ $apacheConf = array(
 
 $ldapConf = array(
 	'user' 		=> 'LDAP-USER',
-	'group' 	=> 'LDAP-GROUP',
+	'group' 	=> 'LDAP-GROUP'
 	);
 
 /**
@@ -53,7 +53,7 @@ $ldapConf = array(
 ************/
 $javaBin = array(
 	'maven_bin'		=> '/usr/bin',
-			'java_bin'		=> '/usr/bin' // '/usr/local/j2sdk6/bin' sur twodoo
+	'java_bin'		=> '/usr/bin' // '/usr/local/j2sdk6/bin' sur twodoo
 )
 
 

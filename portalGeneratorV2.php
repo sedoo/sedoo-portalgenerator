@@ -404,7 +404,7 @@ class PortalGenerator {
 		$content .= "define('ATT_FILES_PATH','" . $this->attFilesPath . "');\n";
 		
 		
-		$content .= "define('STATS_DEFAULT_MIN_YEAR', 2015);\n";
+		$content .= "define('STATS_DEFAULT_MIN_YEAR', " . date ( 'Y' ) . ");\n";
 		
 		$content .= $this->comment ( "répertoire du site web" );
 		$content .= "define('WEB_PATH','" . $this->webPath . "');\n";
@@ -498,11 +498,7 @@ class PortalGenerator {
 			$content .= "define('" . strtolower ( $this->xmlContent ['name'] ) . "yDeb','" . $this->xmlContent ['yearStart'] . "');\n";
 		else
 			$content .= "define('" . strtolower ( $this->xmlContent ['name'] ) . "yDeb','');\n";
-		if (isset ( $this->xmlContent ['monthStart'] ) && ! empty ( $this->xmlContent ['monthStart'] ))
-			$content .= "define('" . strtolower ( $this->xmlContent ['name'] ) . "mDeb','" . $this->xmlContent ['monthStart'] . "');\n";
-		else
-			$content .= "define('" . strtolower ( $this->xmlContent ['name'] ) . "mDeb','');\n";
-			
+					
 			// database
 		
 		if (isset ( $this->xmlContent ['database'] ['host'] ) && ! empty ( $this->xmlContent ['database'] ['host'] ))
@@ -774,10 +770,7 @@ class PortalGenerator {
 						$content .= "define('" . strtolower ( $proj ['name'] ) . "yDeb','" . $proj ['yearStart'] . "');\n";
 					else
 						$content .= "define('" . strtolower ( $proj ['name'] ) . "yDeb','');\n";
-					if (isset ( $proj ['monthStart'] ) && ! empty ( $proj ['monthStart'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "mDeb','" . $proj ['monthStart'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "mDeb','');\n";
+					
 					$content .= $this->comment ( "Site web du projet s'il y en a " );
 					if (isset ( $proj ['website'] ) && ! empty ( $proj ['website'] ))
 						$content .= "define('" . strtolower ( $proj ['name'] ) . "WebSite','" . $proj ['website'] . "');\n";

@@ -24,6 +24,7 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <wkhtmlBinPath>/usr/bin/wkhtmltopdf</wkhtmlBinPath>
   <doiPrefix>10.5072/</doiPrefix>
   <testMode>false</testMode>
+  <yearStart>2015</yearStart>
   <ftp>ftp://passy.sedoo.fr</ftp>
   <adminGroupEmail>passyAdmin@sedoo.fr</adminGroupEmail>
   <rootEmail>passyRoot@sedoo.fr</rootEmail>
