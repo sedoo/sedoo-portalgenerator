@@ -9,15 +9,6 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <SSLCertificateKeyFile>/etc/apache2/ssl/passy.key</SSLCertificateKeyFile>
   <aerisProgram>Passy</aerisProgram>
   <aerisDefaultCollection>Passy-2015</aerisDefaultCollection>
-  <faviconPath>/img/favicon.ico</faviconPath>
-  <bannerHeight>100px</bannerHeight>
-  <displayBannerTitle>false</displayBannerTitle>
-  <displayLogoOnBanner>false</displayLogoOnBanner>
-  <logoPath>/img/logo_mistrals.jpg</logoPath>
-  <topbarPath>/img/bg_head_middle2.jpg</topbarPath>
-  <footerTextPeriod>2015</footerTextPeriod>
-  <footerTextDeveloper>Sedoo</footerTextDeveloper>
-  <footerTextDeveloperWebsite>http://www.obs-mip.fr/recherche/plates-formes/sedoo</footerTextDeveloperWebsite>
   <dns>passy-data.sedoo.fr</dns>
   <extractInformPi>false</extractInformPi>
   <publicDataRole>public</publicDataRole>
@@ -29,6 +20,7 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <adminGroupEmail>passyAdmin@sedoo.fr</adminGroupEmail>
   <rootEmail>passyRoot@sedoo.fr</rootEmail>
   <managerEmail>passyManager@sedoo.fr</managerEmail>
+  <contactEmail>passy-database@sedoo.fr</contactEmail>
   <datapolicy>true</datapolicy>
   <homePage>0</homePage>
   <roles>
