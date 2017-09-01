@@ -1,53 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<portal>
-  <name>MISTRALS</name>
-  <website>http://www.mistrals-home.org/spip/?lang=en</website>
-  <googleAnalyticAccount>UA-35993905-1</googleAnalyticAccount>
-  <depot>/home/hymex</depot>
-  <faviconPath>/img/favicon.ico</faviconPath>
-  <bannerHeight>100px</bannerHeight>
-  <displayBannerTitle>true</displayBannerTitle>
-  <displayLogoOnBanner>false</displayLogoOnBanner>
-  <logoPath>/img/logo_mistrals.jpg</logoPath>
-  <topbarPath>/img/bg_head_middle2.jpg</topbarPath>
-  <footerTextPeriod>2010 - 2013</footerTextPeriod>
-  <footerTextDeveloper>Sedoo</footerTextDeveloper>
-  <footerTextDeveloperWebsite>http://www.obs-mip.fr/recherche/plates-formes/sedoo</footerTextDeveloperWebsite>
-  <webPath>/www/workspace/mistrals</webPath>
-  <portal_version>0.0.1</portal_version>
+<portal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="projet-template.xsd">
+  <name>MainProject</name>
+  <path>/export1/MainProject</path>
+  <website>https://MainProject.sedoo.fr</website>
+  <googleAnalyticAccount>à créer</googleAnalyticAccount>
+  <SSLCertificateFile>/etc/apache2/ssl/MainProject.crt</SSLCertificateFile>
+  <SSLCertificateKeyFile>/etc/apache2/ssl/MainProject.key</SSLCertificateKeyFile>
+  <aerisProgram>MainProject</aerisProgram>
+  <aerisDefaultCollection></aerisDefaultCollection>
   <dns>localhost</dns>
-  <dataPath>/export1/mistrals</dataPath>
-  <portalWorkPath>/export1/data_local</portalWorkPath>
   <extractInformPi>false</extractInformPi>
   <publicDataRole>public</publicDataRole>
   <wkhtmlBinPath>/usr/bin/wkhtmltopdf</wkhtmlBinPath>
   <doiPrefix>10.5072/</doiPrefix>
   <testMode>true</testMode>
-  <yearStart>2010</yearStart>
-  <monthStart>9</monthStart>
+  <yearStart></yearStart>
+  <monthStart></monthStart>
   <ftp>ftp://sedoo.fr</ftp>
-  <adminGroupEmail>mistralsAdmins@sedoo.fr</adminGroupEmail>
-  <rootEmail>mistralsdb-admin@sedoo.fr</rootEmail>
-  <managerEmail>guillaume.brissebrat@obs-mip.fr</managerEmail>
-  <datapolicy></datapolicy>
+  <adminGroupEmail>MainProjectAdmins@sedoo.fr</adminGroupEmail>
+  <rootEmail>MainProjectdb-admin@sedoo.fr</rootEmail>
+  <managerEmail>MainProjectManager@obs-mip.fr</managerEmail>
+  <contactEmail>MainProject-database@sedoo.fr</contactEmail>
+  <datapolicy>true</datapolicy>
   <homePage>0</homePage>
   <roles>
      <role>public</role>
-     <role>mistrals</role>     
+     <role></role>     
   </roles>
   <database>
       <host>shiva</host>
-      <name>mistrals_catalogue_meta</name>
+      <name>MainProject_catalogue</name>
       <user>wwwadm</user>
       <password></password>
   </database>
   <ldap>
       <host>shiva</host>
       <port>389</port>
-      <base>dc=mistralstest,dc=sedoo,dc=fr</base>
-      <dn>cn=wwwadm,dc=mistralstest,dc=sedoo,dc=fr</dn>
+      <base>dc=MainProject,dc=sedoo,dc=fr</base>
+      <dn>cn=wwwadm,dc=MainProject,dc=sedoo,dc=fr</dn>
       <password>www001</password>
   </ldap>
+  <elastic>
+  		<host>elastic</host>
+  		<index>MainProject</index>
+  </elastic>
   <signDatapolicies>
       <signDatapolicy>I apply for access to the data in order to perform the work described above.</signDatapolicy>
       <signDatapolicy>I commit to never redistribute data to any other person nor institution.</signDatapolicy>
@@ -83,42 +80,31 @@
 	  <HasOrangeTag>true</HasOrangeTag>
 	  <HasGreenTag>true</HasGreenTag> 
   </parameters>
+  <map>
+	      <MAP_DEFAULT_LAT_MIN>43</MAP_DEFAULT_LAT_MIN>
+	      <MAP_DEFAULT_LAT_MAX>46</MAP_DEFAULT_LAT_MAX>
+	      <MAP_DEFAULT_LON_MIN>3</MAP_DEFAULT_LON_MIN>
+	      <MAP_DEFAULT_LON_MAX>9</MAP_DEFAULT_LON_MAX>
+  </map> 
   <mainProjects>
   	<project>
-          <name>ChArMEx</name>
-          <googleAnalyticAccount>UA-35970037-2</googleAnalyticAccount>
+          <name>MainProjects</name>
+          <googleAnalyticAccount></googleAnalyticAccount>
           <sites></sites>
-          <bannerHeight>100px</bannerHeight>
-          <displayBannerTitle>true</displayBannerTitle>
-          <displayLogoOnBanner>true</displayLogoOnBanner>
-          <logoPath>/img/logo_charmex.jpg</logoPath>
-  		  <topbarPath>/img/bg_head_middle2.jpg</topbarPath>
-  		  <HomePageAssoLogosPath>
-  		      <logo>/img/jpg/Observatoire-Midi-Pyrenees_logo.jpg</logo>
-  		      <logo>/img/gif/icare.gif</logo>
-  		      <logo>/img/jpg/IPSL_court_couleur.jpg</logo>
-  		  </HomePageAssoLogosPath>
-          <yearStart>2012</yearStart>
-          <monthStart>9</monthStart>
-          <website>https://charmex.lsce.ipsl.fr/</website>
-          <managerEmail>guillaume.brissebrat@obs-mip.fr</managerEmail>
-          <adminGroupEmail>charmexAdmins@sedoo.fr</adminGroupEmail>
-          <depot>/home/charmex</depot>
-          <roles>
-              <role>charmexCore</role>
-              <role>charmexAsso</role>     
-          </roles>
-          <datapolicy>/ChArMEx/Data-Policy/ChArMEx_DataPolicy.pdf</datapolicy>
+          <website></website>
+          <managerEmail>MainProjectsManager@sedoo.fr</managerEmail>
+          <contactEmail>MainProjects-database@sedoo.fr</contactEmail>
+          <adminGroupEmail>MainProjectsAdmins@sedoo.fr</adminGroupEmail>
+          <roles></roles>
+          <datapolicy>/MainProjects/Data-Policy/MainProjects_DataPolicy.pdf</datapolicy>
           <signDatapolicies>
       		 <signDatapolicy>I apply for access to the data in order to perform the work described above.</signDatapolicy>
+      		 <signDatapolicy>I commit to never redistribute data to any other person nor institution.</signDatapolicy>
       		 <signDatapolicy>I commit not to use data for commercial applications.</signDatapolicy>
-      	     <signDatapolicy>I commit to never redistribute data to any other person nor institution.</signDatapolicy>
-             <signDatapolicy>I commit to contact the provider of the required data in order to offer collaboration.</signDatapolicy>
-             <signDatapolicy>I commit to agree on either co-authorship or acknowledgement with the principal investigators of the datasets.</signDatapolicy>
-             <signDatapolicy>I commit to acknowledge the agencies which have funded the data collection and the database centres, using the mentions indicated in the dataset metadata and files.</signDatapolicy>
-             <signDatapolicy>I commit to send the publication to the ChArMEx Project Office using the address publicharmex@sedoo.fr as soon as it is submitted to a journal, conference or other organisation.</signDatapolicy>
-  		  	 <signDatapolicy>I commit to inform the database managers.</signDatapolicy>
-  		  	 <signDatapolicy>I accept that the processed dataset or product may be disseminated under the ChArMEx data policy, if so decided by the ChArMEx SC.</signDatapolicy>
+      		 <signDatapolicy>I commit to contact the provider of the required data in order to offer collaboration.</signDatapolicy>
+      		 <signDatapolicy>I commit to agree on either co-authorship or acknowledgement with the principal investigators of the datasets.</signDatapolicy>
+      		 <signDatapolicy>I commit to acknowledge the agencies which have funded the data collection and the database centres, using the mentions indicated in the dataset metadata and files.</signDatapolicy>
+      		 <signDatapolicy>I commit to inform the database managers.</signDatapolicy>
   		  </signDatapolicies>
   		  <homePage>0</homePage>
           <parameters>
@@ -149,10 +135,10 @@
           </parameters>
           <subprojects>
     		<subproject>
-    		    <name>TRAQA</name>
+    		    <name>MainProjects</name>
     		</subproject>
     		<subproject>
-    		    <name>CANOPEE</name>
+    		    <name>MainProjects</name>
     		</subproject>
       	  </subprojects>
       </project>
@@ -162,18 +148,10 @@
           <name>MOOSE</name>
           <googleAnalyticAccount></googleAnalyticAccount>
           <sites></sites>
-          <bannerHeight></bannerHeight>
-          <displayBannerTitle>true</displayBannerTitle>
-          <displayLogoOnBanner>false</displayLogoOnBanner>
-          <logoPath></logoPath>
-  		  <topbarPath>/img/bg_head_middle2.jpg</topbarPath>
-  		  <HomePageAssoLogosPath></HomePageAssoLogosPath>
-          <yearStart>2011</yearStart>
-          <monthStart>3</monthStart>
           <website></website>
-          <managerEmail>guillaume.brissebrat@obs-mip.fr</managerEmail>
+          <managerEmail>MainProjectsManager@sedoo.fr</managerEmail>
+          <contactEmail>MainProjects-database@sedoo.fr</contactEmail>
           <adminGroupEmail></adminGroupEmail>
-          <depot>/home/hymex</depot>
           <roles></roles>
           <datapolicy></datapolicy>
           <signDatapolicies></signDatapolicies>

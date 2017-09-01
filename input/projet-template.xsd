@@ -109,127 +109,6 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>    		
-    		<xsd:element name="faviconPath" minOccurs="1"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Le chemin de l'icône du portail niveau onglet
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="bannerHeight" minOccurs="0"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					La hauteur de la bannière en pixels
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="0"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="displayBannerTitle" minOccurs="1"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Affichage ou pas du nom du projet dans la
-    					bannière
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="displayLogoOnBanner" minOccurs="1"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Affichage ou pas du logo dans la bannière
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="logoPath" minOccurs="1" maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Le chemin du logo du portail
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="0"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="topbarPath" minOccurs="1"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Le chemin de l'image de l'arrière plan de la
-    					bannière
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="footerTextPeriod" minOccurs="1"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					L'année du développement du portail au niveau du
-    					pied de page
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="footerTextDeveloper" minOccurs="1"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Le nom du développeur du portail au niveau du
-    					pied de page
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="footerTextDeveloperWebsite" minOccurs="1"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Le lien du site web du développeur au niveau du
-    					pied de page
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
     		<xsd:element name="dns" minOccurs="1" maxOccurs="1">
     			<xsd:annotation>
     				<xsd:documentation>
@@ -241,7 +120,7 @@
     					<xsd:minLength value="2"></xsd:minLength>
     				</xsd:restriction>
     			</xsd:simpleType>
-    		</xsd:element>
+    		</xsd:element>    		
     		<xsd:element name="extractInformPi" type="xsd:boolean"
     			minOccurs="1" maxOccurs="1">
     			<xsd:annotation>
@@ -358,6 +237,19 @@
     			<xsd:annotation>
     				<xsd:documentation>
     					Email du responsable du portail
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
+    		<xsd:element name="contactEmail" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Email de contact du portail
     				</xsd:documentation>
     			</xsd:annotation>
     			<xsd:simpleType>
@@ -624,85 +516,6 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
-    		<xsd:element name="bannerHeight" minOccurs="1"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					La hauteur de la barre du haut
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="0"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="displayBannerTitle" type="xsd:boolean" minOccurs="1" maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>Affichage du titre du projet ou pas dans la barre du haut</xsd:documentation>
-    			</xsd:annotation></xsd:element>
-    		<xsd:element name="displayLogoOnBanner" type="xsd:boolean" minOccurs="1" maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>Affichage du logo ou pas dans la bannière</xsd:documentation>
-    			</xsd:annotation></xsd:element>
-    		<xsd:element name="logoPath" minOccurs="1" maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Le chemin du logo du projet
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="0"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="topbarPath" minOccurs="1"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					La barre du haut pour le projet
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="HomePageAssoLogosPath" type="HomePageAssoLogosPath" minOccurs="0" maxOccurs="unbounded">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Les chemins des images des logos de la page
-    					d'acceuil d'un projet
-    				</xsd:documentation>
-    			</xsd:annotation>
-    		</xsd:element>
-    		<xsd:element name="yearStart" minOccurs="1" maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Année du début du projet
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="monthStart" minOccurs="1"
-    			maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Mois de début du projet
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="1"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
     		<xsd:element name="website" minOccurs="0" maxOccurs="1">
     			<xsd:annotation>
     				<xsd:documentation>
@@ -728,6 +541,19 @@
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
+    		<xsd:element name="contactEmail" minOccurs="1"
+    			maxOccurs="1">
+    			<xsd:annotation>
+    				<xsd:documentation>
+    					Email de contact du responsable du projet
+    				</xsd:documentation>
+    			</xsd:annotation>
+    			<xsd:simpleType>
+    				<xsd:restriction base="xsd:string">
+    					<xsd:minLength value="2"></xsd:minLength>
+    				</xsd:restriction>
+    			</xsd:simpleType>
+    		</xsd:element>
     		<xsd:element name="adminGroupEmail" minOccurs="1"
     			maxOccurs="1">
     			<xsd:annotation>
@@ -738,18 +564,6 @@
     			<xsd:simpleType>
     				<xsd:restriction base="xsd:string">
     					<xsd:minLength value="0"></xsd:minLength>
-    				</xsd:restriction>
-    			</xsd:simpleType>
-    		</xsd:element>
-    		<xsd:element name="depot" minOccurs="1" maxOccurs="1">
-    			<xsd:annotation>
-    				<xsd:documentation>
-    					Répertoires pour les dépots ftp
-    				</xsd:documentation>
-    			</xsd:annotation>
-    			<xsd:simpleType>
-    				<xsd:restriction base="xsd:string">
-    					<xsd:minLength value="2"></xsd:minLength>
     				</xsd:restriction>
     			</xsd:simpleType>
     		</xsd:element>
@@ -1089,14 +903,6 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="HomePageAssoLogosPath">
-        <xsd:annotation>
-        	<xsd:documentation>Les chemins des logos dans la page d'acceuil</xsd:documentation>
-        </xsd:annotation>
-        <xsd:sequence>
-    		<xsd:element name="logo" type="xsd:string" minOccurs="0" maxOccurs="unbounded"></xsd:element>
-    	</xsd:sequence>
-    </xsd:complexType>
 
     <xsd:complexType name="signDatapolicies">
         <xsd:annotation>

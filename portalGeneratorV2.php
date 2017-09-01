@@ -110,17 +110,7 @@ class PortalGenerator {
 				$this->createProjectsDirectories ();
 				echo "Setting portal name in all folders...\n";
 				DirUtils::changeWordInDirectory ( $this->phpTargetDir, '#MainProject', $this->portalName );
-				echo "Setting aeris conf...\n";
-				if (isset ( $this->xmlContent ['aerisProgram'] ) && ! empty ( $this->xmlContent ['aerisProgram'] )){
-					DirUtils::changeWordInDirectory ( $this->phpTargetDir.'/aeris', '#AerisProgram', $this->xmlContent ['aerisProgram'] );
-				}else{
-					DirUtils::changeWordInDirectory ( $this->phpTargetDir.'/aeris', '#AerisProgram', $this->portalName );
-				}
-				if (isset ( $this->xmlContent ['aerisDefaultCollection'] ) && ! empty ( $this->xmlContent ['aerisDefaultCollection'] )){
-					DirUtils::changeWordInDirectory ( $this->phpTargetDir.'/aeris', '#AerisCollection', $this->xmlContent ['aerisDefaultCollection'] );
-				}else{
-					DirUtils::changeWordInDirectory ( $this->phpTargetDir.'/aeris', '#AerisCollection', $this->portalName );
-				}
+				echo "Renaming folder...\n";
 				DirUtils::rmDirectory ( $this->phpTargetDir . '/project-directory-template' );
 			} else {
 				echo "Skip php\n";
@@ -260,32 +250,9 @@ class PortalGenerator {
 		echo "Generating database creation script...\n";
 		exec("cp $this->inputDir/database/*.sql $this->databaseTargetDir");
 		
-		//DirUtils::changeWordInDirectory($this->databaseTargetDir, '#MainProject', strtolower($this->portalName));
+		DirUtils::changeWordInDirectory($this->databaseTargetDir, '#MainProject', strtolower($this->portalName));
 		DirUtils::changeWordInDirectory($this->databaseTargetDir, '#ProjectName', $this->portalName);
 		DirUtils::changeWordInDirectory($this->databaseTargetDir, '#ProjectUrl', $this->xmlContent ['website']);
-		
-		$nbRoles = 0;
-		$initRolesSql = "COPY role (role_id, role_name) FROM stdin;\n";
-		if (isset ( $this->xmlContent ['publicDataRole'] ) && ! empty ( $this->xmlContent ['publicDataRole'] )){
-			$nbRoles++;
-			$initRolesSql .= "$nbRoles\t".$this->xmlContent ['publicDataRole'] ."\n";
-		}
-			
-		if (isset ( $this->xmlContent ['roles'] ) && ! empty ( $this->xmlContent ['roles'] )){
-			foreach ( $this->xmlContent ['roles'] ['role'] as $role ) {
-				$nbRoles++;
-				$initRolesSql .= "$nbRoles\t".trim($role) ."\n";
-			}
-		}else{
-			$nbRoles++;
-			$initRolesSql .= "$nbRoles\t".strtolower($this->portalName) ."\n";
-		}
-		$nbRoles++;
-		$initRolesSql .= "$nbRoles\t".strtolower($this->portalName) ."Adm\n";
-		
-		$initRolesSql = "SELECT pg_catalog.setval('role_role_id_seq', $nbRoles, true);\n\n" . $initRolesSql . "\.\n";
-		$this->generateFile ( $this->databaseTargetDir . '/initRoles.sql', $initRolesSql);
-		
 		
 		$content = "#! /bin/sh \n\n";
 		$content .= 'export PGHOST=' . $this->xmlContent ['database'] ['host'] . "\n";
@@ -471,6 +438,11 @@ class PortalGenerator {
 			$content .= "define('Portal_Manager_Email','" . $this->xmlContent ['managerEmail'] . "');\n";
 		else
 			$content .= "define('Portal_Manager_Email','');\n";
+		$content .= $this->comment ( "Email de contact du portail" );
+		if (isset ( $this->xmlContent ['contactEmail'] ) && ! empty ( $this->xmlContent ['contactEmail'] ))
+			$content .= "define('Portal_Contact_Email','" . $this->xmlContent ['contactEmail'] . "');\n";
+		else
+			$content .= "define('Portal_Contact_Email','');\n";	
 		$content .= $this->comment ( "Datapolicy du portail" );
 		if (isset ( $this->xmlContent ['datapolicy'] ) && ! empty ( $this->xmlContent ['datapolicy'] ))
 			$content .= "define('Portal_DataPolicy','" . $this->xmlContent ['datapolicy'] . "');\n";
@@ -781,6 +753,11 @@ class PortalGenerator {
 						$content .= "define('" . strtolower ( $proj ['name'] ) . "Manager_Email','" . $proj ['managerEmail'] . "');\n";
 					else
 						$content .= "define('" . strtolower ( $proj ['name'] ) . "Manager_Email','');\n";
+					$content .= $this->comment ( "Email de contact du responsable du projet" );
+					if (isset ( $proj ['contactEmail'] ) && ! empty ( $proj ['contactEmail'] ))
+						$content .= "define('" . strtolower ( $proj ['name'] ) . "Contact_Email','" . $proj ['contactEmail'] . "');\n";
+					else
+						$content .= "define('" . strtolower ( $proj ['name'] ) . "Contact_Email','');\n";
 					$content .= $this->comment ( "l'adresse mail des admin du projet" );
 					if (isset ( $proj ['adminGroupEmail'] ) && ! empty ( $proj ['adminGroupEmail'] ))
 						$content .= "define('" . strtolower ( $proj ['name'] ) . "_AdminGroup_Email','" . $proj ['adminGroupEmail'] . "');\n";
