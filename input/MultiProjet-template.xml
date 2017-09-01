@@ -3,20 +3,25 @@
 xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <name>MainProject</name>
   <path>/export1/MainProject</path>
-  <website>http://MainProject.sedoo.fr</website>
-  <googleAnalyticAccount></googleAnalyticAccount>
-  <SSLCertificateFile></SSLCertificateFile>
-  <SSLCertificateKeyFile></SSLCertificateKeyFile>
+  <website>https://MainProject.sedoo.fr</website>
+  <googleAnalyticAccount>à créer</googleAnalyticAccount>
+  <SSLCertificateFile>/etc/apache2/ssl/MainProject.crt</SSLCertificateFile>
+  <SSLCertificateKeyFile>/etc/apache2/ssl/MainProject.key</SSLCertificateKeyFile>
+  <aerisProgram>MainProject</aerisProgram>
+  <aerisDefaultCollection></aerisDefaultCollection>
   <dns>localhost</dns>
   <extractInformPi>false</extractInformPi>
   <publicDataRole>public</publicDataRole>
   <wkhtmlBinPath>/usr/bin/wkhtmltopdf</wkhtmlBinPath>
   <doiPrefix>10.5072/</doiPrefix>
   <testMode>true</testMode>
+  <yearStart></yearStart>
+  <monthStart></monthStart>
   <ftp>ftp://sedoo.fr</ftp>
   <adminGroupEmail>MainProjectAdmins@sedoo.fr</adminGroupEmail>
   <rootEmail>MainProjectdb-admin@sedoo.fr</rootEmail>
   <managerEmail>MainProjectManager@obs-mip.fr</managerEmail>
+  <contactEmail>MainProject-database@sedoo.fr</contactEmail>
   <datapolicy>true</datapolicy>
   <homePage>0</homePage>
   <roles>
@@ -37,8 +42,8 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
       <password>www001</password>
   </ldap>
   <elastic>
-  		<host>localhost</host>
-  		<index>toto</index>
+  		<host>elastic</host>
+  		<index>MainProject</index>
   </elastic>
   <signDatapolicies>
       <signDatapolicy>I apply for access to the data in order to perform the work described above.</signDatapolicy>
@@ -88,9 +93,10 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
           <sites></sites>
           <website></website>
           <managerEmail>MainProjectsManager@sedoo.fr</managerEmail>
+          <contactEmail>MainProjects-database@sedoo.fr</contactEmail>
           <adminGroupEmail>MainProjectsAdmins@sedoo.fr</adminGroupEmail>
           <roles></roles>
-          <datapolicy>/ChArMEx/Data-Policy/ChArMEx_DataPolicy.pdf</datapolicy>
+          <datapolicy>/MainProjects/Data-Policy/MainProjects_DataPolicy.pdf</datapolicy>
           <signDatapolicies>
       		 <signDatapolicy>I apply for access to the data in order to perform the work described above.</signDatapolicy>
       		 <signDatapolicy>I commit to never redistribute data to any other person nor institution.</signDatapolicy>
@@ -144,6 +150,7 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
           <sites></sites>
           <website></website>
           <managerEmail>MainProjectsManager@sedoo.fr</managerEmail>
+          <contactEmail>MainProjects-database@sedoo.fr</contactEmail>
           <adminGroupEmail></adminGroupEmail>
           <roles></roles>
           <datapolicy></datapolicy>

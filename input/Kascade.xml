@@ -5,17 +5,26 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <path>/export1/kascade</path>
   <website>http://kascade.sedoo.fr</website>
   <googleAnalyticAccount>UA-74848043-1</googleAnalyticAccount>
+  <SSLCertificateFile>/etc/apache2/ssl/kascade.crt</SSLCertificateFile>
+  <SSLCertificateKeyFile>/etc/apache2/ssl/kascade.key</SSLCertificateKeyFile>
+  <aerisProgram></aerisProgram>
+  <aerisDefaultCollection></aerisDefaultCollection>
   <dns>kascade.sedoo.fr</dns>
   <extractInformPi>false</extractInformPi>
   <publicDataRole>public</publicDataRole>
   <wkhtmlBinPath>/usr/bin/wkhtmltopdf</wkhtmlBinPath>
-  <doiPrefix>10.6096/</doiPrefix>
+  <doiPrefix>10.5072/</doiPrefix>
   <testMode>true</testMode>
   <ftp>ftp://kascade.sedoo.fr</ftp>
   <adminGroupEmail>kascadeAdmin@sedoo.fr</adminGroupEmail>
   <rootEmail>kascadeRoot@sedoo.fr</rootEmail>
   <managerEmail>kascadeManager@sedoo.fr</managerEmail>
+  <contactEmail>MainProject-database@sedoo.fr</contactEmail>
   <homePage>0</homePage>
+  <roles>
+     <role>public</role>
+     <role></role>     
+  </roles>
   <database>
       <host>localhost</host>
       <name>kascade_catalogue</name>
@@ -30,8 +39,8 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
       <password>www001</password>
   </ldap>
   <elastic>
-  		<host>localhost</host>
-  		<index>toto</index>
+  		<host>elastic</host>
+  		<index>kascade</index>
   </elastic>
   <signDatapolicies>
       <signDatapolicy>I apply for access to the data in order to perform the work described above.</signDatapolicy>
