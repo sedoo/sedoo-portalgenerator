@@ -110,7 +110,17 @@ class PortalGenerator {
 				$this->createProjectsDirectories ();
 				echo "Setting portal name in all folders...\n";
 				DirUtils::changeWordInDirectory ( $this->phpTargetDir, '#MainProject', $this->portalName );
-				echo "Renaming folder...\n";
+				echo "Setting aeris conf...\n";
+				if (isset ( $this->xmlContent ['aerisProgram'] ) && ! empty ( $this->xmlContent ['aerisProgram'] )){
+					DirUtils::changeWordInDirectory ( $this->phpTargetDir.'/aeris', '#AerisProgram', $this->xmlContent ['aerisProgram'] );
+				}else{
+					DirUtils::changeWordInDirectory ( $this->phpTargetDir.'/aeris', '#AerisProgram', $this->portalName );
+				}
+				if (isset ( $this->xmlContent ['aerisDefaultCollection'] ) && ! empty ( $this->xmlContent ['aerisDefaultCollection'] )){
+					DirUtils::changeWordInDirectory ( $this->phpTargetDir.'/aeris', '#AerisCollection', $this->xmlContent ['aerisDefaultCollection'] );
+				}else{
+					DirUtils::changeWordInDirectory ( $this->phpTargetDir.'/aeris', '#AerisCollection', $this->portalName );
+				}
 				DirUtils::rmDirectory ( $this->phpTargetDir . '/project-directory-template' );
 			} else {
 				echo "Skip php\n";
@@ -250,9 +260,32 @@ class PortalGenerator {
 		echo "Generating database creation script...\n";
 		exec("cp $this->inputDir/database/*.sql $this->databaseTargetDir");
 		
-		DirUtils::changeWordInDirectory($this->databaseTargetDir, '#MainProject', strtolower($this->portalName));
+		//DirUtils::changeWordInDirectory($this->databaseTargetDir, '#MainProject', strtolower($this->portalName));
 		DirUtils::changeWordInDirectory($this->databaseTargetDir, '#ProjectName', $this->portalName);
 		DirUtils::changeWordInDirectory($this->databaseTargetDir, '#ProjectUrl', $this->xmlContent ['website']);
+		
+		$nbRoles = 0;
+		$initRolesSql = "COPY role (role_id, role_name) FROM stdin;\n";
+		if (isset ( $this->xmlContent ['publicDataRole'] ) && ! empty ( $this->xmlContent ['publicDataRole'] )){
+			$nbRoles++;
+			$initRolesSql .= "$nbRoles\t".$this->xmlContent ['publicDataRole'] ."\n";
+		}
+			
+		if (isset ( $this->xmlContent ['roles'] ) && ! empty ( $this->xmlContent ['roles'] )){
+			foreach ( $this->xmlContent ['roles'] ['role'] as $role ) {
+				$nbRoles++;
+				$initRolesSql .= "$nbRoles\t".trim($role) ."\n";
+			}
+		}else{
+			$nbRoles++;
+			$initRolesSql .= "$nbRoles\t".strtolower($this->portalName) ."\n";
+		}
+		$nbRoles++;
+		$initRolesSql .= "$nbRoles\t".strtolower($this->portalName) ."Adm\n";
+		
+		$initRolesSql = "SELECT pg_catalog.setval('role_role_id_seq', $nbRoles, true);\n\n" . $initRolesSql . "\.\n";
+		$this->generateFile ( $this->databaseTargetDir . '/initRoles.sql', $initRolesSql);
+		
 		
 		$content = "#! /bin/sh \n\n";
 		$content .= 'export PGHOST=' . $this->xmlContent ['database'] ['host'] . "\n";

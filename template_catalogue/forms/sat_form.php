@@ -1,4 +1,5 @@
 <?php
+
 require_once ("forms/base_form.php");
 class sat_form extends base_form {
 	function createForm() {
@@ -27,15 +28,21 @@ class sat_form extends base_form {
 		
 		// Required format
 		$dformat = new data_format ();
-		$dformat_select = $dformat->chargeFormDestFormat ( $this, 'required_data_format', 'Required data format', 'NetCDF' );
+		$dformat_select = $dformat->chargeFormDestFormat ( $this, 'required_data_format', 'Distribution data format', 'NetCDF' );
 		$this->addElement ( $dformat_select );
-		$this->getElement ( 'organism_0' )->setLabel ( "Organism short name" );
+		
+		$this->getElement ( 'organism_0' )->setLabel ( "Organization short name" );
 		$this->getElement ( 'project_0' )->setLabel ( "Useful in the framework of" );
 		$this->getElement ( 'methode_acq_0' )->setLabel ( "Acquisition methodology and processing" );
 		$this->getElement ( 'dats_purpose' )->setLabel ( "Purpose" );
 		$this->getElement ( 'database' )->setLabel ( "Data center" );
 		$this->getElement ( 'new_db_url' )->setLabel ( "Data center url" );
 		$this->getElement ( 'dats_use_constraints' )->setLabel ( "Access and use constraints" );
+		
+		$place = new place ();
+		$categ_select = $place->chargeFormSatCategs ( $this, 'sat_categ', 'Data type' );
+		$this->addElement ( $categ_select );
+		
 		$this->getElement ( 'sensor_resol_temp' )->setLabel ( 'Temporal (yyyy-mm-dd hh:mm:ss)' );
 		$this->getElement ( 'place_alt_min_0' )->setLabel ( "Altitude min" );
 		$this->getElement ( 'place_alt_max_0' )->setLabel ( "Altitude max" );
@@ -48,15 +55,19 @@ class sat_form extends base_form {
 		$sat_select = $place->chargeFormSat ( $this, $i );
 		$this->addElement ( $sat_select );
 		$this->createFormSensorKeyword ( '_' . $i );
-		$this->addElement ( 'text', 'sensor_url_' . $i, 'Reference (URL or paper)' );
+		$this->addElement ( 'text', 'sensor_url_' . $i, 'Reference (URL or paper)', array (
+				'cols' => 60,
+				'rows' => 1 
+		) );
 		$this->applyFilter ( 'sensor_url_' . $i, 'trim' );
 		$this->createFormInstru ( $i );
 	}
 	function createFormInstru($i) {
 		$array = array ();
 		$array [0] = "";
-		if (isset ( $this->dataset->sites [$i + 1] ) && ! empty ( $this->dataset->sites [$i + 1] ) && $this->dataset->sites [$i + 1]->place_id > 0) {
-			$satId = $this->dataset->sites [$i + 1]->place_id;
+		
+		if (isset ( $this->dataset->sats [$i] ) && ! empty ( $this->dataset->sats [$i] ) && $this->dataset->sats [$i]->place_id > 0) {
+			$satId = $this->dataset->sats [$i]->place_id;
 		} else {
 			$satId = $this->exportValue ( 'satellite_' . $i );
 		}
@@ -88,20 +99,32 @@ class sat_form extends base_form {
 		$this->initFormBase ();
 		// Coverage
 		$this->initFormGeoCoverage ();
-		for($i = 0; $i < $this->dataset->nbSites - 1; $i ++) {
-			if (isset ( $this->dataset->sites ) && ! empty ( $this->dataset->sites )) {
-				if (isset ( $this->dataset->sites [$i + 1] ) && ! empty ( $this->dataset->sites [$i + 1] )) {
-					$this->getElement ( 'satellite_' . $i )->setSelected ( $this->dataset->sites [$i + 1]->place_id );
-					$this->getElement ( 'new_satellite_' . $i )->setValue ( $this->dataset->sites [$i + 1]->place_name );
+		
+		if (isset ( $this->dataset->dataType ) && ! empty ( $this->dataset->dataType )) {
+			$this->getElement ( 'sat_categ' )->setSelected ( $this->dataset->dataType->place_id );
+		}
+		
+		// echo 'nb site: '.$this->dataset->nbSites.'<br>';
+		
+		for($i = 0; $i < $this->dataset->nbSites; $i ++) {
+			
+			if (isset ( $this->dataset->sats ) && ! empty ( $this->dataset->sats )) {
+				// Satellite
+				if (isset ( $this->dataset->sats [$i] ) && ! empty ( $this->dataset->sats [$i] )) {
+					
+					$this->getElement ( 'satellite_' . $i )->setSelected ( $this->dataset->sats [$i]->place_id );
+					$this->getElement ( 'new_satellite_' . $i )->setValue ( $this->dataset->sats [$i]->place_name );
 				}
 			}
 			if (isset ( $this->dataset->dats_sensors [$i]->sensor->gcmd_instrument_keyword ) && ! empty ( $this->dataset->dats_sensors [$i]->sensor->gcmd_instrument_keyword )) {
 				$this->getElement ( 'sensor_gcmd_' . $i )->setSelected ( $this->dataset->dats_sensors [$i]->sensor->gcmd_instrument_keyword->gcmd_sensor_id );
 			}
 			// Instrument
-			$this->getElement ( 'instrument_' . $i )->setSelected ( $this->dataset->dats_sensors [$i]->sensor->sensor_id );
-			$this->getElement ( 'new_instrument_' . $i )->setValue ( $this->dataset->dats_sensors [$i]->sensor->sensor_model );
-			$this->getElement ( 'sensor_url_' . $i )->setValue ( $this->dataset->dats_sensors [$i]->sensor->sensor_url );
+			if (isset ( $this->dataset->dats_sensors [$i]->sensor ) && ! empty ( $this->dataset->dats_sensors [$i]->sensor )) {
+				$this->getElement ( 'instrument_' . $i )->setSelected ( $this->dataset->dats_sensors [$i]->sensor->sensor_id );
+				$this->getElement ( 'new_instrument_' . $i )->setValue ( $this->dataset->dats_sensors [$i]->sensor->sensor_model );
+				$this->getElement ( 'sensor_url_' . $i )->setValue ( $this->dataset->dats_sensors [$i]->sensor->sensor_url );
+			}
 		}
 		$this->initFormResolution ();
 		$this->initFormGrid ();
@@ -119,20 +142,28 @@ class sat_form extends base_form {
 		$this->saveFormBase ();
 		// Coverage
 		$this->saveFormGeoCoverage ();
+		
+		// echo 'nb site: '.$this->dataset->nbSites.'<br>';
+		
+		// Data type
+		$this->dataset->dataType = new place ();
+		$this->dataset->dataType = $this->dataset->dataType->getById ( $this->exportValue ( 'sat_categ' ) );
+		
 		// Sat
+		$this->dataset->sats = array ();
 		$this->dataset->dats_sensors = array ();
-		for($i = 0; $i < $this->dataset->nbSites - 1; $i ++) {
-			$this->dataset->sites [$i + 1] = new place ();
-			$this->dataset->sites [$i + 1]->place_id = $this->exportValue ( 'satellite_' . $i );
-			$this->dataset->sites [$i + 1]->place_name = $this->exportValue ( 'new_satellite_' . $i );
+		for($i = 0; $i < $this->dataset->nbSites; $i ++) {
+			$this->dataset->sats [$i] = new place ();
+			$this->dataset->sats [$i]->place_id = $this->exportValue ( 'satellite_' . $i );
+			$this->dataset->sats [$i]->place_name = $this->exportValue ( 'new_satellite_' . $i );
 			
-			$this->dataset->sites [$i + 1]->gcmd_plateform_keyword = new gcmd_plateform_keyword ();
-			$this->dataset->sites [$i + 1]->gcmd_plateform_keyword = $this->dataset->sites [$i + 1]->gcmd_plateform_keyword->getByName ( "Satellites" );
-			$this->dataset->sites [$i + 1]->gcmd_plat_id = & $this->dataset->sites [$i + 1]->gcmd_plateform_keyword->gcmd_plat_id;
+			$this->dataset->sats [$i]->gcmd_plateform_keyword = new gcmd_plateform_keyword ();
+			$this->dataset->sats [$i]->gcmd_plateform_keyword = $this->dataset->sats [$i]->gcmd_plateform_keyword->getByName ( "Satellites" );
+			$this->dataset->sats [$i]->gcmd_plat_id = & $this->dataset->sats [$i]->gcmd_plateform_keyword->gcmd_plat_id;
 			
-			$this->dataset->sites [$i + 1]->bound_id = - 1;
-			if (empty ( $this->dataset->sites [$i + 1]->place_name )) {
-				$this->dataset->sites [$i + 1]->place_id = - 1;
+			$this->dataset->sats [$i]->bound_id = - 1;
+			if (empty ( $this->dataset->sats [$i]->place_name )) {
+				$this->dataset->sats [$i]->place_id = - 1;
 			}
 			// Instrument
 			$this->dataset->dats_sensors [$i] = new dats_sensor ();
@@ -156,9 +187,12 @@ class sat_form extends base_form {
 		}
 		$this->saveFormVariables ( $this->dataset->nbVars );
 		// REQ DATA_FORMAT
+		$reqDataFormatId = $this->exportValue ( 'required_data_format' );
 		$this->dataset->required_data_formats = array ();
-		$this->dataset->required_data_formats [0] = new data_format ();
-		$this->dataset->required_data_formats [0]->data_format_id = $this->exportValue ( 'required_data_format' );
+		if ($reqDataFormatId > 0) {
+			$this->dataset->required_data_formats [0] = new data_format ();
+			$this->dataset->required_data_formats [0]->data_format_id = $reqDataFormatId;
+		}
 	}
 	function addValidationRules() {
 		$this->registerRule ( 'validDate', 'function', 'validDate' );
@@ -224,9 +258,9 @@ class sat_form extends base_form {
 			$this->addRule ( 'pi_name_' . $i, 'Contact ' . ($i + 1) . ': Name exceeds the maximum length allowed (250 characters)', 'maxlength', 250 );
 			$this->addRule ( 'email1_' . $i, 'Contact ' . ($i + 1) . ': email1 is incorrect', 'email' );
 			$this->addRule ( 'email2_' . $i, 'Contact ' . ($i + 1) . ': email2 is incorrect', 'email' );
-			$this->addRule ( 'org_fname_' . $i, 'Contact ' . ($i + 1) . ': Organism full name exceeds the maximum length allowed (250 characters)', 'maxlength', 250 );
-			$this->addRule ( 'org_sname_' . $i, 'Contact ' . ($i + 1) . ': Organism short name exceeds the maximum length allowed (50 characters)', 'maxlength', 50 );
-			$this->addRule ( 'org_url_' . $i, 'Contact ' . ($i + 1) . ': Organism url exceeds the maximum length allowed (250 characters)', 'maxlength', 250 );
+			$this->addRule ( 'org_fname_' . $i, 'Contact ' . ($i + 1) . ': Organization full name exceeds the maximum length allowed (250 characters)', 'maxlength', 250 );
+			$this->addRule ( 'org_sname_' . $i, 'Contact ' . ($i + 1) . ': Organization short name exceeds the maximum length allowed (50 characters)', 'maxlength', 50 );
+			$this->addRule ( 'org_url_' . $i, 'Contact ' . ($i + 1) . ': Organization url exceeds the maximum length allowed (250 characters)', 'maxlength', 250 );
 			$this->addRule ( 'email1_' . $i, 'Contact ' . ($i + 1) . ': email1 exceeds the maximum length allowed (250 characters)', 'maxlength', 250 );
 			$this->addRule ( 'email2_' . $i, 'Contact ' . ($i + 1) . ': email2 exceeds the maximum length allowed (250 characters)', 'maxlength', 250 );
 			if (isset ( $this->dataset->originators [$i] ) && ! empty ( $this->dataset->originators [$i] ) && $this->dataset->originators [$i]->pers_id > 0) {
@@ -248,14 +282,14 @@ class sat_form extends base_form {
 						$this,
 						$i 
 				) );
-				$this->addRule ( 'pi_name_' . $i, 'Contact ' . ($i + 1) . ': organism is required', 'contact_organism_required', array (
+				$this->addRule ( 'pi_name_' . $i, 'Contact ' . ($i + 1) . ': organization is required', 'contact_organism_required', array (
 						$this,
 						$i 
 				) );
 			}
 		}
 		
-		for($i = 0; $i < $this->dataset->nbSites - 1; $i ++) {
+		for($i = 0; $i < $this->dataset->nbSites; $i ++) {
 			if ($i == 0) {
 				$this->addRule ( 'satellite_' . $i, 'Instrument: satellite is required', 'couple_not_null', array (
 						$this,
@@ -267,7 +301,7 @@ class sat_form extends base_form {
 				) );
 			}
 			// Sat
-			if (isset ( $this->dataset->sites [$i + 1] ) && ! empty ( $this->dataset->sites [$i + 1] ) && $this->dataset->sites [$i + 1]->place_id > 0) {
+			if (isset ( $this->dataset->sats [$i] ) && ! empty ( $this->dataset->sats [$i] ) && $this->dataset->sats [$i]->place_id > 0) {
 				$this->disableElement ( 'new_satellite_' . $i );
 			} else {
 				$this->addRule ( 'new_satellite_' . $i, 'Instrument: This satellite name is already present in the database. Select it in the drop-down list or chose another name.', 'existe', array (
@@ -355,6 +389,8 @@ class sat_form extends base_form {
 		echo '<tr><th colspan="4" align="center"><a name="a_descr" ><a name="a_general" ></a><b>Data description</b></td></tr>';
 		$this->displayErrorsSatDataDescr ();
 		echo '<tr><td><font color="#467AA7">' . $this->getElement ( 'dats_title' )->getLabel () . '</font></td><td colspan="3">' . $this->getElement ( 'dats_title' )->toHTML () . '</td></tr>';
+		echo '<tr><td><font color="#467AA7">' . $this->getElement ( 'sat_categ' )->getLabel () . '</font></td><td colspan="3">' . $this->getElement ( 'sat_categ' )->toHTML () . '</td></tr>';
+		echo '<tr><td><font>' . $this->getElement ( 'dats_doi' )->getLabel () . '</font></td><td colspan="3">' . $this->getElement ( 'dats_doi' )->toHTML () . '</td></tr>';
 		echo '<tr><td>' . $this->getElement ( 'dats_version' )->getLabel () . '</td><td>' . $this->getElement ( 'dats_version' )->toHTML () . '</td><td colspan="2" /></tr>';
 		for($i = 0; $i < $this->dataset->nbProj; $i ++) {
 			echo '<tr>';
@@ -367,8 +403,8 @@ class sat_form extends base_form {
 		echo '<tr><td>' . $this->getElement ( 'dats_purpose' )->getLabel () . '</td><td colspan="3">' . $this->getElement ( 'dats_purpose' )->toHTML () . '</td></tr>';
 		echo '<tr name="gen_desc"><td>' . $this->getElement ( 'dats_reference' )->getLabel () . '</td><td colspan="3">' . $this->getElement ( 'dats_reference' )->toHTML () . '</td></tr>';
 		echo '<tr><th colspan="4" align="center"><a name="a_site" ></a><a name="a_instru" ></a><b>Instrument' . (($this->dataset->nbSites > 2) ? 's' : '') . ' information</b></td></tr>';
-		for($i = 0; $i < $this->dataset->nbSites - 1; $i ++) {
-			if ($this->dataset->nbSites > 2) {
+		for($i = 0; $i < $this->dataset->nbSites; $i ++) {
+			if ($this->dataset->nbSites > 1) {
 				echo '<tr><td colspan="4" align="center"><b>Instrument ' . ($i + 1) . '</b></td></tr>';
 			}
 			$this->displayErrorsInstrument ( $i );

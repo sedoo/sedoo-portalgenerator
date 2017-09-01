@@ -313,6 +313,27 @@
       		return $this->place_id;
     	}
 
+    	
+    	
+    	function chargeFormModelCategsNew($form,$label,$titre){
+    		$gcmd = new gcmd_plateform_keyword();
+    		$type = $gcmd->getByName(model_dataset::GCMD_CATEG);
+    		 
+    		$lev1 = $this->getByLevel(1,0,$type->gcmd_plat_id);
+    		foreach ($lev1 as $item1){
+    			$array_lev1[$item1->place_id] = $item1->place_name;
+    			$lev2 = $this->getByLevel(2, $item1->place_id, $type->gcmd_plat_id);
+    			foreach ($lev2 as $item2){
+    				$array_lev2[$item1->place_id][$item2->place_id] = $item2->place_name;
+    			}
+    		}
+    		$s = & $form->createElement('hierselect',$label,$titre,null, '');
+    		$s->setOptions(array($array_lev1, $array_lev2));
+    		return $s;
+    	}
+    	 
+   	//Encore utilisé par va dataset
+   	//TODO remplacer par le nouveau
 	function chargeFormModelCategs($form,$label,$titre){
 		//$array_type[0] = "";
                 //$array_stype[0][0] = "";
@@ -411,10 +432,14 @@
       		return $s;
     	}
     	
- 	function chargeFormModOld($form,$label,$titre){
-    		return $this->chargeFormByType($form,$label,$titre,"Model","updateMod();");
+ 	function chargeFormModNew($form,$label,$titre){
+    		return $this->chargeFormByType($form,$label,$titre,model_dataset::GCMD_CATEG,"updateMod();");
     	}
 
+    	
+    	    	
+    	//Encore utilisé par va dataset
+    	//TODO remplacer par le nouveau
 	function chargeFormMod($form,$label,$titre,$onchange = "updateMod();"){
 		$query = 'SELECT DISTINCT ON (place_name) * from place where gcmd_plat_id in ('.GCMD_PLAT_MODEL.') AND place_level IS NULL order by place_name';
                 $liste = $this->getByQuery($query);
@@ -441,6 +466,20 @@
 	
 		$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => $onchange));
 	
+		return $s;
+	}
+	
+	function chargeFormSatCategs($form,$label,$titre){
+		$gcmd = new gcmd_plateform_keyword();
+		$type = $gcmd->getByName("Satellites");
+	
+		$liste = $this->getByLevel(1,0,$type->gcmd_plat_id);
+		foreach ($liste as $item){
+			$array[$item->place_id] = $item->place_name;
+		}
+		
+		$s = & $form->createElement('select',$label, $titre, $array);
+		
 		return $s;
 	}
 	

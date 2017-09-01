@@ -30,8 +30,17 @@
  			$this->enfants = $this->getByQuery($query);*/
  		}
  		
- 		function toString(){
+ 		function getFullName(){
  			return  (($this->parent_project)?$this->parent_project->toString().' > ':'').$this->project_name;
+ 		}
+ 		
+ 		function toString(){
+ 			$label = $this->getFullName();
+ 			if ($this->project_url){
+ 				return "<a href='$this->project_url' target='_blank' >$label</a>";
+ 			}else{
+ 				return $label;
+ 			}
  		}
  		
  		function getAll()

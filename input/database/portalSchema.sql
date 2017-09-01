@@ -437,7 +437,8 @@ CREATE TABLE dataset (
     is_archived boolean,
     dats_funding character varying(50),
     dats_dmetmaj date,
-    code character varying(50)
+    code character varying(50),
+    dats_uuid character varying(50) NOT NULL
 );
 
 

@@ -1,7 +1,5 @@
 <?php
-/*
- * Created on 8 juil. 2010 To change the template for this generated file go to Window - Preferences - PHPeclipse - PHP - Code Templates
- */
+
 require_once ("bd/bdConnect.php");
 require_once ("scripts/logger.php");
 require_once ("bd/status_final.php");
@@ -29,6 +27,7 @@ require_once ("bd/sensor_var.php");
 require_once ("scripts/mail.php");
 require_once ("sortie/fiche2pdf_functions.php");
 require_once ("utils/elastic/ElasticClient.php");
+require_once ("sedoo-metadata/sedoo_metadata_utils.php");
 
 class dataset {
 	var $dats_id;
@@ -78,6 +77,7 @@ class dataset {
 	var $dats_funding;
 	var $dats_dmetmaj;
 	var $code;
+	var $dats_uuid;
 	
 	// Pour l'affichage
 	var $nbPis;
@@ -139,6 +139,7 @@ class dataset {
 		$this->dats_funding = $tab [31];
 		$this->dats_dmetmaj = $tab [32];
 		$this->code = $tab [33];
+		$this->dats_uuid = $tab [34];
 		
 		if (isset ( $this->status_final_id ) && ! empty ( $this->status_final_id )) {
 			$status = new status_final ();
@@ -221,6 +222,10 @@ class dataset {
 	function toString() {
 		$result = "Dataset id: " . $this->dats_id . "\n";
 		$result .= 'Dataset title: ' . $this->dats_title . "\n";
+		$result .= 'Dataset UUID: ' . $this->dats_uuid . "\n";
+		if (isset ( $this->dats_doi )) {
+			$result .= 'Dataset doi: ' . $this->dats_doi . "\n";
+		}
 		$result .= "Projects:\n";
 		for($i = 0; $i < count ( $this->projects ); $i ++) {
 			if (isset ( $this->projects [$i] )) {
@@ -433,6 +438,11 @@ class dataset {
 			$this->insert_originators ();
 			
 			$query = "update dataset set dats_title = '" . str_replace ( "'", "\'", $this->dats_title ) . "',org_id=" . $this->org_id;
+			if (isset ( $this->dats_doi ) && ! empty ( $this->dats_doi )) {
+				$query .= ",dats_doi='" . $this->dats_doi . "'";
+			} else {
+				$query .= ",dats_doi=null";
+			}
 			if (isset ( $this->bound_id ) && ! empty ( $this->bound_id )) {
 				$query .= ",bound_id=" . $this->bound_id;
 			} else {
@@ -613,6 +623,14 @@ class dataset {
 				$query_values = "values ('" . str_replace ( "'", "\'", $this->dats_title ) . "',now()";
 			else
 				$query_values = "values ('" . str_replace ( "'", "\'", $this->dats_title ) . "','" . $this->dats_pub_date . "'";
+															
+			$query_insert .= ",dats_uuid";
+			$query_values .= ",'" . sedooMetadataRandomUUID() . "'";
+				
+			if (isset ( $this->dats_doi ) && ! empty ( $this->dats_doi )) {
+				$query_insert .= ",dats_doi";
+				$query_values .= ",'" . $this->dats_doi . "'";
+			}
 			if (isset ( $this->bound_id ) && ! empty ( $this->bound_id )) {
 				$query_insert .= ",bound_id";
 				$query_values .= "," . $this->bound_id;
@@ -1157,6 +1175,8 @@ class dataset {
 	function get_sites_sat() {
 		
 		// $query = "select * from place where gcmd_plat_id in (select gcmd_plat_id from gcmd_plateform_keyword where gcmd_plat_name ilike 'Geographic Regions') order by place_name";
+		
+		// 0: Couverture
 		$query = "select * from place where place_id in (select place_id from dats_place where dats_id = " . $this->dats_id . ") and gcmd_plat_id in (select gcmd_plat_id from gcmd_plateform_keyword where gcmd_plat_name ilike 'Geographic Regions')";
 		
 		$place = new place ();
@@ -1309,13 +1329,7 @@ class dataset {
 			}
 		}
 	}
-	function insertXml($xml) {
-		$this->bdConn = new bdConnect ();
-		$this->bdConn->db_open ();
-		$query = "update dataset set dats_xml = '" . $xml . "' where dats_id = " . $this->dats_id;
-		$this->bdConn->update ( $query );
-		$this->bdConn->db_close ();
-	}
+	
 	function set_requested($requested) {
 		if ($requested) {
 			$query = "update dataset set is_requested = true where dats_id = " . $this->dats_id;

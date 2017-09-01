@@ -1,6 +1,9 @@
 <?php
 
 require_once ("bd/satellite_dataset.php");
+require_once ("bd/model_dataset.php");
+require_once ("bd/multi_instru_dataset.php");
+
 require_once ("bd/dataset_type.php");
 require_once ("bd/dataset.php");
 
@@ -20,7 +23,10 @@ class dataset_factory{
 					return self::createSatelliteDatasetById($id);
 					break;
 				case dataset_type::TYPE_MODEL:
-					
+					return self::createModelDatasetById($id);
+					break;
+				case dataset_type::TYPE_MULTI_INSTRU:
+					return self::createMultiInstrumentDatasetById($id);
 					break;
 				default:
 					//IN SITU
@@ -36,8 +42,24 @@ class dataset_factory{
 		return  self::createSatelliteDataset(  self::searchById($id) );
 	}
 	
+	public static function createMultiInstrumentDatasetById($id){
+		return  self::createMultiInstrumentDataset(  self::searchById($id) );
+	}
+	
+	public static function createModelDatasetById($id){
+		return  self::createModelDataset(  self::searchById($id) );
+	}
+	
 	private static function createSatelliteDataset($tab){
 		return  self::createDataset($tab,'satellite_dataset');
+	}
+	
+	private static function createMultiInstrumentDataset($tab){
+		return  self::createDataset($tab,'multi_instru_dataset');
+	}
+	
+	private static function createModelDataset($tab){
+		return  self::createDataset($tab,'model_dataset');
 	}
 	
 	private static function createDataset($tab, $type){

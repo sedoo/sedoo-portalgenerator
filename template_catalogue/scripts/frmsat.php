@@ -1,52 +1,58 @@
 <?php
 require_once ("forms/sat_form.php");
 require_once ("forms/validation.php");
-require_once ("editDataset.php");
+//require_once ("editDataset.php");
 
-if ($project_name != MainProject) {
-	if ($_SERVER ['HTTP_REFERER'] == constant(strtolower ( $project_name ) .'WebSite')){
-		$_SESSION ['username'] = strtolower($project_name);
-	}
-} else {
-	if ($_SERVER ['HTTP_REFERER'] == PORTAL_WebSite){
-		$_SESSION ['username'] = strtolower($project_name);
-	}
-}
+require_once ("bd/dataset_factory.php");
+
 
 $form = new sat_form ();
 $form->createLoginForm ();
+
 // user loggé
-if(isset($_REQUEST['datsId']) && !empty($_REQUEST['datsId']))
+// if (isset($form->user)){
+
+if (array_key_exists('datsId', $_REQUEST)){
 	$datsId = $_REQUEST ['datsId'];
-if(isset($_REQUEST['requested']) && !empty($_REQUEST['requested']))
-	$requested = $_REQUEST['requested'];
+}
+
+if (array_key_exists('requested', $_REQUEST)){
+	$requested = $_REQUEST ['requested'];
+}else{
+	$requested = false;
+}
+
 if (! isset ( $datsId ) || empty ( $datsId )) {
 	$datsId = $_SESSION ['datsId_tmp'];
 	$_SESSION ['datsId_tmp'] = null;
 }
 // Creation et affichage du formulaire
 if (isset ( $datsId ) && ! empty ( $datsId )) {
-	$form->dataset = new dataset ();
-	$form->dataset = $form->dataset->getById ( $datsId );
+	//echo 'charge le dataset '.$datsId.'<br>';
+	$form->dataset = dataset_factory::createSatelliteDatasetById($datsId);
 	$_SESSION ['datasetSat'] = serialize ( $form->dataset );
 } else if (isset ( $_SESSION ['datasetSat'] )) {
+	//echo 'dataset trouvé dans la session<br>';
 	$form->dataset = unserialize ( $_SESSION ['datasetSat'] );
 }
 if ($form->isCat ( $form->dataset, $project_name )) {
 	if (! isset ( $form->dataset )) {
-		$form->dataset = new dataset ();
-		$form->dataset = $form->dataset->getById ( 0 );
+		//echo 'creation dataset<br>';
+		$form->dataset = new satellite_dataset ();
+		//$form->dataset = $form->dataset->getById ( 0 );
+		
 		$form->dataset->nbPis = 1;
-		$form->dataset->nbSites = 2;
+		$form->dataset->nbSites = 1;
 		$form->dataset->nbCalcVars = 0;
 		$form->dataset->nbVars = 1;
 		$form->dataset->nbFormats = 1;
 		$form->dataset->nbProj = 1;
 		$form->dataset->dats_id = 0;
 	}
+	
 	$form->dataset->dataset_types = array ();
 	$form->dataset->dataset_types [0] = new dataset_type ();
-	$form->dataset->dataset_types [0] = $form->dataset->dataset_types [0]->getByType ( 'SATELLITE' );
+	$form->dataset->dataset_types [0] = $form->dataset->dataset_types [0]->getByType ( dataset_type::TYPE_SATELLITE );
 	
 	// TODO nettoyer
 	
@@ -60,14 +66,14 @@ if ($form->isCat ( $form->dataset, $project_name )) {
 	
 	if (isset ( $_POST ['bouton_add_instru'] )) {
 		$form->saveForm ();
-		$form->addSat ();
 		$form->dataset->nbSites ++;
+		$form->addSat ();
 		$form->displayForm ();
 		$_SESSION ['datasetSat'] = serialize ( $form->dataset );
 	} else if (isset ( $_POST ['bouton_add_variable'] )) {
 		$form->saveForm ();
 		$form->dataset->nbVars ++;
-		$form->addVariable ( $form->dataset->nbVars );
+		$form->addVariable ( );
 		$form->displayForm ();
 		$_SESSION ['datasetSat'] = serialize ( $form->dataset );
 	} else if (isset ( $_POST ['bouton_add_projet'] )) {
@@ -79,7 +85,7 @@ if ($form->isCat ( $form->dataset, $project_name )) {
 	} else if (isset ( $_POST ['bouton_add_pi'] )) {
 		$form->saveForm ();
 		$form->dataset->nbPis ++;
-		$form->addPi ( $form->dataset->nbPis );
+		$form->addPi ( );
 		$form->displayForm ();
 		$_SESSION ['datasetSat'] = serialize ( $form->dataset );
 	} else if (isset ( $_POST ['bouton_save'] )) {
@@ -99,7 +105,9 @@ if ($form->isCat ( $form->dataset, $project_name )) {
 				echo "<font size=\"3\" color='green'><b>The dataset has been succesfully inserted in the database</b></font><br>";
 				
 				$_SESSION ['datasetSat'] = null;
-				editDataset ( $form->dataset->dats_id, $project_name );
+				//editDataset ( $form->dataset->dats_id, $project_name );
+				$dts = dataset_factory::createSatelliteDatasetById($form->dataset->dats_id);
+				$dts->display($project_name);
 			} else {
 				echo "<font size=\"3\" color='red'><b>An error occured during the insertion process.</b></font><br>";
 				
@@ -112,7 +120,7 @@ if ($form->isCat ( $form->dataset, $project_name )) {
 				$_SESSION ['datasetSat'] = serialize ( $form->dataset );
 			}
 		} else {
-			$form->displayForm ( $nb_pi, $nb_site, $nb_variable, $nb_variable_calcul );
+			$form->displayForm ( );
 			$_SESSION ['datasetSat'] = serialize ( $form->dataset );
 		}
 	} else {
