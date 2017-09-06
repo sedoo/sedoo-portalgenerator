@@ -219,7 +219,7 @@ class PortalGenerator {
 		}
 	
 		if (in_array ( '--skip-apache', $this->options ) === false) {
-			$content .= "mv apache/" . strtolower ( $this->portalName ). ".conf" . $this->conf['apache']['confDir'] . "\n";
+			$content .= "mv apache/" . strtolower ( $this->portalName ). ".conf " . $this->conf['apache']['confDir'] . "\n";
 			$content .= "service " . $this->conf['apache']['service'] . " reload\n\n";
 		}
 		
