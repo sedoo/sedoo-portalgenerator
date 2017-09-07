@@ -4,7 +4,7 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <name>Passy</name>
   <path>/sites/kernel</path>
   <website>http://passy.sedoo.fr</website>
-  <googleAnalyticAccount>a creer</googleAnalyticAccount>
+  <googleAnalyticAccount></googleAnalyticAccount>
   <SSLCertificateFile>/etc/apache2/ssl/passy.crt</SSLCertificateFile>
   <SSLCertificateKeyFile>/etc/apache2/ssl/passy.key</SSLCertificateKeyFile>
   <faviconPath>/img/favicon.ico</faviconPath>
