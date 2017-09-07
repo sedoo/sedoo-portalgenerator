@@ -1,7 +1,7 @@
 <?php
 
 /*****************************/
-/* DO NOT EDIT conf/conf.php */
+/* DO NOT EDIT /sites/kernel/#MainProject/conf.php */
 /*****************************/
 
 define('TEST_MODE', @testMode@);

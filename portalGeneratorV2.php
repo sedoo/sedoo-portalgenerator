@@ -216,7 +216,7 @@ class PortalGenerator {
 				
 		if (in_array ( '--skip-php', $this->options ) === false) {
 			$content .= "mkdir -p $this->rootPath" . "/" . strtolower ($this->xmlContent['name']) . "\n"; //modif
-			$content .= "mv catalogue/conf/conf.php " . "$this->rootPath" . "/" . strtolower ($this->xmlContent['name']) . "\n"; //modif
+			$content .= "mv catalogue//sites/kernel/#MainProject/conf.php " . "$this->rootPath" . "/" . strtolower ($this->xmlContent['name']) . "\n"; //modif
 			$content .= "mv " . "catalogue $this->webPath \n"; //modif
 		}
 	
@@ -282,7 +282,7 @@ class PortalGenerator {
 	
 	function makeConfPhp() {
 		echo "Generating conf.php file...\n";
-		$filePath = $this->phpTargetDir . "/conf/conf.php";
+		$filePath = $this->phpTargetDir . "//sites/kernel/#MainProject/conf.php";
 		$file = fopen ( $filePath, "w" ) or die ( "Unable to open conf.php file!" );
 		
 		$content = "<?php \n\n";

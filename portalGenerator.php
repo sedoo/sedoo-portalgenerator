@@ -1259,8 +1259,8 @@ if (! $xml->schemaValidate ( './input/projet-template.xsd' )) {
 	}
 	echo "\n";
 	echo "parsing xml file and generating conf.php and conf.php.template files ... 1/9 \n";
-	generatePHPFile ( path . "/conf/conf.php" );
-	generatePHPFile ( path . "/conf/conf.php.template", 'template' );
+	generatePHPFile ( path . "//sites/kernel/#MainProject/conf.php" );
+	generatePHPFile ( path . "//sites/kernel/#MainProject/conf.php.template", 'template' );
 	echo "Config file generated successfully !!!\n";
 	echo "Creating projects directories ... 2/9 \n";
 	createProjectsDirectories ( $Projects );

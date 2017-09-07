@@ -1,5 +1,5 @@
 <?php
-require_once ('conf/conf.php');
+require_once ('/sites/kernel/#MainProject/conf.php');
 define('MISSING_VALUE','NA');
 //define(MAP_PATH,"");
 

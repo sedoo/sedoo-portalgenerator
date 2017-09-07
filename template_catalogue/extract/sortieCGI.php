@@ -1,6 +1,6 @@
 <?php
 
-require_once 'conf/conf.php';
+require_once '/sites/kernel/#MainProject/conf.php';
 
 function send_to_cgi($requeteXml, &$retour){
 	$data = "requete=".urlencode($requeteXml);

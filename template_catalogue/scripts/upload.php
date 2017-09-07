@@ -1,6 +1,6 @@
 <?php
 
-require_once('conf/conf.php');
+require_once('/sites/kernel/#MainProject/conf.php');
 
 function uploadImg($fileBox){
 	//print_r($_FILES);

@@ -3,7 +3,7 @@ if (! isset ( $_SESSION ))
 	session_start ();
 $project_name = "#project";
 $project_url = "/#project";
-require_once ('conf/conf.php');
+require_once ('/sites/kernel/#MainProject/conf.php');
 $titreMilieu = "Model outputs request";
 ob_start ();
 $_REQUEST ['requested'] = true;

@@ -3,7 +3,7 @@ if (! isset ( $_SESSION ))
 	session_start ();
 $project_name = "#MainProject";
 $project_url = "/#MainProject";
-require_once ('conf/conf.php');
+require_once ('/sites/kernel/#MainProject/conf.php');
 $titreMilieu = "";
 ob_start ();
 include ("lstDataByProj.php");

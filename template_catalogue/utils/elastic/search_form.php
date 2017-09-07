@@ -12,7 +12,7 @@ require_once ("bd/gcmd_science_keyword.php");
 require_once ("bd/place.php");
 require_once ("forms/validation.php");
 require_once ("utils/datepicker_utils.php");
-require_once ("conf/conf.php");
+require_once ("/sites/kernel/#MainProject/conf.php");
 class search_form extends HTML_QuickForm {
 	var $latMin;
 	var $latMax;

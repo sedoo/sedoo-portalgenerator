@@ -7,7 +7,7 @@ require_once ("bd/dataset.php");
 require_once ("mail.php");
 require_once ("bd/mails_new.php");
 require_once ("utils/ZipArchiveTest.php");
-require_once ("conf/conf.php");
+require_once ("/sites/kernel/#MainProject/conf.php");
 require_once 'extract/requeteFilesXml.php';
 require_once 'extract/sortieCGI.php';
 class download_form extends login_form {

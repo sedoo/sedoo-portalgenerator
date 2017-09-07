@@ -1,5 +1,5 @@
 <?php
-require_once ("conf/conf.php");
+require_once ("/sites/kernel/#MainProject/conf.php");
 require_once ('bd/database-content.php');
 
 if (! $db = pg_connect ( "host=" . $hote . " user=" . $db_user . " dbname=" . $db_name )) {
