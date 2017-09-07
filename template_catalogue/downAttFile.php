@@ -1,7 +1,7 @@
 <?php
-require_once('conf/conf.php');
+require_once("/sites/kernel/#MainProject/conf.php");
 $file = ATT_FILES_PATH.'/'.$_REQUEST['file'];
-//echo $file;
+
 if (isset($file) && !is_dir($file) && file_exists($file)){
 	header('Content-disposition: attachment; filename='.basename($file));
 	header('Content-MD5: '.base64_encode(md5_file($file)));

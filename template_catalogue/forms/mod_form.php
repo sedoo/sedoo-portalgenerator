@@ -13,7 +13,7 @@ class mod_form extends base_form{
 		$this->addElement('submit','bouton_add_pi','Add a contact',array('onclick' => "document.getElementById('frmmod').action += '#a_contact'"));
 		
 		$place = new place;
-		$mod_select = $place->chargeFormMod($this,'model','Model name');
+		$mod_select = $place->chargeFormModNew($this,'model','Model name');
 		$this->addElement($mod_select);
 		$this->addElement('text','new_model','Model name');
 		$this->applyFilter('new_model','trim');
@@ -22,15 +22,15 @@ class mod_form extends base_form{
 //		$modType_select = $modType->chargeFormMod($this,'model_type','Model type');
 //		$this->addElement($modType_select);
 
-		$categ_select = $place->chargeFormModelCategs($this,'model_categ','Model type');
+		$categ_select = $place->chargeFormModelCategsNew($this,'model_categ','Model type');
 		$this->addElement($categ_select);
 
 		$array = array();
 		$array[0] = "";
-		if ( isset($this->dataset->sites[1]) && !empty($this->dataset->sites[1]) ){
-			if ($this->dataset->sites[1]->place_id > 0){
+		if ( isset($this->dataset->model) && !empty($this->dataset->model) ){
+			if ($this->dataset->model->place_id > 0){
 				$sensor = new sensor;
-				$listeInstrus = $sensor->getByPlace($this->dataset->sites[1]->place_id);
+				$listeInstrus = $sensor->getByPlace($this->dataset->model->place_id);
 				foreach ($listeInstrus as $instru){
 					$array[$instru->sensor_id] = $instru->sensor_model;
 				}
@@ -50,7 +50,7 @@ class mod_form extends base_form{
 		
 		//Required format
 		$dformat = new data_format;
-		$dformat_select = $dformat->chargeFormDestFormat($this,'required_data_format','Required data format','NetCDF');
+		$dformat_select = $dformat->chargeFormDestFormat($this,'required_data_format','Distribution data format','NetCDF');
 		$this->addElement($dformat_select);
 		
 /*
@@ -59,7 +59,7 @@ class mod_form extends base_form{
 		$this->addElement('textarea','grid_comment','Grid and resolution related information',array('cols'=>70, 'rows'=>5));
 		$this->applyFilter('grid_comment','trim');*/
 
-		$this->getElement('organism_0')->setLabel("Organism short name");
+		$this->getElement('organism_0')->setLabel("Organization short name");
 		$this->getElement('project_0')->setLabel("Useful in the framework of");
 		
 		
@@ -89,14 +89,10 @@ class mod_form extends base_form{
 
 	}
 
-	function addProjet(){
-             $this->createFormProject($this->dataset->nbProj-1);
-        }
 
-
-	function addVariableMod($nb_variable){
-		$this->addVariable($nb_variable);
-		$this->getElement('methode_acq_'.($nb_variable-1))->setLabel("Parameter processing related information");
+	function addVariableMod(){
+		$this->addVariable();
+		$this->getElement('methode_acq_'.($this->dataset->nbVars - 1))->setLabel("Parameter processing related information");
 	}
 	
 	function initForm(){
@@ -105,18 +101,23 @@ class mod_form extends base_form{
 		$this->initFormResolution();
 		$this->initFormGeoCoverage();
 
-		if (isset($this->dataset->sites) && !empty($this->dataset->sites)){
+		if (isset($this->dataset->dataType) && !empty($this->dataset->dataType)){
+			//data type
+			$categ = array();			
+			if (isset($this->dataset->dataType->pla_place_id) && !empty($this->dataset->dataType->pla_place_id)){
+				$categ[0] = $this->dataset->dataType->pla_place_id;
+				$categ[1] = $this->dataset->dataType->place_id;
+			}else{
+				$categ[0] = $this->dataset->dataType->place_id;
+			}
+			$this->getElement('model_categ')->setValue($categ);
+		}
+		
+		if (isset($this->dataset->model) && !empty($this->dataset->model)){
 			//Modele
-			if ( isset($this->dataset->sites[1]) && !empty($this->dataset->sites[1]) ){
-				$this->getElement('model')->setSelected($this->dataset->sites[1]->place_id);
-				$this->getElement('new_model')->setValue($this->dataset->sites[1]->place_name);
-//				$this->getElement('model_type')->setSelected($this->dataset->sites[1]->gcmd_plat_id);
-
-				if (isset($this->dataset->sites[1]->pla_place_id) && !empty($this->dataset->sites[1]->pla_place_id)){
-					$categ[0] = $this->dataset->sites[1]->gcmd_plat_id;
-					$categ[1] = $this->dataset->sites[1]->pla_place_id;
-					$this->getElement('model_categ')->setValue($categ);
-				}
+			if ( isset($this->dataset->model) && !empty($this->dataset->model) ){
+				$this->getElement('model')->setSelected($this->dataset->model->place_id);
+				$this->getElement('new_model')->setValue($this->dataset->model->place_name);
 			}
 
 		}
@@ -125,11 +126,9 @@ class mod_form extends base_form{
 			$this->getElement('sensor_gcmd')->setSelected($this->dataset->dats_sensors[0]->sensor->gcmd_instrument_keyword->gcmd_sensor_id);
 		}
 			
-		//Instrument
-		if(isset($this->dataset->dats_sensors[0]->sensor->sensor_id) && !empty($this->dataset->dats_sensors[0]->sensor->sensor_id))			
-			$this->getElement('simu')->setSelected($this->dataset->dats_sensors[0]->sensor->sensor_id);
-		if(isset($this->dataset->dats_sensors[0]->sensor->sensor_model) && !empty($this->dataset->dats_sensors[0]->sensor->sensor_model))
-			$this->getElement('new_simu')->setValue($this->dataset->dats_sensors[0]->sensor->sensor_model);
+		//Instrument			
+		$this->getElement('simu')->setSelected($this->dataset->dats_sensors[0]->sensor->sensor_id);
+		$this->getElement('new_simu')->setValue($this->dataset->dats_sensors[0]->sensor->sensor_model);
 
 		$this->initFormGrid();
 				
@@ -157,22 +156,19 @@ class mod_form extends base_form{
 		$this->dataset->dats_sensors[0]->grid_comment = $this->exportValue('grid_comment');*/
 
 		//Mod
-		$this->dataset->sites[1] = new place;
-//		$this->dataset->sites[1]->place_id = $this->exportValue('model');
-		$this->dataset->sites[1]->place_id = 0;
-		$this->dataset->sites[1]->place_name = $this->exportValue('new_model');
-		$this->dataset->sites[1]->bound_id = -1;
+		$this->dataset->model = new place;
+		$this->dataset->model->place_id = $this->exportValue('model');
+		//$this->dataset->sites[1]->place_id = 0;
+		$this->dataset->model->place_name = $this->exportValue('new_model');
+		$this->dataset->model->bound_id = -1;
 		
 //		$this->dataset->sites[1]->gcmd_plat_id = $this->exportValue('model_type');
 		$categ_modele = $this->exportValue('model_categ');
-		$this->dataset->sites[1]->gcmd_plat_id = $categ_modele[0];
-		$this->dataset->sites[1]->pla_place_id = $categ_modele[1];
-
-                if ($this->dataset->sites[1]->gcmd_plat_id != 0) {
-                	$this->dataset->sites[1]->gcmd_plateform_keyword = new gcmd_plateform_keyword;
-                        $this->dataset->sites[1]->gcmd_plateform_keyword = $this->dataset->sites[1]->gcmd_plateform_keyword->getById($this->dataset->sites[1]->gcmd_plat_id);
-                }		
-
+		if ($categ_modele[1]){
+			$this->dataset->dataType->place_id = $categ_modele[1];
+		}else{
+			$this->dataset->dataType->place_id = $categ_modele[0];
+		}
 	
 		//Simu
 		$this->dataset->dats_sensors = array();
@@ -253,16 +249,16 @@ class mod_form extends base_form{
 
 		//Contacts
 		$this->addRule('pi_0','Contact 1 is required','couple_not_null',array($this,'pi_name_0'));
-		$this->addRule('organism_0','Contact 1: organism is required','couple_not_null',array($this,'org_sname_0'));
+		$this->addRule('organism_0','Contact 1: organization is required','couple_not_null',array($this,'org_sname_0'));
 		$this->addRule('email1_0','Contact 1: email1 is required','required');
 			
 		for ($i = 0; $i < $this->dataset->nbPis; $i++){
 			$this->addRule('pi_name_'.$i,'Contact '.($i+1).': Name exceeds the maximum length allowed (250 characters)','maxlength',250);
 			$this->addRule('email1_'.$i,'Contact '.($i+1).': email1 is incorrect','email');
 			$this->addRule('email2_'.$i,'Contact '.($i+1).': email2 is incorrect','email');
-			$this->addRule('org_fname_'.$i,'Contact '.($i+1).': Organism full name exceeds the maximum length allowed (250 characters)','maxlength',250);
-			$this->addRule('org_sname_'.$i,'Contact '.($i+1).': Organism short name exceeds the maximum length allowed (50 characters)','maxlength',50);
-			$this->addRule('org_url_'.$i,'Contact '.($i+1).': Organism url exceeds the maximum length allowed (250 characters)','maxlength',250);
+			$this->addRule('org_fname_'.$i,'Contact '.($i+1).': Organization full name exceeds the maximum length allowed (250 characters)','maxlength',250);
+			$this->addRule('org_sname_'.$i,'Contact '.($i+1).': Organization short name exceeds the maximum length allowed (50 characters)','maxlength',50);
+			$this->addRule('org_url_'.$i,'Contact '.($i+1).': Organization url exceeds the maximum length allowed (250 characters)','maxlength',250);
 			$this->addRule('email1_'.$i,'Contact '.($i+1).': email1 exceeds the maximum length allowed (250 characters)','maxlength',250);
 			$this->addRule('email2_'.$i,'Contact '.($i+1).': email2 exceeds the maximum length allowed (250 characters)','maxlength',250);
 
@@ -290,7 +286,7 @@ class mod_form extends base_form{
 
 			if ($i != 0){
 				$this->addRule('pi_name_'.$i,'Contact '.($i+1).': email1 is required','contact_email_required',array($this,$i));
-				$this->addRule('pi_name_'.$i,'Contact '.($i+1).': organism is required','contact_organism_required',array($this,$i));
+				$this->addRule('pi_name_'.$i,'Contact '.($i+1).': organization is required','contact_organism_required',array($this,$i));
 			}
 		}
 		
@@ -301,7 +297,7 @@ class mod_form extends base_form{
 		$this->addRule('new_model','Model: Name exceeds the maximum length allowed (100 characters)','maxlength',100);
 		$this->addRule('new_simu','Model: Name exceeds the maximum length allowed (100 characters)','maxlength',100);
 
-		if (isset($this->dataset->sites[1]) && !empty($this->dataset->sites[1]) && $this->dataset->sites[1]->place_id > 0){
+		if (isset($this->dataset->model) && !empty($this->dataset->model) && $this->dataset->model->place_id > 0){
 			$this->disableElement('new_model');
 			//$this->disableElement('model_type');
 		}/*else{
@@ -399,6 +395,7 @@ class mod_form extends base_form{
 		echo '<tr><th colspan="4" align="center"><a name="a_descr" ><a name="a_general" ></a><b>Data description</b></td></tr>';
 		$this->displayErrorsModDataDescr();
 		echo '<tr><td><font color="#467AA7">'.$this->getElement('dats_title')->getLabel().'</font></td><td colspan="3">'.$this->getElement('dats_title')->toHTML().'</td></tr>';
+		echo '<tr><td><font>'.$this->getElement('dats_doi')->getLabel().'</font></td><td colspan="3">'.$this->getElement('dats_doi')->toHTML().'</td></tr>';
 		//echo '<tr><td>'.$this->getElement('dats_version')->getLabel().'</td><td>'.$this->getElement('dats_version')->toHTML().'</td><td colspan="2" /></tr>';
 		//echo '<tr><td>'.$this->getElement('project_0')->getLabel().'</td>';
 		//echo '<td colspan="3">'.$this->getElement('project_0')->toHTML().'</td></tr>';

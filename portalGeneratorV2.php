@@ -43,8 +43,8 @@ class PortalGenerator {
 	}
 	
 	private function copyTemplateCatalogue() {
-		echo "Copying template_catalogue...\n";
-		$this->phpTargetDir = "$this->targetDir/" . strtolower ( $this->portalName ) . '_catalogue';
+		echo "Copying catalogue...\n";
+		$this->phpTargetDir = "$this->targetDir/" . 'catalogue';
 		
 		DirUtils::copyDirectory ( $this->templateDir, $this->phpTargetDir );
 		// creation des répertoire att_img et graphs
@@ -109,7 +109,7 @@ class PortalGenerator {
 				$this->makeConfPhp ();
 				$this->createProjectsDirectories ();
 				echo "Setting portal name in all folders...\n";
-				DirUtils::changeWordInDirectory ( $this->phpTargetDir, '#MainProject', $this->portalName );
+				DirUtils::changeWordInDirectory ( $this->phpTargetDir, '#MainProject', strtolower($this->portalName) );
 				echo "Renaming folder...\n";
 				DirUtils::rmDirectory ( $this->phpTargetDir . '/project-directory-template' );
 			} else {
@@ -215,11 +215,13 @@ class PortalGenerator {
 		}
 				
 		if (in_array ( '--skip-php', $this->options ) === false) {
-			$content .= "mv " . strtolower ( $this->portalName ) . "_catalogue $this->webPath\n";
+			$content .= "mkdir -p $this->rootPath" . "/" . strtolower ($this->xmlContent['name']) . "\n"; //modif
+			$content .= "mv catalogue/conf/conf.php " . "$this->rootPath" . "/" . strtolower ($this->xmlContent['name']) . "\n"; //modif
+			$content .= "mv " . "catalogue $this->webPath \n"; //modif
 		}
 	
 		if (in_array ( '--skip-apache', $this->options ) === false) {
-			$content .= "mv apache/" . strtolower ( $this->portalName ). ".conf" . $this->conf['apache']['confDir'] . "\n";
+			$content .= "mv apache/" . strtolower ( $this->portalName ). ".conf " . $this->conf['apache']['confDir'] . "\n";
 			$content .= "service " . $this->conf['apache']['service'] . " reload\n\n";
 		}
 		
@@ -371,7 +373,7 @@ class PortalGenerator {
 		$content .= "define('ATT_FILES_PATH','" . $this->attFilesPath . "');\n";
 		
 		
-		$content .= "define('STATS_DEFAULT_MIN_YEAR', 2015);\n";
+		$content .= "define('STATS_DEFAULT_MIN_YEAR', " . date ( 'Y' ) . ");\n";
 		
 		$content .= $this->comment ( "répertoire du site web" );
 		$content .= "define('WEB_PATH','" . $this->webPath . "');\n";
@@ -438,6 +440,11 @@ class PortalGenerator {
 			$content .= "define('Portal_Manager_Email','" . $this->xmlContent ['managerEmail'] . "');\n";
 		else
 			$content .= "define('Portal_Manager_Email','');\n";
+		$content .= $this->comment ( "Email de contact du portail" );
+		if (isset ( $this->xmlContent ['contactEmail'] ) && ! empty ( $this->xmlContent ['contactEmail'] ))
+			$content .= "define('Portal_Contact_Email','" . $this->xmlContent ['contactEmail'] . "');\n";
+		else
+			$content .= "define('Portal_Contact_Email','');\n";	
 		$content .= $this->comment ( "Datapolicy du portail" );
 		if (isset ( $this->xmlContent ['datapolicy'] ) && ! empty ( $this->xmlContent ['datapolicy'] ))
 			$content .= "define('Portal_DataPolicy','" . $this->xmlContent ['datapolicy'] . "');\n";
@@ -465,11 +472,7 @@ class PortalGenerator {
 			$content .= "define('" . strtolower ( $this->xmlContent ['name'] ) . "yDeb','" . $this->xmlContent ['yearStart'] . "');\n";
 		else
 			$content .= "define('" . strtolower ( $this->xmlContent ['name'] ) . "yDeb','');\n";
-		if (isset ( $this->xmlContent ['monthStart'] ) && ! empty ( $this->xmlContent ['monthStart'] ))
-			$content .= "define('" . strtolower ( $this->xmlContent ['name'] ) . "mDeb','" . $this->xmlContent ['monthStart'] . "');\n";
-		else
-			$content .= "define('" . strtolower ( $this->xmlContent ['name'] ) . "mDeb','');\n";
-			
+					
 			// database
 		
 		if (isset ( $this->xmlContent ['database'] ['host'] ) && ! empty ( $this->xmlContent ['database'] ['host'] ))
@@ -741,10 +744,7 @@ class PortalGenerator {
 						$content .= "define('" . strtolower ( $proj ['name'] ) . "yDeb','" . $proj ['yearStart'] . "');\n";
 					else
 						$content .= "define('" . strtolower ( $proj ['name'] ) . "yDeb','');\n";
-					if (isset ( $proj ['monthStart'] ) && ! empty ( $proj ['monthStart'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "mDeb','" . $proj ['monthStart'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "mDeb','');\n";
+					
 					$content .= $this->comment ( "Site web du projet s'il y en a " );
 					if (isset ( $proj ['website'] ) && ! empty ( $proj ['website'] ))
 						$content .= "define('" . strtolower ( $proj ['name'] ) . "WebSite','" . $proj ['website'] . "');\n";
@@ -755,6 +755,11 @@ class PortalGenerator {
 						$content .= "define('" . strtolower ( $proj ['name'] ) . "Manager_Email','" . $proj ['managerEmail'] . "');\n";
 					else
 						$content .= "define('" . strtolower ( $proj ['name'] ) . "Manager_Email','');\n";
+					$content .= $this->comment ( "Email de contact du responsable du projet" );
+					if (isset ( $proj ['contactEmail'] ) && ! empty ( $proj ['contactEmail'] ))
+						$content .= "define('" . strtolower ( $proj ['name'] ) . "Contact_Email','" . $proj ['contactEmail'] . "');\n";
+					else
+						$content .= "define('" . strtolower ( $proj ['name'] ) . "Contact_Email','');\n";
 					$content .= $this->comment ( "l'adresse mail des admin du projet" );
 					if (isset ( $proj ['adminGroupEmail'] ) && ! empty ( $proj ['adminGroupEmail'] ))
 						$content .= "define('" . strtolower ( $proj ['name'] ) . "_AdminGroup_Email','" . $proj ['adminGroupEmail'] . "');\n";

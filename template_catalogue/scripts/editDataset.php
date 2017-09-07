@@ -3,7 +3,7 @@ require_once("bd/url.php");
 require_once('gmap/map_form.php');
 require_once("bd/journal.php");
 require_once("sortie/print_utils.php");
-require_once ("bd/dataset.php");
+require_once ("bd/dataset_factory.php");
 
 require_once("scripts/lstDataUtils.php");
 require_once('conf/doi.conf.php');
@@ -17,6 +17,7 @@ function editContact(& $pis){
 			$tld = substr($mail[1],$i+1);
 			$d = substr($mail[1],0,$i); 
 			$label = ucwords(strtolower($pi->personne->pers_name)).' - '.$pi->personne->organism->getName().' ('.$pi->contact_type->contact_type_name.')';
+		
 			$tldIds = array(
 				'com' => 0, 
 				'org' => 1,
@@ -588,16 +589,20 @@ function editDataset($datsId, $project_name, $display_archived = false, $queryAr
 			} else {
 				echo "<a href='/sortie/fiche2pdf.php?datsId=$datsId' target='_blank'><img src='/img/pdf-icone-32.png' style='border:0px;float: right; margin-right:10px;' title='Export to pdf' /></a>";
 			}
-			if ($dataset->isSatelliteDataset ()) {
-				editSatelliteDataset ( $dataset, $project_name, $queryArgs );
-			} else if ($dataset->isModelDataset ()) {
-				editModelDataset ( $dataset, $project_name, $queryArgs );
-			} elseif ($dataset->isValueAddedDataset ()) {
-				editValueAddedDataset ( $dataset, $project_name, $queryArgs );
-			} else if (count ( $dataset->dats_sensors ) <= 1) {
-				editInSituDataset ( $dataset, $project_name, $queryArgs );
-			} else {
-				editInSituDatasetSite ( $dataset, $project_name, $queryArgs );
+			if ( get_class($dataset) == 'satellite_dataset' /*$dataset->isSatelliteDataset()*/ ){
+				//editSatelliteDataset($dataset,$project_name);
+				$dataset->display($project_name);
+			}else if ( get_class($dataset) == 'model_dataset' /*$dataset->isModelDataset()*/ ){
+				$dataset->display($project_name);//editModelDataset($dataset,$project_name);
+			}else if ( get_class($dataset) == 'multi_instru_dataset' /*count($dataset->dats_sensors) <= 1*/ ){
+				$dataset->display($project_name);
+			}else if ($dataset->isValueAddedDataset()){
+				//editValueDataset($dataset,$project_name);
+				//	TODO à modifier quand le nouveau formulaire fonctionnera
+				editValueAddedDataset($dataset,$project_name);
+			}else{
+				editInSituDataset($dataset,$project_name);
+				//editInSituDatasetSite($dataset,$project_name);
 			}
 		}
 	}

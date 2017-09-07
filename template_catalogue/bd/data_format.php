@@ -20,7 +20,7 @@
  		
  		function getAll()
  		{
- 			$query = 'select * from data_format where data_format_id not in ('.DATA_FORMAT_EXCLUDE.') order by data_format_name';
+ 			$query = 'select * from data_format order by data_format_name';
       		$bd = new bdConnect;
       		$liste = array();
       		if ($resultat = $bd->get_data($query))

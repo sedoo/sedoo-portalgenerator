@@ -79,17 +79,14 @@ function getGraphDataTypes($requetes) {
 	
 	return getPieGraph ( $data, $labels );
 }
-function getGraphUsers($requetes, $project_name) {
+function getGraphUsers($requetes, $yDeb, $title = '') {
 	$datax = array ();
 	$datay = array ();
-	$yDeb = constant(strtolower ( $project_name ) . 'yDeb');
-	$mDeb = constant(strtolower ( $project_name ) . 'mDeb');
 	$yFin = date ( 'Y' );
 	$i = 0;
 	for($y = $yDeb; $y <= $yFin; $y ++) {
-		$mDeb = ($y == $yDeb) ? $mDeb : 1;
 		$mFin = ($y == $yFin) ? date ( 'n' ) : 12;
-		for($m = $mDeb; $m <= $mFin; $m ++) {
+		for($m = 1; $m <= $mFin; $m ++) {
 			$datax [$i] = strtotime ( "$y-$m-01" );
 			if ($i == 0){
 					$datay [$i] = $requetes [$y] [$m];
@@ -102,7 +99,9 @@ function getGraphUsers($requetes, $project_name) {
 	
 	$graph = new Graph ( 600, 400 );
 	$graph->SetMargin ( 40, 40, 30, 130 );
-	$graph->title->Set ( "$project_name users" );
+	if ($title){
+		$graph->title->Set ( $title );
+	}
 	$xmin = $datax [0];
 	$xmax = $datax [$i - 1] + (31 * 24 * 3600);
 	$graph->SetScale ( 'intlin', 0, 0, $xmin, $xmax );

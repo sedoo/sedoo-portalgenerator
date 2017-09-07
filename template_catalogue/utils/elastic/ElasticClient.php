@@ -2,7 +2,7 @@
 
 require 'elastic/vendor/autoload.php';
 
-require_once ("conf/conf.php");
+require_once ("/sites/kernel/#MainProject/conf.php");
 require_once ("utils/elastic/elastic_dataset_factory.php");
 require_once ("bd/gcmd_science_keyword.php");
 
@@ -91,7 +91,7 @@ class ElasticClient {
 	public function indexAllKeywords($verbose = false){
 		$this->indexKeywords('science_keyword', 'gcmd_science_keyword', 'gcmd_id', 'gcmd_name', 'variable', $verbose);
 		
-		//$this->indexKeywords('location', 'gcmd_location_keyword', 'gcmd_loc_id', 'gcmd_loc_name', 'dats_loc', $verbose);
+		$this->indexKeywords('location', 'gcmd_location_keyword', 'gcmd_loc_id', 'gcmd_loc_name', 'dats_loc', $verbose);
 		$this->indexKeywords('instrument', 'gcmd_instrument_keyword', 'gcmd_sensor_id', 'gcmd_sensor_name', 'sensor', $verbose);
 		$this->indexKeywords('platform', 'gcmd_plateform_keyword', 'gcmd_plat_id', 'gcmd_plat_name', 'place', $verbose);
 		

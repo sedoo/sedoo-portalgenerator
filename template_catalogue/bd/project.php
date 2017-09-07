@@ -26,12 +26,20 @@
  			if (isset($this->pro_project_id) && !empty($this->pro_project_id)){
  				$this->parent_project = $this->getById($this->pro_project_id);
  			}
- 			/*$query = "select * from project where pro_project_id = ".$this->project_id." order by project_name";
- 			$this->enfants = $this->getByQuery($query);*/
+
+ 		}
+ 		
+ 		function getFullName(){
+ 			return  (($this->parent_project)?$this->parent_project->toString().' > ':'').$this->project_name;
  		}
  		
  		function toString(){
- 			return  (($this->parent_project)?$this->parent_project->toString().' > ':'').$this->project_name;
+ 			$label = $this->getFullName();
+ 			if ($this->project_url){
+ 				return "<a href='$this->project_url' target='_blank' >$label</a>";
+ 			}else{
+ 				return $label;
+ 			}
  		}
  		
  		function getAll()
@@ -69,9 +77,7 @@
  			{
  				$project = new project;
  				$project->new_project($resultat[0]);
- 			
- 				//echo ' -> project_name: '.$project->project_name;
- 			
+ 			 			
  			}
  			return $project;
  		}
@@ -82,17 +88,13 @@
         		return new project;
 
       		$query = "select * from project where project_id = ".$id;
-      		
-      		//echo 'query: '.$query;
-      		
+      		      		
       		$bd = new bdConnect;
       		if ($resultat = $bd->get_data($query))
       		{
         		$project = new project;
         		$project->new_project($resultat[0]);
-        		
-        		//echo ' -> project_name: '.$project->project_name;
-        		
+        		        		
       		}
       		return $project;
  		}
@@ -101,7 +103,6 @@
     	{
         	$query = "select * from project where " .
         			"lower(project_name) = lower('".(str_replace("'","\'",$this->project_name))."')";
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -114,7 +115,6 @@
     	function idExiste()
     	{
         	$query = "select * from project where project_id = ".$this->project_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -185,7 +185,6 @@
           			$l = $sous_proj[$k]->project_id;
           			$array_sous_proj[$j][$l] = $sous_proj[$k]->project_name;
           		}
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
       		 $s = & $form->createElement('hierselect',$label,$titre);
 	        $s->setOptions(array($array_proj,$array_sous_proj));

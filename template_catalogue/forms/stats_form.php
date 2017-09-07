@@ -14,6 +14,8 @@ class stats_form extends login_form{
 	var $projectName;
 	var $filtreProjets;
 
+	var $yDeb = STATS_DEFAULT_MIN_YEAR;
+	
 	function createForm($projectName){
 		$this->projectName = $projectName;
 		
@@ -21,6 +23,10 @@ class stats_form extends login_form{
 			$this->user = unserialize($_SESSION['loggedUser']);
 		}
 
+		if (constant(strtolower($project_name).'yDeb') != ''){
+			$this->yDeb = constant(strtolower($project_name).'yDeb');
+		}
+		
 		if ((($projectName != MainProject) && $this->isProjectAdmin() )
 		        || (($projectName == MainProject) && $this->isPortalAdmin()) ){
 			
@@ -68,38 +74,18 @@ class stats_form extends login_form{
 				case 1:
 					$graph = getGraphRoles($this->statsUsers);
 					displayGraph($graph,"graph_roles_$this->projectName.png");
-					//$this->displayUsersByRole();
 					break;
 				case 2:
 					$graph = getGraphCountries($this->statsUsers);
 					displayGraph($graph,"graph_pays_$this->projectName.png");
-					//$this->displayUsersByCountry();
 					break;
 				default:
-					$graph = getGraphUsers($this->statsUsers, $this->projectName);
+					$graph = getGraphUsers($this->statsUsers, $this->yDeb, $this->projectName.' users');
 					displayGraph($graph,"graph_users_$this->projectName.png");
-					//$this->displayByMonth($this->statsUsers);
 			}
 		}
 	}
-
-	function displayUsersByRole(){
-		echo '<table>';
-		foreach($this->statsUsers['r'] as $r => $nb){
-			echo "<tr><td>$r</td><td>$nb</td></tr>";
-		}
-		echo '</table>';
-	}
-
-	function displayUsersByCountry(){
-		echo '<table>';
-		foreach($this->statsUsers['c'] as $c => $nb){
-			$cName = countries::getDisplayName($c);
-			echo "<tr><td>$cName</td><td>$nb</td></tr>";
-		}
-		echo '</table>';
-	}
-
+	
 	function getNbEnregistrements(){
 		global $MainProjects;				
 		$resultat = array();
@@ -335,54 +321,18 @@ class stats_form extends login_form{
 
 	function displayNbRequetesByMonth(){
 		global $project_name;
-		$yDeb = STATS_DEFAULT_MIN_YEAR;
-		if (constant(strtolower($project_name).'yDeb') != ''){
-			$yDeb = constant(strtolower($project_name).'yDeb');
-		}
 		$requetes = $this->getNbRequetesByMonth();
-		$graph = getGraphByYear($requetes, $yDeb);
+		$graph = getGraphByYear($requetes, $this->yDeb);
 		displayGraph($graph,"graph_req_year_".$this->projectName.".png");
 		echo '<br>';
 				
 	    $yFin = date('Y');
-	    for ($y = $yDeb;$y <= $yFin;$y++){
+	    for ($y = $this->yDeb;$y <= $yFin;$y++){
 			$graph = getGraphByMonth($requetes,$y);
 			displayGraph($graph,'graph_req_month_'.$y.'_'.$this->projectName.'.png');
 		}
 	}
 
-	function displayByMonth($requetes){
-		$yDeb = 2011;
-		$yFin = date('Y');
-		//$requetes = $this->getNbRequetesByMonth();
-		//print_r($requetes);
-		$align = 'align="center"';
-		//echo '<table><tr><th></th><th></th><th colspan="3">Nombre de téléchargements</th><tr>';
-		echo '<table><tr><th></th><th></th><th>by month</th><th>by year</th><th>total</th><tr>';
-		for ($y = $yDeb;$y <= $yFin;$y++){
-			$mFin = ($y == $yFin)?date('n'):12;
-			//$mFin = 12;
-			echo "<tr><td rowspan='$mFin'>$y</td>";
-			for ($m = 1;$m <= $mFin;$m++){
-				if ($m > 1) echo '<tr>';
-				$m2 = sprintf('%1$02d',$m);
-				if (array_key_exists($y,$requetes) && array_key_exists($m,$requetes[$y]))
-					$nb = $requetes[$y][$m];
-				else
-					$nb = 0;
-				echo "<td>$m2</td><td $align>$nb</td>";
-				if ($m == 1){
-					echo "<td rowspan='$mFin' $align>".$requetes[$y][0].'</td>';		
-					if ($y == $yDeb){
-						$nbRow = ($yFin - $yDeb) * 12 + $mFin;
-						echo "<td rowspan='$nbRow' $align>".$requetes[0][0].'</td>';
-					}
-				}
-				echo '</tr>';
-			}
-		}
-		echo '</table>';
-	}
 }
 
 

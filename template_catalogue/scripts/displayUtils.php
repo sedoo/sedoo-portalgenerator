@@ -175,7 +175,17 @@ class displayUtils{
 		}
 		return $infos;
 	}
-	
+
+	public static function displayProjects(& $projects){
+		if (isset($projects) && ! empty($projects)){
+			echo "<tr><td><b>Useful in the framework of</b></td><td colspan='3'>";
+			foreach ($projects as $proj){
+				echo $proj->toString()."<br>";
+			}
+			echo "</td></tr>";
+		}
+	}
+
 	public static function displaySiteBoundings(& $site){
 		if ( (isset($site->west_bounding_coord) && strlen($site->west_bounding_coord) > 0)
 				|| (isset($site->east_bounding_coord) && strlen($site->east_bounding_coord))

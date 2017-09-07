@@ -123,7 +123,7 @@
 		
 		function getAll()
 		{
-			$query = 'select * from personne where pers_id not in ('.PERSONNE_EXCLUDE.') order by pers_name';
+			$query = 'select * from personne order by pers_name';
 			return $this->getByQuery($query);
 		}
 		

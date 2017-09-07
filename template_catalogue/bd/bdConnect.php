@@ -2,7 +2,7 @@
 
 	require_once("scripts/logger.php");
 	require_once("conf.php");
-	require_once("conf/conf.php");
+
 /*
  * Created on 8 juil. 2010
  *

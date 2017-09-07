@@ -63,7 +63,8 @@
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
-          		$this->new_dats_place($resultat[0]);
+        		//modif gui : inutile d'initialiser, on cherche juste s'il existe
+          		//$this->new_dats_place($resultat[0]);
           		return true;
         	}
         	return false;

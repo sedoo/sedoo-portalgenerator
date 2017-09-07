@@ -3,7 +3,7 @@ require_once ('utils/phpwkhtmltopdf/WkHtmlToPdf.php');
 require_once ('scripts/lstDataUtils.php');
 require_once ("dataset.php");
 require_once ("scripts/filtreProjets.php");
-require_once ('conf/conf.php');
+require_once("/sites/kernel/#MainProject/conf.php");
 
 // Database Identifiants
 $db_name = DB_NAME;
@@ -193,13 +193,11 @@ function getDatasetsByProject($Project, $isPDF = false) {
 			$role = pg_fetch_row ( $res1 );
 			$res1 = pg_query ( $db, "select url from url" . " where dats_id = $result[0] and url like '%Data-Download%'" );
 			$url = pg_fetch_row ( $res1 );
-			// echo trim($url[0])."<br>";
 			$res1 = pg_query ( $db, "select date_insertion from inserted_dataset left join dats_data using (ins_dats_id)" . " where dats_id = $result[0] " );
 			$ins_date = pg_fetch_row ( $res1 );
 			$res1 = pg_query ( $db, "select date_last_update from inserted_dataset left join dats_data using (ins_dats_id)" . " where dats_id = $result[0] " );
 			$last_update = pg_fetch_row ( $res1 );
 			loadInPlateForme ( $db, $plateformes, trim ( $url [0] ), $result, $uids, $sgbd, $role, $ins_date [0], $last_update [0] );
-			// ecrire ($db, $result);
 		}
 		if ($project_name == MainProject || $isPDF == true) {
 			$server_resp = ecrireEtat ( $db, $plateformes, true );
@@ -256,7 +254,6 @@ EOD;
 			'no-background',
 			'outline-depth' => '2' 
 	) );
-	// $pdf->setPageOptions(array('orientation' => 'landscape'));
 	$pdf->addPage ( $Content );
 	$pdf->send ( $pro_name . "_database_content_" . date ( "Y-m-d H:i:s" ) . ".pdf", 'D' );
 }

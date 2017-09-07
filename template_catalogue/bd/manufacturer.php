@@ -26,7 +26,7 @@
  		
  		function getAll()
  		{
- 			$query = 'select * from manufacturer where manufacturer_id <= '.MANUFACTURER_MAX_ID.' and manufacturer_id not in ('.MANUFACTURER_EXCLUDE.') order by manufacturer_name';
+ 			$query = 'select * from manufacturer order by manufacturer_name';
       		$bd = new bdConnect;
       		$liste = array();
       		if ($resultat = $bd->get_data($query))

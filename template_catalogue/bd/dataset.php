@@ -1,7 +1,5 @@
 <?php
-/*
- * Created on 8 juil. 2010 To change the template for this generated file go to Window - Preferences - PHPeclipse - PHP - Code Templates
- */
+
 require_once ("bd/bdConnect.php");
 require_once ("scripts/logger.php");
 require_once ("bd/status_final.php");
@@ -29,6 +27,7 @@ require_once ("bd/sensor_var.php");
 require_once ("scripts/mail.php");
 require_once ("sortie/fiche2pdf_functions.php");
 require_once ("utils/elastic/ElasticClient.php");
+require_once ("sedoo-metadata/sedoo_metadata_utils.php");
 
 class dataset {
 	var $dats_id;
@@ -78,6 +77,7 @@ class dataset {
 	var $dats_funding;
 	var $dats_dmetmaj;
 	var $code;
+	var $dats_uuid;
 	
 	// Pour l'affichage
 	var $nbPis;
@@ -139,6 +139,7 @@ class dataset {
 		$this->dats_funding = $tab [31];
 		$this->dats_dmetmaj = $tab [32];
 		$this->code = $tab [33];
+		$this->dats_uuid = $tab [34];
 		
 		if (isset ( $this->status_final_id ) && ! empty ( $this->status_final_id )) {
 			$status = new status_final ();
@@ -221,6 +222,10 @@ class dataset {
 	function toString() {
 		$result = "Dataset id: " . $this->dats_id . "\n";
 		$result .= 'Dataset title: ' . $this->dats_title . "\n";
+		$result .= 'Dataset UUID: ' . $this->dats_uuid . "\n";
+		if (isset ( $this->dats_doi )) {
+			$result .= 'Dataset doi: ' . $this->dats_doi . "\n";
+		}
 		$result .= "Projects:\n";
 		for($i = 0; $i < count ( $this->projects ); $i ++) {
 			if (isset ( $this->projects [$i] )) {
@@ -433,6 +438,11 @@ class dataset {
 			$this->insert_originators ();
 			
 			$query = "update dataset set dats_title = '" . str_replace ( "'", "\'", $this->dats_title ) . "',org_id=" . $this->org_id;
+			if (isset ( $this->dats_doi ) && ! empty ( $this->dats_doi )) {
+				$query .= ",dats_doi='" . $this->dats_doi . "'";
+			} else {
+				$query .= ",dats_doi=null";
+			}
 			if (isset ( $this->bound_id ) && ! empty ( $this->bound_id )) {
 				$query .= ",bound_id=" . $this->bound_id;
 			} else {
@@ -613,6 +623,14 @@ class dataset {
 				$query_values = "values ('" . str_replace ( "'", "\'", $this->dats_title ) . "',now()";
 			else
 				$query_values = "values ('" . str_replace ( "'", "\'", $this->dats_title ) . "','" . $this->dats_pub_date . "'";
+															
+			$query_insert .= ",dats_uuid";
+			$query_values .= ",'" . sedooMetadataRandomUUID() . "'";
+				
+			if (isset ( $this->dats_doi ) && ! empty ( $this->dats_doi )) {
+				$query_insert .= ",dats_doi";
+				$query_values .= ",'" . $this->dats_doi . "'";
+			}
 			if (isset ( $this->bound_id ) && ! empty ( $this->bound_id )) {
 				$query_insert .= ",bound_id";
 				$query_values .= "," . $this->bound_id;
@@ -802,22 +820,17 @@ class dataset {
 			}
 		}
 	}
-	/*
-	 * function insert_dats_var()	{ for ($i = 0; $i < count($this->dats_variables); $i++) { if ($this->dats_variables[$i]->unit_id == 0){ $this->dats_variables[$i]->unit->insert($this->bdConn); } //echo 'unit_id:'.$this->dats_variables[$i]->unit_id.'<br>'; //echo $i.'-'.$this->dats_variables[$i]->variable->var_name.'<br>'; if ($this->dats_variables[$i]->variable->var_id == 0){ $this->dats_variables[$i]->variable->insert($this->bdConn); }else if ($this->dats_variables[$i]->variable->var_id > 0){ $this->dats_variables[$i]->variable->update($this->bdConn); } //echo 'var_id:'.$this->dats_variables[$i]->var_id.'<br>'; $this->dats_variables[$i]->dats_id = $this->dats_id; if ($this->dats_variables[$i]->var_id > 0 ){ $this->dats_variables[$i]->insert($this->bdConn); } } }
-	 */
+
 	
 	// modif by lolo
 	function insert_dats_var() {
-		// echo 'nb dats_vars : '.count($this->dats_variables).'<br>';
 		for($i = 0; $i < count ( $this->dats_variables ); $i ++) {
 			if (isset ( $this->dats_variables [$i]->unit ) && $this->dats_variables [$i]->unit_id == 0) {
 				$this->dats_variables [$i]->unit->insert ( $this->bdConn );
 			}
-			// echo 'unit_id:'.$this->dats_variables[$i]->unit_id.'<br>';
 			if (isset ( $this->dats_variables [$i]->vertical_level_type ) && $this->dats_variables [$i]->vert_level_type_id == 0) {
 				$this->dats_variables [$i]->vertical_level_type->insert ( $this->bdConn );
 			}
-			// echo $i.'-'.$this->dats_variables[$i]->variable->var_name.'<br>';
 			
 			// A modifier
 			/*
@@ -854,15 +867,9 @@ class dataset {
 			if ($this->originators [$i]->pers_id == 0) {
 				$this->originators [$i]->insert ( $this->bdConn );
 			}
-			// echo 'persId:'.$this->originators[$i]->pers_id.'<br>';
 		}
-		// $this->org_id = $dataset->originators[0]->org_id;
-		// echo 'org_id:'.$this->org_id.'<br>';
+
 	}
-	
-	/*
-	 * function insert_sensor_places(){ if ($this->isSatelliteDataset() || $this->isModelDataset()){ $this->insert_sensor_places_satmod(); }else{ if ($this->dats_sensors[0]->sensor->sensor_id > 0){ for ($i = 0; $i < count($this->sites); $i++){ if ($this->sites[$i]->place_id != -1){ $this->dats_sensors[0]->sensor_places[$i] = new sensor_place(); $this->dats_sensors[0]->sensor_places[$i]->sensor_id = $this->dats_sensors[0]->sensor->sensor_id; $this->dats_sensors[0]->sensor_places[$i]->place_id = $this->sites[$i]->place_id; $sensor_environment = $this->sites[$i]->sensor_environment; //echo $i.'-sensor_environment:'.$sensor_environment.'<br>'; if (isset($sensor_environment) && !empty($sensor_environment)){ $this->dats_sensors[0]->sensor_places[$i]->environment = $sensor_environment; } $this->dats_sensors[0]->sensor_places[$i]->insert($this->bdConn); } } } } }
-	 */
 	
 	// modif by lolo
 	function insert_sensor_places() {
@@ -872,11 +879,9 @@ class dataset {
 		if ($this->isValueAddedDataset ()) {
 			$this->insert_sensor_places_Vadataset ();
 		} else {
-			// echo "toto<br/>";
 			for($j = 0; $j < count ( $this->dats_sensors ); $j ++) {
 				if ($this->dats_sensors [$j]->sensor->sensor_id > 0) {
 					for($i = 0; $i < count ( $this->sites ); $i ++) {
-						// echo "sensor ".$this->dats_sensors[$j]->sensor_places[$i]->sensor_id.", site: ".$this->sites[$i]->place_id.", parent: ".$this->sites[$i]->pla_place_id."<br/>";
 						
 						if ($this->sites [$i]->place_id != - 1 && $this->sites [$i]->place_id != '') {
 							$this->dats_sensors [$j]->sensor_places [$i] = new sensor_place ();
@@ -892,7 +897,6 @@ class dataset {
 							$sensor_environment = $this->sites [$i]->sensor_environment;
 							if (! isset ( $sensor_environment ) && empty ( $sensor_environment ))
 								$sensor_environment = $this->dats_sensors [$j]->sensor->sensor_environment;
-								// echo $i.'-sensor_environment:'.$sensor_environment.'<br>';
 							if (isset ( $sensor_environment ) && ! empty ( $sensor_environment )) {
 								$this->dats_sensors [$j]->sensor_places [$i]->environment = $sensor_environment;
 							}
@@ -904,13 +908,10 @@ class dataset {
 			}
 		}
 	}
-	/*
-	 * //lolo old function insert_sensor_places(){ if ($this->isSatelliteDataset() || $this->isModelDataset()){ $this->insert_sensor_places_satmod(); }else{ for ($i = 0; $i < count($this->dats_sensors); $i++)	{ if ($this->dats_sensors[$i]->sensor_id != -1){ for ($j = 0; $j < count($this->dats_sensors[$i]->sensor->sensor_places);$j++) if ($this->dats_sensors[$i]->sensor->sensor_places[$i]->place_id != -1) { $sensor_environment = $this->dats_sensors[$i]->sensor->sensor_environment; //echo $i.'-sensor_environment:'.$sensor_environment.'<br>'; if (isset($sensor_environment) && !empty($sensor_environment)){ $this->dats_sensors[$i]->sensor->sensor_places[$j]->environment = $sensor_environment; } $this->dats_sensors[$i]->sensor_places[$j]->insert($this->bdConn); } } } } }
-	 */
+
 	function insert_sensor_places_satmod() {
 		for($i = 1; $i < count ( $this->sites ); $i ++) {
 			if ($this->sites [$i]->place_id != - 1 && $this->dats_sensors [$i - 1]->sensor->sensor_id != - 1 && strlen ( $this->sites [$i]->place_id ) > 0 && strlen ( $this->dats_sensors [$i - 1]->sensor->sensor_id ) > 0) {
-				// if ($this->sites[$i]->place_id != -1 && $this->dats_sensors[$i-1]->sensor->sensor_id != -1){
 				$this->dats_sensors [$i - 1]->sensor_places [0] = new sensor_place ();
 				$this->dats_sensors [$i - 1]->sensor_places [0]->sensor_id = $this->dats_sensors [$i - 1]->sensor->sensor_id;
 				$this->dats_sensors [$i - 1]->sensor_places [0]->place_id = $this->sites [$i]->place_id;
@@ -923,7 +924,6 @@ class dataset {
 	function insert_sensor_places_Vadataset() {
 		for($i = 0; $i < count ( $this->dats_sensors ); $i ++) {
 			if ($this->sites [$i]->place_id != - 1 && $this->dats_sensors [$i]->sensor->sensor_id != - 1 && strlen ( $this->sites [$i]->place_id ) > 0 && strlen ( $this->dats_sensors [$i]->sensor->sensor_id ) > 0) {
-				// if ($this->sites[$i]->place_id != -1 && $this->dats_sensors[$i-1]->sensor->sensor_id != -1){
 				$this->dats_sensors [$i]->sensor_places [0] = new sensor_place ();
 				$this->dats_sensors [$i]->sensor_places [0]->sensor_id = $this->dats_sensors [$i]->sensor_id;
 				$this->dats_sensors [$i]->sensor_places [0]->place_id = $this->sites [$i]->place_id;
@@ -931,21 +931,14 @@ class dataset {
 				$sensor_environment = $this->sites [$i]->sensor_environment;
 				if (! isset ( $sensor_environment ) && empty ( $sensor_environment ))
 					$sensor_environment = $this->dats_sensors [$i]->sensor->sensor_environment;
-					// echo $i.'-sensor_environment:'.$sensor_environment.'<br>';
 				if (isset ( $sensor_environment ) && ! empty ( $sensor_environment )) {
 					$this->dats_sensors [$i]->sensor_places [0]->environment = $sensor_environment;
 				}
 				
 				$this->dats_sensors [$i]->sensor_places [0]->insert ( $this->bdConn );
-				/*
-				 * if ($this->isValueAddedDataset() && isset($this->dats_sensors[$i]->sensor_places[0]->place_id) && !empty($this->dats_sensors[$i]->sensor_places[0]->place_id)){ $this->dats_sensors[$i]->sensor_places[0]->updateByDatsPlaceID($this->dats_id,$this->sites[$i]->place_id); }
-				 */
 			}
 		}
 	}
-	/*
-	 * function insert_sensor_vars() { if ($this->dats_sensors[0]->sensor->sensor_id > 0){ for ($i = 0; $i < count($this->dats_variables); $i++){ if ($this->dats_variables[$i]->var_id != -1){ $this->dats_sensors[0]->sensor->sensor_vars[$i] = new sensor_var(); $this->dats_sensors[0]->sensor->sensor_vars[$i]-> sensor_id = $this->dats_sensors[0]->sensor_id; $this->dats_sensors[0]->sensor->sensor_vars[$i]-> var_id = $this->dats_variables[$i]->var_id; $sensor_prec = $this->dats_variables[$i]->variable->sensor_precision; if (isset($sensor_prec) && !empty($sensor_prec)){ $this->dats_sensors[0]->sensor->sensor_vars[$i]->sensor_precision = $sensor_prec; } $this->dats_sensors[0]->sensor->sensor_vars[$i]->insert($this->bdConn); } } } }
-	 */
 	
 	// modif by lolo, plusieurs sensors
 	function insert_sensor_vars() {
@@ -975,9 +968,6 @@ class dataset {
 			$this->dats_sensors [0]->insert ( $this->bdConn );
 		}
 	}
-	/*
-	 * function insert_sensors(){ for ($i = 0; $i < count($this->dats_sensors); $i++) { if ($this->dats_sensors[$i]->sensor->sensor_id == 0){ $this->dats_sensors[$i]->sensor_id = $this->dats_sensors[$i]->sensor->insert($this->bdConn); }else if ($this->dats_sensors[$i]->sensor->sensor_id > 0){ $this->dats_sensors[$i]->sensor_id = $this->dats_sensors[$i]->sensor->update($this->bdConn); } if ($this->dats_sensors[$i]->sensor_id != -1){ $this->dats_sensors[$i]->dats_id = $this->dats_id; $this->dats_sensors[$i]->insert($this->bdConn); } } }
-	 */
 	
 	// 1 seul, ben non, plusieurs !
 	// modif by lolo
@@ -997,10 +987,7 @@ class dataset {
 		}
 	}
 	function insert_sites() {
-		// echo "sites: ".count($this->sites)."<br/>";
 		for($i = 0; $i < count ( $this->sites ); $i ++) {
-			// echo "site ".$this->sites[$i]->place_id."<br/>";
-			// if ($this->sites[$i]->place_id == 0 && $this->sites[$i]->place_id != ''){
 			if (isset ( $this->sites [$i]->place_id ) && $this->sites [$i]->place_id == 0 && strlen ( $this->sites [$i]->place_id ) > 0) {
 				$this->sites [$i]->insert ( $this->bdConn );
 			}
@@ -1048,7 +1035,6 @@ class dataset {
 			$this->data_policy->insert ( $this->bdConn );
 			$this->data_policy_id = $this->data_policy->data_policy_id;
 		}
-		// echo 'data_policy_id:'.$this->data_policy_id.'<br>';
 	}
 	function insert_database() {
 		if (isset ( $this->database ) && $this->database->database_id == 0) {
@@ -1056,17 +1042,12 @@ class dataset {
 			
 			$this->database_id = $this->database->database_id;
 		}
-		// echo 'database_id:'.$this->database_id.'<br>';
 	}
 	function get_dats_originators() {
 		$pers = new dats_originator ();
 		$this->dats_originators = $pers->getByDataset ( $this->dats_id );
-		
-		// $this->nbPis = count($this->originators);
 	}
 	function get_originators() {
-		// $query = "select * from personne where pers_id in " .
-		// "(select distinct pers_id from dats_originators where dats_id = ".$this->dats_id.")";
 		$query = "select * from personne inner join dats_originators using (pers_id) where dats_id = " . $this->dats_id;
 		
 		$pers = new personne ();
@@ -1095,9 +1076,6 @@ class dataset {
 		$query = "select * from dats_sensor where dats_id = " . $this->dats_id;
 		$dats_sensor = new dats_sensor ();
 		$this->dats_sensors = $dats_sensor->getByQuery ( $query );
-		/*
-		 * for ($i = 0; $i < count($this->dats_sensors); $i++) { $this->dats_sensors[$i]->getSensor(); }
-		 */
 	}
 	function get_projects() {
 		$query = "select * from project where project_id in " . "(select distinct project_id from dats_proj where dats_id = " . $this->dats_id . ")";
@@ -1139,7 +1117,6 @@ class dataset {
 				$this->dats_sensors [$i] = $instrulist [$i - $nbSat - $nbMod];
 			}
 		} else {
-			// $query = "SELECT * FROM dats_sensor LEFT JOIN sensor_place USING (sensor_id) WHERE dats_id = ".$this->dats_id." ORDER BY place_id";
 			$query = "SELECT * FROM dats_sensor WHERE dats_id = " . $this->dats_id;
 			$dats_sensor = new dats_sensor ();
 			$this->dats_sensors = $dats_sensor->getByQuery ( $query );
@@ -1156,7 +1133,6 @@ class dataset {
 	}
 	function get_sites_sat() {
 		
-		// $query = "select * from place where gcmd_plat_id in (select gcmd_plat_id from gcmd_plateform_keyword where gcmd_plat_name ilike 'Geographic Regions') order by place_name";
 		$query = "select * from place where place_id in (select place_id from dats_place where dats_id = " . $this->dats_id . ") and gcmd_plat_id in (select gcmd_plat_id from gcmd_plateform_keyword where gcmd_plat_name ilike 'Geographic Regions')";
 		
 		$place = new place ();
@@ -1202,20 +1178,7 @@ class dataset {
 			for($i = $ind; $i < $ind + $nbInstruForm; $i ++) {
 				$this->sites [$i] = $Instru_list [$i - $ind];
 			}
-			// $this->nbSatForm = $this->nbSatForm-1;
-			
-			/*
-			 * for ($i = 0; $i < count($this->dats_sensors); $i++){ $this->dats_sensors[$i]->sensor->get_sensor_places(); $this->sites[$i+1] = $place->getById($this->dats_sensors[$i]->sensor->sensor_places[0]->place->place_id); }
-			 */	
-    			/*for($i = 0;$i < count($this->sites);$i++){
-    				if (isset($this->sites[$i]->place_level) && !empty($this->sites[$i]->place_level)){
-    					//Site prédéfini
-    					$emptySite = new place;
-    					$emptySite->parent_place = $this->sites[$i];
-    					$this->sites[$i] = $emptySite;
-    				}
-    			} 
-    			*/
+
     		} else {
 			$query = "select * from place where place_id in " . "(select distinct place_id from dats_place where dats_id = " . $this->dats_id . ") order by gcmd_plat_id,place_id";
 			$place = new place ();
@@ -1232,15 +1195,12 @@ class dataset {
 		}
 		$this->nbSites = count ( $this->sites );
 	}
-	/*
-	 * function get_sensor_environments(){ //echo 'sensor_id:'.$this->dats_sensors[0]->sensor->sensor_id.'<br>'; if ($this->dats_sensors[0]->sensor->sensor_id > 0){ for ($i = 0; $i < count($this->sites); $i++){ if ($this->sites[$i]->place_id > 0){ $sp = new sensor_place; $sp = $sp->getByIds($this->sites[$i]->place_id,$this->dats_sensors[0]->sensor->sensor_id); if (isset($sp) && !empty($sp)){ $this->sites[$i]->sensor_environment = $sp->environment; } } } } }
-	 */
+
 	// modif by lolo
 	function get_sensor_environments() {
 		for($i = 0; $i < count ( $this->dats_sensors ); $i ++) {
 			if ($this->dats_sensors [$i]->sensor->sensor_id > 0) {
 				for($j = 0; $j < count ( $this->sites ); $j ++) {
-					// echo "sensor: ".$this->dats_sensors[$i]->sensor->sensor_id.', site: '.$this->sites[$j]->place_id.', parent: '.$this->sites[$j]->parent_place->place_id.'<br/>';
 					if ($this->sites [$j]->place_id > 0) {
 						$sp = new sensor_place ();
 						$sp = $sp->getByIds ( $this->sites [$j]->place_id, $this->dats_sensors [$i]->sensor->sensor_id );
@@ -1260,9 +1220,7 @@ class dataset {
 			}
 		}
 	}
-	/*
-	 * function get_sensor_vars(){ //echo 'sensor_id:'.$this->dats_sensors[0]->sensor->sensor_id.'<br>'; if ($this->dats_sensors[0]->sensor->sensor_id > 0){ for ($i = 0; $i < count($this->dats_variables); $i++){ if ($this->dats_variables[$i]->variable->var_id > 0){ $sv = new sensor_var; $sv = $sv->getByIds($this->dats_variables[$i]->variable->var_id,$this->dats_sensors[0]->sensor->sensor_id); if (isset($sv) && !empty($sv)){ $this->dats_variables[$i]->variable->sensor_precision = $sv->sensor_precision; } } } } }
-	 */
+
 	// modif by lolo
 	function get_sensor_vars() {
 		for($i = 0; $i < count ( $this->dats_sensors ); $i ++) {
@@ -1282,7 +1240,6 @@ class dataset {
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->variable->gcmd = $gcmd->getById ( $this->dats_variables [$j]->variable->gcmd_id );
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->var_id = $sv->var_id;
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->unit = & $this->dats_variables [$j]->unit;
-							// $this->dats_sensors[$i]->sensor->sensor_vars[$nbVars]->methode_acq = & $this->dats_variables[$j]->methode_acq;
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->date_min = & $this->dats_variables [$j]->date_min;
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->date_max = & $this->dats_variables [$j]->date_max;
 							$this->dats_sensors [$i]->sensor->sensor_vars [$nbVars]->flag_param_calcule = & $this->dats_variables [$j]->flag_param_calcule;
@@ -1309,13 +1266,7 @@ class dataset {
 			}
 		}
 	}
-	function insertXml($xml) {
-		$this->bdConn = new bdConnect ();
-		$this->bdConn->db_open ();
-		$query = "update dataset set dats_xml = '" . $xml . "' where dats_id = " . $this->dats_id;
-		$this->bdConn->update ( $query );
-		$this->bdConn->db_close ();
-	}
+	
 	function set_requested($requested) {
 		if ($requested) {
 			$query = "update dataset set is_requested = true where dats_id = " . $this->dats_id;
