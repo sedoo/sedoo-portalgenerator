@@ -35,7 +35,7 @@
     	}
 
 
-    	function get_data2($requete)
+    	function get_data2($requete) // ?
     	{
       		if ($res = pg_query($this->conn,$requete))
       		{
