@@ -6,7 +6,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
  
- require_once("bd/bdConnect.php");
+ require_once ("bd/bdConnect.php");
 
 	class unit
 	{
@@ -84,7 +84,6 @@
     	{
         	$query = "select * from unit where " .
         			"lower(unit_name) = lower('".(str_replace("'","\'",$this->unit_name))."')";
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -97,7 +96,6 @@
     	function idExiste()
     	{
         	$query = "select * from unit where unit_id = ".$this->unit_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -125,8 +123,6 @@
     			}
      	 	
     			$query = $query_insert.") ".$query_values.")";
-
-    			//echo 'query unit: '.$query.'<br>';
     			$bd->exec($query);
     			$this->unit_id = $bd->getLastId("unit_unit_id_seq");
     		}
@@ -146,8 +142,6 @@
      	 	     	 
      	 	$query = $query_insert.") ".$query_values.")";
       		$bd = new bdConnect;
-      		
-      		//echo 'query unit: '.$query.'<br>';
       		$bd->insert($query);
       		$this->unit_id = $bd->getLastId("unit_unit_id_seq");
       		
@@ -164,13 +158,10 @@
         	{
           		$j = $liste[$i]->unit_id;
           		$array[$j] = $liste[$i]->toString();//unit_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
         	
         	$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "fillBoxes('".$label."',['new_unit_".$type.$indice."','new_unit_code_".$type.$indice."'],'unit',['unit_name','unit_code']);"));
-        	/*
-      		$s = & $form->createElement('select',$label,$titre);
-      		$s->loadArray($array);*/
+
       		return $s;
     	}
 	}

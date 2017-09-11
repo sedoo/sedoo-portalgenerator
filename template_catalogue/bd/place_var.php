@@ -5,9 +5,9 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- 	require_once("bd/bdConnect.php");
- 	require_once("bd/place.php");
- 	require_once("bd/variable.php");
+ 	require_once ("bd/bdConnect.php");
+ 	require_once ("bd/place.php");
+ 	require_once ("bd/variable.php");
  	
  	class place_var
  	{
@@ -58,7 +58,6 @@
     	{
         	$query = "select * from place_var where " .
         			"place_id = ".$this->place_id." and var_id = ".$this->var_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{

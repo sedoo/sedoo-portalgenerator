@@ -32,8 +32,6 @@
  			if (isset($this->gcm_gcmd_id) && !empty($this->gcm_gcmd_id)){
  				$this->gcmd_parent = $this->getById($this->gcm_gcmd_id);
  			}
- 			/*$query = "select * from gcmd_science_keyword where gcm_gcmd_id = ".$this->gcm_gcmd_id_id." order by gcmd_name";
- 			$this->enfants = $this->getByQuery($query);*/
  		}
  		
  		function toString(){
@@ -187,33 +185,6 @@
         	$array_categorie[0][0] = "-- Term --";
         	$array_variable[0][0][0] = "-- Var_level1 --";
         	$array_variable2[0][0][0][0] = "-- Var_level2 --";
-        	//charge toutes les catégories si pas de topic sélectionné
-        	/*$query2 = "select * from gcmd_science_keyword where gcmd_level = 2 order by gcmd_name";
-        	$all_categ = $this->getByQuery($query2);
-	        for ($i = 0; $i < count($all_categ); $i++)
-	        {
-	          $j = $all_categ[$i]->gcmd_id;
-	          $array_categorie[0][$j] = $all_categ[$i]->gcmd_name;
-	          //charge les parametres de cette categorie
-	          $query3 = "select * from gcmd_science_keyword where gcm_gcmd_id = ".$j." order by gcmd_name";
-	          $array_variable[0][$j][0] = "-- Var_level1 --";
-	          $liste_param = $this->getByQuery($query3);
-	          for ($m = 0; $m < count($liste_param); $m++)
-	          {
-	                  $n = $liste_param[$m]->gcmd_id;
-	                  $array_variable[0][$j][$n] = $liste_param[$m]->gcmd_name;
-	                  
-	          }
-	        }*/
-      
-	        //charge tous les param si pas de topic ni categorie sélectionnés
-	       /* $query3 = "select * from gcmd_science_keyword where gcmd_level = 3";
-	        $all_param = $this->getByQuery($query3);
-	        for ($i = 0; $i < count($all_param); $i++)
-	        {
-	          	$j = $all_param[$i]->gcmd_id;
-	          	$array_variable[0][0][$j] = $all_param[$i]->gcmd_name;
-	        }*/
 
 	        //charge les catégories par topic, les variable par catégorie
 	        for ($i = 0; $i < count($liste_topic); $i++)
@@ -247,16 +218,6 @@
 		                }
 		            }
 		        }
-	          //charge les variable du topic
-	        /*  $array_variable[$j][0][0] = "-- Parameter --";
-	          $query4 = "select * from gcmd_science_keyword where gcm_gcmd_id in " .
-	          		"(select distinct gcmd_id from gcmd_science_keyword where gcm_gcmd_id = ".$j.") order by gcmd_name";
-	          $liste_param = $this->getByQuery($query4);
-	          for ($k = 0; $k < count($liste_param); $k++)
-	          {
-	                $l = $liste_param[$k]->gcmd_id;
-	                $array_variable[$j][0][$l] = $liste_param[$k]->gcmd_name;
-				}*/
 	        }
 	        $s = & $form->createElement('hierselect',$label,$titre);
 	        $s->setOptions(array($array_topic,$array_categorie,$array_variable,$array_variable2));

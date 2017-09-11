@@ -34,8 +34,7 @@
       		}
       		return $liste;
  		}
- 		
- 		 		
+ 				
  		function getById($id)
     	{
       		if (!isset($id) || empty($id))
@@ -70,7 +69,6 @@
     	{
         	$query = "select * from data_policy where " .
         			"lower(data_policy_name) = lower('".(str_replace("'","\'",$this->data_policy_name))."')";
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -84,8 +82,6 @@
     	{
     		if (!$this->existe()){
     			$query = "insert into data_policy (data_policy_name) values ('".str_replace("'","\'",$this->data_policy_name)."')";
-
-    			//echo 'query data_policy: '.$query.'<br>';
     			$bd->exec($query);
     			$this->data_policy_id = $bd->getLastId("data_policy_data_policy_id_seq");
     		}
@@ -97,8 +93,6 @@
      	 	$query = "insert into data_policy (data_policy_name) values ('".str_replace("'","\'",$this->data_policy_name)."')";
      	 	     	 	     	 	     	 
      	 	$bd = new bdConnect;
-      		
-      		//echo 'query data_policy: '.$query.'<br>';
       		$bd->insert($query);
       		$this->data_policy_id = $bd->getLastId("data_policy_data_policy_id_seq");
       		
@@ -108,7 +102,6 @@
     	function idExiste()
     	{
         	$query = "select * from data_policy where data_policy_id = ".$this->data_policy_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -128,11 +121,8 @@
         	{
           		$j = $liste[$i]->data_policy_id;
           		$array[$j] = $liste[$i]->data_policy_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
         	$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "fillBox('".$label."','new_data_policy','data_policy','data_policy_name');"));
-      		/*$s = & $form->createElement('select',$label,$titre);
-      		$s->loadArray($array);*/
       		return $s;
     	}
 	}

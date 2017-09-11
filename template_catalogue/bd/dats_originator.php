@@ -14,7 +14,6 @@
  	{
  		var $dats_id;
  		var $pers_id;
- 		//var $seeker;
 		var $contact_type_id;
  		var $dataset;
  		var $personne;
@@ -24,13 +23,8 @@
  		{
  			$this->dats_id = $tab[0];
  			$this->pers_id = $tab[1];
- 			//$this->seeker = $tab[2];
  			$this->contact_type_id = $tab[2];
- 			/*if (isset($this->dats_id) && !empty($this->dats_id))
- 			{
- 				$dts = new dataset;
- 				$this->dataset = $dts->getById($this->dats_id);
- 			}*/
+
  			if (isset($this->pers_id) && !empty($this->pers_id))
  			{
  				$pers = new personne;
@@ -52,7 +46,6 @@
     	
  		function getByDataset($datsId){
 			return $this->getByQuery("select dats_originators.* from dats_originators join personne using (pers_id) where dats_id = $datsId order by contact_type_id,pers_name;");
-// 			 return $this->getByQuery("select * from dats_originators where dats_id = $datsId");	
  		}
  		
     	function getByQuery($query)
@@ -75,7 +68,6 @@
     		   		
         	$query = "select * from dats_originators where " .
         			"dats_id = ".$this->dats_id." and pers_id = ".$this->pers_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -91,17 +83,7 @@
     			
     			$query_insert = "insert into dats_originators (dats_id,pers_id,contact_type_id)";
      	 		$query_values =	"values (".$this->dats_id.",".$this->pers_id.",".$this->contact_type_id.')';
-    			
-    			//$query = "insert into dats_originators (dats_id,pers_id,seeker) " .
-     	 		//	"values (".$this->dats_id.",".$this->pers_id.",".$this->seeker.")";
-    			
-    			/*if (isset($this->seeker) && !empty($this->seeker))
-    			{
-    				$query_insert .= ",seeker";
-    				$query_values .= ",'".$this->seeker."'";
-    			}*/
-    			
-    			//$query = $query_insert.") ".$query_values.")";
+
     			$query = $query_insert." ".$query_values;
     			$bd->exec($query);
     		}

@@ -14,21 +14,19 @@ require_once("bd/bdConnect.php");
 		var $database_name;
 		var $database_url;
 		
-		function new_database($tab)
-		{
+		function new_database($tab)	{
 			$this->database_id = $tab[0];
 			$this->database_name = $tab[1];
 			$this->database_url = $tab[2];
 		}
 		
-		function toString(){
+		function toString() {
 			return $this->database_name.(($this->database_url)?',url: '.$this->database_url:'');
 		}
 		
-		function insertOld()
-    	{
-     	 	$query_insert = "insert into database (database_name";
-     	 	$query_values =	"values ('".str_replace("'","\'",$this->database_name)."'";
+		function insertOld() {
+     	 	$query_insert = "INSERT INTO database (database_name";
+     	 	$query_values =	"VALUES ('".str_replace("'","\'",$this->database_name)."'";
      	 	
      	 	if (isset($this->database_url) && !empty($this->database_url))
      	 	{
@@ -38,19 +36,16 @@ require_once("bd/bdConnect.php");
      	 	     	 
      	 	$query = $query_insert.") ".$query_values.")";
       		$bd = new bdConnect;
-      		
-      		//echo 'query database: '.$query.'<br>';
       		$bd->insert($query);
       		$this->database_id = $bd->getLastId("database_database_id_seq");
       		
       		return $this->database_id;
     	}
 		
-    	function insert(& $bd)
-    	{
+    	function insert(& $bd) {
     		if (!$this->existe()){
-    			$query_insert = "insert into database (database_name";
-    			$query_values =	"values ('".str_replace("'","\'",$this->database_name)."'";
+    			$query_insert = "INSERT INTO database (database_name";
+    			$query_values =	"VALUES ('".str_replace("'","\'",$this->database_name)."'";
 
     			if (isset($this->database_url) && !empty($this->database_url))
     			{
@@ -60,18 +55,14 @@ require_once("bd/bdConnect.php");
      	 	
     			$query = $query_insert.") ".$query_values.")";
 
-
-    			//echo 'query database: '.$query.'<br>';
-    			//$bd->insert($query);
     			$bd->exec($query);
     			$this->database_id = $bd->getLastId("database_database_id_seq");
     		}
     		return $this->database_id;
     	}
 
-		function getAll()
- 		{
- 			$query = "select * from database order by database_name";
+		function getAll() {
+ 			$query = "SELECT * FROM database ORDER BY database_name";
       		$bd = new bdConnect;
       		$liste = array();
       		if ($resultat = $bd->get_data($query))
@@ -85,12 +76,11 @@ require_once("bd/bdConnect.php");
       		return $liste;
  		}
  		
- 		function getById($id)
-    	{
+ 		function getById($id) {
       		if (!isset($id) || empty($id))
         		return new database;
 
-      		$query = "select * from database where database_id = ".$id;
+      		$query = "SELECT * FROM database WHERE database_id = ".$id;
       		$bd = new bdConnect;
       		if ($resultat = $bd->get_data($query))
       		{
@@ -100,76 +90,66 @@ require_once("bd/bdConnect.php");
       		return $per;
     	}
     
-	function getByDatsId($datsId){
-		$liste = $this->getByQuery("SELECT database.* FROM dataset JOIN database using (database_id) WHERE dats_id = $datsId");
-		if (empty($liste)){
-			return null;
-		}else{
-			return $liste[0];
+		function getByDatsId($datsId) {
+			$liste = $this->getByQuery("SELECT database.* FROM dataset JOIN database using (database_id) WHERE dats_id = $datsId");
+			if (empty($liste)){
+				return null;
+			}else{
+				return $liste[0];
+			}
 		}
-	}
-	
-    	function getByQuery($query)
-    	{
-      		$bd = new bdConnect;
-      		$liste = array();
-      		if ($resultat = $bd->get_data($query))
-      		{
-        		for ($i=0; $i<count($resultat);$i++)
-        		{
-          			$liste[$i] = new database;
-          			$liste[$i]->new_database($resultat[$i]);
-        		}
-      		}
-      		return $liste;
-    	}
+		
+		function getByQuery($query) {
+			$bd = new bdConnect;
+			$liste = array();
+			if ($resultat = $bd->get_data($query))
+			{
+				for ($i=0; $i<count($resultat);$i++)
+				{
+					$liste[$i] = new database;
+					$liste[$i]->new_database($resultat[$i]);
+				}
+			}
+			return $liste;
+		}
 
-    	function existe()
-    	{
-        	$query = "select * from database where " .
-        			"lower(database_name) = lower('".(str_replace("'","\'",$this->database_name))."')";
-        	//echo $query."<br>";
-        	$bd = new bdConnect;
-        	if ($resultat = $bd->get_data($query))
-        	{
-          		$this->database_id = $resultat[0][0];
-          		return true;
-        	}
-        	return false;
-    	}
+		function existe() {
+			$query = "select * from database where " .
+					"lower(database_name) = lower('".(str_replace("'","\'",$this->database_name))."')";
+			$bd = new bdConnect;
+			if ($resultat = $bd->get_data($query))
+			{
+				$this->database_id = $resultat[0][0];
+				return true;
+			}
+			return false;
+		}
 
-    	function idExiste()
-    	{
-        	$query = "select * from database where database_id = ".$this->database_id;
-        	//echo $query."<br>";
-        	$bd = new bdConnect;
-        	if ($resultat = $bd->get_data($query))
-        	{
-          		$this->database_name = $resultat[0][1];
-          		return true;
-        	}
-        	return false;
-    	}
-    	
-    	//creer element select pour formulaire
-    	function chargeForm($form,$label,$titre)
-    	{
+		function idExiste() {
+			$query = "select * from database where database_id = ".$this->database_id;
+			$bd = new bdConnect;
+			if ($resultat = $bd->get_data($query))
+			{
+				$this->database_name = $resultat[0][1];
+				return true;
+			}
+			return false;
+		}
+			
+		//creer element select pour formulaire
+		function chargeForm($form,$label,$titre) {
 
-      		$liste = $this->getAll();
-      		$array[0] = "";
-      		for ($i = 0; $i < count($liste); $i++)
-        	{
-          		$j = $liste[$i]->database_id;
-          		$array[$j] = $liste[$i]->database_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
-        	}
-        	//$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "updateTextBoxes('".$label."',['new_database','new_db_url']);"));
-        	
-        	$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "fillBoxes('".$label."',['new_database','new_db_url'],'database',['database_name','database_url']);"));
-        	
-      		//$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "document.getElementsByName('new_database')[0].disabled=true"));
-      		//$s->loadArray($array);
-      		return $s;
-    	}
+			$liste = $this->getAll();
+			$array[0] = "";
+			for ($i = 0; $i < count($liste); $i++)
+			{
+				$j = $liste[$i]->database_id;
+				$array[$j] = $liste[$i]->database_name;
+			}
+			
+			$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "fillBoxes('".$label."',['new_database','new_db_url'],'database',['database_name','database_url']);"));
+			
+			return $s;
+		}
 	}
 ?>

@@ -69,7 +69,6 @@
     	{
         	$query = "select * from dats_role where " .
         			"dats_id = ".$this->dats_id." and role_id = ".$this->role_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{

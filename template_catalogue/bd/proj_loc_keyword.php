@@ -1,5 +1,5 @@
 <?php
-require_once("bd/bdConnect.php");
+require_once ("bd/bdConnect.php");
 require_once ("bd/project.php");
 require_once ("bd/gcmd_location_keyword.php");
 

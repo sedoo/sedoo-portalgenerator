@@ -1,6 +1,6 @@
 <?php
 
-require_once("bd/gcmd_science_keyword.php");
+require_once ("bd/gcmd_science_keyword.php");
 
 class metadata
  	{
@@ -14,9 +14,7 @@ class metadata
  		
  		/*function __construct(){
  			$this->loadGCMDScienceKeywords();
- 		}*/
- 		
- 		 		
+ 		}*/		 		
  		
  		function loadGCMDScienceKeywords()
     	{

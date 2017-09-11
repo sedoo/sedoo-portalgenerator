@@ -3,7 +3,7 @@ require_once ('utils/phpwkhtmltopdf/WkHtmlToPdf.php');
 require_once ('scripts/lstDataUtils.php');
 require_once ("dataset.php");
 require_once ("scripts/filtreProjets.php");
-require_once("/sites/kernel/#MainProject/conf.php");
+require_once ("/sites/kernel/#MainProject/conf.php");
 
 // Database Identifiants
 $db_name = DB_NAME;
@@ -64,9 +64,11 @@ function searchPlateforme($plateformes, $id) {
 			return $plateformes [$i];
 }
 function loadInPlateForme($db, $plateformes, $url, $result, $uids, $sgbd, $role, $ins_date, $last_update) {
-	$req = "select distinct place.gcmd_plat_id from place, dats_place, gcmd_plateform_keyword
- where dats_place.dats_id=" . $result [0] . " and dats_place.place_id=place.place_id
- and  gcmd_plateform_keyword.gcmd_plat_id=place.gcmd_plat_id;";
+	$req = "SELECT DISTINCT place.gcmd_plat_id 
+			FROM place, dats_place, gcmd_plateform_keyword
+			WHERE dats_place.dats_id=" . $result [0] . " 
+			AND dats_place.place_id=place.place_id
+ 			AND  gcmd_plateform_keyword.gcmd_plat_id=place.gcmd_plat_id;";
 	if (($res1 = pg_query ( $db, $req )) && ($count = pg_num_rows ( $res1 ))) {
 		for($i = 0; $i < $count; $i ++) {
 			$ar = pg_fetch_row ( $res1 );
@@ -76,11 +78,11 @@ function loadInPlateForme($db, $plateformes, $url, $result, $uids, $sgbd, $role,
 			else {
 				if (! isset ( $first ))
 					$first = $ar [0];
-				if (($ar [0] != "1") && 				// "Geographic Regions") &&
-				($ar [0] != "14") && 				// "Ground networks") &&
-				($ar [0] != "23") && 				// "Fixed Observation Stations") &&
-				($ar [0] != "22") && 				// "Ocean sites") &&
-				($ar [0] != "16")) // && "Hydrometeorological sites") )
+				if (($ar [0] != "1") && 	// "Geographic Regions")
+				($ar [0] != "14") && 		// "Ground networks")
+				($ar [0] != "23") && 		// "Fixed Observation Stations")
+				($ar [0] != "22") && 		// "Ocean sites")
+				($ar [0] != "16")) 			// "Hydrometeorological sites") )
 					$plateforme = searchPlateforme ( $plateformes, $ar [0] );
 			}
 		}
@@ -92,7 +94,7 @@ function loadInPlateForme($db, $plateformes, $url, $result, $uids, $sgbd, $role,
 }
 function initRoles($db) {
 	$roles = array ();
-	if ($res = pg_query ( $db, "select * from role;" )) {
+	if ($res = pg_query ( $db, "SELECT * FROM role;" )) {
 		for($i = 0; $i < pg_num_rows ( $res ); $i ++) {
 			$ar = pg_fetch_row ( $res );
 			$roles [$ar [0]] = $ar [1];
@@ -139,9 +141,11 @@ function ecrireEtat($db, $plateformes, $isPDF = false) {
 	return $server_response;
 }
 function ecrire($db, $result) {
-	$req = "select distinct gcmd_plat_name from place, dats_place, gcmd_plateform_keyword
- where dats_place.dats_id=" . $result [0] . " and dats_place.place_id=place.place_id
- and  gcmd_plateform_keyword.gcmd_plat_id=place.gcmd_plat_id;";
+	$req = "SELECT DISTINCT gcmd_plat_name 
+			FROM place, dats_place, gcmd_plateform_keyword
+			WHERE dats_place.dats_id=" . $result [0] . " 
+			AND dats_place.place_id=place.place_id
+ 			AND  gcmd_plateform_keyword.gcmd_plat_id=place.gcmd_plat_id;";
 	if ($res1 = pg_query ( $db, $req )) {
 		$count = pg_num_rows ( $res1 );
 		for($i = 0; $i < $count; $i ++) {
@@ -159,7 +163,7 @@ function ecrire($db, $result) {
 }
 function lirePlateforme($db) {
 	$plateformes = array ();
-	if ($res = pg_query ( $db, "select * from gcmd_plateform_keyword;" )) {
+	if ($res = pg_query ( $db, "SELECT * FROM gcmd_plateform_keyword;" )) {
 		for($i = 0; $i < pg_num_rows ( $res ); $i ++) {
 			$ar = pg_fetch_row ( $res );
 			$plateformes [$i] = new Plateforme ( $ar [0], $ar [1] );
@@ -180,22 +184,22 @@ function getDatasetsByProject($Project, $isPDF = false) {
 	}
 	reset ( $elements );
 	$plateformes = lirePlateforme ( $db );
-	$requete = "select dats_id, dats_title, dats_date_begin, dats_date_end from dataset where dats_id in (select distinct dats_id from url where url_type !='map') and dats_id in (select distinct dats_id from dats_proj where project_id in (" . $Project . "));";
+	$requete = "SELECT dats_id, dats_title, dats_date_begin, dats_date_end FROM dataset WHERE dats_id IN (SELECT DISTINCT dats_id FROM url WHERE url_type !='map') AND dats_id IN (SELECT DISTINCT dats_id FROM dats_proj WHERE project_id IN (" . $Project . "));";
 	if ($res = pg_query ( $db, $requete )) {
 		for($i = 0; $i < pg_num_rows ( $res ); $i ++) {
 			$result = pg_fetch_row ( $res );
-			$res1 = pg_query ( $db, "select pers_name from dats_originators, personne" . " where dats_id = $result[0] and
+			$res1 = pg_query ( $db, "SELECT pers_name FROM dats_originators, personne" . " WHERE dats_id = $result[0] AND
   	             dats_originators.pers_id =personne.pers_id" );
 			$uids = pg_fetch_row ( $res1 );
-			$res1 = pg_query ( $db, "select ins_dats_id from dats_data" . " where dats_id = $result[0]" );
+			$res1 = pg_query ( $db, "SELECT ins_dats_id FROM dats_data" . " WHERE dats_id = $result[0]" );
 			$sgbd = pg_fetch_row ( $res1 );
-			$res1 = pg_query ( $db, "select role_id from dats_role" . " where dats_id = $result[0]" );
+			$res1 = pg_query ( $db, "SELECT role_id FROM dats_role" . " WHERE dats_id = $result[0]" );
 			$role = pg_fetch_row ( $res1 );
-			$res1 = pg_query ( $db, "select url from url" . " where dats_id = $result[0] and url like '%Data-Download%'" );
+			$res1 = pg_query ( $db, "SELECT url FROM url" . " WHERE dats_id = $result[0] AND url like '%Data-Download%'" );
 			$url = pg_fetch_row ( $res1 );
-			$res1 = pg_query ( $db, "select date_insertion from inserted_dataset left join dats_data using (ins_dats_id)" . " where dats_id = $result[0] " );
+			$res1 = pg_query ( $db, "SELECT date_insertion FROM inserted_dataset LEFT JOIN dats_data using (ins_dats_id)" . " WHERE dats_id = $result[0] " );
 			$ins_date = pg_fetch_row ( $res1 );
-			$res1 = pg_query ( $db, "select date_last_update from inserted_dataset left join dats_data using (ins_dats_id)" . " where dats_id = $result[0] " );
+			$res1 = pg_query ( $db, "SELECT date_last_update FROM inserted_dataset LEFT JOIN dats_data using (ins_dats_id)" . " WHERE dats_id = $result[0] " );
 			$last_update = pg_fetch_row ( $res1 );
 			loadInPlateForme ( $db, $plateformes, trim ( $url [0] ), $result, $uids, $sgbd, $role, $ins_date [0], $last_update [0] );
 		}
@@ -205,7 +209,7 @@ function getDatasetsByProject($Project, $isPDF = false) {
 			$server_resp = ecrireEtat ( $db, $plateformes );
 		}
 	}
-	$res = pg_query ( $db, "select count(*) from dataset " );
+	$res = pg_query ( $db, "SELECT count(*) FROM dataset " );
 	$ds = pg_fetch_row ( $res );
 	if ($i == 0)
 		$server_resp = " nothing found for $ProjectName <br>";

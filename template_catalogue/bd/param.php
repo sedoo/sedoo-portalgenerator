@@ -1,8 +1,8 @@
 <?php
 
-require_once("bd/bdConnect.php");
-require_once("bd/variable.php");
-require_once("bd/unit.php");
+require_once ("bd/bdConnect.php");
+require_once ("bd/variable.php");
+require_once ("bd/unit.php");
 
 class param{
 		
@@ -30,7 +30,6 @@ class param{
  				$u = new unit;
  				$this->unit = $u->getById($this->unit_id);
  		}
-//		echo $this->var_id.'-'.$tab[4].'<br>';
 		if (isset($tab[4]) && !empty($tab[4])){
 			$this->hasData = true;
 		}
@@ -80,7 +79,6 @@ class param{
 
 
 	function getByQuery($query){
-		//echo "$query<br>";
 			$bd = new bdConnect;
       		$liste = array();
       		if ($resultat = $bd->get_data($query)){

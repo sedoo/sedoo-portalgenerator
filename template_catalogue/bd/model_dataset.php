@@ -1,6 +1,6 @@
 <?php
 
-require_once("bd/base_dataset.php");
+require_once ("bd/base_dataset.php");
 
 class model_dataset extends base_dataset {
 
@@ -12,8 +12,7 @@ class model_dataset extends base_dataset {
 	var $model;
 	
 	//Simulation : dats_sensor[0]
-	
-	
+		
 	public function init($tab){
 		$this->init_base_dataset($tab);
 			
@@ -79,7 +78,6 @@ class model_dataset extends base_dataset {
 	}
 	
 	protected function update_after_base(){
-		//echo "update_after_base()<br/>";
 		$this->insert_dataType();
 		$this->insert_model();
 		$this->insert_geoCoverage();
@@ -88,7 +86,6 @@ class model_dataset extends base_dataset {
 	}
 	
 	private function insert_dataType(){
-		//echo "insert_dataType()<br/>";
 		$do = new dats_place();
 		$do->dats_id = $this->dats_id;
 		$do->place_id = $this->dataType->place_id;
@@ -96,7 +93,6 @@ class model_dataset extends base_dataset {
 	}
 	
 	private function insert_geoCoverage(){
-		//echo "insert_geoCoverage()<br/>";
 		if ($this->sites[0]->place_id == 0){
 			$this->sites[0]->insert($this->bdConn);
 		}
@@ -108,7 +104,6 @@ class model_dataset extends base_dataset {
 	}
 	
 	private function insert_model(){
-		//echo "insert_sats()<br/>";
 		if ($this->model->place_id == 0){
 			
 			$this->model->gcmd_plateform_keyword = new gcmd_plateform_keyword;
@@ -134,7 +129,6 @@ class model_dataset extends base_dataset {
 	}
 	
 	public function toString(){
-		//echo "toString()<br/>";
 		$result = $this->base_dataset_to_string();
 			
 		$result .= 'Data type: '.$this->dataType->place_name."\n";
@@ -168,13 +162,6 @@ class model_dataset extends base_dataset {
 		}
 		
 		displayUtils::displayProjects($this->projects);
-		/*if (isset($this->projects) && ! empty($this->projects)){
-			echo "<tr><td><b>Useful in the framework of</b></td><td colspan='3'>";
-			foreach ($this->projects as $proj){
-				echo $proj->toString()."<br>";
-			}
-			echo "</td></tr>";
-		}*/
 		
 		echo "<tr><td><b>Dataset Contact(s)</b></td><td colspan='3'>";
 		displayUtils::displayContacts($this->dats_originators);
@@ -187,7 +174,6 @@ class model_dataset extends base_dataset {
 		echo "<tr><td><b>Model</b></td><td colspan='3'>".$this->model->place_name."</td></tr>";
 		echo "<tr><td><b>Simulation</b></td><td colspan='3'>".$this->dats_sensors[0]->sensor->sensor_model."</td></tr>";
 		
-		//echo '</td></tr><tr><th colspan="4" align="center"><b>Data description</b></th></tr>';
 		if ($this->dats_abstract){
 			echo "<tr><td><b>Model / simulation description</b></td><td colspan='3'>".$this->dats_abstract."</td></tr>";
 		}

@@ -17,12 +17,10 @@
 					
 		/* ***** INIT ***** */
 		
-		//TODO tester que le type est bine SAT ? le forcer ?
+		//TODO tester que le type est bien SAT ? le forcer ?
 		
 		public function init($tab){
 			$this->init_base_dataset($tab);
-			
-			//$this->get_dats_sensors_sat();
 			$this->get_dats_sensors();
 			
 			$this->get_geoCoverage();
@@ -31,18 +29,8 @@
 			
 			$this->get_sensor_vars();
 						
-			//non utilisé
-			//$this->nbSensors = count($this->dats_sensors);
-						
 			$this->init_cpt();
 		}
-
-		/*private function get_dats_sensors_sat(){
-			$query = "SELECT * FROM dats_sensor LEFT JOIN sensor_place USING (sensor_id) WHERE dats_id = ".$this->dats_id." ORDER BY place_id";
-		
-			$dats_sensor = new dats_sensor;
-			$this->dats_sensors = $dats_sensor->getByQuery($query);
-		}*/
 		
 		private function get_geoCoverage(){
 			$query = "select * from place where place_id in (select place_id from dats_place where dats_id = ".$this->dats_id
@@ -90,7 +78,6 @@
 		}
 		
 		protected function update_before_base(){
-			//echo "update_before_base()<br/>";
 			if (isset($this->dats_sensors[0]->sensor->sensor_id) && !empty($this->dats_sensors[0]->sensor->sensor_id)){
 				$this->bdConn->exec("delete from sensor_place where sensor_id = ".$this->dats_sensors[0]->sensor->sensor_id);
 				for ($i = 0; $i < count($this->dats_variables); $i++){
@@ -102,7 +89,6 @@
 		}
 		
 		protected function update_after_base(){
-			//echo "update_after_base()<br/>";
 			$this->insert_dataType();
 			$this->insert_sats();
 			$this->insert_geoCoverage();
@@ -112,7 +98,6 @@
 		
 
 		private function insert_dataType(){
-			//echo "insert_dataType()<br/>";
 			$do = new dats_place();
 			$do->dats_id = $this->dats_id;
 			$do->place_id = $this->dataType->place_id;
@@ -120,7 +105,6 @@
 		}
 		
 		private function insert_geoCoverage(){
-			//echo "insert_geoCoverage()<br/>";
 			if ($this->sites[0]->place_id == 0){
 				$this->sites[0]->insert($this->bdConn);
 			}
@@ -132,7 +116,6 @@
 		}
 		
 		private function insert_sats(){
-			//echo "insert_sats()<br/>";
 			for ($i = 0; $i < count($this->sats); $i++) {
 				if ($this->sats[$i]->place_id == 0){
 					$this->sats[$i]->insert($this->bdConn);
@@ -164,7 +147,6 @@
 		}
 		
 		public function toString(){
-			//echo "toString()<br/>";
 			$result = $this->base_dataset_to_string();
 			
 			$result .= 'Data type: '.$this->dataType->place_name."\n";
@@ -197,7 +179,6 @@
 		//TODO affichage différent pour les requested dataset
 		public function display($project_name){
 
-			
 			echo '<table style = \'page-break-inside: auto;\'><tr style = \'page-break-inside: avoid;\'><th colspan="4" align="center"><b>General information</b></th></tr>';
 			echo "<tr style = \'page-break-inside: avoid;\'><td style = \'page-break-inside: avoid;\'><b>Dataset name</b></td><td colspan='3'>".$this->dats_title."</td></tr>";
 			echo "<tr style = \'page-break-inside: avoid;\'><td style = \'page-break-inside: avoid;\'><b>Data type</b></td><td colspan='3'>".$this->dataType->place_name."</td></tr>";

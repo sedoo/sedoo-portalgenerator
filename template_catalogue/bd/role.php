@@ -68,7 +68,6 @@
     	{
         	$query = "select * from role where " .
         			"lower(role_name) = lower('".(str_replace("'","\'",$this->role_name))."')";
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -81,7 +80,6 @@
     	function idExiste()
     	{
         	$query = "select * from role where role_id = ".$this->role_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -108,7 +106,6 @@
         	{
           		$j = $liste[$i]->role_id;
           		$array[$j] = $liste[$i]->role_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
       		$s = & $form->createElement('select',$label,$titre);
       		$s->loadArray($array);

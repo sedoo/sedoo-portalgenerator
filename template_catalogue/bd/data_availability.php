@@ -17,15 +17,15 @@ class data_availability{
 	var $period;
 	
 	function new_data_availability($tab) {
-                $this->ins_dats_id = $tab[0];
-                $this->var_id = $tab[1];
-                $this->place_id = $tab[2];
+		$this->ins_dats_id = $tab[0];
+		$this->var_id = $tab[1];
+		$this->place_id = $tab[2];
 		$this->date_begin = $tab[3];
 		$this->date_end = $tab[4];
 		$this->val_min = $tab[5];
 		$this->val_max = $tab[6];
 		$this->nb_valeurs = $tab[7];
-                $this->period = $tab[8];
+		$this->period = $tab[8];
 	}	
 
 	function getByDatsVarPlace($ins_dats_id,$var_id,$place_id,$year = null) {

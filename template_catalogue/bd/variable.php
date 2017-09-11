@@ -5,8 +5,8 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- 	require_once("bd/bdConnect.php");
- 	require_once("bd/gcmd_science_keyword.php");
+ 	require_once ("bd/bdConnect.php");
+ 	require_once ("bd/gcmd_science_keyword.php");
  	
  	class variable
  	{
@@ -79,8 +79,7 @@
     			$query .= " and gcmd_id is null";
     		}
 
-        	//echo $query."<br>";
-        	$bd = new bdConnect;
+			$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
           		$this->new_variable($resultat[0]);
@@ -92,7 +91,6 @@
     	function idExiste()
     	{
         	$query = "select * from variable where var_id = ".$this->var_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -107,7 +105,6 @@
      	 	$query_insert = "insert into variable (var_name";
      	 	$query_values = "values ('".str_replace("'","\'",$this->var_name)."'";
      	 	
-     	 	//echo 'gcmd_id:'.$this->gcmd_id.'<br>';
     		if ($this->gcmd_id > 0){
     			$query_insert .= ",gcmd_id";
     			$query_values .= ",".$this->gcmd_id;
@@ -125,8 +122,6 @@
     	{
     		
      	 	$query = "update variable set var_name='".str_replace("'","\'",$this->var_name)."'";
-
-		//echo 'gcmd_id:'.$this->gcmd_id.'<br>';
 
     		if ($this->gcmd_id > 0){
     			$query .= ",gcmd_id=".$this->gcmd_id;
@@ -163,15 +158,10 @@
         	{
           		$j = $liste[$i]->var_id;
           		$array[$j] = $liste[$i]->var_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
         	
-        	//$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "fillBox('".$label."','new_variable_".$type.$indice."','variable','var_name');updateGcmd('".$type.$indice."');"));
         	$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "updateParam('".$label."','".$type.$indice."');"));
-        	
-        	/*        	
-      		$s = & $form->createElement('select',$label,$titre);
-      		$s->loadArray($array);*/
+
       		return $s;
     	}
  	}

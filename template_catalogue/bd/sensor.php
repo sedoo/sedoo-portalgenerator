@@ -5,11 +5,11 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- 	require_once("bd/bdConnect.php");
- 	require_once("bd/manufacturer.php");
- 	require_once("bd/gcmd_instrument_keyword.php");
- 	require_once("bd/boundings.php");
- 	require_once("scripts/common.php");
+ 	require_once ("bd/bdConnect.php");
+ 	require_once ("bd/manufacturer.php");
+ 	require_once ("bd/gcmd_instrument_keyword.php");
+ 	require_once ("bd/boundings.php");
+ 	require_once ("scripts/common.php");
  	
  	class sensor
  	{
@@ -141,7 +141,6 @@
         			"lower(sensor_model) = lower('".str_replace("'","\'",$this->sensor_model)."')" .
         					" and manufacturer_id = ".$this->manufacturer_id." " .
         							"and gcmd_sensor_id = ".$this->gcmd_sensor_id; 
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -154,7 +153,6 @@
     	function idExiste()
     	{
         	$query = "select * from sensor where sensor_id = ".$this->sensor_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -168,12 +166,10 @@
     	{
     		if ($this->manufacturer_id === 0){
     			$this->manufacturer_id =$this->manufacturer->insert($bd);
-    			//echo 'manufacturer_id:'.$this->manufacturer_id.'<br>';
     		}
     		    		
     		if (isset($this->boundings) && $this->bound_id != -1){
     			$this->bound_id = $this->boundings->insert($bd);
-    			//echo 'bound_id:'.$this->bound_id.'<br>';
     		}
     		
      	 	$query_insert = "insert into sensor (gcmd_sensor_id";
@@ -236,18 +232,15 @@
      	 		$query_values .= ",".doubleAlt2int($this->sensor_elevation);
      	 		$vide = false;
      	 	}
-     	 	
-     	 	//if ($vide){
-     	 		//return -1;
-     	 	//}else{
-     	 		$query = $query_insert.") ".$query_values.")";
 
-     	 		$bd->exec($query);
+			$query = $query_insert.") ".$query_values.")";
 
-     	 		$this->sensor_id = $bd->getLastId('sensor_sensor_id_seq');
+			$bd->exec($query);
 
-     	 		return $this->sensor_id;
-     	 	//}
+			$this->sensor_id = $bd->getLastId('sensor_sensor_id_seq');
+
+			return $this->sensor_id;
+
     	}
     	
  		function update(& $bd)
@@ -326,18 +319,9 @@
      	 		$query .= ",sensor_elevation=null";
      	 	}
      	 	
-     	 	
-     	 	/*if ($vide){
-     	 		//$bd->exec("delete from sensor where sensor_id=".$this->sensor_id);
-     	 		//$this->sensor_id = -1;
-     	 	}else{*/
-     	 		$query .= " where sensor_id=".$this->sensor_id;
-     	 		
-     	 		//echo 'update sensor $query'.$query.'<br>';
-     	 		
-     	 		$bd->exec($query);
-
-     	 	//}
+			$query .= " where sensor_id=".$this->sensor_id;
+			$bd->exec($query);
+			
      	 	return $this->sensor_id;
     	}
     	

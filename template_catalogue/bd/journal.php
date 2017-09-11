@@ -28,7 +28,6 @@ class journal {
 	var $publier;
 	function new_journal($tab) {
 		$this->id = $tab [0];
-		// $this->date = $tab[1];
 		$this->date = new DateTime ( $tab [1] );
 		$this->type_id = $tab [2];
 		if (isset ( $this->type_id ) && ! empty ( $this->type_id )) {
@@ -57,7 +56,6 @@ class journal {
 		$ret = $bd->exec ( $query );
 		$bd->db_close ();
 		
-		// echo $ret;
 		return $ret;
 	}
 	static function addDownloadEntry($user, $datsId, $files, $follow) {
@@ -89,9 +87,7 @@ class journal {
 		$journal = new journal ();
 		$types = TYPE_NEW . ',' . TYPE_UPDATE;
 		$orderBy = 'order by date desc';
-		// $query = "select journal.* from journal join dats_proj using (dats_id) where type_journal_id in ($types) and publier and age(date) < '$interval' and project_id in ($projets) $orderBy";
 		$query = "select * from journal where type_journal_id in ($types) and dats_id in (select distinct dats_id from dats_proj where project_id in ($projets)) and publier and age(date) < '$interval' order by date desc";
-		// echo $query.'<br>';
 		return $journal->getByQuery ( $query );
 	}
 	static function sendMailAbonnes($entry, $projectName = MainProject) {
@@ -119,7 +115,6 @@ class journal {
 		$entry->publier = $public;
 		if ($entry->insert ()) {
 			if (($entry->type_id == TYPE_NEW) || ($entry->type_id == TYPE_UPDATE)) {
-				// echo "send mails<br>";
 				journal::sendMailAbonnes ( $entry, $projectName );
 			}
 			return true;
@@ -153,9 +148,7 @@ class journal {
 		}
 		
 		$query = "insert into journal ($query_insert) VALUES ($query_values)";
-		
-		// echo $query.'<br>';
-		
+				
 		$bd->exec ( $query );
 		$this->id = $bd->getLastId ( "journal_journal_id_seq" );
 		$bd->db_close ();
@@ -183,21 +176,16 @@ class journal {
 		
 		if ($exclude) {
 			$whereClauses [] = 'contact not in (' . EXCLUDE_USERS . ')';
-		} /*
-		   * else{ $whereExclude = ''; }
-		   */
+		}
 		
 		if ($projects) {
 			$whereClauses [] = "dats_id in (select distinct dats_id from dats_proj where project_id in ($projects))";
-		} /*
-		   * else{ $whereProjects = ''; }
-		   */
+		}
 		
 		$where = implode ( ' AND ', $whereClauses );
 		
 		$query = "SELECT * FROM journal WHERE $where $orderBy LIMIT $limit";
 		
-		//echo "$query<br>";
 		return $this->getByQuery ( $query );
 	}
 	
@@ -226,7 +214,6 @@ class journal {
 	}
 	function existe() {
 		$query = 'select * from journal where type_journal_id = ' . $this->type_id . " and contact = '" . $this->contact . "' and dats_id = " . $this->dats_id;
-		// echo $query."<br>";
 		$bd = new bdConnect ();
 		if ($resultat = $bd->get_data ( $query )) {
 			$this->new_journal ( $resultat [0] );
@@ -235,7 +222,6 @@ class journal {
 		return false;
 	}
 	function getByQuery($query) {
-		// echo $query.'<br>';
 		$bd = new bdConnect ();
 		$liste = array ();
 		if ($resultat = $bd->get_data ( $query )) {

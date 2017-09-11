@@ -5,8 +5,8 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- 	require_once("bd/bdConnect.php");
- 	require_once("bd/dataset.php");
+ 	require_once ("bd/bdConnect.php");
+ 	require_once ("bd/dataset.php");
 	
  	class url{
  		
@@ -58,10 +58,9 @@
  		}
 
 		function getMapFileByDataset($datsId){
-                        $query = "select * from url where dats_id = $datsId and url_type = 'map'";
-//			echo $query.'<br>';
-                return $this->getByQuery($query);
-                }
+			$query = "select * from url where dats_id = $datsId and url_type = 'map'";
+			return $this->getByQuery($query);
+		}
  		
  		function getHttpByDataset($datsId){
  			$query = "select * from url where dats_id = $datsId and url_type = 'http'"; 			
@@ -69,41 +68,41 @@
  		}
    
 
-	static function addUrl(&$bd,$url,$datsId,$type){
-		$queryExists = "select * from url where url_type = '$type' and dats_id = $datsId";
-		if ($resultat = $bd->get_data2($queryExists)){
-			echo 'URL déjà présente<br>';
-                	return false;
-                }else{
-			$query = "insert into url values (default,'$url',$datsId,'$type')";
-	                echo $query.'<br>';
+		static function addUrl(&$bd,$url,$datsId,$type){
+			$queryExists = "select * from url where url_type = '$type' and dats_id = $datsId";
+			if ($resultat = $bd->get_data2($queryExists)){
+				echo 'URL déjà présente<br>';
+						return false;
+					}else{
+				$query = "insert into url values (default,'$url',$datsId,'$type')";
+						echo $query.'<br>';
+				$bd->exec($query);
+				return true;
+			}
+		}
+
+		static function updateUrl(&$bd,$url_id,$url){
+			$query = "update url set url = '$url' where url_id = $url_id;";
+			echo $query.'<br>';
 			$bd->exec($query);
 			return true;
 		}
-	}
 
-	static function updateUrl(&$bd,$url_id,$url){
-                $query = "update url set url = '$url' where url_id = $url_id;";
-                echo $query.'<br>';
-                $bd->exec($query);
-                return true;
+		static function deleteUrl(&$bd,$url_id){
+			$query = "delete from url where url_id = $url_id;";
+			echo $query.'<br>';
+			$bd->exec($query);
+			return true;
         }
 
-	static function deleteUrl(&$bd,$url_id){
-                $query = "delete from url where url_id = $url_id;";
-                echo $query.'<br>';
-                $bd->exec($query);
-                return true;
-        }
-
-	static function deleteUrls(&$bd,$dats_id){
-                $query = "delete from url where dats_id = $dats_id;";
-                echo $query.'<br>';
-                $bd->exec($query);
-                return true;
+		static function deleteUrls(&$bd,$dats_id){
+			$query = "delete from url where dats_id = $dats_id;";
+			echo $query.'<br>';
+			$bd->exec($query);
+			return true;
         }
  
-	function getFtpByDataset($datsId){
+		function getFtpByDataset($datsId){
  			$query = "select * from url where dats_id = $datsId and url_type = 'ftp'"; 			
       		return $this->getByQuery($query);
  		}
@@ -122,9 +121,5 @@
       		}
       		return $liste;
     	}
-
-    	 
-    	
-    	
  	}
 ?>

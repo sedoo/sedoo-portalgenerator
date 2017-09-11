@@ -77,7 +77,6 @@
  	 		
  	function getAllInSitu()
  		{
- 			//$query = "select * from gcmd_plateform_keyword_insitu order by gcmd_plat_name";
  			$query = 'select * from gcmd_plateform_keyword where gcmd_plat_id not in ('.GCMD_PLAT_EXCLUDE_INSITU.') order by gcmd_plat_name';
       		$bd = new bdConnect;
       		$liste = array();
@@ -119,8 +118,6 @@
     	
     	function getByName($name){
     		$query = "select * from gcmd_plateform_keyword where gcmd_plat_name = '".$name."'";
-    		
-    		//echo $query.'<br>';
     		$gcmd_plateform_keyword = null;
       		$bd = new bdConnect;
       		if ($resultat = $bd->get_data($query))
@@ -150,7 +147,6 @@
     	{
         	$query = "select * from gcmd_plateform_keyword where " .
         			"lower(gcmd_plat_name) = lower('".(str_replace("'","\'",$this->gcmd_plat_name))."')";
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -163,7 +159,6 @@
     	function idExiste()
     	{
         	$query = "select * from gcmd_plateform_keyword where gcmd_plat_id = ".$this->gcmd_plat_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -180,23 +175,6 @@
       		$bd = new bdConnect;
       		$this->gcmd_plat_id = $bd->insert($query);
     	}
-
-    	//creer element select pour formulaire
- 	/*function chargeFormMod($form,$label,$titre){
-
- 		//$query = "select * from gcmd_plateform_keyword where gcmd_plat_name ilike '%Model%'";
-		$query = "select * from gcmd_plateform_keyword where gcmd_plat_id in (".GCMD_PLAT_MODEL.') order by gcmd_plat_name'; 		
-	
-      		$liste = $this->getByQuery($query);
-      		for ($i = 0; $i < count($liste); $i++)
-        	{
-          		$j = $liste[$i]->gcmd_plat_id;
-          		$array[$j] = $liste[$i]->gcmd_plat_name;
-        	}
-      		$s = & $form->createElement('select',$label,$titre);
-      		$s->loadArray($array);
-      		return $s;
-    	}*/
     	
     	function chargeForm($form,$label,$titre)
     	{
@@ -207,10 +185,8 @@
         	{
           		$j = $liste[$i]->gcmd_plat_id;
           		$array[$j] = $liste[$i]->gcmd_plat_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
       		$s = & $form->createElement('select',$label,$titre,$array,array('style' => 'width:200px;'));
-      		//$s->loadArray($array);
       		return $s;
     	}
  		
@@ -218,15 +194,12 @@
     	{
 
       		$liste = $this->getAllInSitu();
-      		//$array[0] = "";
       		for ($i = 0; $i < count($liste); $i++)
         	{
           		$j = $liste[$i]->gcmd_plat_id;
           		$array[$j] = $liste[$i]->gcmd_plat_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
       		$s = & $form->createElement('select',$label,$titre,$array,array('style' => 'width:200px;'));
-      		//$s->loadArray($array);
       		return $s;
     	}
     	

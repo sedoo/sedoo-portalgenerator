@@ -52,9 +52,7 @@
     	
     	function getByName($name){
     		$query = "select * from contact_type where lower(contact_type_name) = '".strtolower($name)."'";
-    		
-    		//echo $query.'<br>';
-    		$contact_type = null;
+			$contact_type = null;
       		$bd = new bdConnect;
       		if ($resultat = $bd->get_data($query))
       		{
@@ -70,12 +68,10 @@
     	{
 
       		$liste = $this->getAll();
-      		//$array[0] = "";
       		for ($i = 0; $i < count($liste); $i++)
         	{
           		$j = $liste[$i]->contact_type_id;
           		$array[$j] = $liste[$i]->contact_type_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
         	
       		$s = & $form->createElement('select',$label,$titre);

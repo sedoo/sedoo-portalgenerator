@@ -74,7 +74,6 @@
     	{
         	$query = "select * from manufacturer where " .
         			"lower(manufacturer_name) = lower('".(str_replace("'","\'",$this->manufacturer_name))."')";
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -87,7 +86,6 @@
     	function idExiste()
     	{
         	$query = "select * from manufacturer where manufacturer_id = ".$this->manufacturer_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -152,19 +150,12 @@
         	{
           		$j = $liste[$i]->manufacturer_id;
           		$array[$j] = $liste[$i]->manufacturer_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
         	        	        	
         	$boxesNames = "['new_manufacturer".$suffix."','new_manufacturer_url".$suffix."']";
         	$columnsNames = "['manufacturer_name','manufacturer_url']";
         	
         	$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "fillBoxes('".$label."',".$boxesNames.",'manufacturer',".$columnsNames.");"));
-   
-        	
-        	//$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "fillBox('".$label."','new_manufacturer','manufacturer','manufacturer_name');"));
-        	/*
-      		$s = & $form->createElement('select',$label,$titre);
-      		$s->loadArray($array);*/
       		return $s;
     	}
  	}

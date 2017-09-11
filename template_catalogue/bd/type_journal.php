@@ -5,7 +5,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- 	require_once("bd/bdConnect.php");
+ 	require_once ("bd/bdConnect.php");
  	
  	class type_journal
  	{
@@ -90,10 +90,7 @@
     	//creer element select pour formulaire
     	function chargeForm($form,$label,$titre,$ids)
     	{
-
-      		//$liste = $this->getAll();
-		$liste = $this->getByIds($ids);
-      		//$array[0] = "";
+			$liste = $this->getByIds($ids);
       		for ($i = 0; $i < count($liste); $i++)
         	{
           		$j = $liste[$i]->id;

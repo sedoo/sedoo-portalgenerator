@@ -71,7 +71,6 @@
 
 	function getByProject($projectName){
 		$query = "SELECT * FROM period WHERE period_id IN (SELECT period_id FROM period_project WHERE project_id in (".get_filtre_projets($projectName).")) order by period_id";
-	//	echo "$query<br>";
 		return $this->getByQuery($query);
 	}
 
@@ -79,7 +78,6 @@
     	{
         	$query = "select * from period where " .
         			"lower(period_name) = lower('".(str_replace("'","\'",$this->period_name))."')";
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -92,7 +90,6 @@
     	function idExiste()
     	{
         	$query = "select * from period where period_id = ".$this->period_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -106,24 +103,20 @@
     	function chargeForm($form,$label,$titre,$projectName = MainProject)
     	{
 
-      		//$liste = $this->getAll();
-		$liste = $this->getByProject($projectName);
+			$liste = $this->getByProject($projectName);
       		$array[0] = "";
       		for ($i = 0; $i < count($liste); $i++)
         	{
           		$j = $liste[$i]->period_id;
           		$array[$j] = $liste[$i]->period_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
       		$s = & $form->createElement('select',$label,$titre,$array,array('style' => 'width:200px;'));
-//      		$s->loadArray($array);
       		return $s;
     	}
     	
     	function chargeFormWithDates($form,$label,$titre,$projectName = MainProject)
     	{
-    		//$liste = $this->getAll();
-		$liste = $this->getByProject($projectName);
+			$liste = $this->getByProject($projectName);
     		$array[0] = "";
     		for ($i = 0; $i < count($liste); $i++)
     		{
@@ -133,7 +126,6 @@
     		$boxesNames = "['date_begin','date_end']";
     		$columnsNames = "['period_begin','period_end']";
     		$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "fillBoxes('".$label."',".$boxesNames.",'period',".$columnsNames.");"));
-    		//$s->loadArray($array);
     		return $s;
     	}
 	}

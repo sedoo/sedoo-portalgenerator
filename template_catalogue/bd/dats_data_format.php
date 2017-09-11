@@ -61,7 +61,6 @@
     	{
         	$query = "select * from $table where " .
         			"dats_id = ".$this->dats_id." and data_format_id = ".$this->data_format_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{

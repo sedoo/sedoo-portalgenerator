@@ -52,8 +52,6 @@
     	
     	function getByName($name){
     		$query = "select * from data_format where lower(data_format_name) = '".strtolower($name)."'";
-    		
-    		//echo $query.'<br>';
     		$format = null;
       		$bd = new bdConnect;
       		if ($resultat = $bd->get_data($query))
@@ -83,7 +81,6 @@
     	{
         	$query = "select * from data_format where " .
         			"lower(data_format_name) = lower('".(str_replace("'","\'",$this->data_format_name))."')";
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -96,7 +93,6 @@
     	function idExiste()
     	{
         	$query = "select * from data_format where data_format_id = ".$this->data_format_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -142,13 +138,10 @@
         	{
           		$j = $liste[$i]->data_format_id;
           		$array[$j] = $liste[$i]->data_format_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
         	
         	$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "fillBox('".$label."','new_data_format_".$indice."','data_format','data_format_name');"));
-      		//$s = & $form->createElement('select',$label,$titre);
-      		//$s->loadArray($array);
-      		return $s;
+			return $s;
     	}
     	
  		function chargeFormDestFormat($form,$label,$titre,$format)
@@ -165,8 +158,6 @@
         	}
         	
         	$s = & $form->createElement('select',$label,$titre,$array);
-      		//$s = & $form->createElement('select',$label,$titre);
-      		//$s->loadArray($array);
       		return $s;
     	}
     	

@@ -5,9 +5,9 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- 	require_once("bd/bdConnect.php");
- 	require_once("bd/url_event.php");
- 	require_once("bd/role.php");
+ 	require_once ("bd/bdConnect.php");
+ 	require_once ("bd/url_event.php");
+ 	require_once ("bd/role.php");
  	
  	class url_event_role
  	{
@@ -38,9 +38,9 @@
       		return $this->getByQuery($query);
  		}
 
-	function getByUrlEvent($id){
-                        $query = "select * from url_event_role where url_event_id = $id";
-                return $this->getByQuery($query);
+		function getByUrlEvent($id){
+			$query = "select * from url_event_role where url_event_id = $id";
+			return $this->getByQuery($query);
         }
  		
     	

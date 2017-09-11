@@ -2,11 +2,11 @@
 /*
  * GB, Modif 9 aout 2011 : ajout place_level à la table
  */
- 	require_once("bd/bdConnect.php");
-	require_once("bd/conf.php");
- 	require_once("bd/gcmd_plateform_keyword.php");
- 	require_once("bd/boundings.php");
- 	require_once("scripts/common.php");
+ 	require_once ("bd/bdConnect.php");
+	require_once ("bd/conf.php");
+ 	require_once ("bd/gcmd_plateform_keyword.php");
+ 	require_once ("bd/boundings.php");
+ 	require_once ("scripts/common.php");
  	
  	class place
  	{
@@ -64,9 +64,6 @@
  				$this->gcmd_plateform_keyword = $gcmd->getById($this->gcmd_plat_id);
  			}
  			
- 			/*
- 			$query = "select * from place where pla_place_id = ".$this->place_id;
- 			$this->enfants = $this->getByQuery($query);*/
  		}
  		
  		function toString(){
@@ -111,9 +108,7 @@
  				$where .= " and gcmd_plat_id = $type ";
  				
  			$query = "select * from place $where order by place_name";
- 			
- 			//echo "$query<br>";
- 			
+ 			 			
       		return $this->getByQuery($query);
  		}
  		
@@ -184,9 +179,7 @@
     		}
     		    		
     		$query = "select * from place $where";
-    		
-    		//echo $query.'<br>';
-    		
+    		    		
     		$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -202,7 +195,6 @@
         	$query = "select * from place where ".
         			"lower(place_name) = lower('".(str_replace("'","\'",$this->place_name))."')";
         	
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -215,7 +207,6 @@
     	function idExiste()
     	{
         	$query = "select * from place where place_id = ".$this->place_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -230,10 +221,8 @@
     		if (isset($this->boundings) && $this->bound_id != -1){
 	    			$this->boundings->insert($bd);
 	    			$this->bound_id = $this->boundings->bound_id;
-	    			//echo 'bound_id:'.$this->bound_id.'<br>';
 	    		}
     		
-    		//if (!$this->existe())
     		if (!$this->existeComplet())
     		{	    	    			    		
 	     	 	$query_insert = "insert into place (place_name";
@@ -272,7 +261,7 @@
       		return $this->place_id;
     	}
     	
- 	function insertOld()
+ 		function insertOld()
     	{
     		    	    		
     		if ($this->bound_id != -1){
@@ -332,26 +321,24 @@
     		return $s;
     	}
     	 
-   	//Encore utilisé par va dataset
-   	//TODO remplacer par le nouveau
-	function chargeFormModelCategs($form,$label,$titre){
-		//$array_type[0] = "";
-                //$array_stype[0][0] = "";
+		//Encore utilisé par va dataset
+		//TODO remplacer par le nouveau
+		function chargeFormModelCategs($form,$label,$titre){
 
-		$gcmd = new gcmd_plateform_keyword();
-                $types = $gcmd->getByIds(MODEL_CATEGORIES);
+			$gcmd = new gcmd_plateform_keyword();
+					$types = $gcmd->getByIds(MODEL_CATEGORIES);
 
-		foreach ($types as $type){
-			$array_type[$type->gcmd_plat_id] = $type->gcmd_plat_name;
-			$liste = $this->getByLevel(1,0,$type->gcmd_plat_id);
-			foreach ($liste as $item){
-				$array_stype[$type->gcmd_plat_id][$item->place_id] = $item->place_name;
+			foreach ($types as $type){
+				$array_type[$type->gcmd_plat_id] = $type->gcmd_plat_name;
+				$liste = $this->getByLevel(1,0,$type->gcmd_plat_id);
+				foreach ($liste as $item){
+					$array_stype[$type->gcmd_plat_id][$item->place_id] = $item->place_name;
+				}
 			}
-		}
-		$s = & $form->createElement('hierselect',$label,$titre,null, '');
-                $s->setOptions(array($array_type,$array_stype));
-                return $s;
-	}    
+			$s = & $form->createElement('hierselect',$label,$titre,null, '');
+					$s->setOptions(array($array_type,$array_stype));
+					return $s;
+		}    
 	
     	function chargeFormSiteLevels($form,$label,$titre){
     		global $project_name;
@@ -360,53 +347,40 @@
         	$array_lev2[0][0][0] = "";
         	$array_lev3[0][0][0][0] = "";
         	
-        	/*$array_lev1[1] = "Topic 1";
-    		$array_lev1[5] = "Topic 2";
-        	$array_lev2[1][0] = "Term 11";
-        	$array_lev2[1][8] = "Term 12";
-        	$array_lev2[5][0] = "Term 21";
-        	$array_lev3[1][0][0] = "Var 111";
-        	$array_lev3[1][1][0] = "Var 121";
-        	$array_lev3[1][1][1] = "Var 122";
-        	$array_lev3[5][0][0] = "Var 211";*/
-        	
-        	
         	$gcmd = new gcmd_plateform_keyword ();
-		if (constant ( strtoupper ( $project_name ) . '_SITES' ) != '' && constant ( strtoupper ( $project_name ) . '_SITES' ) != null) {
-			$types = $gcmd->getByIds ( constant(strtoupper ( $project_name ) . '_SITES') );
-			foreach ( $types as $type ) {
-				$array_type [$type->gcmd_plat_id] = $type->gcmd_plat_name;
-				$liste1 = $this->getByLevel ( 1, 0, $type->gcmd_plat_id );
-				foreach ( $liste1 as $site1 ) {
-					$array_lev1 [$type->gcmd_plat_id] [$site1->place_id] = $site1->place_name;
-					$array_lev2 [$type->gcmd_plat_id] [$site1->place_id] [0] = '';
-					$liste2 = $this->getByLevel ( 2, $site1->place_id );
-					foreach ( $liste2 as $site2 ) {
-						$array_lev2 [$type->gcmd_plat_id] [$site1->place_id] [$site2->place_id] = $site2->place_name;
-						$array_lev3 [$type->gcmd_plat_id] [$site1->place_id] [$site2->place_id] [0] = '';
-						$liste3 = $this->getByLevel ( 3, $site2->place_id );
-						foreach ( $liste3 as $site3 ) {
-							$array_lev3 [$type->gcmd_plat_id] [$site1->place_id] [$site2->place_id] [$site3->place_id] = $site3->place_name;
+			if (constant ( strtoupper ( $project_name ) . '_SITES' ) != '' && constant ( strtoupper ( $project_name ) . '_SITES' ) != null) {
+				$types = $gcmd->getByIds ( constant(strtoupper ( $project_name ) . '_SITES') );
+				foreach ( $types as $type ) {
+					$array_type [$type->gcmd_plat_id] = $type->gcmd_plat_name;
+					$liste1 = $this->getByLevel ( 1, 0, $type->gcmd_plat_id );
+					foreach ( $liste1 as $site1 ) {
+						$array_lev1 [$type->gcmd_plat_id] [$site1->place_id] = $site1->place_name;
+						$array_lev2 [$type->gcmd_plat_id] [$site1->place_id] [0] = '';
+						$liste2 = $this->getByLevel ( 2, $site1->place_id );
+						foreach ( $liste2 as $site2 ) {
+							$array_lev2 [$type->gcmd_plat_id] [$site1->place_id] [$site2->place_id] = $site2->place_name;
+							$array_lev3 [$type->gcmd_plat_id] [$site1->place_id] [$site2->place_id] [0] = '';
+							$liste3 = $this->getByLevel ( 3, $site2->place_id );
+							foreach ( $liste3 as $site3 ) {
+								$array_lev3 [$type->gcmd_plat_id] [$site1->place_id] [$site2->place_id] [$site3->place_id] = $site3->place_name;
+							}
 						}
 					}
 				}
+				$s = & $form->createElement ( 'hierselect', $label, $titre, null, '<br>' );
+				$s->setOptions ( array (
+						$array_type,
+						$array_lev1,
+						$array_lev2,
+						$array_lev3 
+				) );
+				return $s;
 			}
-			$s = & $form->createElement ( 'hierselect', $label, $titre, null, '<br>' );
-			$s->setOptions ( array (
-					$array_type,
-					$array_lev1,
-					$array_lev2,
-					$array_lev3 
-			) );
-			return $s;
-		}
     	}
     	
     	//creer element select pour formulaire
     	function chargeForm($form,$label,$titre,$indice)
     	{
-
-      		//$liste = $this->getAll();
       		$liste = $this->getAllInSitu();
       		    		    		
       		$array[0] = "";
@@ -414,7 +388,6 @@
         	{
           		$j = $liste[$i]->place_id;
           		$array[$j] = $liste[$i]->place_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
         	
         	if (isset($indice)){
@@ -425,14 +398,10 @@
         		$columnsNames = "['place_name','place_elevation_min','west_bounding_coord','east_bounding_coord','north_bounding_coord','south_bounding_coord','place_elevation_max','gcmd_plat_id']";
         	}
         	$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "fillBoxes('".$label."',".$boxesNames.",'place',".$columnsNames.");",'style' => 'width: 200px;'));
- 
-        	/*
-      		$s = & $form->createElement('select',$label,$titre);
-      		$s->loadArray($array);*/
       		return $s;
     	}
     	
- 	function chargeFormModNew($form,$label,$titre){
+ 		function chargeFormModNew($form,$label,$titre) {
     		return $this->chargeFormByType($form,$label,$titre,model_dataset::GCMD_CATEG,"updateMod();");
     	}
 
@@ -440,50 +409,49 @@
     	    	
     	//Encore utilisé par va dataset
     	//TODO remplacer par le nouveau
-	function chargeFormMod($form,$label,$titre,$onchange = "updateMod();"){
-		$query = 'SELECT DISTINCT ON (place_name) * from place where gcmd_plat_id in ('.GCMD_PLAT_MODEL.') AND place_level IS NULL order by place_name';
-                $liste = $this->getByQuery($query);
-                $array[0] = "";
-                for ($i = 0; $i < count($liste); $i++)
-                {
-                        $j = $liste[$i]->place_id;
-                        $array[$j] = $liste[$i]->place_name;
-                }
+		function chargeFormMod($form,$label,$titre,$onchange = "updateMod();"){
+			$query = 'SELECT DISTINCT ON (place_name) * from place where gcmd_plat_id in ('.GCMD_PLAT_MODEL.') AND place_level IS NULL order by place_name';
+			$liste = $this->getByQuery($query);
+			$array[0] = "";
+			for ($i = 0; $i < count($liste); $i++)
+			{
+					$j = $liste[$i]->place_id;
+					$array[$j] = $liste[$i]->place_name;
+			}
 
-                $s = & $form->createElement('select',$label,$titre,$array,array('onchange' => $onchange));
+			$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => $onchange));
 
-                return $s;
-	}
-	
-	function chargeFormInstruvadataset($form,$label="instru_place_",$titre="instru_place"){
-		$liste = $this->getAllInSitu();
-		//$array[0] = "";
-		for ($i = 0; $i < count($liste); $i++)
-		{
-		$j = $liste[$i]->place_id;
-			$array[$j] = $liste[$i]->place_name;
+			return $s;
 		}
 	
-		$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => $onchange));
-	
-		return $s;
-	}
-	
-	function chargeFormSatCategs($form,$label,$titre){
-		$gcmd = new gcmd_plateform_keyword();
-		$type = $gcmd->getByName("Satellites");
-	
-		$liste = $this->getByLevel(1,0,$type->gcmd_plat_id);
-		foreach ($liste as $item){
-			$array[$item->place_id] = $item->place_name;
+		function chargeFormInstruvadataset($form,$label="instru_place_",$titre="instru_place") {
+			$liste = $this->getAllInSitu();
+			for ($i = 0; $i < count($liste); $i++)
+			{
+			$j = $liste[$i]->place_id;
+				$array[$j] = $liste[$i]->place_name;
+			}
+		
+			$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => $onchange));
+		
+			return $s;
 		}
-		
-		$s = & $form->createElement('select',$label, $titre, $array);
-		
-		return $s;
-	}
 	
-	function chargeFormSat($form,$i,$label = 'satellite_',$titre = 'Satellite'){    		
+		function chargeFormSatCategs($form,$label,$titre){
+			$gcmd = new gcmd_plateform_keyword();
+			$type = $gcmd->getByName("Satellites");
+		
+			$liste = $this->getByLevel(1,0,$type->gcmd_plat_id);
+			foreach ($liste as $item){
+				$array[$item->place_id] = $item->place_name;
+			}
+			
+			$s = & $form->createElement('select',$label, $titre, $array);
+			
+			return $s;
+		}
+	
+		function chargeFormSat($form,$i,$label = 'satellite_',$titre = 'Satellite'){    		
     		return $this->chargeFormByType($form,$label.$i,$titre,'Satellites','updateSat('.$i.');');
     	}
 	
@@ -504,14 +472,12 @@
     	
  		function chargeFormByType($form,$label,$titre,$type,$onchange){
 			$query = "select * from place where gcmd_plat_id in (select gcmd_plat_id from gcmd_plateform_keyword where gcmd_plat_name ilike '%".$type."%') AND place_level IS NULL order by place_name";
-			//echo 'place.chargeFormByType: '.$query;
       		$liste = $this->getByQuery($query);
       		$array[0] = "";
       		for ($i = 0; $i < count($liste); $i++)
         	{
           		$j = $liste[$i]->place_id;
           		$array[$j] = $liste[$i]->place_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
         	
         	$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => $onchange, 'onclick' => $onchange));
@@ -520,15 +486,12 @@
     	}
     	function chargeFormByTypeVadataset($form,$label,$titre,$type,$onchange){
 			$query = "select * from place where gcmd_plat_id in (select gcmd_plat_id from gcmd_plateform_keyword where gcmd_plat_name ilike '%".$type."%') AND place_level IS NULL order by place_name";
-			//echo 'place.chargeFormByType: '.$query;
       		$liste = $this->getByQuery($query);
-      		//$array[0] = "";
       		$x=0;
       		for ($i = 0; $i < count($liste); $i++)
         	{
           		$j = $liste[$i]->place_id;
           		$array[$j] = $liste[$i]->place_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
           		if(i==0) $x=$j;
         	}
         	

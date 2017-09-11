@@ -6,34 +6,34 @@
 * Window - Preferences - PHPeclipse - PHP - Code Templates
 */
 
-require_once("bd/bdConnect.php");
-require_once("scripts/logger.php");
-require_once("bd/status_final.php");
-require_once("bd/status_progress.php");
-require_once("bd/boundings.php");
-require_once("bd/organism.php");
-require_once("bd/period.php");
-require_once("bd/dataset_type.php");
-require_once("bd/dats_originator.php");
-require_once("bd/dats_place.php");
-require_once("bd/dats_sensor.php");
-require_once("bd/dats_var.php");
-require_once("bd/dats_type.php");
-require_once("bd/dats_data_format.php");
-require_once("bd/dats_proj.php");
-require_once("bd/data_format.php");
-require_once("bd/data_policy.php");
-require_once("bd/database.php");
-require_once("bd/sensor.php");
-require_once("bd/unit.php");
-require_once("bd/sensor_place.php");
-require_once("bd/place.php");
-require_once("bd/variable.php");
-require_once("bd/sensor_var.php");
-require_once("scripts/mail.php");
-require_once("sortie/fiche2pdf_functions.php");
-require_once("bd/idataset.php");
-require_once("scripts/displayUtils.php");
+require_once ("bd/bdConnect.php");
+require_once ("scripts/logger.php");
+require_once ("bd/status_final.php");
+require_once ("bd/status_progress.php");
+require_once ("bd/boundings.php");
+require_once ("bd/organism.php");
+require_once ("bd/period.php");
+require_once ("bd/dataset_type.php");
+require_once ("bd/dats_originator.php");
+require_once ("bd/dats_place.php");
+require_once ("bd/dats_sensor.php");
+require_once ("bd/dats_var.php");
+require_once ("bd/dats_type.php");
+require_once ("bd/dats_data_format.php");
+require_once ("bd/dats_proj.php");
+require_once ("bd/data_format.php");
+require_once ("bd/data_policy.php");
+require_once ("bd/database.php");
+require_once ("bd/sensor.php");
+require_once ("bd/unit.php");
+require_once ("bd/sensor_place.php");
+require_once ("bd/place.php");
+require_once ("bd/variable.php");
+require_once ("bd/sensor_var.php");
+require_once ("scripts/mail.php");
+require_once ("sortie/fiche2pdf_functions.php");
+require_once ("bd/idataset.php");
+require_once ("scripts/displayUtils.php");
 require_once ("utils/elastic/ElasticClient.php");
 require_once ("sedoo-metadata/sedoo_metadata_utils.php");
 
@@ -240,9 +240,6 @@ abstract class base_dataset implements iDataset{
 	private function get_dats_originators(){
 		$pers = new dats_originator;
 		$this->dats_originators = $pers->getByDataset($this->dats_id);
-
-		//$this->nbPis = count($this->originators);
-
 	}
 
 	private function get_originators(){
@@ -352,7 +349,6 @@ abstract class base_dataset implements iDataset{
 		for ($i = 0; $i < count($this->dats_sensors);$i++){
 			if ($this->dats_sensors[$i]->sensor->sensor_id > 0){
 				for ($j = 0; $j < count($this->sites); $j++){
-					//echo "sensor: ".$this->dats_sensors[$i]->sensor->sensor_id.', site: '.$this->sites[$j]->place_id.', parent: '.$this->sites[$j]->parent_place->place_id.'<br/>';
 					if ($this->sites[$j]->place_id > 0){
 						$sp = new sensor_place;
 						$sp = $sp->getByIds($this->sites[$j]->place_id,$this->dats_sensors[$i]->sensor->sensor_id);

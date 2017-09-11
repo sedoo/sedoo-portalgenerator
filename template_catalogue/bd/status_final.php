@@ -68,7 +68,6 @@
     	{
         	$query = "select * from status_final where " .
         			"lower(status_final_name) = lower('".(str_replace("'","\'",$this->status_final_name))."')";
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -81,7 +80,6 @@
     	function idExiste()
     	{
         	$query = "select * from status_final where status_final_id = ".$this->status_final_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -109,7 +107,6 @@
         	{
           		$j = $liste[$i]->status_final_id;
           		$array[$j] = $liste[$i]->status_final_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
       		$s = & $form->createElement('select',$label,$titre);
       		$s->loadArray($array);

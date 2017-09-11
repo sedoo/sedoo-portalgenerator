@@ -58,7 +58,6 @@
     	{
         	$query = "select * from dats_proj where " .
         			"dats_id = ".$this->dats_id." and project_id = ".$this->project_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{

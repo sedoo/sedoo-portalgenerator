@@ -87,9 +87,8 @@
 
     	function existe()
     	{
-        	$query = "select * from dataset_type where " .
-        			"lower(dats_type_title) = lower('".(str_replace("'","\'",$this->dats_type_title))."')";
-        	//echo $query."<br>";
+        	$query = "SELECT * FROM dataset_type WHERE " .
+        			"LOWER(dats_type_title) = LOWER('".(str_replace("'","\'",$this->dats_type_title))."')";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -102,8 +101,8 @@
 
     	function idExiste()
     	{
-        	$query = "select * from dataset_type where dats_type_id = ".$this->dats_type_id;
-        	//echo $query."<br>";
+        	$query = "SELECT * FROM dataset_type WHERE dats_type_id = ".$this->dats_type_id;
+
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -116,8 +115,8 @@
     	
     	function insert(& $bd)
     	{
-    		$query = "insert into dataset_type (dats_type_title,dats_type_desc) " .
-     	 			"values ('".str_replace("'","\'",$this->dats_type_title)."'" .
+    		$query = "INSERT INTO dataset_type (dats_type_title,dats_type_desc) " .
+     	 			"VALUES ('".str_replace("'","\'",$this->dats_type_title)."'" .
      	 					",'".str_replace("'","\'",$this->dats_type_desc)."')";
 
     		$bd->exec($query);
@@ -138,7 +137,6 @@
         	{
           		$j = $liste[$i]->dats_type_id;
           		$array[$j] = $liste[$i]->dats_type_desc;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
       		$s = & $form->createElement('select',$label,$titre);
       		$s->loadArray($array);

@@ -178,7 +178,6 @@
     	{
         	$query = "select * from dats_sensor where " .
         			"dats_id = ".$this->dats_id." and sensor_id = ".$this->sensor_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -238,21 +237,6 @@
      	 	      		
       		$bd->exec($query);
     	}
-    	/*
- 		function insertOld()
-    	{
-     	 	$query_insert = "insert into dats_sensor (dats_id,sensor_id";
-     	 	$query_values = "values (".$this->dats_id.",".$this->sensor_id;
-     	 	
-    		if (isset($this->nb_sensor) && !empty($this->nb_sensor))
-     	 	{
-     	 		$query_insert .= ",nb_sensor";
-     	 		$query_values .= ",".$this->nb_sensor;
-     	 	}
-     	 	$query = $query_insert.") ".$query_values.")";
-     	 	
-      		$bd = new bdConnect;
-      		$bd->insert($query);
-    	}*/
+
  	}
 ?>

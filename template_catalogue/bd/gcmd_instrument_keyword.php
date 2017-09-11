@@ -88,7 +88,6 @@
     	function getByName($name){
     		$query = "select * from gcmd_instrument_keyword where lower(gcmd_sensor_name) = '".strtolower($name)."'";
     		
-    		//echo $query.'<br>';
     		$gcmd_sensor_keyword = null;
       		$bd = new bdConnect;
       		if ($resultat = $bd->get_data($query))
@@ -118,7 +117,6 @@
     	{
         	$query = "select * from gcmd_instrument_keyword where " .
         			"lower(gcmd_sensor_name) = lower('".(str_replace("'","\'",$this->gcmd_sensor_name))."')";
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -131,7 +129,6 @@
     	function idExiste()
     	{
         	$query = "select * from gcmd_instrument_keyword where gcmd_sensor_id = ".$this->gcmd_sensor_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -159,7 +156,6 @@
         	{
           		$j = $liste[$i]->gcmd_sensor_id;
           		$array[$j] = $liste[$i]->gcmd_sensor_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
       		$s = & $form->createElement('select',$label,$titre);
       		$s->loadArray($array);

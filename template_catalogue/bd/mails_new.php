@@ -1,10 +1,10 @@
 <?php
 
-require_once("bd/dataset.php");
-require_once("mail.php");
-require_once("ldap/ldapConnect.php");
-require_once("sortie/fiche2pdf_functions.php");
-require_once("/sites/kernel/#MainProject/conf.php");
+require_once ("bd/dataset.php");
+require_once ("mail.php");
+require_once ("ldap/ldapConnect.php");
+require_once ("sortie/fiche2pdf_functions.php");
+require_once ("/sites/kernel/#MainProject/conf.php");
 
 
 class mails {
@@ -28,9 +28,7 @@ class mails {
 		foreach ($jeux as $jeu){
 			$fichePdf =	fiche2pdf($jeu->dats_id,true);
 			$fichesPdf[] = $fichePdf;
-				
-			//echo $fichePdf;
-			
+							
 			$corps .= "\n\n* ".$jeu->dats_title;
 			$pisList = '';
 			$cptPis = 0;
@@ -44,7 +42,6 @@ class mails {
 						mails::sendMailPi($pi->pers_email_1,$jeu->dats_title,$user,$from,$cc,$project);
 				}else{
 					$contactsList .= $contact;
-					//$cptContacts++;
 				}
 			}
 

@@ -15,9 +15,9 @@ class dataset_factory{
 		$dt = new dataset_type();
 		$types = $dt->getByQuery($query);
 		
-		if (empty($types)){
+		if (empty($types)) {
 			//IN SITU
-		}else{
+		} else {
 			switch ($types[0]->dats_type_title) {
 				case dataset_type::TYPE_SATELLITE:
 					return self::createSatelliteDatasetById($id);

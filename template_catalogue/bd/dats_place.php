@@ -59,12 +59,9 @@
     	{
         	$query = "select * from dats_place where " .
         			"dats_id = ".$this->dats_id." and place_id = ".$this->place_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
-        		//modif gui : inutile d'initialiser, on cherche juste s'il existe
-          		//$this->new_dats_place($resultat[0]);
           		return true;
         	}
         	return false;

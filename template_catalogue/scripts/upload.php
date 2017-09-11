@@ -3,11 +3,10 @@
 require_once('/sites/kernel/#MainProject/conf.php');
 
 function uploadImg($fileBox){
-	//print_r($_FILES);
+
 	$imgPath = ATT_IMG_URL_PATH; 
 	$tmp_file = $_FILES[$fileBox]['tmp_name'];
-	//echo '<br/>Filename'.$_FILES[$fileBox]['name'].'<br>';
-	//echo 'Temp file'.$_FILES[$fileBox]['tmp_name'].'<br>';
+
 	if( !is_uploaded_file($tmp_file) ){
 		echo "<font size=\"3\" color='red'><b>Image: File not found</b></font><br>";
 	}else{
@@ -21,13 +20,12 @@ function uploadImg($fileBox){
 				$name_file = $_FILES[$fileBox]['name'];
 												
 				$new_name = strtolower(time().'-'.$name_file);
-				//echo 'Dest name: '.$new_name.'<br>';
 				
 				if( !move_uploaded_file($tmp_file, WEB_PATH.$imgPath.$new_name) ){
 					echo "<font size=\"3\" color='red'><b>Image: error while copying file</b></font><br>";
 				}else{
 					echo "<font size=\"3\" color='green'><b>Image: file succesfully uploaded</b></font><br>";
-				//	echo "Uploaded file: ".$imgPath.$new_name;
+
 					return $imgPath.$new_name;
 				}
 			}

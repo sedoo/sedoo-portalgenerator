@@ -1,6 +1,6 @@
 <?php
 
-require_once("bd/bdConnect.php");
+require_once ("bd/bdConnect.php");
 
 class requete{
 
@@ -23,7 +23,7 @@ class requete{
 	var $etat;
 	var $killed;
 /*
-requete_id          | integer                     | non NULL Par défaut, nextval('requete_requete_id_seq'::regclass)
+ requete_id          | integer                     | non NULL Par défaut, nextval('requete_requete_id_seq'::regclass)
  requete_email       | character varying(50)       | non NULL
  requete_xml         | text                        | non NULL
  requete_date_debut  | timestamp without time zone | non NULL
@@ -36,10 +36,7 @@ requete_id          | integer                     | non NULL Par défaut, nextva
 		$this->requeteId = $tab[0];
 		$this->mail = $tab[1];
 		$this->xml = $tab[2];
-		
-		//$this->dateDeb = $tab[3];
-		//$this->dateActive = $tab[4];
-		//$this->dateFin = $tab[5];
+
 		$this->dateDeb = new DateTime($tab[3]);
 		$this->dateActive = new DateTime($tab[4]);
 		if (isset($tab[5]))
@@ -82,7 +79,6 @@ requete_id          | integer                     | non NULL Par défaut, nextva
 	}
 	
 	function getByQuery($query){
-		//echo $query.'<br>';
   	      	$bd = new bdConnect;
       		$liste = array();
       		if ($resultat = $bd->get_data($query)){

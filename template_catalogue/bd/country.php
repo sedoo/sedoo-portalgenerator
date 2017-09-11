@@ -68,7 +68,6 @@
     	{
         	$query = "select * from country where " .
         			"lower(country_name) = lower('".(str_replace("'","\'",$this->country_name))."')";
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -81,7 +80,6 @@
     	function idExiste()
     	{
         	$query = "select * from country where country_id = ".$this->country_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -109,7 +107,6 @@
         	{
           		$j = $liste[$i]->country_id;
           		$array[$j] = $liste[$i]->country_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
       		$s = & $form->createElement('select',$label,$titre);
       		$s->loadArray($array);

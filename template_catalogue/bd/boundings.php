@@ -5,7 +5,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- 	require_once("bd/bdConnect.php");
+ 	require_once ("bd/bdConnect.php");
  	 	
  	class boundings
  	{
@@ -70,7 +70,6 @@
         					"east_bounding_coord = ".doubleCoord2int($this->east_bounding_coord)." and " .
         							"north_bounding_coord = ".doubleCoord2int($this->north_bounding_coord)." and " .
         									"south_bounding_coord = ".doubleCoord2int($this->south_bounding_coord);
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -83,7 +82,6 @@
     	function idExiste()
     	{
         	$query = "select * from boundings where bound_id = ".$this->bound_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -103,9 +101,7 @@
      	 			"north_bounding_coord,south_bounding_coord) " .
      	 			"values (".doubleCoord2int($this->west_bounding_coord).",".doubleCoord2int($this->east_bounding_coord)."," .
     			doubleCoord2int($this->north_bounding_coord).",".doubleCoord2int($this->south_bounding_coord).")";
-    			
-    			//echo 'query boundings: '.$query.'<br>';
-    			    			
+    			    			    			
     			$bd->exec($query);
 				
     			$this->bound_id = $bd->getLastId('boundings_bound_id_seq');
@@ -121,9 +117,7 @@
      	 			"north_bounding_coord,south_bounding_coord) " .
      	 			"values (".doubleCoord2int($this->west_bounding_coord).",".doubleCoord2int($this->east_bounding_coord)."," .
     			doubleCoord2int($this->north_bounding_coord).",".doubleCoord2int($this->south_bounding_coord).")";
-    			
-    			//echo 'query boundings: '.$query.'<br>';
-    			
+    			    			
     			$bd = new bdConnect;
     			$bd->insert($query);
 				

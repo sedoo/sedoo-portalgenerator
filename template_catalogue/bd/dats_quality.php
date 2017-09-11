@@ -122,7 +122,6 @@ class dats_quality{
 		$this->commentVar = "Info: $nbParams variable(s)\n";
 		$this->cptVar = $this->cptVarMax = $nbParams * 4;
 		if ($nbParams == 0){
-			//$dats_var_comment .= "No parameter\n";
 		}else{
 			foreach($dats->dats_variables as $dats_var){
 				if ( !isset($dats_var->variable->gcmd) ) {
@@ -158,7 +157,6 @@ class dats_quality{
 		$this->commentSite = "Info: $nbSites site(s)\n";;
 		$this->cptSite = $this->cptSiteMax = 2 * $nbSites;
 		if ( $nbSites == 0 ){
-			//$dats_site_comment = "No platform\n";
 		}else{
 			foreach($dats->sites as $site){
 				$site_name = $site->place_name;
@@ -185,7 +183,6 @@ class dats_quality{
 		$this->commentSensor = "Info: $nbInstrus sensors\n";
 		$this->cptSensor = $this->cptSensorMax = 5 * $nbInstrus;
 		if ( $nbInstrus == 0 ){
-			//		echo "<td><font color='red'>0</font></td>";
 		}else{
 			foreach($dats->dats_sensors as $dats_sensor){
 				if ( !isset($dats_sensor->sensor->gcmd_instrument_keyword) ){

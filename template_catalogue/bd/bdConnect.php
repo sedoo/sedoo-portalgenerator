@@ -1,7 +1,7 @@
 <?php
 
-	require_once("scripts/logger.php");
-	require_once("conf.php");
+	require_once ("scripts/logger.php");
+	require_once ("conf.php");
 
 /*
  * Created on 8 juil. 2010
@@ -53,7 +53,6 @@
     	{
       		$this->db_open();
       		if ($res = pg_query($this->conn,$requete))
-      		//if ($res = $this->exec($requete))
       		{
         		for ($i=0;$i<pg_num_rows($res);$i++)
         		{
@@ -68,10 +67,7 @@
 
     	function getLastIdOld($sequence){    	
     		$this->db_open();
-    		//$query = "SELECT currval('".$sequence."')";
-    		$query = "SELECT last_value from ".$sequence;
-    		//echo "getLastId: ".$query."<br>";
-    		
+    		$query = "SELECT last_value from ".$sequence;    		
     		$res = pg_query($this->conn,$query) or die('Erreur SQL !'.$query.''.pg_last_error());
     		$id = pg_fetch_array($res);
     		$this->db_close();
@@ -89,12 +85,9 @@
     	{
       		$this->db_open();
       		$res = pg_query($this->conn,$requete) or die('Erreur SQL !'.$requete.''.pg_last_error());
-      		//$id = pg_insert_id();
-      		//$id = pg_last_oid($res);
-      		//$id = pg_fetch_array($res,null,PGSQL_NUM);
       		$this->db_close();
-      		//return $id[0];
-    	}
+		}
+		
 		function updateOld($requete)
     	{
       		$this->db_open();
@@ -116,11 +109,8 @@
     	function exec($requete){
     		if (!isset($this->conn) || empty($this->conn))
     			throw new Exception('ERREUR: Connection à la base non ouverte');
-    			
-    		//echo "[SQL] ".$requete."<br>";
-    		log_debug('SQL - '.$requete);
-    		
-    		$res = pg_query($this->conn,$requete);
+        		log_debug('SQL - '.$requete);
+    			$res = pg_query($this->conn,$requete);
     		if (!$res)
 	 			throw new Exception('Erreur SQL !'.$requete.'-'.pg_last_error($this->conn));
 	 			

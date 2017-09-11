@@ -249,7 +249,6 @@ class dataset {
 		}
 		$result .= "\n";
 		
-		// $result .= 'Contacts: '.'\n';
 		for($i = 0; $i < count ( $this->originators ); $i ++) {
 			$result .= $this->originators [$i]->toString () . "\n";
 		}
@@ -283,12 +282,9 @@ class dataset {
 				$result .= "\n";
 			}
 		}
-		
-		/*
-		 * $result .= "\nInstrument:\n"; if (isset($this->dats_sensors[0])){ $result .= $this->dats_sensors[0]->toString(); }
-		 */
+
 		$result .= "\n\n";
-		// echo '\nSites: '.'<br>';
+
 		for($i = 0; $i < count ( $this->sites ); $i ++) {
 			if ($this->sites [$i + 1]->place_id != '') {
 				$result .= $this->sites [$i]->toString () . "\n";
@@ -310,7 +306,6 @@ class dataset {
 		return $result;
 	}
 	function getAll() {
-		// $query = "select * from dataset order by dats_title";
 		$query = "select dataset.* from dataset left join dats_type using (dats_id) left join dataset_type using (dats_type_id) order by dats_type_title desc,dats_title asc";
 		
 		return $this->getByQuery ( $query );
@@ -344,11 +339,9 @@ class dataset {
 	}
 	function existe() {
 		$query = "select * from dataset where " . "lower(dats_title) = lower('" . (str_replace ( "'", "\'", $this->dats_title )) . "')";
-		// echo 'existe'.$query."<br>";
 		$bd = new bdConnect ();
 		if ($resultat = $bd->get_data ( $query )) {
-			// echo '=>oui<br>';
-			//$this->new_dataset ( $resultat [0] );
+
 			$this->dats_id = $resultat [0][0];
 			return true;
 		}
@@ -356,7 +349,6 @@ class dataset {
 	}
 	function idExiste() {
 		$query = "select * from dataset where dats_id = " . $this->dats_id;
-		// echo $query."<br>";
 		$bd = new bdConnect ();
 		if ($resultat = $bd->get_data ( $query )) {
 			$this->new_dataset ( $resultat [0] );
@@ -384,12 +376,10 @@ class dataset {
 			$dtype = $dtype->getByType ( $type );
 			for($i = 0; $i < count ( $this->dataset_types ); $i ++) {
 				if ($this->dataset_types [$i]->dats_type_id == $dtype->dats_type_id) {
-					// log_error('is '.$type.' dataset: true');
 					return true;
 				}
 			}
 		}
-		// log_error('is '.$type.' dataset: false');
 		return false;
 	}
 	function update() {
@@ -556,13 +546,8 @@ class dataset {
 			}
 			
 			$query .= " where dats_id=" . $this->dats_id;
-			// $bd->update($query);
 			$this->bdConn->exec ( $query );
-			
-			// $this->dats_id = 401;
-			
-			// echo 'dats_id:'.$this->dats_id.'<br>';
-			
+								
 			$this->insert_dats_originators ();
 			$this->insert_projects ();
 			$this->insert_data_formats ();
@@ -578,20 +563,18 @@ class dataset {
 			$this->bdConn->commitTransaction ();
 			$this->bdConn->db_close ();
 			$this->sendMailDataset ();
-			// error_log('[DEBUG] dataset.update - Maj réussie, dats_id = '.$this->dats_id."\n",3,LOG_FILE);
 			log_debug ( 'dataset.update - Maj réussie, dats_id = ' . $this->dats_id );
 			
-			try{
+			try {
 				$client = new ElasticClient();
 				$client->indexDataset($this);
-			}catch(Exception $ex){
+			} catch(Exception $ex) {
 				log_error ( 'dataset index update - ' . $ex->getMessage () );
 			}
 			
 			return true;
 		} catch ( Exception $e ) {
-			// echo 'Dataset.update() - Exception reçue : ', $e->getMessage(), "<br>";
-			// error_log('[ERROR] dataset.update - '.$e->getMessage()."\n",3,LOG_FILE);
+
 			echo 'Update error : ' . $e->getMessage ();
 			log_error ( 'dataset.update - ' . $e->getMessage () );
 			$this->sendMailErreur ( $e );
@@ -599,8 +582,7 @@ class dataset {
 				$this->bdConn->rollbackTransaction ();
 				$this->bdConn->db_close ();
 			} catch ( Exception $e ) {
-				// echo 'Dataset.update() - Exception reçue : ', $e->getMessage(), "<br>";
-				// error_log('[ERROR] dataset.update - '.$e->getMessage()."\n",3,LOG_FILE);
+
 				log_error ( 'dataset.update - ' . $e->getMessage () );
 				$this->sendMailErreur ( $e );
 			}
@@ -799,7 +781,6 @@ class dataset {
 				if ($this->data_formats [$i]->data_format_id == 0) {
 					$this->data_formats [$i]->insert ( $this->bdConn );
 				}
-				// echo 'data_format_id:'.$this->data_format_id.'<br>';
 				
 				$ddf = new dats_data_format ();
 				$ddf->dats_id = $this->dats_id;
@@ -834,7 +815,7 @@ class dataset {
 			
 			// A modifier
 			/*
-			 * if (isset($this->dats_variables[$i]->variable) && $this->dats_variables[$i]->variable->var_id == 0 && !$this->dats_variables[$i]->variable->existe()){ $this->dats_variables[$i]->variable->insert($this->bdConn); }else if (isset($this->dats_variables[$i]->variable) && $this->dats_variables[$i]->variable->var_id > 0){ $this->dats_variables[$i]->variable->update($this->bdConn); }
+			 * if (isset  ($this->dats_variables [$i]->variable ) && $this->dats_variables [$i]->variable->var_id == 0 && !$this->dats_variables[$i]->variable->existe()){ $this->dats_variables[$i]->variable->insert($this->bdConn); }else if (isset($this->dats_variables[$i]->variable) && $this->dats_variables[$i]->variable->var_id > 0){ $this->dats_variables[$i]->variable->update($this->bdConn); }
 			 */
 			
 			if (isset ( $this->dats_variables [$i]->variable ) && $this->dats_variables [$i]->variable->var_id >= 0 && ! $this->dats_variables [$i]->variable->existe ()) {
@@ -842,8 +823,7 @@ class dataset {
 			}
 			
 			$this->dats_variables [$i]->var_id = $this->dats_variables [$i]->variable->var_id;
-			// echo 'var_id:'.$this->dats_variables[$i]->var_id.'<br>';
-			
+
 			$this->dats_variables [$i]->dats_id = $this->dats_id;
 			
 			if ($this->dats_variables [$i]->var_id > 0) {
@@ -856,7 +836,6 @@ class dataset {
 			$do = new dats_originator ();
 			$do->dats_id = $this->dats_id;
 			$do->pers_id = $this->originators [$i]->pers_id;
-			// $do->seeker = $this->originators[$i]->seeker;
 			$do->contact_type_id = $this->originators [$i]->contact_type_id;
 			if ($do->pers_id != - 1)
 				$do->insert ( $this->bdConn );

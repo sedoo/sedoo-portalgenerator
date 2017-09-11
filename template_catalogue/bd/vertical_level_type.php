@@ -5,7 +5,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- require_once("bd/bdConnect.php");
+ require_once ("bd/bdConnect.php");
  
  	class vertical_level_type
  	{
@@ -68,7 +68,6 @@
     	{
         	$query = "select * from vertical_level_type where " .
         			"lower(vert_level_type_name) = lower('".(str_replace("'","\'",$this->vert_level_type_name))."')";
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -81,7 +80,6 @@
     	function idExiste()
     	{
         	$query = "select * from vertical_level_type where vert_level_type_id = ".$this->vert_level_type_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -109,11 +107,9 @@
         	{
           		$j = $liste[$i]->vert_level_type_id;
           		$array[$j] = $liste[$i]->vert_level_type_name;
-          		//echo 'array['.$j.'] = '.$array[$j].'<br>';
         	}
         	$s = & $form->createElement('select',$label,$titre,$array,array('onchange' => "fillBox('".$label."','new_level_type_".$type.$indice."','vertical_level_type','vert_level_type_name');"));
-      		//$s = & $form->createElement('select',$label,$titre);
-      		//$s->loadArray($array);
+
       		return $s;
     	}
  	}

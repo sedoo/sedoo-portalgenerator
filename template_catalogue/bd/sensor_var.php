@@ -5,9 +5,9 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- 	require_once("bd/bdConnect.php");
- 	require_once("bd/variable.php");
- 	require_once("bd/sensor.php");
+ 	require_once ("bd/bdConnect.php");
+ 	require_once ("bd/variable.php");
+ 	require_once ("bd/sensor.php");
  	
  	class sensor_var
  	{
@@ -78,7 +78,6 @@
     	{
         	$query = "select * from sensor_var where " .
         			"sensor_id = ".$this->sensor_id." and var_id = ".$this->var_id;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{

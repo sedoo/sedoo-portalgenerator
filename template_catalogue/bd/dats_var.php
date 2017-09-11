@@ -48,7 +48,6 @@
  		function toString(){
  			$result = 'Param: '.$this->variable->var_name."\n";
  			if (isset($this->variable->gcmd)){
- 				//$result .= 'GCMD Keyword: '.$this->variable->gcmd->gcmd_id.' - '.$this->variable->gcmd->gcmd_name."\n";
  				$result .= 'GCMD Keyword: '.$this->variable->gcmd->gcmd_id.' - '.$this->variable->gcmd->toString()."\n";
  			}
  			
@@ -62,7 +61,6 @@
  			$result .= 'Period: '.$this->date_min.' - '.$this->date_max."\n";
  			$result .= 'Sensor Precision: '.$this->variable->sensor_precision."\n";
  			$result .= 'Flag Calcul: '.$this->flag_param_calcule."\n";
- 			//$result .= 'Level type: '.$this->level_type."\n"; 			
  			return $result;
  		}
  		
@@ -137,7 +135,6 @@
     	{
         	$query = "select * from dats_var where " .
         			"dats_id = ".$this->dats_id." and var_id = ".$this->var_id." and flag_param_calcule = ".$this->flag_param_calcule;
-        	//echo $query."<br>";
         	$bd = new bdConnect;
         	if ($resultat = $bd->get_data($query))
         	{
@@ -149,7 +146,6 @@
     	
     	function insert(& $bd)
     	{
-		//echo "dv.var_id: $this->var_id<br>";
 
 		if ($this->existe()){
 			return;

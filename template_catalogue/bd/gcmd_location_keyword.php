@@ -1,8 +1,8 @@
 <?php
 require_once ("bd/bdConnect.php");
-require_once("bd/conf.php");
-require_once("bd/thesaurus.php");
-require_once("bd/project.php");
+require_once ("bd/conf.php");
+require_once ("bd/thesaurus.php");
+require_once ("bd/project.php");
 
 
 class gcmd_location_keyword {
@@ -13,7 +13,6 @@ class gcmd_location_keyword {
 	var $thesaurus_id;
 	var $thesaurus;
 	var $uid;
-
 	var $gcmd_parent;
 	var $enfants;
 
@@ -115,19 +114,11 @@ class gcmd_location_keyword {
 	*/
 	function chargeFormLoc($form, $label, $titre) {
 		global $project_name;
-		//echo $project_name;
-		//$gcmd = new project();
-		//echo strtoupper ( $project_name) . '_PROJ'.'<br>';
-		//echo constant(strtoupper ( $project_name) . '_PROJ');
-		//if (constant(strtoupper ( $project_name) . '_' != '')) {
-			//$types = $gcmd->getById ( constant(strtoupper ( $project_name ) . '_PROJ' ));
-		//$types = 57;
 		$array_topic [0] = "-- Level 1 --";
 		$array_categorie [0] [0] = "-- Level 2 --";
 		$array_variable [0] [0] [0] = "-- Level 3 --";
 
 		$query = "select * from gcmd_location_keyword where gcmd_level = 2  order by gcmd_loc_name";
-		//$query = "select * from gcmd_location_keyword where gcmd_level = 3  and gcmd_loc_id in (select gcmd_loc_id from proj_loc_keyword where project_id=".$types.") order by gcmd_loc_name";
 		$liste_topic = $this->getByQuery ( $query );
 
 
@@ -170,8 +161,6 @@ class gcmd_location_keyword {
 	{
 		if (!isset($ids) || empty($ids))
 			return new gcmd_location_keyword;
-
-		//$query = "select * from gcmd_location_keyword where gcmd_loc_id in ($ids) order by gcmd_loc_name";
 		$query = "select * from gcmd_location_keyword where gcmd_level = 3  and gcmd_loc_id in (select gcmd_loc_id from proj_loc_keyword where project_id=".$ids.") order by gcmd_loc_name";
 		return $this->getByQuery($query);
 	}
@@ -187,8 +176,6 @@ class gcmd_location_keyword {
 			
 		$query = "select * from place $where order by place_name";
 
-		//echo "$query<br>";
-
 		return $this->getByQuery($query);
 	}
 
@@ -200,7 +187,6 @@ class gcmd_location_keyword {
 		$array_type[0] = " -- Topic -- ";
 		$array_lev1[0][0] = "";
 		$array_lev2[0][0][0] = "";
-		//$array_lev3[0][0][0][0] = "";
 		$gcmd = new gcmd_location_keyword();
 		if (constant(strtoupper ( $project_name ) . '_SITES') != '' && constant(strtoupper ( $project_name ) . '_SITES') != null) {
 			$types = $gcmd->getByIds ( constant(strtoupper ( $project_name ) . '_SITES' ));

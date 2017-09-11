@@ -54,7 +54,6 @@ class multi_instru_dataset extends base_dataset {
 	}
 
 	public function toString(){
-		//echo "toString()<br/>";
 		$result = $this->base_dataset_to_string();
 
 	}
