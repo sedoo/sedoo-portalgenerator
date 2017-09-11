@@ -1,6 +1,6 @@
 <?php
 
-require_once("/sites/kernel/#MainProject/conf.php");
+require_once ("/sites/kernel/#MainProject/conf.php");
 
 define('DOI_RESOLVER','http://dx.doi.org/');
 
@@ -14,8 +14,5 @@ define("SERVICE_DOI_URL","https://".SERVICE_DOI_USER.":".SERVICE_DOI_PASSWD."@md
 
 define("SERVICE_DOI_UPDATE","https://".SERVICE_DOI_USER.":".SERVICE_DOI_PASSWD."@mds.datacite.org/doi");
 define("SERVICE_DOI_UPLOAD_METADATA","https://".SERVICE_DOI_USER.":".SERVICE_DOI_PASSWD."@mds.datacite.org/metadata");
-
-//define('SERVICE_DOI_UPDATE','https://mds.datacite.org/doi?testMode=true');
-//define('SERVICE_DOI_UPLOAD_METADATA','https://mds.datacite.org/metadata?testMode=true');
 
 ?>

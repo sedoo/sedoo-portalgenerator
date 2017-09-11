@@ -5,25 +5,20 @@ require_once('extract/conf.php');
 class requeteXml{
 
 	var $projectName;
-
 	var $latMin;
 	var $latMax;
 	var $lonMin;
 	var $lonMax;
 	var $dateMin;
-	var $dateMax;
-		
+	var $dateMax;		
 	var $format;
 	var $format_version;
-	var $compression;
-	
+	var $compression;	
 	var $withFlag;
-	var $withDelta;
-	
+	var $withDelta;	
 	var $datasets;
 	var $places;
-	var $variables;
-	
+	var $variables;	
 	var $user;
 
 	function requeteXml($user, $projectName){
@@ -43,51 +38,50 @@ class requeteXml{
 	}
 
 	static function readXml($xml){
-                $xml = simplexml_load_string($xml);
-                $user = new portalUser;
-                $user->mail = $xml->utilisateur->utilisateur_email;
-                $user->cn = $xml->utilisateur->utilisateur_nom;
-                $user->affiliation = $xml->utilisateur->utilisateur_institute;
+		$xml = simplexml_load_string($xml);
+		$user = new portalUser;
+		$user->mail = $xml->utilisateur->utilisateur_email;
+		$user->cn = $xml->utilisateur->utilisateur_nom;
+		$user->affiliation = $xml->utilisateur->utilisateur_institute;
 
-                $requete = new requeteXml($user,$xml->projet);
+		$requete = new requeteXml($user,$xml->projet);
 
-                foreach ($xml->selection->datasets->dats_id as $datsId)
-                        $requete->datasets[] = $datsId;
+		foreach ($xml->selection->datasets->dats_id as $datsId)
+				$requete->datasets[] = $datsId;
 
-                foreach ($xml->selection->variables->var_id as $varId)
-                        $requete->variables[] = $varId;
+		foreach ($xml->selection->variables->var_id as $varId)
+				$requete->variables[] = $varId;
 
-                foreach ($xml->selection->places->place_id as $placeId)
-                        $requete->places[] = $placeId;
+		foreach ($xml->selection->places->place_id as $placeId)
+				$requete->places[] = $placeId;
 
-                $requete->dateMin = str_replace('T00:00:00','',$xml->selection->periode->date_min);
-                $requete->dateMax = str_replace('T23:59:59','',$xml->selection->periode->date_max);
+		$requete->dateMin = str_replace('T00:00:00','',$xml->selection->periode->date_min);
+		$requete->dateMax = str_replace('T23:59:59','',$xml->selection->periode->date_max);
 
-                $requete->latMin = round((double)$xml->selection->zone->lat_min,2);
-                $requete->lonMin = round((double)$xml->selection->zone->lon_min,2);
-                $requete->lonMax = round((double)$xml->selection->zone->lon_max,2);
-                $requete->latMax = round((double)$xml->selection->zone->lat_max,2);
+		$requete->latMin = round((double)$xml->selection->zone->lat_min,2);
+		$requete->lonMin = round((double)$xml->selection->zone->lon_min,2);
+		$requete->lonMax = round((double)$xml->selection->zone->lon_max,2);
+		$requete->latMax = round((double)$xml->selection->zone->lat_max,2);
 
 
-                $requete->format = $xml->options->format;
-                $requete->format_version = $xml->options->format_version;
-                $requete->compression = $xml->options->compression;
-                $requete->withFlag = $xml->options->valeur_flag;
-                $requete->withDelta = $xml->options->valeur_delta;
+		$requete->format = $xml->options->format;
+		$requete->format_version = $xml->options->format_version;
+		$requete->compression = $xml->options->compression;
+		$requete->withFlag = $xml->options->valeur_flag;
+		$requete->withDelta = $xml->options->valeur_delta;
 
-                return $requete;
-        }
+		return $requete;
+    }
 
-	function toString(){
-                return "Period: $this->dateMin - $this->dateMax
-                        Zone: $this->latMin, $this->latMax, $this->lonMin, $this->lonMax
-                        Datasets: ".count($this->datasets)."
-                        Variables: ".count($this->variables).
-//                      "\nPlaces: ".count($this->places).
-                        "\nFormat: $this->format
-                        Compression: $this->compression";
-//                      Flag: $requete->withFlag, Delta: $requete->withDelta";
-        }
+	function toString() {
+		return "Period: $this->dateMin - $this->dateMax
+				Zone: $this->latMin, $this->latMax, $this->lonMin, $this->lonMax
+				Datasets: ".count($this->datasets)."
+				Variables: ".count($this->variables).
+				//                      "\nPlaces: ".count($this->places).
+				"\nFormat: $this->format
+				Compression: $this->compression";
+    }
 	
 	function toXml(){
 		$xml = simplexml_load_file(XML_TEMPLATE);
@@ -126,8 +120,7 @@ class requeteXml{
 		$xml->options->compression = $this->compression;
 		$xml->options->valeur_flag = $this->withFlag;
 		$xml->options->valeur_delta = $this->withDelta;
-		//$filename = '/tmp/requete_'.uniqid().'.xml';
-		//$xml->asXml($filename);
+
 		return $xml->asXml();
 	}
 

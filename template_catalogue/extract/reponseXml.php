@@ -1,20 +1,16 @@
 <?php
 
-require_once('extract/fichierResultat.php');
-require_once('extract/conf.php');
+require_once ('extract/fichierResultat.php');
+require_once ('extract/conf.php');
 
 class reponseXml{
 	
-	var $id;
-	
+	var $id;	
 	var $userName;
-	var $mail;
-	
+	var $mail;	
 	var $roles;
-	var $files;
-	
-	var $project_name;
-	
+	var $files;	
+	var $project_name;	
 	var $isPublic;
 
 	function reponseXml($id,$project_name){
@@ -59,7 +55,5 @@ class reponseXml{
 	}
 	
 }
-
-
 
 ?>

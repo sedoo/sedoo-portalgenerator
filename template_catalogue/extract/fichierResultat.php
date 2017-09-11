@@ -1,6 +1,6 @@
 <?php
 
-require_once('extract/contactsJeu.php');
+require_once ('extract/contactsJeu.php');
 
 class fichierResultat{
 	
@@ -24,8 +24,6 @@ class fichierResultat{
 		foreach ($xmlElt->associated_file as $f){
 			$this->associatedFiles[] = (string)$f;
 		}
-		
-		
 	}
 	
 	function getFileSize() {
@@ -39,7 +37,6 @@ class fichierResultat{
 	function toHtml(){
 		$rows = count($this->contacts);
 		$id = uniqid('extract_');
-		//$_SESSION[$id] = (string)$this->filename;
 		$_SESSION[$id] = serialize($this);
 		$urlFichier = "/extract/dl.php?file=$id&project_name=$this->project_name";
 		echo "<tr><td rowspan=$rows><a href=$urlFichier>".basename($this->filename).'</a></td>';
@@ -50,10 +47,7 @@ class fichierResultat{
 			$c->toHtml();
 			echo '</td></tr>';
 		}
-		//echo '</tr>';
-	}
-	
-	
+	}	
 }
 
 ?>

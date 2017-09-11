@@ -1,7 +1,7 @@
 <?php
 
-require_once("forms/login_form.php");
-require_once('extract/reponseXml.php');
+require_once ("forms/login_form.php");
+require_once ('extract/reponseXml.php');
 
 class extract_download_form extends login_form{
 
@@ -13,13 +13,10 @@ class extract_download_form extends login_form{
 			if (get_class($this->user) == 'user'){
                                 $this->user = null;
                         }
-		}/*else{
-			$this->createLoginForm('Mail');
-		}*/
+		}
 		if (isset($resultId) && !empty($resultId)){
 	                try{
 				$this->reponse = new reponseXml($resultId,$project_name);
-				//echo 'Public: '.$this->reponse->isPublic().'<br>';
                 	}catch (Exception $e){
                         	echo '<font size="3" color="red">'.$e->getMessage().'</font><br>';
                 	}
@@ -38,10 +35,7 @@ class extract_download_form extends login_form{
 		if (isset($resultId) && !empty($resultId)){
 			$this->reponse = new reponseXml($resultId,$project_name);
 			echo 'Public: '.$this->reponse->isPublic().'<br>';
-			//$_SESSION['reponse_xml'] = serialize($this->reponse);
-		}/*else if (session_is_registered('reponse_xml')){
-			$this->reponse = unserialize($_SESSION['reponse_xml']);
-		}*/
+		}
 	}
 	
 	function testUser(){

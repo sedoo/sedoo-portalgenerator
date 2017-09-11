@@ -1,15 +1,13 @@
 <?php
 
-require_once('extract/conf.php');
-require_once('/sites/kernel/#MainProject/conf.php');
+require_once ('extract/conf.php');
+require_once ('/sites/kernel/#MainProject/conf.php');
 
 class requeteFilesXml{
 
 	var $projectName;
-	var $user;
-	
-	var $compression;
-	
+	var $user;	
+	var $compression;	
 	var $dataset;
 	var $racine;
 	var $files;

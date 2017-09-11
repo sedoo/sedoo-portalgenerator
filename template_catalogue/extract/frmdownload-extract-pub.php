@@ -1,7 +1,7 @@
 <?php
 
-require_once('extract/extract_download_form.php');
-require_once('editDataset.php');
+require_once ('extract/extract_download_form.php');
+require_once ('editDataset.php');
 
 $resultId = $_REQUEST['resultId'];
 

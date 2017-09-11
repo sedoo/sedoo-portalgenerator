@@ -1,6 +1,6 @@
 <?php
 
-require_once '/sites/kernel/#MainProject/conf.php';
+require_once ('/sites/kernel/#MainProject/conf.php');
 
 function send_to_cgi($requeteXml, &$retour){
 	$data = "requete=".urlencode($requeteXml);
@@ -43,9 +43,6 @@ function do_post_request($url, $data, $optional_headers = null, $timeout = 5){
 	if ($response === false) {
 		throw new Exception("Problem reading data from $url, $php_errormsg");
 	}
-
-	//$meta = stream_get_meta_data($fp);
-	//var_dump($meta);
 
 	fclose($fp);
 	return $response;
