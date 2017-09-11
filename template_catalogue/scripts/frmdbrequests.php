@@ -1,6 +1,6 @@
 <?php 
 	
-require_once('forms/db_requests_forms.php');
+require_once ('forms/db_requests_forms.php');
 
 echo '<h1>Database requests</h1>';
 
@@ -10,7 +10,6 @@ $dbform->createForm(isset($_REQUEST['adm']));
 if ($dbform->isLogged()){
 	
 	foreach (array_keys($_POST) as $key){
-		//echo $key.'<br>';
 		if (strpos($key,'bouton__kill_') === 0){
 			$id = str_replace('bouton__kill_','',$key);
 			$dbform->kill($id);

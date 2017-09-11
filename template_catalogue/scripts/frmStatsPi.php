@@ -1,7 +1,7 @@
 <?php
 
-require_once("forms/stats_form_dats.php");
-require_once("bd/dataset.php");
+require_once ("forms/stats_form_dats.php");
+require_once ("bd/dataset.php");
 
 if ( isset($_REQUEST['datsId']) ){
 	$datsId = $_REQUEST['datsId'];

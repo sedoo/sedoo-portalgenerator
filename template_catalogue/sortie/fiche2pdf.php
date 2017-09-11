@@ -1,6 +1,6 @@
 <?php
 
-require_once('sortie/fiche2pdf_functions.php');
+require_once ('sortie/fiche2pdf_functions.php');
 
 $datsId = $_REQUEST['datsId'];
 

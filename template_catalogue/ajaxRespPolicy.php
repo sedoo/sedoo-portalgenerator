@@ -1,5 +1,5 @@
 <?php
-require_once("bd/data_policy.php");
+require_once ("bd/data_policy.php");
 
 $id=$_GET["id"];
 
@@ -24,8 +24,6 @@ if ($id){
 		}
 		
 	}
-	
-	
 }		
 
 echo "</response>";

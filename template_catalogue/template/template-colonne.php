@@ -9,11 +9,6 @@ else {
 	// require("inc-colonne-project.html");
 	$root_path_menu = $project_name;
 	$subscribe_url= "".$_SERVER['HTTP_HOST']."/".$project_name."/Register";
-
-	
-
-	
-
 }
 ?>
 

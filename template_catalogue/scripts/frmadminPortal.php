@@ -17,7 +17,6 @@ if ($form->isPortalAdmin ()) {
 		// Contenus
 	if ($pageId == 1) {
 		echo "<h1>Registered Users</h1><br>";
-		// $form->exportRegisteredUsersList();
 		if (isset ( $reqId ) && ! empty ( $reqId )) {
 			if (isset ( $_POST ["bouton_update_$reqId"] )) {
 				// Suppression user enregistré

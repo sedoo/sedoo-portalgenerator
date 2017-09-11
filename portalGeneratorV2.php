@@ -277,9 +277,7 @@ class PortalGenerator {
 		$this->generateFile ( $this->databaseTargetDir . '/createDb.sh', $content);
 		exec ("chmod a+x $this->databaseTargetDir/createDb.sh");
 	}
-	
-	
-	
+
 	function makeConfPhp() {
 		echo "Generating conf.php file...\n";
 		$filePath = $this->phpTargetDir . "/conf/conf.php";

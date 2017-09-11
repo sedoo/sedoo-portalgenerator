@@ -1,6 +1,6 @@
 <?php
 
-require_once("forms/journal_form.php");
+require_once ("forms/journal_form.php");
 
 if ( isset($_REQUEST['type']) && !empty($_REQUEST['type'])){
 	$typeJournal = $_REQUEST['type'];

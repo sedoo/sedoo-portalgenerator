@@ -1,8 +1,8 @@
 <?php
 
 require_once ("utils/elastic/ElasticSearchUtils.php");
-require_once('bd/dataset.php');
-require_once("bd/url.php");
+require_once ('bd/dataset.php');
+require_once ("bd/url.php");
 
 /*
  * Retourne une liste des liens vers les données à afficher.
@@ -21,13 +21,8 @@ function getAvailableDataLinks($dts,$project_name){
         }
 	if (isset($nodeConf['qlLink'])){
                 $liste[] = '<a href="'.$nodeConf['qlLink'].'" target="_blank"><span class="icon-folder-open" data-color="Orange"></span> '.$nodeConf['qlTitle'].'</a>';
-    }
-    /*if (isset($nodeConf['quicklooksLink'])){
-      	$liste[] = '<a href="'.$nodeConf['quicklooksLink'].'" ><img width="15" height="16" class="text" src="'.$nodeConf['quicklooksIcon'].'" />&nbsp;'.$nodeConf['quicklooksTitle'].'</a>';
-    }
-    if (isset($nodeConf['calLink'])){
-       	$liste[] = '<a href="'.$nodeConf['calLink'].'" ><img width="15" height="16" class="text" src="'.$nodeConf['calIcon'].'" />&nbsp;'.$nodeConf['calTitle'].'</a>';
-    }*/
+    	}
+
 	return $liste;
 }
 

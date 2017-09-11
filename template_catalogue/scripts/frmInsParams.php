@@ -1,9 +1,9 @@
 <?php
 
-require_once('bd/param.php');
-require_once('bd/inserted_dataset.php');
-require_once('utils/calendrier_utils.php');
-require_once('scripts/filtreProjets.php');
+require_once ('bd/param.php');
+require_once ('bd/inserted_dataset.php');
+require_once ('utils/calendrier_utils.php');
+require_once ('scripts/filtreProjets.php');
 
 $p = new param;
 
@@ -72,27 +72,16 @@ if ($withVar){
 		}else{
 			$yearMin = $dateMin->format('Y');
 			$yearMax = $dateMax->format('Y');
-			
-			/*echo "<a href='$url_courte&ins_dats_id=$ins_dats_id&place_id=$place_id&var_id=$var_id'>Back</a><br/><br/>";
-			
-						
-			echo '<center><b>';
-			if ($yearMin < $year)
-				echo "<a href='$url_courte&ins_dats_id=$ins_dats_id&place_id=$place_id&var_id=$var_id&year=".($year-1)."'>&lt;&lt;</a>";
-			echo "&nbsp;&nbsp;$year&nbsp;&nbsp;";
-			if ($yearMax > $year)
-				echo "<a href='$url_courte&ins_dats_id=$ins_dats_id&place_id=$place_id&var_id=$var_id&year=".($year+1)."'>&gt;&gt;</a></b>";
-			echo '</center><br/><br/>';*/
+
 			afficheListeAnnees($year,$yearMin,$yearMax,"$url_courte&ins_dats_id=$ins_dats_id&place_id=$place_id&var_id=$var_id");
 			afficheCalendriers($ins_dats_id,$var_id,$place_id,$year);
 		}
 	}
 	
 }else{
-//	$params = $p->getAll();
 
 	$projects = get_filtre_projets($project_name);
-        $params = $p->getByProjects($projects);
+    $params = $p->getByProjects($projects);
 	
 	echo '<table><tr><th>Code</th><th>Name</th><th>GCMD keyword</th><th>Unit</th><th>CF standard name</th></tr>';
 	foreach($params as $param){

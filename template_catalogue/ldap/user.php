@@ -1,7 +1,7 @@
 <?php
 
-require_once("ldap/constants.php");
-require_once("ldap/entry.php");
+require_once ("ldap/constants.php");
+require_once ("ldap/entry.php");
 
 class user extends entry{
 

@@ -1,12 +1,12 @@
 <?php
-require_once("bd/url.php");
-require_once('gmap/map_form.php');
-require_once("bd/journal.php");
-require_once("sortie/print_utils.php");
+require_once ("bd/url.php");
+require_once ('gmap/map_form.php');
+require_once ("bd/journal.php");
+require_once ("sortie/print_utils.php");
 require_once ("bd/dataset_factory.php");
 
-require_once("scripts/lstDataUtils.php");
-require_once('conf/doi.conf.php');
+require_once ("scripts/lstDataUtils.php");
+require_once ('conf/doi.conf.php');
 
 function editContact(& $pis){
 	foreach ($pis as $pi){
@@ -27,19 +27,19 @@ function editContact(& $pis){
 				'int' => 5,
 				'edu' => 6,
 				'gov' => 7,
-		                'uk' => 10, 
-                                'fr' => 14,
-                                'es' => 15, 
-                                'de' => 16,
-                                'at' => 17, 
-                                'it' => 18,
-                                'cat' => 19, 
-                                'ch' => 20,
-                                'hr' => 21,
+				'uk' => 10, 
+				'fr' => 14,
+				'es' => 15, 
+				'de' => 16,
+				'at' => 17, 
+				'it' => 18,
+				'cat' => 19, 
+				'ch' => 20,
+				'hr' => 21,
 				'ro' => 22, 
-                                'il' => 23,
-                                'nl' => 24,
-                                'gr' => 25);
+				'il' => 23,
+				'nl' => 24,
+				'gr' => 25);
 
 			if (array_key_exists($tld,$tldIds)){	
 				$tldId = $tldIds[$tld];	
@@ -559,7 +559,6 @@ function editDataset($datsId, $project_name, $display_archived = false, $queryAr
 	if (isset ( $datsId ) && ! empty ( $datsId )) {
 		$dataset = new dataset ();
 		$dataset = $dataset->getById ( $datsId );
-		// echo'<h1>datsid</h1>'.$datsId;
 		if (isset ( $dataset ) && ! empty ( $dataset )) {
 			if ($dataset->is_archived && ! $display_archived) {
 				echo "<font size=\"3\" color='red'><b>This dataset has been archived. </b></font>";
@@ -572,7 +571,6 @@ function editDataset($datsId, $project_name, $display_archived = false, $queryAr
 				if (isset ( $journal ) && ! empty ( $journal )) {
 					
 					foreach ( $journal as $jEntry ) {
-						// echo '<td colspan="3">';
 						echo '<p>';
 						if ($jEntry->type_id == TYPE_ARCHIVE) {
 							echo '<span class="blue_tag">ARCHIVE ';
@@ -589,20 +587,17 @@ function editDataset($datsId, $project_name, $display_archived = false, $queryAr
 			} else {
 				echo "<a href='/sortie/fiche2pdf.php?datsId=$datsId' target='_blank'><img src='/img/pdf-icone-32.png' style='border:0px;float: right; margin-right:10px;' title='Export to pdf' /></a>";
 			}
-			if ( get_class($dataset) == 'satellite_dataset' /*$dataset->isSatelliteDataset()*/ ){
-				//editSatelliteDataset($dataset,$project_name);
+			if ( get_class($dataset) == 'satellite_dataset' ){
 				$dataset->display($project_name);
-			}else if ( get_class($dataset) == 'model_dataset' /*$dataset->isModelDataset()*/ ){
-				$dataset->display($project_name);//editModelDataset($dataset,$project_name);
-			}else if ( get_class($dataset) == 'multi_instru_dataset' /*count($dataset->dats_sensors) <= 1*/ ){
+			}else if ( get_class($dataset) == 'model_dataset' ){
+				$dataset->display($project_name);
+			}else if ( get_class($dataset) == 'multi_instru_dataset'){
 				$dataset->display($project_name);
 			}else if ($dataset->isValueAddedDataset()){
-				//editValueDataset($dataset,$project_name);
 				//	TODO à modifier quand le nouveau formulaire fonctionnera
 				editValueAddedDataset($dataset,$project_name);
 			}else{
 				editInSituDataset($dataset,$project_name);
-				//editInSituDatasetSite($dataset,$project_name);
 			}
 		}
 	}
@@ -665,10 +660,6 @@ function editInSituDatasetSite(& $dataset,$project_name, $queryArgs = array()){
 			$mapForm->displayMapDiv ();
 			echo '</td></tr>';
 		}
-		// add jlb
-		/*
-		 * else { $url = new url(); $map = $url->getMapFileByDataset($dataset->dats_id); if (isset($map) && !empty($map)){ if ($mapForm->genScriptFromUrl($map[0]->url)){ echo '<tr><td colspan="4" id="map_cell" >'; $mapForm->displayDrawLink('View stations location on a map'); $mapForm->displayMapDiv(); echo '</td></tr>'; } } }
-		 */
 		
 		if (isset ( $dataset->image ) && ! empty ( $dataset->image )) {
 			echo "<tr><td><b>Photo</b></td>";
@@ -681,7 +672,7 @@ function editInSituDatasetSite(& $dataset,$project_name, $queryArgs = array()){
 			echo '</td></tr><tr><th colspan="4" align="center"><b>Instrument ' . $nb . '</b></th></tr>';
 			//echo 'TEST';
 			print_r ( $dataset->dats_sensors [0]->gcmd_instrument_keyword );
-			echo "<tr><td><b>Instrument type</b></td><td colspan='3'>"./*$dataset->dats_sensors[$i]->sensor->gcmd_instrument_keyword->gcmd_sensor_name*/printGcmdInstrument ( $dataset->dats_sensors [0]->gcmd_instrument_keyword ) . "</td></tr>";
+			echo "<tr><td><b>Instrument type</b></td><td colspan='3'>".printGcmdInstrument ( $dataset->dats_sensors [0]->gcmd_instrument_keyword ) . "</td></tr>";
 			echo "<tr><td><b>Manufacturer</b></td><td colspan='3'>" . $dataset->dats_sensors [$i]->sensor->manufacturer->manufacturer_name;
 			if (isset ( $dataset->dats_sensors [$i]->sensor->manufacturer->manufacturer_url ) && ! empty ( $dataset->dats_sensors [$i]->sensor->manufacturer->manufacturer_url )) {
 				echo " - <a href=\"" . $dataset->dats_sensors [$i]->sensor->manufacturer->manufacturer_url . "\" >" . $dataset->dats_sensors [$i]->sensor->manufacturer->manufacturer_url . "</a>";
@@ -697,10 +688,6 @@ function editInSituDatasetSite(& $dataset,$project_name, $queryArgs = array()){
 			echo "<td><b>Height above ground (m)</b></td><td>" . $dataset->dats_sensors [$i]->sensor->sensor_height . "</td></tr>";
 			echo "<tr><td><b>Instrument environment</b></td><td colspan='3'>" . $dataset->dats_sensors [$i]->sensor->sensor_environment . "</td></tr>";
 			
-			/*
-			 * foreach($dataset->dats_sensors[$i]->sensor->sensor_vars as $sensor_var) { if ($sensor_var->flag_param_calcule != 1){ echo '<tr><td colspan="4" align="center"><b>Measured parameters</b></td></tr>'; break; } }
-			 */
-			
 			$cpt = 1;
 			foreach ( $dataset->dats_sensors [$i]->sensor->sensor_vars as $sensor_var ) {
 				if ($sensor_var->flag_param_calcule != 1) {
@@ -709,9 +696,6 @@ function editInSituDatasetSite(& $dataset,$project_name, $queryArgs = array()){
 				}
 			}
 			
-			/*
-			 * foreach($dataset->dats_sensors[$i]->sensor->sensor_vars as $sensor_var) { if ($sensor_var->flag_param_calcule == 1){ echo '<tr><td colspan="4" align="center"><b>Derived parameters</b></td></tr>'; break; } } $cpt = 1; foreach($dataset->dats_sensors[$i]->sensor->sensor_vars as $sensor_var) { if ($sensor_var->flag_param_calcule == 1){ echo '<tr><td colspan="4" align="center"><b>Derived parameter '.($cpt++).'</b></td></tr>'; editParameterFromSensorVar($sensor_var); } }
-			 */
 		}
 		editDataUse ( $dataset, false );
 		echo "</td></tr><td colspan=\"4\" align=\"center\"><input type=\"submit\" value=\"Update this dataset\" onclick=\"location.href='" . $rubrique_cible . "?datsId=" . $dataset->dats_id . "&project_name=" . $project_name . "'\"/>";

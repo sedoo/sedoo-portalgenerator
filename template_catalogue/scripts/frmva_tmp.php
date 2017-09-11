@@ -26,16 +26,13 @@ if ($form->isCat ()) {
 	}
 	// Creation et affichage du formulaire
 	if (isset ( $datsId ) && ! empty ( $datsId )) {
-		// echo 'charge le dataset '.$datsId.'<br>';
 		$form->dataset = new dataset ();
 		$form->dataset = $form->dataset->getById ( $datsId );
 		$_SESSION ['datasetMod'] = serialize ( $form->dataset );
 	} else if (isset ( $_SESSION ['datasetMod'] )) {
-		// echo 'dataset trouvé dans la session<br>';
 		$form->dataset = unserialize ( $_SESSION ['datasetMod'] );
 	}
 	if (! isset ( $form->dataset )) {
-		// echo 'creation dataset<br>';
 		$form->dataset = new dataset ();
 		$form->dataset = $form->dataset->getById ( 0 );
 		$form->dataset->nbPis = 1;

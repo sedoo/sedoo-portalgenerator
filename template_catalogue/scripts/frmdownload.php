@@ -1,12 +1,10 @@
 <?php
 
 require_once ("utils/elastic/ElasticSearchUtils.php");
-require_once("forms/download_form.php");
+require_once ("forms/download_form.php");
 
 ini_set("max_execution_time", "0");
 session_start();
-
-//print_r($_POST);
 
 $type = $_REQUEST['type'];
 $project_name = $_REQUEST['project_name'];
@@ -59,7 +57,6 @@ if (isset($form->user)){
 
 		}else{
 			$archive = null;
-//			print_r($_POST);
 			foreach(array_keys($_POST) as $key){
                         	if ( strpos($key,'bouton_rem_') === 0){
 					$mod = substr($key,11);		

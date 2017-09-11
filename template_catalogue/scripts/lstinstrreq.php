@@ -1,11 +1,10 @@
 <?php
-require_once("bd/bdConnect.php");
-require_once("bd/dataset.php");
-require_once('scripts/lstDataUtils.php');
-require_once('scripts/filtreProjets.php');
+require_once ("bd/bdConnect.php");
+require_once ("bd/dataset.php");
+require_once ('scripts/lstDataUtils.php');
+require_once ('scripts/filtreProjets.php');
 
 	//Liste des instruments
-	//echo 'id_rubrique = '.$id_rubrique.'<br>';
 	$ds = new dataset;
 	echo "<br><br><h2>Already Requested Data List</h2>";
 	echo "<ul>";

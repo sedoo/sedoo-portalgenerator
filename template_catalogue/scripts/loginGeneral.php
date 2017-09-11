@@ -1,9 +1,9 @@
 <?php
 
-require_once("forms/login_form.php");
-require_once('ldap/portalUser.php');
-require_once('forms/logout_form.php');
-require_once('ldap/user.php');
+require_once ("forms/login_form.php");
+require_once ('ldap/portalUser.php');
+require_once ('forms/logout_form.php');
+require_once ('ldap/user.php');
 
 $form = new login_form;
 $form->createLoginForm('mail');
@@ -26,10 +26,8 @@ if (isset($_POST['loginbutton']))
 //Action logout
 else if (isset($_POST['logout']))
 {
-    //unset($_SESSION['loggedUser']);
     session_destroy();
 	$form->user=null;
-	//$form->displayLoginButton('',true,true);
 }
 //Action login
 else if (isset ( $_POST ['bouton_login'] )) {

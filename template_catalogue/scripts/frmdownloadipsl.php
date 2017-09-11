@@ -1,6 +1,5 @@
 <?php
-//require_once("ldap/portalUser.php");
-require_once("forms/download_form_ipsl.php");
+require_once ("forms/download_form_ipsl.php");
 require_once ("utils/elastic/ElasticSearchUtils.php");
 
 session_start();
@@ -75,7 +74,6 @@ if ($open){
 <?php
 }else{
 if ( strtolower($LnkFTPProt) == "ftp" ) {
-//echo $_SERVER['REQUEST_URI'].'<br>';
 if (strpos($_SERVER['REQUEST_URI'],'?')){
         $reqUri = substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],'?'));
 }else{
@@ -87,10 +85,6 @@ $openUri = $reqUri."?LnkFTP=$LnkFTP&open";
 <ul>
   <li>If you download the data from a web browser or other URL-based tool, you can find the requested data at:</li>
 </ul>
-
-<?php
-/*<center><a target="_blank" href="<?php echo $LnkFTPFull; ?>"><?php echo $LnkFTPFull; ?></a></center><br/>*/
-?>
 
 <center><a href="<?php echo $openUri; ?>"><?php echo $LnkFTP; ?></a></center><br/>
 
@@ -124,7 +118,5 @@ If you don't have an ID yet, you can apply for an account at
 <?php
 	$form->displayLGForm();
 }
-//print_r($loggedUser);
-
 
 ?>

@@ -170,7 +170,6 @@ if ($form->isLogged ()) {
 				$form_user->project [0] = $OtherProjects[($pageId-(15+count($MainProjects)))];
 			$form->user = unserialize ( $_SESSION ['loggedUser'] );
 			$form_user->initUser ();
-			// unset($form_user->project);
 			echo "<h1>".$form_user->project [0]." data access registration</h1><br/>";
 			
 			if ($form->user->isMemberOf ( array (

@@ -1,5 +1,5 @@
 <?php
-require_once("forms/doi_form.php");
+require_once ("forms/doi_form.php");
 
 if(isset($_REQUEST['dats_id']) && !empty($_REQUEST['dats_id']) && isset($_REQUEST['project']) && !empty($_REQUEST['project']) ){
 	$doi_form= new doi_form;

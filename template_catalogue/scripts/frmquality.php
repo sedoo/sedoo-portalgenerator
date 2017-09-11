@@ -1,8 +1,9 @@
 <?php
 require_once ("bd/dataset.php");
-require_once("bd/dats_quality.php");
-require_once('filtreProjets.php');
-require_once('/sites/kernel/#MainProject/conf.php');
+require_once ("bd/dats_quality.php");
+require_once ('filtreProjets.php');
+require_once ('/sites/kernel/#MainProject/conf.php');
+
 $bd = new bdConnect ();
 $bd->db_open ();
 if ( isset($_REQUEST['datsId']) ){

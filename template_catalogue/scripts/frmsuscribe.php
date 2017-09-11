@@ -1,6 +1,6 @@
 <?php
 
-require_once("forms/suscribe_form.php");
+require_once ("forms/suscribe_form.php");
 
 $sform = new suscribe_form();
 $sform->createForm();

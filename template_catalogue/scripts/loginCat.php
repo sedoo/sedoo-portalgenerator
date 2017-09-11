@@ -9,7 +9,6 @@ if (isset ( $_SESSION ['loggedUser'] ))
 	
 	// Action logout
 if (isset ( $_POST ['logout'] )) {
-	// unset($_SESSION['loggedUser']);
 	session_destroy ();
 	$form->user = null;
 }

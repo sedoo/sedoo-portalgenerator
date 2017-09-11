@@ -53,9 +53,7 @@ class treeByPlat {
 			$query_dp = "select distinct dats_id from dats_place where place_id in (select place_id from place where gcmd_plat_id = $platId and (pla_place_id is null or pla_place_id not in (select place_id from place where place_level is not null and gcmd_plat_id in ($platId,14))) and place_level is null)";
 		
 		$query = "select dats_id, dats_title from dataset left join dats_type using (dats_id) where dats_id in (select distinct dats_id from dats_proj where project_id in ($this->projects)) and dats_id in ($query_dp) and is_requested is null $whereDataOnly $whereDataType $whereFilter order by dats_title";
-		
-		// echo $query.'<br>';
-		
+				
 		$dts = new dataset ();
 		$dts_list = $dts->getOnlyTitles ( $query );
 		
@@ -74,15 +72,13 @@ class treeByPlat {
 			
 			$this->cptDats ++;
 		}
-		
-		// return count($dts_list);
+
 		return $cptLocal;
 	}
 	
 	function isEmptyTypeTab() {
 		$gcmd = new gcmd_plateform_keyword ();
 		$query = 'SELECT * FROM gcmd_plateform_keyword WHERE gcmd_plat_id != 1 AND gcmd_plat_id != 23 ' . ' AND ( gcmd_plat_id IN (SELECT distinct gcmd_plat_id FROM place where place_id in (' . 'SELECT distinct place_id FROM dats_place WHERE dats_id IN (' . "SELECT distinct dats_id FROM dats_proj where project_id in ($this->projects)))) or gcmd_plat_id in (15,16,22,14) )" . ' ORDER BY gcmd_plat_name';
-		// echo "$query<br>";
 		$plat_list = $gcmd->getByQuery ( $query );
 		foreach ( $plat_list as $plat ) {
 			$ids [] = $plat->gcmd_plat_id;
@@ -186,7 +182,6 @@ class treeByPlat {
 			$whereFilter = '';
 		
 		$query = "SELECT dats_id,dats_title FROM dataset LEFT JOIN dats_type USING (dats_id) WHERE dats_id in (select distinct dats_id from dats_proj where project_id in ($this->projects)) AND dats_id not in (select distinct dats_id from dats_place) AND is_requested is null $whereDataType $whereFilter order by dats_title";
-		// error_log($query);
 		$dts = new dataset ();
 		$dts_list = $dts->getOnlyTitles ( $query );
 		foreach ( $dts_list as $dt ) {
@@ -198,7 +193,6 @@ class treeByPlat {
 		} 
 	}
 	function display($filterData = false) {
-		// echo "Found: $this->cptDats dataset".(($this->cptDats > 1)?'s':'').'<br>';
 		$this->treeMenu->printMenu ( array (
 				'filterData' => $filterData 
 		) );
@@ -207,7 +201,6 @@ class treeByPlat {
 		$this->cptDats = 0;
 		$gcmd = new gcmd_plateform_keyword ();
 		$query = 'SELECT * FROM gcmd_plateform_keyword WHERE gcmd_plat_id != 1 AND gcmd_plat_id != 23 ' . ' AND ( gcmd_plat_id IN (SELECT distinct gcmd_plat_id FROM place where place_id in (' . 'SELECT distinct place_id FROM dats_place WHERE dats_id IN (' . "SELECT distinct dats_id FROM dats_proj where project_id in ($this->projects)))) or gcmd_plat_id in (15,16,22,14) )" . ' ORDER BY gcmd_plat_name';
-		// echo "$query<br>";
 		$plat_list = $gcmd->getByQuery ( $query );
 		$tree = new HTML_TreeMenu ();
 		foreach ( $plat_list as $plat ) {
@@ -229,8 +222,6 @@ class treeByPlat {
 	}
 	private function addPlatformsFromType(&$root, $gcmd) {
 		$platId = $gcmd->gcmd_plat_id;
-		
-		// echo "Type: $gcmd->gcmd_plat_id<br>";
 		
 		$p = new place ();
 		if (stripos ( $gcmd->gcmd_plat_name, 'buoys' ) === false)
@@ -286,9 +277,7 @@ class treeByPlat {
 				$cpt0 ++;
 			}
 		}
-		
-		// echo "$cpt0<br/>";
-		
+				
 		if ($cpt0 > 0) {
 			if (stripos ( $gcmd->gcmd_plat_name, 'Network' ) === false)
 				$others = 'Other sites';
@@ -315,7 +304,6 @@ class treeByPlat {
 			$datsType = $defaultType;
 		$arbre = new treeByPlat ( $withDataOnly, $datsType, "(is_archived is null or not is_archived)" );
 		$arbre->project_name = $project_name;
-		// echo "project_name=".$arbre->project_name."<br>";
 		$arbre->projects = get_filtre_projets ( $project_name );
 		echo "<h1>$titre</h1>";
 		include 'legende.php';

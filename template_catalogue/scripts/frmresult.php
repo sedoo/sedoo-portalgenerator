@@ -1,14 +1,13 @@
 <?php
 
-require_once('scripts/TreeMenu.php');
-require_once('lstDataUtils.php');
-require_once('editDataset.php');
+require_once ('scripts/TreeMenu.php');
+require_once ('lstDataUtils.php');
+require_once ('editDataset.php');
 
 
 $datsId = $_REQUEST['datsId'];
 if (isset($datsId) && !empty($datsId)){
-	//echo $_SERVER['HTTP_REFERER'].'<br>';
-	//echo "<br/><a href='".$_SERVER['HTTP_REFERER']."'>&lt;&lt;&nbsp;Back</a><br/>";
+
 	echo "<h1>Dataset Edition</h1>";
 	
 	echo "<br/><a style='font-size:110%;font-weight:bold;' href='/$project_name/Search-result'>&lt;&lt;&nbsp;Back to search result</a><br/>";
@@ -32,8 +31,6 @@ if (isset($datsId) && !empty($datsId)){
 	$url = "$project_url/Search-result";
 
 	echo '<h1>Search result</h1>';
-
-	//displaySearchResultMenu($project_name,$page,$withBd);
 
 	if (isset ($treeMenu)){
 		include 'legende.php';

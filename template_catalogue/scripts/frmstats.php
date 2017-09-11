@@ -1,6 +1,6 @@
 <?php
-require_once("/sites/kernel/#MainProject/conf.php");
-require_once("forms/stats_form.php");
+require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("forms/stats_form.php");
 
 if ( isset($_REQUEST['datsId']) && !empty($_REQUEST['datsId']) ){
 	$datsId = $_REQUEST['datsId'];

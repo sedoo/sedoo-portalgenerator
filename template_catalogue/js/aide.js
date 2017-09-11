@@ -39,28 +39,21 @@ function get_layer(name)
 {
 	if(isNS4){
 		layer=findLayer(name, document);
-		//if(layer==null)
-		//alert('Pb de layer');
 		return layer;
 	} else if (isIE4){
-		
-		//window.status=document.all[name];
 		return document.all[name];
 	} else if (isMoz) {
 		element =  document.getElementById(name);
 		return element;
 	}
-	//alert('Pb de noms');
 	return null;	
 }
 
 
 function findLayer(name, doc) {
 	var i, layer;
-	//alert(doc.layers.length);
 	for (i = 0; i < doc.layers.length; i++) { 
 	layer = doc.layers[i];
-	//alert(layer.name);
 	if (layer.name == name)
 		return layer;
 	if (layer.document.layers.length > 0)
@@ -77,7 +70,6 @@ function findLayer(name, doc) {
 function hide_layer(layer) 
 {
 	if(layer==null){
-		//window.status="Pas de layer ? cacher";	
 		return;
 	}
 	if (isNS4){
@@ -99,16 +91,13 @@ function show_layer(layer) {
 
 function move_layer_to(layer, x, y)
 {
-	//window.status=layer;
 	if (isNS4)
 		{	
 		layer.moveTo(x, y);
 		}
 	if (isIE4||isMoz){
-	//window.status=layer.style;
 	layer.style.left = x + "px";
 	layer.style.top  = y + "px";
-	//alert("y = "+y+" x = "+x+"\n layer.style.position = "+layer.style.position+"\n layer.style.left = "+layer.style.left+"\n layer.style.top = "+layer.style.top);
 	}
 }
 
@@ -149,27 +138,22 @@ $(function() {
 
 
 
-function get_mouse2(e) 
-{
-mouse=get_mouse(e);
-l=get_layer("aide");
-var x = mouse.x; 
-var y = mouse.y;
-if(adroite)
-x=x+15;
-else
-x=x-315; 
+function get_mouse2(e) {
+	mouse=get_mouse(e);
+	l=get_layer("aide");
+	var x = mouse.x; 
+	var y = mouse.y;
+	if(adroite)
+	x=x+15;
+	else
+	x=x-315; 
 
-move_layer_to(l,x,y);
-
-//box=document.getElementById("test");
-//box.innerHTML= "("+x+","+y+") - (" +  l.style.left +","+l.style.top+") " + l.style.width;
-
+	move_layer_to(l,x,y);
 }
 
 
 function kill() 
 {
-l=get_layer("aide");
-hide_layer(l);
+	l=get_layer("aide");
+	hide_layer(l);
 }

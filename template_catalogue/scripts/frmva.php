@@ -1,8 +1,8 @@
 <?php
 
-require_once("forms/va_form.php");
-require_once("forms/validation.php");
-require_once("editDataset.php");
+require_once ("forms/va_form.php");
+require_once ("forms/validation.php");
+require_once ("editDataset.php");
 
 $form = new va_form;
 $form->createLoginForm();

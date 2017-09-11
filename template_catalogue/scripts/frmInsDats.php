@@ -1,11 +1,11 @@
 <?php
 
-require_once('bd/inserted_dataset.php');
-require_once('bd/variable.php');
-require_once('bd/place.php');
-require_once('sortie/print_utils.php');
-require_once('scripts/filtreProjets.php');
-require_once('utils/calendrier_utils.php');
+require_once ('bd/inserted_dataset.php');
+require_once ('bd/variable.php');
+require_once ('bd/place.php');
+require_once ('sortie/print_utils.php');
+require_once ('scripts/filtreProjets.php');
+require_once ('utils/calendrier_utils.php');
 
 $insD = new inserted_dataset;
 

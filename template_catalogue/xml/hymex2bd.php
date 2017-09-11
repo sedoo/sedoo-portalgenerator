@@ -5,9 +5,10 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- set_include_path('.:/usr/share/pear:/usr/share/php:/home/mastrori/workspace/mistrals_catalogue/');
- require_once("bd/dataset.php");
- require_once("bd/place_var.php");
+	set_include_path('.:/usr/share/pear:/usr/share/php:/home/mastrori/workspace/mistrals_catalogue/');
+	require_once ("bd/dataset.php");
+	require_once ("bd/place_var.php");
+
    function makeDatsTitle($id,$name,$sitename,$trademark,$model)
    {
    		return $name[0].','.$sitename[0];
@@ -36,8 +37,7 @@
    		$dats_sensors[0]->sensor = new sensor;
    		$dats_sensors[0]->sensor->sensor_model = $model[0];
    		$dats_sensors[0]->sensor_resol_temp = $tresolution[0];
-   		/*$dats_sensors[0]->sensor->manufacturer = new manufacturer;
-   		$dats_sensors[0]->sensor->manufacturer->manufacturer_name = $trademark[0];*/
+
    		printf("sensor_manufacturer : %s",$trademark[0]);
    		if (isset($tademark[0]) && !empty($trademark[0]) && isset($mapping_manufacturer["$trademark[0]"]))
    		{
@@ -61,16 +61,13 @@
    		if (isset($name[0]) && !empty($name[0]) && isset($mapping["$name[0]"]))
    		{
    			$sensor_keyword = new gcmd_instrument_keyword;
-   			//printf("sensor_name = ".$name[0]." - gcmd = ".$mapping["$name[0]"]."\n");
    			$dats_sensors[0]->sensor->gcmd_instrument_keyword = $sensor_keyword->getByName($mapping["$name[0]"]);
    			if ($dats_sensors[0]->sensor->gcmd_instrument_keyword != null)
    				$dats_sensors[0]->sensor->gcmd_sensor_id = $dats_sensors[0]->sensor->gcmd_instrument_keyword->gcmd_sensor_id;
    			else{
-   				//printf("gcmd sensor not found ".$name[0]."\n");
    			}
    		}
    		else{ 
-   			//printf("gcmd sensor not found **".$name[0]."**\n");
    		}
    		if (isset($fixed) && !empty($fixed))
    		{
@@ -124,14 +121,12 @@
    		$sites = array();
    		$sites[0] = new place;
    		$sites[0]->place_name = $sitename[0];
-   		//printf("site name = ".$sitename[0]."\n");
    		
    		if ($plateform[0] && $gcmd_plat_mapping["$plateform[0]"] != null)
    		{
    			$plat_keyword = new gcmd_plateform_keyword;
    			$sites[0]->gcmd_plateform_keyword = $plat_keyword->getByName($gcmd_plat_mapping["$plateform[0]"]);
    			$sites[0]->gcmd_plat_id = $sites[0]->gcmd_plateform_keyword->gcmd_plat_id;
-	   		//printf("plateform keyword = ".$sites[0]->gcmd_plateform_keyword->gcmd_plat_name."\n");
    		}
    		return $sites;
    }
@@ -152,7 +147,6 @@
    		$query = "select * from gcmd_science_keyword where lower(gcmd_name) = '".strtolower($param)."' and " .
    				"gcm_gcmd_id in (select distinct gcmd_id from gcmd_science_keyword where lower(gcmd_name) = '".strtolower($categ)."' and " .
    				"gcm_gcmd_id in (select distinct gcmd_id from gcmd_science_keyword where lower(gcmd_name) = '".strtolower($topic)."'))";
-   		//printf($query."\n");		
    		$gcmd_key = new gcmd_science_keyword;
    		$gcmd_keys = $gcmd_key->getByQuery($query);
    		if (isset($gcmd_keys[0]->gcmd_id))
@@ -161,13 +155,11 @@
    		{
    			$query2 = "select * from gcmd_science_keyword where lower(gcmd_name) = '".strtolower($categ)."' and " .
    				"gcm_gcmd_id in (select distinct gcmd_id from gcmd_science_keyword where lower(gcmd_name) = '".strtolower($topic)."')";
-   			//printf($query2."\n");
    			$gcmd_key = new gcmd_science_keyword;
    			$gcmd_keys = $gcmd_key->getByQuery($query2);
    			if (isset($gcmd_keys[0]->gcmd_id))
    				return $gcmd_keys[0]->gcmd_id;
    		}
-   		//printf("gcmd not found for ".$topic.">".$categ.">".$param."\n"); 
    }
    
    function makeDatsVars($params,$derived)
@@ -184,7 +176,6 @@
    					list($varname,$unitcode) = split('-',(string)$param->variable);
    				else
    				{
-   					//printf("no unit for variable ".(string)$param->variable."\n");
    					$varname = (string)$param->variable;
    					$unitcode = null;
    				}
@@ -207,7 +198,6 @@
 			$dats_vars[$i]->unit_id = $dats_vars[$i]->unit->unit_id;
    			$dats_vars[$i]->flag_param_calcule = $derived;
    			$dats_vars[$i]->variable->gcmd_id = getGcmdId((string)$param->topic,(string)$param->category,(string)$param->variable);
-   			//printf("gcmd_science_keyword_id : ".$dats_vars[$i]->variable->gcmd_id." for variable ".(string)$param->variable."\n");
    			$i++;
    		}
    		return $dats_vars;
@@ -350,8 +340,8 @@
    		$mapping_manufacturer["$tab[0]"] = $tab[1];
    		$url_manufacturer["tab[0]"] = $tab[2];
    }
- //  print_r($mapping_sensor_gcmd);
- // Ouvre le dossier et liste tous les fichiers
+
+   // Ouvre le dossier et liste tous les fichiers
   $dir = "/home/mastrori/Projets/MISTRALS/catalogue/HYMEX/fiches.utf";
   $count= 0;
   if (is_dir($dir))

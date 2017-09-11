@@ -61,8 +61,7 @@ class projectPDF extends FPDF {
 			$this->indent ( 5 );
 			$this->Multicell ( 0, 6, utf8_decode ( $titre ), 'B' );
 			$this->text_indent = 9;
-			// $this->ln();
-			
+						
 			if (is_array ( $data ))
 				$this->addList ( $data, $attr );
 			else if (is_string ( $data ))

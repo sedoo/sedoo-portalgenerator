@@ -1,7 +1,7 @@
 <?php
 
-require_once('bd/journal.php');
-require_once('bd/mails_new.php');
+require_once ('bd/journal.php');
+require_once ('bd/mails_new.php');
 define('MAIL_SUPPORT_IPSL','HyMeX.Data-Support@ipsl.polytechnique.fr');
 function sendMailUserSat($mail, $datsIds){
 
@@ -17,7 +17,6 @@ function sendMailUserSat($mail, $datsIds){
 	$user = $ldap->getEntry($ldap->getUserDn($mail));
 
 	mails::sendMailUser2($user,$jeux,true,ROOT_EMAIL,MAIL_SUPPORT_IPSL);
-	//mails::sendMailUser2($user,$jeux);
 
 }
 $mail = $_REQUEST['mail'];
@@ -31,7 +30,7 @@ if ( isset($mail) && !empty($mail) && isset($datsId) && !empty($datsId) ){
 	mails::sendMailUserSat($mail,$datsIds);
 
 	foreach ($datsIds as $datsId)
-	        journal::addDownloadEntry($mail,$datsId,array(),true);
+	    journal::addDownloadEntry($mail,$datsId,array(),true);
 
 }
 

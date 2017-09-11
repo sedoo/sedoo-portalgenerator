@@ -33,17 +33,14 @@ class ldapConnect {
 			
 			// Vérification de l'authentification
 			if ($ldapbind) {
-				// echo "Connexion LDAP réussie...".'<br>';
 				return true;
 			} else {
 				$errorCode = ldap_errno ( $this->ldapconn );
-				// echo "Error code: $errorCode<br>";
 				if ($errorCode == 49) {
 					// Invalid credentials
 					return false;
 				} else {
 					echo "Error code: $errorCode<br>";
-					// echo "Connexion LDAP échouée...".'<br>';
 					$this->logErreur ( "Echec de la connexion à l'annuaire" );
 					throw new Exception ( "Impossible de se connecter au serveur LDAP" );
 				}

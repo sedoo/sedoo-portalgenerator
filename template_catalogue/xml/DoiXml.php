@@ -2,7 +2,7 @@
 require_once ("bd/dataset.php");
 require_once ("bd/project.php");
 require_once ("xml/DoiXmlTemplate.php");
-require_once('scripts/doiUtils.php');
+require_once ('scripts/doiUtils.php');
 /*
 function siteProgramme($site){
 if ($site == "HyMeX")
@@ -60,42 +60,6 @@ function getProjects($id){
 	//return implode('-',$result);
 	return $result;
 }
-/*
-function getProjectByIdOld($id){
-
-	$bd= new bdConnect();
-	$bd->db_open();
-	$query = "select project_name from project where project_id in (select distinct project_id from dats_proj where dats_id = $id) and pro_project_id is null";
-	echo "query: $query\n";
-	$projects = $bd->get_data($query);
-	echo "1: ";
-	print_r($projects);
-	if (isset ( $projects ) && ! empty ( $projects)) {
-		$i = 0;
-		foreach ( $projects as $proj ) {
-			$projects ['project_name'] .= $proj[0];
-			if ($i < count ( $projects )-2)
-				 $projects ['project_name'] .= '-';
-			$i ++;
-		}
-	}else if ($projects ['pro_project_id'] == null){
-		$query = "select p2.project_name from project p1 join project p2 on p1.pro_project_id = p2.project_id where p1.project_id in (select distinct project_id from dats_proj where dats_id =$id)";
-		echo "query: $query\n";
-		$projects = $bd->get_data($query);
-		$i = 0;
-		echo "2: ";
-		print_r($projects);
-		foreach ( $projects as $proj ) {
-			$projects ['project_name'] .= $proj[0];
-			if ($i < count ( $projects )-2)
-				$projects ['project_name'] .= '-';
-			$i ++;
-		}
-		
-	}
-	echo "result: ".$projects['project_name']."\n";
-	return $projects['project_name'];
-}*/
 
 /*
 define('TYPE_DL',3);
@@ -108,9 +72,7 @@ define('TYPE_CHANGES',5);
 function createDoiXml($id, $xmlstr,$project_name) {
 	$bd = new bdConnect ();
 	$bd->db_open ();
-	
 
-	
 	global $xmlstr;
 	$ressource = simplexml_load_string ( $xmlstr );
 	
@@ -136,35 +98,6 @@ function createDoiXml($id, $xmlstr,$project_name) {
 		}
 		
 	}
-	
-	/*
-	$query1 = "select project_url from project where project_id in (select distinct project_id from dats_proj where dats_id = $id) and pro_project_id is null";
-	$query2 = "select p2.project_url from project p1 join project p2 on p1.pro_project_id = p2.project_id where p1.project_id in (select distinct project_id from dats_proj where dats_id =$id)";
-	$req1 = $bd->exec($query1);
-	$req2 = $bd->exec($query2);
-	//error_log ( $req2 );
-	while ( $site = pg_fetch_assoc ( $req1 ) ) {
-		$relatedIdentifier = $relatedIdentifiers->addChild ( 'relatedIdentifier', $site ['project_url'] );
-		$relatedIdentifier->addAttribute ( 'relationType', 'References' );
-		$relatedIdentifier->addAttribute ( 'relatedIdentifierType', 'URL' );
-		
-	}
-	while ( $site = pg_fetch_assoc ( $req2 ) ) {
-		$relatedIdentifier = $relatedIdentifiers->addChild ( 'relatedIdentifier', $site ['project_url'] );
-		$relatedIdentifier->addAttribute ( 'relationType', 'References' );
-		$relatedIdentifier->addAttribute ( 'relatedIdentifierType', 'URL' );
-	
-	}
-	*/
-
-	
-	/*if (strlen(getProjectById($id)) > $max){
-	$relatedIdentifier=$relatedIdentifiers->addChild ( 'relatedIdentifier', siteProgramme(strstr(getProjectById($id),'-',true)) );
-	}else {
-		$relatedIdentifier=$relatedIdentifiers->addChild ( 'relatedIdentifier', siteProgramme(getProjectById($id)));
-	}*/
-	/*$relatedIdentifier->addAttribute ( 'relationType', 'References' );
-	$relatedIdentifier->addAttribute ( 'relatedIdentifierType', 'URL' );*/
 	
 	$ressourceType = $ressource->addChild ( 'resourceType', 'Dataset' );
 	$ressourceType->addAttribute ( 'resourceTypeGeneral', 'Dataset' );

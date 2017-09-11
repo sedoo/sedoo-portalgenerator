@@ -1,6 +1,6 @@
 <?php
-require_once('bd/journal.php');
-require_once('ldap/ldapConnect.php');
+require_once ('bd/journal.php');
+require_once ('ldap/ldapConnect.php');
 
 $j = new journal;
 $liste = $j->getByQuery("select distinct on (contact,dats_id) * from journal where date > '2013-06-18' and type_journal_id = 3 and contact not in (".EXCLUDE_USERS.",'veronique.ducrocq@meteo.fr') order by dats_id");

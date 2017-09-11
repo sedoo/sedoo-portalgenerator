@@ -1,8 +1,7 @@
 <?php
-require_once("forms/extraction_form.php");
+require_once ("forms/extraction_form.php");
 
 $dats_id = $_REQUEST['datsId'];
-//$search = $_REQUEST['search'];
 
 $search = 0;
 if ( array_key_exists('terms',$_REQUEST) ){

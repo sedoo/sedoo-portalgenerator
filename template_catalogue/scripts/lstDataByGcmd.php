@@ -15,7 +15,6 @@ include 'legende.php';
 $gcmd = new gcmd_science_keyword ();
 $tree = new HTML_TreeMenu ();
 $query = "select * from gcmd_science_keyword where gcmd_level = 2 order by gcmd_name";
-// echo "$query<br>";
 $liste_topic = $gcmd->getByQuery ( $query );
 foreach ( $liste_topic as $topic ) {
 	addGcmd ( $tree, $topic, $project_name );
@@ -34,7 +33,6 @@ function addGcmd(&$parent, $gcmd, $project_name) {
 	$emptyNode = true;
 	
 	$query = "select * from gcmd_science_keyword where gcm_gcmd_id = $gcmd->gcmd_id order by gcmd_name";
-	// echo "$query<br>";
 	$g = new gcmd_science_keyword ();
 	$liste_gcmd = $g->getByQuery ( $query );
 	foreach ( $liste_gcmd as $gc ) {
@@ -45,7 +43,6 @@ function addGcmd(&$parent, $gcmd, $project_name) {
 	
 	$var = new variable ();
 	$query = "select * from variable where gcmd_id = $gcmd->gcmd_id and var_name is not null and var_name != '' order by var_name";
-	// echo "$query<br>";
 	$liste_var = $var->getByQuery ( $query );
 	foreach ( $liste_var as $v ) {
 		if (addVar ( $node, $v, $project_name )) {
@@ -58,7 +55,6 @@ function addGcmd(&$parent, $gcmd, $project_name) {
 	$proj_ids = get_filtre_projets ( $project_name );
 	if (isset ( $proj_ids ) && ! empty ( $proj_ids )) {
 		$query = "select dats_id, dats_title from dataset where dats_id in (select distinct dats_id from dats_var where var_id in (select var_id from variable where gcmd_id = $gcmd->gcmd_id and (var_name is null or var_name = ''))) and dats_id in (select distinct dats_id from dats_proj where project_id in (" . $proj_ids . ")) AND (is_archived is null OR NOT is_archived) order by dats_title";
-		// echo "$query<br>";
 		$d = new dataset ();
 		$liste_dts = $d->getOnlyTitles ( $query );
 		foreach ( $liste_dts as $dts ) {
@@ -66,7 +62,6 @@ function addGcmd(&$parent, $gcmd, $project_name) {
 			$emptyNode = false;
 		}
 		if (! $emptyNode) {
-			// usort($node->items,"nodeCompare");
 			$parent->addItem ( $node );
 		}
 		return ! $emptyNode;
@@ -81,7 +76,6 @@ function addVar(&$parent, $var, $project_name) {
 	$proj_ids = get_filtre_projets ( $project_name );
 	if (isset ( $proj_ids ) && ! empty ( $proj_ids )) {
 		$query = "select dats_id, dats_title from dataset where dats_id in (select distinct dats_id from dats_var where var_id = $var->var_id) and dats_id in (select distinct dats_id from dats_proj where project_id in (" . $proj_ids . ")) AND (is_archived is null OR NOT is_archived) order by dats_title";
-		// echo "$query<br>";
 		$d = new dataset ();
 		$liste_dts = $d->getOnlyTitles ( $query );
 		foreach ( $liste_dts as $dts ) {
@@ -100,7 +94,6 @@ function addOthers(&$parent, $projectName) {
 	$proj_ids = get_filtre_projets ( $projectName );
 	if (isset ( $proj_ids ) && ! empty ( $proj_ids )) {
 		$query = "SELECT dats_id,dats_title FROM dataset WHERE dats_id in (select distinct dats_id from dats_proj where project_id in ($proj_ids)) AND dats_id not in (select distinct dats_id from dats_var) AND is_requested is null AND (is_archived is null OR NOT is_archived) order by dats_title";
-		// error_log($query);
 		$dts = new dataset ();
 		$dts_list = $dts->getOnlyTitles ( $query );
 		foreach ( $dts_list as $dt ) {

@@ -1,8 +1,7 @@
 <?php
-$titreMilieu = '
-<table><tr>
-<td width=400 style="background-color:white">#project database
-<td style="background-color:white">';
+$titreMilieu = '<table><tr>
+					<td width=400 style="background-color:white">#project database
+					<td style="background-color:white">';
 if (PORTAL_LogoPath != '') {
 	$titreMilieu .= "<a href='" . PORTAL_WebSite . "' target='_blank'><img src='http://" . $_SERVER ['HTTP_HOST'] . "/" . PORTAL_LogoPath . "'  height=60/></a>&nbsp;";
 }

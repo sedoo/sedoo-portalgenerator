@@ -1,7 +1,7 @@
 <?php
 
-require_once("forms/groups_form.php");
-require_once("forms/validation.php");
+require_once ("forms/groups_form.php");
+require_once ("forms/validation.php");
 
 $grform = new groups_form();
 $grform->createForm();
@@ -20,7 +20,6 @@ if ($grform->isRoot()){
 		$grform->displayNewGroupForm();
 	}else {
 		$grform->createAdminGroupForm();
-//	$grform->displayForm();
 	if (isset($_POST['bouton_ok'])){
 		$grform->listUsers();
         }else if (isset($_POST['add'])){

@@ -1,6 +1,6 @@
 <?php
 
-require_once("ldap/groupe.php");
+require_once ("ldap/groupe.php");
 
 class groupeFtp extends groupe{
 

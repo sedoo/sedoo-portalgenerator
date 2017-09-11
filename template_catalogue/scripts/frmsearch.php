@@ -241,11 +241,7 @@ function listDatasetsByPlatform($f, $project_name) {
 		$query_dat .= " AND $where_data";
 	}
 	
-	// error_log($query_dat);
-	// echo "query = ".$query_dat."<br>";
-	
 	$arbre = new treeByPlat ( false, - 1, $query_dat, 1 );
-	// $arbre->setFilter($query_dat);
 	$arbre->project_name = $project_name;
 	$arbre->projects = get_filtre_projets ( $project_name );
 	$arbre->build ( true );

@@ -1,6 +1,6 @@
 <?php
 
-require_once("ldap/entry.php");
+require_once ("ldap/entry.php");
 
 class projet extends entry{
 	

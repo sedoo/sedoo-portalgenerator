@@ -7,7 +7,7 @@ require_once ('/sites/kernel/#MainProject/conf.php');
 require_once ("forms/validation.php");
 require_once ("forms/doi_form.php");
 require_once ('xml/DoiXml.php');
-require_once('conf/doi.conf.php');
+require_once ('conf/doi.conf.php');
 require_once ('scripts/doiUtils.php');
 require_once ('mail.php');
 
@@ -69,14 +69,9 @@ function existInDb($element, $value, $args) {
  * Teste qu'un champ texte est saisi si une option a été choisie dans un select element: element liste sur lequel s'applique la regle value: valeur choisie dans la liste (0 => rien) args: array(0 => formulaire, 1 => champ texte à considérer
  */
 function required_if_not_void($element, $value, $args) {
-	
-	// echo '$element'.$element.'<br>';
-	// echo '$value'.$value.'<br>';
-	// echo '$arg 1'.$args[1].'<br>';
+
 	$arg_value = $args [0]->exportValue ( $args [1] );
-	
-	// echo '$arg_value'.$arg_value.'<br>';
-	
+		
 	if (empty ( $arg_value ) && $value != 0) {
 		return false;
 	} else
@@ -88,9 +83,7 @@ function required_if_not_void($element, $value, $args) {
  */
 function required_if_not_void2($element, $value, $args) {
 	$arg_value = $args [0]->exportValue ( $args [1] );
-	
-	// echo '$arg_value'.$arg_value.'<br>';
-	
+		
 	if (! empty ( $arg_value ) && $value == 0) {
 		return false;
 	} else
@@ -99,10 +92,10 @@ function required_if_not_void2($element, $value, $args) {
 
 /*
  * Teste qu'un champ texte est saisi si un
-* element: element liste sur lequel s'applique la regle
-* value: valeur saisie dans le champ texte
-* args: array(0 => formulaire, 1 => champ texte à considérer
-		*/
+ * element: element liste sur lequel s'applique la regle
+ * value: valeur saisie dans le champ texte
+ * args: array(0 => formulaire, 1 => champ texte à considérer
+ */
 function required_if_not_void3($element, $value, $args) {
 	$arg_value = $args[0]->exportValue($args[1]);
 	if (empty($arg_value) && !empty($value)){
@@ -127,12 +120,10 @@ if (! isset ( $datsId ) || empty ( $datsId )) {
 
 // Creation et affichage du formulaire
 if (isset ( $datsId ) && ! empty ( $datsId )) {
-	// echo 'charge le dataset '.$datsId.'<br>';
 	$form->dataset = new dataset ();
 	$form->dataset = $form->dataset->getById ( $datsId );
 	$_SESSION ['dataset'] = serialize ( $form->dataset );
 } else if (isset ( $_SESSION ['dataset'] )) {
-	// echo 'dataset trouvé dans la session<br>';
 	$form->dataset = unserialize ( $_SESSION ['dataset'] );
 }
 if ($form->isCat ( $form->dataset,$project_name )) {
@@ -145,7 +136,6 @@ if ($form->isCat ( $form->dataset,$project_name )) {
 		$_SESSION['doi'] = $doms->saveXML ();
 	}
 	if (! isset ( $form->dataset )) {
-		// echo 'creation dataset<br>';
 		$form->dataset = new dataset ();
 		$form->dataset = $form->dataset->getById ( 0 );
 		$form->dataset->nbPis = 1;
@@ -161,17 +151,11 @@ if ($form->isCat ( $form->dataset,$project_name )) {
 	}
 	
 	// TODO nettoyer
-	
-	
-	// $form->dataset = $dataset;
 	$nb_pi = & $form->dataset->nbPis;
 	$nb_site = & $form->dataset->nbSites;
 	$nb_variable = & $form->dataset->nbVars;
 	$nb_variable_calcul = & $form->dataset->nbCalcVars;
 	$form->createForm ( $project_name );
-	
-
-	
 	
 	if (isset ( $_POST ['upload_doc_button'] )) {
 		$form->saveForm ($nb_pi, $nb_site, $nb_variable, $nb_variable_calcul);
@@ -237,7 +221,6 @@ if ($form->isCat ( $form->dataset,$project_name )) {
 		$form->displayForm ( $nb_pi, $nb_site, $nb_variable, $nb_variable_calcul );
 		$_SESSION ['dataset'] = serialize ( $form->dataset );
 	} else if (isset ( $_POST ['bouton_save'] )) {
-		// $form->freeze();
 		
 		$form->saveForm ( $nb_pi, $nb_site, $nb_variable, $nb_variable_calcul );
 		$form->addValidationRules ();
@@ -251,9 +234,7 @@ if ($form->isCat ( $form->dataset,$project_name )) {
 				$insertionOk = $form->dataset->update ();
 				$form->dataset->set_requested ( $requested );
 			}
-			
-			// echo '<br>$insertionOk: '.$insertionOk."<br>";
-			
+						
 			if ($insertionOk) {
 				
 				$xml_save = createDoiXml ( $form->dataset->dats_id, $xmlstr, $project_name );
@@ -313,9 +294,7 @@ if ($form->isCat ( $form->dataset,$project_name )) {
 					
 				}
 				echo "<font size=\"3\" color='green'><b>Registration succesfull</b></font><br>";
-				// $form->dataset->displayDataset();
 				$_SESSION ['dataset'] = null;
-				// $_SESSION['datsId_tmp'] = -2;
 				editDataset ( $form->dataset->dats_id, $project_name );
 			} else {
 				echo "<font size=\"3\" color='red'><b>An error occured during the insertion process.</b></font><br>";

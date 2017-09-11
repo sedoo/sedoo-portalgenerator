@@ -1,8 +1,6 @@
 <?php
 require_once ("forms/sat_form.php");
 require_once ("forms/validation.php");
-//require_once ("editDataset.php");
-
 require_once ("bd/dataset_factory.php");
 
 
@@ -10,7 +8,6 @@ $form = new sat_form ();
 $form->createLoginForm ();
 
 // user loggé
-// if (isset($form->user)){
 
 if (array_key_exists('datsId', $_REQUEST)){
 	$datsId = $_REQUEST ['datsId'];
@@ -28,19 +25,14 @@ if (! isset ( $datsId ) || empty ( $datsId )) {
 }
 // Creation et affichage du formulaire
 if (isset ( $datsId ) && ! empty ( $datsId )) {
-	//echo 'charge le dataset '.$datsId.'<br>';
 	$form->dataset = dataset_factory::createSatelliteDatasetById($datsId);
 	$_SESSION ['datasetSat'] = serialize ( $form->dataset );
 } else if (isset ( $_SESSION ['datasetSat'] )) {
-	//echo 'dataset trouvé dans la session<br>';
 	$form->dataset = unserialize ( $_SESSION ['datasetSat'] );
 }
 if ($form->isCat ( $form->dataset, $project_name )) {
 	if (! isset ( $form->dataset )) {
-		//echo 'creation dataset<br>';
 		$form->dataset = new satellite_dataset ();
-		//$form->dataset = $form->dataset->getById ( 0 );
-		
 		$form->dataset->nbPis = 1;
 		$form->dataset->nbSites = 1;
 		$form->dataset->nbCalcVars = 0;
@@ -105,7 +97,6 @@ if ($form->isCat ( $form->dataset, $project_name )) {
 				echo "<font size=\"3\" color='green'><b>The dataset has been succesfully inserted in the database</b></font><br>";
 				
 				$_SESSION ['datasetSat'] = null;
-				//editDataset ( $form->dataset->dats_id, $project_name );
 				$dts = dataset_factory::createSatelliteDatasetById($form->dataset->dats_id);
 				$dts->display($project_name);
 			} else {

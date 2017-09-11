@@ -1,6 +1,6 @@
 <?php
 
-require_once("forms/url_form.php");
+require_once ("forms/url_form.php");
 
 if ( array_key_exists('type',$_REQUEST) ){
         $typeUrl = $_REQUEST['type'];
@@ -34,16 +34,13 @@ if ($urlform->isRoot()){
 	}
 	
 	if (isset($_POST['bouton_ok'])){
-		//$urlform->displayAddUrlForm();
-		//$urlform->displayUrls();	
+	
 	}else if (isset($_POST['bouton_add'])){
         	if ($urlform->validate()){
                 	if ($urlform->addUrl()){
                         	echo "<font size=\"3\" color='green'><b>URL succesfully inserted.</b></font><br>";
-//                                     $jform->resetAddForm();
                         }else{
                                 echo "<font size=\"3\" color='red'><b>An error occurred.</b></font><br>";
-				//$urlform->displayAddUrlForm();
                         }
                 }
 	}

@@ -1,6 +1,6 @@
 <?php
 
-require_once("forms/login_form.php");
+require_once ("forms/login_form.php");
 
 $form = new login_form;
 $form->createLoginForm('Mail',true);

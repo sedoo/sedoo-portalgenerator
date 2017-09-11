@@ -1,6 +1,6 @@
 <?php
 
-require_once("scripts/lstDataUtils.php");
+require_once ("scripts/lstDataUtils.php");
 
 class displayUtils{
 	
@@ -420,14 +420,12 @@ class displayUtils{
 			$journal = new journal();
 			$journal = $journal->getByDataset($dataset->dats_id,TYPE_NEW.','.TYPE_UPDATE);
 			if (isset($journal) && !empty($journal)){
-				//echo '<tr style = \'page-break-inside: avoid;\'><td rowspan="'.count($journal).'"><b>History</b></td>';
 				echo '<tr style = \'page-break-inside: avoid;\'><td style = \'page-break-inside: avoid;\'><b>History</b></td><td colspan="3" style="padding-right:0px;">';
 					
 				if (count($journal) > 3){
 					echo '<div style="overflow:auto;height:150px;">';
 				}
 				foreach ($journal as $jEntry){
-					//echo '<td colspan="3">';
 					echo '<p style="font-size: 12px;">';
 					if ($jEntry->type_id == TYPE_NEW){
 						echo '<span class="pink_tag" style="font-size: 10px;" >ISSUE</span>';
@@ -439,7 +437,6 @@ class displayUtils{
 						echo '<br/>'.$jEntry->comment;
 					}
 					echo '</p>';
-					//echo '</td></tr>';
 				}
 				if (count($journal) > 3){
 					echo '</div>';
@@ -480,14 +477,12 @@ class displayUtils{
 			$journal = new journal ();
 			$journal = $journal->getByDataset ( $dataset->dats_id, TYPE_NEW . ',' . TYPE_UPDATE );
 			if (isset ( $journal ) && ! empty ( $journal )) {
-				// $infos .= '<tr style = \'page-break-inside: avoid;\'><td rowspan="'.count($journal).'"><b>History</b></td>';
 				$infos .= '<tr style = \'page-break-inside: avoid;\'><td style = \'page-break-inside: avoid;\'><b>History</b></td><td colspan="3" style="padding-right:0px;">';
 				
 				if (count ( $journal ) > 3) {
 					$infos .= '<div style="overflow:auto;">';
 				}
 				foreach ( $journal as $jEntry ) {
-					// $infos .= '<td colspan="3">';
 					$infos .= '<p style="font-size: 12px;">';
 					if ($jEntry->type_id == TYPE_NEW) {
 						$infos .= '<span class="pink_tag" style="font-size: 10px;" >ISSUE</span>';
@@ -499,7 +494,6 @@ class displayUtils{
 						$infos .= '<br/>' . $jEntry->comment;
 					}
 					$infos .= '</p>';
-					// $infos .= '</td></tr>';
 				}
 				if (count ( $journal ) > 3) {
 					$infos .= '</div>';

@@ -84,15 +84,12 @@ function getXmlHttp(){
 	}
 	else if(window.ActiveXObject){
 		try  {
-			//xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
 			xmlhttp = new ActiveXObject("MSXML2.XMLHTTP");
 
 		}catch(e){
-			//document.getElementById("errors").innerHTML += "[Ajax] e: " + e;
 			try{
 				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 			}catch(el){
-				//document.getElementById("errors").innerHTML += "[Ajax] el: " + el;
 				xmlhttp = null;
 			}
 		}
@@ -133,26 +130,16 @@ function updateSelects(selectNames,valeurs){
 
 function changeSelect(selectName,valeur){
 	var select = document.getElementsByName(selectName)[0];
-	//document.getElementById("errors").innerHTML+= "nlle valeur-" + valeur + "<br>";
 	for (var i=0; i < select.options.length; i++){
-		
-		//document.getElementById("errors").innerHTML+= i + "-" + select.options[i].value + "<br>";
-		
+				
 		if (select.options[i].value == valeur){
 			select.selectedIndex = i;
 			select.setAttribute('selectedIndex',i);
-			//document.getElementById("errors").innerHTML+= "setSelected " + i + "<br>";
 		}
-	}
-			
-	//document.getElementById("errors").innerHTML+= "valeur fin: " + select[select.selectedIndex].value; + "<br>";
-	
-	//select.onchange();
-	
+	}	
 }
 
 function resetBox(boxName){
-	//document.getElementById("errors").innerHTML+= "reset : " + boxName + "<br>";
 	document.getElementsByName(boxName)[0].value = "";
 }
 
@@ -215,7 +202,6 @@ function AfficheDataPolicy(){
 					if (xmlhttp.status==200){
 						policy = readDataPolicy(xmlhttp.responseXML,"data_policy");
 						use_constraints = readDataPolicy(xmlhttp.responseXML,"use_constraints");
-						//alert("Value: " + value + ", policy: " + policy + ", use_constraints: " + use_constraints);		
 						
 						if (policy == null ){
 							addButton.disabled=true;
@@ -299,11 +285,6 @@ function showXml(textarea, error, selectName){
 	}
 }
 
-
-
-
-
-
 function fillBoxes(selectName,boxesNames,tableName,columnsName){
 	
 	var xmlhttp = getXmlHttp();
@@ -328,18 +309,9 @@ function fillBoxes(selectName,boxesNames,tableName,columnsName){
 				
 			}
 		}
-		//xmlhttp.open("GET", "squelettes/test.php?id="+value+"&table="+tableName+"&column="+columnName, true);
-		//xmlhttp.open("GET", "squelettes/testXml.php?id="+value+"&table="+tableName+"&columns="+columnName, true);
-		//document.getElementById("errors").innerHTML+= "squelettes/testXml.php?id="+value+"&table="+tableName+"&columns="+arrayToCsv(columnsName, ";") + "<br>";
+		
 		xmlhttp.open("GET", "/ajaxResp.php?id="+value+"&table="+tableName+"&columns="+arrayToCsv(columnsName, ";"), true);
 		xmlhttp.send("");   
-		
-		/*if (value != 0){
-			disableBoxes(boxesNames);
-		}else
-			enableBoxes(boxesNames);*/
-		
-		//document.getElementById("errors").innerHTML+= "value-" + value + "<br>";
 		
 		if (value != 0){
 			blockBoxes(boxesNames);
@@ -354,9 +326,7 @@ function fillBoxes(selectName,boxesNames,tableName,columnsName){
 function updateDatasetTitle(source) {
 	var champsTitre = document.getElementsByName("dats_title")[0];
 	var champsSimu = document.getElementsByName(source)[0];
-	
-	//document.getElementById("errors").innerHTML += 'Simu: ' + champsSimu.value;
-	
+		
 	if (champsTitre.value.length == 0){
 		champsTitre.value = champsSimu.value;
 	}
@@ -376,28 +346,18 @@ function readDataPolicy(xmlData,elt) {
 function readData(xmlData,map) {
 	var nodes = xmlData.getElementsByTagName("column");
 	
-	//document.getElementById("errors").innerHTML = "";
-
 	for (var i=0; i < nodes.length; i++) {
-
-		//document.getElementById("errors").innerHTML+= "Column " + nodes[i].getAttribute("name")+"-"+nodes[i].firstChild.nodeValue+"<br>";
 		
 		if (nodes[i].firstChild != null){
-			//document.getElementById("errors").innerHTML+=nodes[i].getAttribute("name")+"-"+map[nodes[i].getAttribute("name")]+"-"+nodes[i].firstChild.nodeValue+"<br>";
 			box = document.getElementsByName(map[nodes[i].getAttribute("name")])[0];
 			box.value = nodes[i].firstChild.nodeValue;
-			//document.getElementById("errors").innerHTML+= "Update box " + map[nodes[i].getAttribute("name")] + ": " + nodes[i].firstChild.nodeValue +"<br>";	
 		}
 	}
 
 	var ids = xmlData.getElementsByTagName("id");
 	for (i=0; i < ids.length; i++) {
-		
-		//document.getElementById("errors").innerHTML+=ids[i].getAttribute("name")+"-"+map[ids[i].getAttribute("name")]+"-"+ids[i].firstChild.nodeValue+"<br>";
 		box = document.getElementsByName(map[ids[i].getAttribute("name")])[0];
-		
-		changeSelect(map[ids[i].getAttribute("name")], ids[i].firstChild.nodeValue);
-				
+		changeSelect(map[ids[i].getAttribute("name")], ids[i].firstChild.nodeValue);		
 	}
 	
 	
@@ -426,7 +386,6 @@ function updateGcmd(suffix){
 				
 			}
 		}
-		//document.getElementById("errors").innerHTML+= "squelettes/testUpdateGcmd.php?id="+value + "<br>";
 		xmlhttp.open("GET", "squelettes/testUpdateGcmd.php?id="+value, true);
 		xmlhttp.send("");  
 	}
@@ -460,7 +419,6 @@ function updateSatOld(){
 
 				}
 			}
-			//document.getElementById("errors").innerHTML+= "squelettes/recupInstrus.php?satId="+value + "<br>";
 			xmlhttp.open("GET", "squelettes/recupInstrus.php?satId="+value, true);
 			xmlhttp.send("");  
 		}
@@ -473,8 +431,6 @@ function updateSat(index){
 	
 	liste = document.getElementsByName("satellite_"+index)[0];
 	value=liste[liste.selectedIndex].value;
-
-//	alert("Value: " + value);
 	
 	if (value <= 0){
 		listeInstru = document.getElementsByName("instrument_"+index)[0];
@@ -498,7 +454,6 @@ function updateSat(index){
 
 				}
 			}
-			//document.getElementById("errors").innerHTML+= "squelettes/recupInstrus.php?satId="+value + "<br>";
 			xmlhttp.open("GET", "/ajaxRespInstrus.php?satId="+value, true);
 			xmlhttp.send("");  
 		}
@@ -520,7 +475,7 @@ function updateMod(){
 		listeInstru.options[0].value = 0;
 		listeInstru.options[0].text = "";
 		listeInstru.options.selectedIndex = 0;
-                listeInstru.onchange();				
+        listeInstru.onchange();				
 	}else{
 		var xmlhttp = getXmlHttp();
 
@@ -536,7 +491,6 @@ function updateMod(){
 
 				}
 			}
-			//document.getElementById("errors").innerHTML+= "squelettes/recupInstrus.php?satId="+value + "<br>";
 			xmlhttp.open("GET", "/ajaxRespInstrus.php?satId="+value, true);
 			xmlhttp.send("");  
 		}
@@ -552,7 +506,6 @@ function updateModIndex(index){
 	
 	liste = document.getElementsByName("model_"+index)[0];
 	value=liste[liste.selectedIndex].value;
-	//alert("Value: " + value);
 	
 	if (value <= 0){
 		listeInstru = document.getElementsByName("simu_"+index)[0];
@@ -589,8 +542,6 @@ function updateModNew(){
 	listeSat = document.getElementsByName("model[2]")[0];
 	value=liste[liste.selectedIndex].value;
 
-//	alert("Value: " + value);
-
 	if (value <= 0){
 		listeInstru = document.getElementsByName("simu")[0];
 		listeInstru.options.length = 1;
@@ -613,7 +564,6 @@ function updateModNew(){
 
 				}
 			}
-			//document.getElementById("errors").innerHTML+= "squelettes/recupInstrus.php?satId="+value + "<br>";
 			xmlhttp.open("GET", "/ajaxRespInstrus.php?satId="+value, true);
 			xmlhttp.send("");
 		}
@@ -644,14 +594,10 @@ function readDataInstru(xmlData, listName) {
 function readDataGcmd(xmlData,suffix) {
 	var gcmd = xmlData.getElementsByTagName("gcmd");
 			
-	//document.getElementById("errors").innerHTML+="GCMD" + gcmd.length + "<br>";
 	for (var i=0; i < 4; i++) {
 		if (i < gcmd.length){
-			//document.getElementById("errors").innerHTML+= "GCMD level " + gcmd[i].getAttribute("level")+"-"+gcmd[i].getAttribute("id")+"<br>";
 			changeSelect("gcmd_science_key_" + suffix + "[" + i + "]", gcmd[i].getAttribute("id"));
-		}/*else
-			changeSelect("gcmd_science_key_" + suffix + "[" + i + "]", 0);*/
-		//gcmd_science_key_0[i]
+		}
 	}
 }
 
@@ -680,7 +626,6 @@ function UseDialogForm(){
 		// create and tell ok button to submit form, and cancel to close form
 		buttons: {
 			'OK': function(e) {
-				    //$('form#frmdatapolicy').submit();
 				    $.post('/scripts/frmprofile.php', $('#frmdatapolicy').serialize(), function(result){
 				        console.log(result);
 				    });
@@ -698,44 +643,6 @@ function DeactivateButtonAddSource(){
 		document.getElementsByName('bouton_add_source')[0].disabled=true; 
 	else
 		document.getElementsByName('bouton_add_source')[0].disabled=false;
-	}
-
-
-
-/*
-function testAjax(){
-	var xmlhttp = null;
-	if(window.XMLHttpRequest){
-		xmlhttp = new XMLHttpRequest();
-	}
-	else if(window.ActiveXOject){
-		try  {
-			xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-		}catch(e){
-			try{
-				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-			}catch(el){
-				xmlhttp = null;
-			}
-		}
-	}
-	if (xmlhttp == null){
-		alert("Votre navigateur ne supporte pas les objets XMLHTTPRequest\nVeuillez le mettre à jour");
-	}
-	
-	xmlhttp.onreadystatechange=function(){
-		if (xmlhttp.readyState==4){
-			
-			if (xmlhttp.status==200)
-				document.getElementsByName('new_database')[0].value = xmlhttp.responseText;
-			else 
-				document.getElementById("txtHint").innerHTML="Error code " + xmlhttp.status;
-			
-		}
-	}
-
-	xmlhttp.open("GET", "squelettes/test.php", true);
-	xmlhttp.send();    	
 }
-*/
+
 

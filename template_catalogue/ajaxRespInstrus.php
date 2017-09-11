@@ -1,7 +1,7 @@
 <?php
 
-require_once("bd/sensor.php");
-require_once("bd/place.php");
+require_once ("bd/sensor.php");
+require_once ("bd/place.php");
 
 $satId=$_GET["satId"];
 
@@ -12,7 +12,6 @@ echo "<response>";
 if (isset($satId) && ($satId > 0)){
 
 	$sensor = new sensor;
-	//$listeInstrus = $sensor->getByQuery("select * from sensor where sensor_id in (select sensor_id from sensor_place where place_id = ".$satId.")");
 	$listeInstrus = $sensor->getByPlace($satId);
 	foreach ($listeInstrus as $instru){
 		echo "<instrument id=\"".$instru->sensor_id."\">";

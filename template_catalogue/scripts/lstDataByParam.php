@@ -21,7 +21,6 @@ include 'legende.php';
 echo "<ul>";
 if (isset ( $projects ) && ! empty ( $projects )) {
 	$query = "select * from gcmd_science_keyword where gcmd_level = 2 and gcmd_id in (select distinct gcm_gcmd_id from gcmd_science_keyword where gcmd_id in (select distinct gcmd_id from variable where var_id in (select distinct var_id from dats_var where dats_id in (select distinct dats_id from dats_proj where project_id in ($projects)) and dats_id in (select distinct dats_id from dataset where is_requested is null AND (is_archived is null OR NOT is_archived))))) order by gcmd_name";
-	// echo $query.'<br>';
 	$gcmd_list = $gcmd->getByQuery ( $query );
 	$tree = new HTML_TreeMenu ();
 	foreach ( $gcmd_list as $gc ) {
@@ -38,7 +37,6 @@ function varComp($var1, $var2) {
 	return strcasecmp ( $var1->var_name, $var2->var_name );
 }
 function addParam(&$parent, $gcmd, $projects, $project_name) {
-	// $node = new HTML_TreeNode(array('text' => $gcmd->gcmd_name, 'link' => "spip.php?rubrique".$rubriqueId."&paramId=".$gcmd->gcmd_id));
 	$node = new HTML_TreeNode ( array (
 			'text' => $gcmd->gcmd_name 
 	) );
@@ -56,7 +54,6 @@ function addParam(&$parent, $gcmd, $projects, $project_name) {
 		// virer les doublons pour avoir une liste propre. Il y a des doublons, c'est fort malheureux !
 		foreach ( $list_propre as $elem ) {
 			if (strcmp ( $elem->var_name, $va->var_name ) == 0) {
-				// echo "adding id ".$va->var_id." to variable ".$va->var_name."<br>";
 				$elem->ids [] = $va->var_id;
 				$found = true;
 				break;
@@ -68,9 +65,6 @@ function addParam(&$parent, $gcmd, $projects, $project_name) {
 			$proper->var_name = $va->var_name;
 			$proper->ids [] = $va->var_id;
 			$list_propre [] = $proper;
-			/*
-			 * foreach($proper->ids as $id) echo $id."<br>";
-			 */
 		}
 	}
 	
@@ -90,7 +84,6 @@ function addParam(&$parent, $gcmd, $projects, $project_name) {
 			$dts = new dataset ();
 			$dts_list = $dts->getOnlyTitles ( $query_dts );
 			if (isset ( $dts_list ) && ! empty ( $dts_list )) {
-				// echo "<li><h2>".$va->var_name."</h2>";
 				addVar ( $node, $va, $dts_list, $project_name );
 			}
 		}
@@ -114,7 +107,6 @@ function addOthers(&$parent, $projectName) {
 	$projects = get_filtre_projets ( $projectName );
 	if (isset ( $projects ) && ! empty ( $projects )) {
 		$query = "SELECT dats_id,dats_title FROM dataset WHERE dats_id in (select distinct dats_id from dats_proj where project_id in ($projects)) AND dats_id not in (select distinct dats_id from dats_var) AND is_requested is null AND (is_archived is null OR NOT is_archived) order by dats_title";
-		// error_log($query);
 		$dts = new dataset ();
 		$dts_list = $dts->getOnlyTitles ( $query );
 		foreach ( $dts_list as $dt ) {

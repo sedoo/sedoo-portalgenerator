@@ -1,10 +1,9 @@
 <?php
-
-require_once("forms/va_dataset_form.php");
-require_once("forms/validation.php");
-require_once("editDataset.php");
-
-require_once("scripts/upload.php");
+ 
+require_once ("forms/va_dataset_form.php");
+require_once ("forms/validation.php");
+require_once ("editDataset.php");
+require_once ("scripts/upload.php");
 
 if ($project_name != MainProject) {
 	if ($_SERVER ['HTTP_REFERER'] == constant(strtolower ( $project_name ) .'WebSite')){
@@ -16,7 +15,6 @@ if ($project_name != MainProject) {
 	}
 }
 
-//include 'login.php';
 $form = new va_dataset_form;
 $form->createLoginForm();
 //user loggé
@@ -32,19 +30,16 @@ $form->createLoginForm();
 	}
 	//Creation et affichage du formulaire
 	if (isset($datsId) && !empty($datsId)){
-		//echo 'charge le dataset '.$datsId.'<br>';
 		$form->dataset = new dataset;
 		$form->dataset = $form->dataset->getById($datsId);
 		$_SESSION['vadataset'] = serialize($form->dataset);
 	}else if (isset($_SESSION['vadataset'])){
-		//echo 'dataset trouvé dans la session<br>';
 		$form->dataset = unserialize($_SESSION['vadataset']);
 	}
 
 if ($form->isCat ( $form->dataset,$project_name )) {
 	if (!isset($form->dataset))
 	{
-		//echo 'creation dataset<br>';
 		$form->dataset = new dataset;
 		$form->dataset = $form->dataset->getById(0);
 		$form->dataset->nbPis = 1;
@@ -74,7 +69,6 @@ if ($form->isCat ( $form->dataset,$project_name )) {
 		if (isset ( $_POST ['mod_button_delete_' . $i] )) {
 			$form->saveForm ();
 			$form->deleteModForm ( $i );
-			//$form->displayForm ();
 			$_SESSION ['vadataset'] = serialize ( $form->dataset );
 		}
 	}
@@ -82,7 +76,6 @@ if ($form->isCat ( $form->dataset,$project_name )) {
 		if (isset ( $_POST ['sat_button_delete_' . $i] )) {
 			$form->saveForm ();
 			$form->deleteSatForm ( $i );
-			//$form->displayForm ();
 			$_SESSION ['vadataset'] = serialize ( $form->dataset );
 		}
 	}
@@ -90,7 +83,6 @@ if ($form->isCat ( $form->dataset,$project_name )) {
 		if (isset ( $_POST ['instru_button_delete_' . $i] )) {
 			$form->saveForm ();
 			$form->deleteInstruForm ( $i );
-			//$form->displayForm ();
 			$_SESSION ['vadataset'] = serialize ( $form->dataset );
 		}
 	}
@@ -109,8 +101,6 @@ if ($form->isCat ( $form->dataset,$project_name )) {
 		$_SESSION['vadataset'] = serialize($form->dataset);
 	}else if (isset($_POST['bouton_add_source'])){
 		$form->saveForm();
-		//$form->dataset->nbInstruForm = 0;
-		//$form->dataset->nbModForm = 0;
 		$form->addFormAccordingOnSourceType();
 		$form->displayForm();
 		$_SESSION['vadataset'] = serialize($form->dataset);				
@@ -144,7 +134,6 @@ if ($form->isCat ( $form->dataset,$project_name )) {
 				$insertionOk = $form->dataset->update();
 				$form->dataset->set_requested($requested);
 			}
-			//$insertionOk = 0;
 			if ($insertionOk){
 				echo "<font size=\"3\" color='green'><b>The dataset has been succesfully inserted in the database</b></font><br>";
 				

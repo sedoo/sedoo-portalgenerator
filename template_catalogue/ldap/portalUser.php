@@ -29,7 +29,7 @@ class portalUser extends entry {
 	var $supervisor_affiliation;
 	function __construct($dn = null, $attrs = null) {
 		if (isset ( $dn ))
-			parent::__construct ( $dn ); // $this->dn=$dn;
+			parent::__construct ( $dn );
 		if (isset ( $attrs ))
 			$this->initUser ( $attrs );
 	}
@@ -208,16 +208,6 @@ class portalUser extends entry {
 				'root' 
 		) );
 	}
-		
-      /*  Deja codé dans form/login_form 
-		function isPortalUser() {
-		$roles= explode(',',PASSY_ROLES);
-                print_r($roles);
-		return ($this->isMemberOf ($roles));
-        }
-	*/
-
-
 
 	function isprojectAdmin() {
 		global $project_name;

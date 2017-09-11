@@ -1,6 +1,6 @@
 <?php
 
-require_once("mime_info.php");
+require_once ("mime_info.php");
 
 function sendMailSimple($to,$sujet,$text,$from = null,$isHtml = false){
 	
@@ -27,7 +27,6 @@ function sendMail($to,$sujet,$text,$attachments = null, $from = null){
 			$attachments[] = $attachment;
 		}
 		
-//		$frontiere = '-----=' . md5(uniqid(mt_rand()));
 		$rand_key = md5(uniqid(mt_rand()));
 		$frontiere = "==Multipart_Boundary_x{$rand_key}x";
 
@@ -48,13 +47,10 @@ function sendMail($to,$sujet,$text,$attachments = null, $from = null){
 			if (file_exists($attachment) && is_file($attachment)){
 				$message .= "\n--".$frontiere."\n";
 
-				//echo mime_content_type($attachment);
 				/*
 			 	 * mime_content_type : pas dispo sur medias3
 			 	 */
 				$message .= 'Content-Type: '.mime_content_type($attachment).'; name="'.basename($attachment)."\"\n";
-				//$message .= 'Content-Type: application/pdf; name="'.basename($attachment)."\n";
-				//$message .= 'Content-Type: image/jpeg; name="'.basename($attachment)."\n";
 				$message .= 'Content-Transfer-Encoding: base64'."\n";
 				$message .= 'Content-Disposition:attachement; filename="'.basename($attachment).'"'."\n\n";
 
@@ -70,47 +66,6 @@ function sendMail($to,$sujet,$text,$attachments = null, $from = null){
 	}else{
 		sendMailSimple($to,$sujet,$text,$from);
 	}
-
 }
-/*
-function sendMail($to,$sujet,$text,$attachment = null, $from = null){
-
-
-	if (isset($attachment) && file_exists($attachment) && is_file($attachment)){
-		$frontiere = '-----=' . md5(uniqid(mt_rand()));
-		
-		$headers = '';
-		if (isset($from)){
-			$headers .= 'From: '.$from."\n";
-		}
-		$headers .= 'MIME-Version: 1.0'."\n";
-		$headers .= 'Content-Type: multipart/mixed; boundary="'.$frontiere.';';
-
-		
-		$message = '--'.$frontiere."\n";
-     	$message .= 'Content-Type: text/plain; charset="UTF-8"'."\n";
-     	$message .= 'Content-Transfer-Encoding: 8bit'."\n\n"; 
-		$message .= $text;
-
-		$message .= "\n--".$frontiere."\n";
-
-		//echo mime_content_type($attachment);
-		
-		 //mime_content_type : pas dispo sur medias3
-		
-		$message .= 'Content-Type: '.mime_content_type($attachment).'; name="'.basename($attachment)."\n";
-		//$message .= 'Content-Type: image/jpeg; name="'.basename($attachment)."\n";
-		$message .= 'Content-Transfer-Encoding: base64'."\n";
-		$message .= 'Content-Disposition:attachement; filename="'.basename($attachment).'"'."\n\n";
-
-		$message .= chunk_split(base64_encode(file_get_contents($attachment)))."\n";
-
-		mail($to,$sujet,$message,$headers);
-
-	}else{
-		sendMailSimple($to,$sujet,$text,$from);
-	}
-}
-*/
 
 ?>

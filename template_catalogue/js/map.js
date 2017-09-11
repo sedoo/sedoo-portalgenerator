@@ -111,8 +111,6 @@ function initMap(){
 	
 	//petit d?calage sous netscape
   	if(!IE && boxBorder.style.borderWidth) decal = parseInt(boxBorder.style.borderWidth)*2;
-	/*alert(boxBorder.style.borderWidth);
-	alert(decal);*/
 	
   	//utilisation de la transprence si c'est permis
 	if(boxBack.style.opacity!=null){
@@ -197,22 +195,18 @@ function drawZones(){
 				if (parseFloat(form.minLat.value) > parseFloat(tab[0]))
 				{
 					form.minLat.value = tab[0];
-					//alert("minLat = "+tab[0]);
 				}
 				if (parseFloat(form.maxLat.value) < parseFloat(tab[1]))
 				{
 					 form.maxLat.value = tab[1];
-					 //alert("maxLat = "+tab[1]);
 				}
 				if (parseFloat(form.minLon.value) > parseFloat(tab[2]))
 				{
 					 form.minLon.value = tab[2];
-					 //alert("minLon = "+tab[2]);
 				}
 				if (parseFloat(form.maxLon.value) < parseFloat(tab[3]))
 				{
 					 form.maxLon.value = tab[3];
-					 //alert("maxLon = "+tab[3]);
 				}
 			}
 		}
@@ -266,19 +260,13 @@ function onUpMap(e){
 	document.onmouseup = "";
 	
 	isDown=false;
-	/*alert(box.style.left+"-"+box.style.width+"-"+box.style.top+"-"+box.style.height);
-	alert(box.style.left.substring(0,box.style.left.length-2)+"-"+box.style.width.substring(0,box.style.width.length-2)+"-"+box.style.top.substring(0,box.style.top.length-2)+"-"+box.style.height.substring(0,box.style.height.length-2));
-  alert(parseInt(box.style.left.substring(0,box.style.left.length-2)));
-  alert(parseInt(box.style.width.substring(0,box.style.width.length-2)));
-  alert(decal);*/
+
 	//enregistrement des coordonn?es de la box (en pixel)
   	LONmax=parseInt(box.style.left.substring(0,box.style.left.length-2))+parseInt(box.style.width.substring(0,box.style.width.length-2))+decal;
   	LATmin=parseInt(box.style.top.substring(0,box.style.top.length-2))+parseInt(box.style.height.substring(0,box.style.height.length-2))+decal;
   	LATmax=parseInt(box.style.top.substring(0,box.style.top.length-2));
   	LONmin=parseInt(box.style.left.substring(0,box.style.left.length-2));
-  	
-  	//document.getElementById("tmpMsg").innerHTML="box: "+LATmin+"-"+LATmax+"-"+LONmin+"-"+LONmax;
-  	//alert("box: "+LATmin+"-"+LATmax+"-"+LONmin+"-"+LONmax);
+
   	if(LONmax-LONmin+LATmin-LATmax>20){
 	
 		//on transforme les dimension du carr? en Lat-Lon
@@ -286,14 +274,11 @@ function onUpMap(e){
 		LATmax=findLat(LATmax);
 		LONmax=findLon(LONmax);
 		LONmin=findLon(LONmin);
-		
-		//document.getElementById("tmpMsg").innerHTML+=" => "+LATmin+"-"+LATmax;
-		
+				
 		//on met ? jour l'affichage (carte...)
 		box.style.visibility='hidden';
 				
 		changeMap();
-		//simulateApply();
 
 	}else{//on annule si la zone s?lectionn? est trop petite (un clic par exemple)
 		box.style.visibility='hidden';
@@ -306,10 +291,6 @@ function onUpMap(e){
 var compteur=0;
 // Main function to retrieve mouse x-y pos.s
 function getMouseXY(e) {
-
-	//positions
-	//posXmap=findPosX(map);
-	//posYmap=findPosY(map);
 
 	//position de la souris
   	if (IE) { // grab the x-y pos.s if browser is IE
@@ -447,10 +428,7 @@ function changeMap(){
 			document.getElementById("map").style.height = imgHaut+'px';
 			document.getElementById("map").style.width = imgLarg+'px';
 		}
-		//map.style.backgroundImage='url(<%=Props.getMapProperties().getProperty("generatorURL")%>?latMax='+LATmax+'&latMin='+LATmin+'&lonMax='+LONmax+'&lonMin='+LONmin+'&Width='+imgLarg+'&Height='+imgHaut+')';
-		
-		//document.getElementById("tmpMsg").innerHTML+="; lat:"+LATmin+"-"+LATmax;
-		
+				
 		var urlGenMap = urlMap+'?latMax='+LATmax+'&latMin='+LATmin+'&lonMax='+LONmax+'&lonMin='+LONmin+'&Width='+imgLarg+'&Height='+imgHaut;
 		map.style.backgroundImage='url('+urlGenMap+')';
 		
@@ -507,7 +485,6 @@ function changeMap(){
 		document.getElementById("minLonMin").value=minLonDMS[1];
 		document.getElementById("minLonSec").value=minLonDMS[2];
 	
-		//if (document.getElementsByName("mapForm:choix")[0].checked){
 		if (choix1){
 			drawZones();
 		}
@@ -604,7 +581,6 @@ function findLat(lat){
 
 //converti de Lat ? pixel
 function findYPos(lat){
-	//return 500-(lat-imgLATmin)/(imgLATmax-imgLATmin)*imgHaut;
 	return imgHaut*(imgLATmax-lat)/(imgLATmax-imgLATmin);
 }
 
@@ -615,7 +591,6 @@ function findLon(lon){
 
 //converti de Lon ? Pixel
 function findXPos(lon){
-	//return (lon-imgLONmin)/(imgLONmax-imgLONmin)*imgLarg;
 	return imgLarg*(lon-imgLONmin)/(imgLONmax-imgLONmin);
 }
 

@@ -1,11 +1,10 @@
 <?php
 
-	require_once("bd/dataset.php");
-	require_once("bd/personne.php");
-	require_once("forms/site_form.php");
-	require_once("editDataset.php");
-	
-	require_once("forms/validation.php");
+	require_once ("bd/dataset.php");
+	require_once ("bd/personne.php");
+	require_once ("forms/site_form.php");
+	require_once ("editDataset.php");
+	require_once ("forms/validation.php");
 
 	
 	function not_void($elements, $values){
@@ -79,16 +78,9 @@
 	 */
 	function required_if_not_void($element, $value, $args)
 	{
-		
-		//echo '$element'.$element.'<br>';
-			//echo '$value'.$value.'<br>';
-			//echo '$arg 1'.$args[1].'<br>';
-			
 			
 		$arg_value = $args[0]->exportValue($args[1]);
-		
-		//echo '$arg_value'.$arg_value.'<br>';
-		
+				
 		if (empty($arg_value) && $value != 0){
 			return false;
 		}else
@@ -102,24 +94,14 @@
 	 * args: array(0 => formulaire, 1 => champ texte à considérer 
 	 */
 	function required_if_not_void2($element, $value, $args)
-	{
-		
-		//echo '$element'.$element.'<br>';
-		//	echo '$value'.$value.'<br>';
-		//	echo '$arg 1'.$args[1].'<br>';
-			
-			
+	{	
 		$arg_value = $args[0]->exportValue($args[1]);
-		
-		//echo '$arg_value'.$arg_value.'<br>';
-		
+				
 		if (!empty($arg_value) && $value == 0){
 			return false;
 		}else
 			return true;
 	}
-	
-		
 	
 	require_once 'upload.php';
 	
@@ -136,18 +118,15 @@ if ($form->isCat()){
   	//Creation et affichage du formulaire
   	if (isset($datsId) && !empty($datsId))
   	{
-  		//echo 'charge le dataset '.$datsId.'<br>';
   		$form->dataset = new dataset;
   		$form->dataset = $form->dataset->getById($datsId);
   		$_SESSION['dataset'] = serialize($form->dataset);
   	}else if (isset($_SESSION['dataset'])){
-		//echo 'dataset trouvé dans la session<br>';
     	$form->dataset = unserialize($_SESSION['dataset']);
 	}
 	
   	if (!isset($form->dataset))
   	{
-  		//echo 'creation dataset<br>';
     	$form->dataset = new dataset;
     	$form->dataset = $form->dataset->getById(0);
     	$form->dataset->nbPis = 1;
@@ -169,7 +148,6 @@ if ($form->isCat()){
   		}
   		for ($i = 0; $i < $form->dataset->nbSensors; $i++)
   		{
-  			//echo '<b>i = '.$i.' nbVars = '.$form->dataset->dats_sensors[$i]->nbVars.' nbCalcVars = '.$form->dataset->dats_sensors[$i]->nbCalcVars.'</b><br>';
   			if (! isset($form->dataset->dats_sensors[$i]->nbVars) || $form->dataset->dats_sensors[$i]->nbVars == 0)
   				$form->dataset->dats_sensors[$i]->nbVars = 1;
   			if (! isset($form->dataset->dats_sensors[$i]->nbCalcVars) || $form->dataset->dats_sensors[$i]->nbCalcVars == 0)
@@ -179,22 +157,17 @@ if ($form->isCat()){
   	
   	//TODO nettoyer     	    	
   	
-  	//$form->dataset = $dataset;
   	$nb_pi = & $form->dataset->nbPis;
   	$nb_sensors = & $form->dataset->nbSensors;
   	$tab_sensors = & $form->dataset->dats_sensors;
-  	//echo 'nb dats_sensors = '.count($tab_sensors);
   	$tab_nbVars = array();
   	$tab_nbCalcVars = array();
   	for ($i = 0; $i < count($tab_sensors);$i++)
   	{
   		$tab_nbVars[$i] = $tab_sensors[$i]->nbVars;
   		$tab_nbCalcVars[$i] = $tab_sensors[$i]->nbCalcVars;
-  		//echo 'i = '.$i.' nbVars = '.$tab_nbVars[$i].' nbCalcVars = '.$tab_nbCalcVars[$i].'<br>';
   	}
   	$bouton_add_var_pressed = false;
-  	//echo 'tab_Vars = '.print_r($tab_nbVars).'<br>';
-  	//echo 'tab_CalcVars = '.print_r($tab_nbCalcVars).'<br>';
   	$form->createForm($project_name);
 
 	echo "<h1>In-Situ Site Registration</h1>";	
@@ -208,7 +181,6 @@ if ($form->isCat()){
 		  		$tab_nbVars[$i]++;
 		  		$form->dataset->dats_sensors[$i]->nbVars = & $tab_nbVars[$i];
 		  		$form->addVariable($i);
-		  		//echo 'in bouton_add_variable_'.$i.'<br>';
 		  		$form->displayForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 		  		$_SESSION['dataset'] = serialize($form->dataset);
 		  		$bouton_add_var_pressed = true;
@@ -221,7 +193,6 @@ if ($form->isCat()){
 		  		$tab_nbCalcVars[$i]++;
 		  		$form->dataset->dats_sensors[$i]->nbCalcVars = & $tab_nbCalcVars[$i];
 		  		$form->addVariableCalcul($i);
-		  		//echo 'in bouton_add_variable_calcul_'.$i.'<br>';
 		  		$form->displayForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 		  		$_SESSION['dataset'] = serialize($form->dataset);
 		  		$bouton_add_var_pressed = true;
@@ -234,7 +205,6 @@ if ($form->isCat()){
 	  	if( isset($_POST['upload'])){
 	  		$form->saveForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 	  		$form->dataset->image = uploadImg("upload_image");
-	  		//echo 'in uplaod<br>';
 	  		$form->displayForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 	  		$_SESSION['dataset'] = serialize($form->dataset);
 	  	}
@@ -245,7 +215,6 @@ if ($form->isCat()){
 	  			unlink($form->dataset->image);
 	  			$form->dataset->image = null;
 	  		}
-	  		//echo 'in delete<br>';
 	  		$form->displayForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 	  		$_SESSION['dataset'] = serialize($form->dataset);
 	  	}
@@ -254,10 +223,8 @@ if ($form->isCat()){
 	  		$form->saveForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 	  		$form->dataset->nbPis++;
 	  		$form->addPi();
-	  		//echo 'in add Pi<br>';
 	  		$form->displayForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 	  		$_SESSION['dataset'] = serialize($form->dataset);
-	  		//echo 'nbPi():'.$nb_pi.'<br>';
 	  	}
 	  	else if (isset($_POST['bouton_add_sensor']))
 	  	{
@@ -270,7 +237,6 @@ if ($form->isCat()){
 	  		$tab_nbVars[$form->dataset->nbSensors-1] = 1;
 	  		$tab_nbCalcVars[$form->dataset->nbSensors-1] = 1;
 	  		$form->addSensor();
-	  		//echo 'in add_sensor<br>';
 	  		$form->displayForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 	  		$_SESSION['dataset'] = serialize($form->dataset);
 	  	}
@@ -280,7 +246,6 @@ if ($form->isCat()){
 	  		$form->saveForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 	  		$form->dataset->nbFormats++;
 	  		$form->addFormat();
-	  		//echo 'in add_format<br>';
 	  		$form->displayForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 	  		$_SESSION['dataset'] = serialize($form->dataset);
 	  	}
@@ -289,14 +254,11 @@ if ($form->isCat()){
 	  		$form->saveForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 	  		$form->dataset->nbProj++;
 	  		$form->addProjet();
-	  		//echo 'in add_projet<br>';
 	  		$form->displayForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 	  		$_SESSION['dataset'] = serialize($form->dataset);
 	  	}
 	  	else if (isset($_POST['bouton_save']))
 	  	{
-	  		//echo 'in save<br>';
-	  		//$form->freeze();
 	  		$form->saveForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 	  		$form->saveDatsVars($nb_sensors);
 	  		$form->addValidationRules();
@@ -309,9 +271,7 @@ if ($form->isCat()){
 	  			 }else{
 	  			 	$insertionOk = $form->dataset->update();
 	  			 }
-				 
-	  			 //echo '<br>$insertionOk: '.$insertionOk."<br>";
-	  			 
+				 	  			 
 	  			 if ($insertionOk){
 	  			 	echo "<font size=\"3\" color='green'><b>The dataset has been succesfully inserted in the database</b></font><br>";
 	  			 	
@@ -333,14 +293,12 @@ if ($form->isCat()){
 	  		}
 	  		else
 	  		{
-	  			//echo 'in save, not valide<br>';
 	  			$form->displayForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 	  			$_SESSION['dataset'] = serialize($form->dataset);
 	  		}
 	  	}
 	  	else
 	  	{
-	  		//echo 'in else<br>';
 	  		$form->displayForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars);
 	  	}
   	}

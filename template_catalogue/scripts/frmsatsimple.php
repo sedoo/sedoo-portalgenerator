@@ -19,19 +19,14 @@ if ($form->isCat ()) {
 	
 	// Creation et affichage du formulaire
 	if (isset ( $datsId ) && ! empty ( $datsId )) {
-		// echo 'charge le dataset '.$datsId.'<br>';
 		$form->dataset = dataset_factory::createSatelliteDatasetById($datsId);
 		$_SESSION ['datasetSat'] = serialize ( $form->dataset );
 	} else if (isset ( $_SESSION ['datasetSat'] )) {
-		// echo 'dataset trouvé dans la session<br>';
 		$form->dataset = unserialize ( $_SESSION ['datasetSat'] );
 	}
 	
 	if (! isset ( $form->dataset )) {
-		// echo 'creation dataset<br>';
-		$form->dataset = new satellite_dataset ();
-		//$form->dataset = $form->dataset->getById ( 0 );
-		
+		$form->dataset = new satellite_dataset ();		
 		$form->dataset->nbPis = 1;
 		$form->dataset->nbSites = 1;
 		$form->dataset->nbCalcVars = 0;
@@ -45,11 +40,6 @@ if ($form->isCat ()) {
 	$form->dataset->dataset_types [0] = $form->dataset->dataset_types [0]->getByType ( dataset_type::TYPE_SATELLITE );
 	
 	// TODO nettoyer
-	
-	// $form->dataset = $dataset;
-	/*
-	 * $nb_pi = & $form->dataset->nbPis; $nb_site = & $form->dataset->nbSites; $nb_variable = & $form->dataset->nbVars; $nb_variable_calcul = & $form->dataset->nbCalcVars;
-	 */
 	$form->createForm ();
 	
 	if (strpos ( $_SERVER ['REQUEST_URI'], '&datsId' )) {
