@@ -1,7 +1,5 @@
 <?php
-
 require_once 'login_form.php';
-
 
 class map_form extends login_form{
 	
@@ -11,7 +9,7 @@ class map_form extends login_form{
 	var $lonMax;
 	
 	function createFormMap($defaultLatMin = MAP_DEFAULT_LAT_MIN, $defaultLatMax = MAP_DEFAULT_LAT_MAX,
-			$defaultLonMin = MAP_DEFAULT_LON_MIN, $defaultLonMax = MAP_DEFAULT_LON_MAX){		
+		$defaultLonMin = MAP_DEFAULT_LON_MIN, $defaultLonMax = MAP_DEFAULT_LON_MAX){		
 		$this->addElement('hidden','minLat', $defaultLatMin);
 		$this->addElement('hidden','maxLat', $defaultLatMax);
 		$this->addElement('hidden','minLon', $defaultLonMin);

@@ -1,11 +1,11 @@
 <?php
 
-require_once("bd/journal.php");
-require_once("/sites/kernel/#MainProject/conf.php");
-require_once("ldap/constants.php");
-require_once("countries.php");
-require_once('forms/graph_utils.php');
-require_once('scripts/filtreProjets.php');
+require_once ("bd/journal.php");
+require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("ldap/constants.php");
+require_once ("countries.php");
+require_once ('forms/graph_utils.php');
+require_once ('scripts/filtreProjets.php');
 
 class stats_form extends login_form{
 
@@ -146,8 +146,7 @@ class stats_form extends login_form{
 							}
 						}
 					}
-					//echo '<br>'.$mail.': '.$appDate->format('Y m d').' - '.$regDate->format('Y m d');
-                                        $entry = ldap_next_entry($ldapconn,$entry);
+                    $entry = ldap_next_entry($ldapconn,$entry);
                                 }
 				arsort($resultat['c']);
 			}else{
@@ -165,7 +164,6 @@ class stats_form extends login_form{
 
 	function getNbRequetesByMonth(){
 		$query = 'select extract(year from date) as year,extract(month from date) as month,count(*) from journal where type_journal_id = '.TYPE_DL.' and contact not in ('.EXCLUDE_USERS.") $this->filtreProjets group by year,month;";
-		//echo "$query<br>";
 		$bd = new bdConnect;
 		$requetes = array();
 		$requetes[0][0] = 0; 
@@ -199,7 +197,6 @@ class stats_form extends login_form{
 
 	function getNbRequetesByDataType(){
 		$query = "select coalesce(dats_type_title,'IN SITU') as type, count(*) from journal inner join dataset using (dats_id) left join dats_type using (dats_id) left join dataset_type using (dats_type_id)  where type_journal_id = ".TYPE_DL.' and contact not in ('.EXCLUDE_USERS.") $this->filtreProjets group by type order by type";
-		//echo "$query<br>";
 		$bd = new bdConnect;
 		$requetes = array();
 		if ($resultat = $bd->get_data($query)){
@@ -302,7 +299,7 @@ class stats_form extends login_form{
 
 	function displayNbRequetesByDataset(){
                 $requetes = $this->getNbRequetesByDataset();
-                echo '<table>';//<tr><th colspan="2">Nombre de téléchargements par jeu de données</th></tr>';
+                echo '<table>';
                 foreach($requetes as $mail => $jeu){
                         echo '<tr><td>'.$jeu['titre'].'</td><td>'.$jeu['nbRequetes'].'</td></tr>';
                 }
@@ -311,7 +308,7 @@ class stats_form extends login_form{
 
 	function displayNbRequetesByUser(){
 		$requetes = $this->getNbRequetesByUser();
-		echo '<table>';//<tr><th colspan="2">Nombre de téléchargements par utilisateur</th></tr>';
+		echo '<table>';
 		echo '<tr><th colspan="2">'.count($requetes).' users have already downloaded data files.</th></tr>';
 		foreach($requetes as $mail => $nb){
 			echo "<tr><td>$mail</td><td>$nb</td></tr>";

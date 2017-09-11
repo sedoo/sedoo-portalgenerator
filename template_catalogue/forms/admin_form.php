@@ -114,9 +114,6 @@ class admin_form extends login_form {
 						// Envoi d'un mail à Laurent Labatut
 						$infos = "$user->mail\nName:$user->cn\nAffiliation:$user->affiliation\nCountry:" . countries::getDisplayName ( $user->country ) . "\nmd5: $hashMd5 \nmd5 (ldap): " . $nvAttrs ["userPassword"] . "\nmdp: $passwd";
 						sendMailSimple ( 'guillaume.brissebrat@obs-mip.fr', '[' . $project_name . '] New Database User', $infos, ROOT_EMAIL );
-						/*
-						 * if (TEST_MODE){ echo "[TEST] Mail non envoyé à Laurent<br/>"; }else{ sendMailSimple('laurent.labatut@meteo.fr','['.$project_name.'] New Database User',$infos,ROOT_EMAIL); } sendMailSimple('guillaume.brissebrat@obs-mip.fr','['.$project_name.'] New Database User',$infos,ROOT_EMAIL);
-						 */
 					}
 					
 					// Ajout memberUid aux groupes

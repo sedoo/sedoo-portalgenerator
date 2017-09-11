@@ -23,7 +23,6 @@ class site_form extends base_site_form{
 
 		$this->createFormPeriod($projectName);
 		$this->createFormSite();
-		//echo 'nb sensors : '.$this->dataset->nbSensors.'<br>';
 		for ($i = 0; $i < $this->dataset->nbSensors; $i++){
 			$this->createFormSensor($i);
 			
@@ -51,16 +50,11 @@ class site_form extends base_site_form{
 		$key = new gcmd_plateform_keyword;
 		$key_select = $key->chargeForm($this,'gcmd_plat_key','Platform type');
 		$this->addElement($key_select);
-			/*
-		$place = new place;
-		$place_select = $place->chargeForm($this,'place','Site');
-		$this->addElement($place_select);
-			*/
 		$this->addElement('text','new_place','Exact Location');
 				
 		$this->createFormSiteBoundings();
 		$this->addElement('file','upload_image','Photo');
-		$this->addElement('submit','upload','Upload');//,array('onclick' => "uploadImage('upload_image')"));
+		$this->addElement('submit','upload','Upload');
 		$this->addElement('submit','delete','Delete');
 	}
 
@@ -84,16 +78,13 @@ class site_form extends base_site_form{
 		$this->getElement('sensor_resol_temp_'.$i)->setLabel("Observation frequency");
 		$this->getElement('sensor_vert_resolution_'.$i)->setLabel("Vertical coverage");
 		$this->getElement('sensor_horiz_resolution_'.$i)->setLabel("Horizontal coverage");
-		//$this->getElement('sensor_lon_resolution_'.$i)->setLabel("Longitude coverage");
 		
-		//$this->addElement('text','sensor_precision','Precision');
 		$this->addElement('text','sensor_latitude_'.$i,'Latitude (°)');
 		$this->addElement('text','sensor_longitude_'.$i,'Longitude (°)');
 		$this->addElement('text','sensor_altitude_'.$i,'Height above ground (m)');
 		$this->addElement('textarea','sensor_environment_'.$i,'Instrument environment',array('cols'=>70, 'rows'=>5));
 		$this->applyFilter('sensor_environment_'.$i,'trim');
-		//echo 'nb variables : '.$this->dataset->dats_sensors[$i]->nbVars.'<br>';
-		//echo 'nb var calc : '.$this->dataset->dats_sensors[$i]->nbCalcVars.'<br>';
+
 		for ($j = 0; $j < $this->dataset->dats_sensors[$i]->nbVars; $j++)
 		{
 			$this->createFormVariable($i,$j);
@@ -111,7 +102,6 @@ class site_form extends base_site_form{
 	 * Ajoute aux éléments du formulaires des attributs et/ou des regles de validation en fonction de la valeur d'autres champs.
 	 */
 	function addValidationRules(){
-		//echo '<b>ADDING VALIDATION RULES</b><br>';
 		
 		$this->addvalidationRulesBase();
 		
@@ -153,7 +143,6 @@ class site_form extends base_site_form{
 				$this->getElement('new_manufacturer_'.$i)->setAttribute('onfocus','blur()');
 				$this->getElement('new_manufacturer_url_'.$i)->setAttribute('onfocus','blur()');
 			}else {
-				//$this->addRule('manufacturer','Instrument a manufacturer with the same name already exists in the database','existe',array('manufacturer','manufacturer_name'));
 			}
 			//Variables
 			$indiceTableVar = 0;
@@ -183,19 +172,6 @@ class site_form extends base_site_form{
 			$this->addRule('gcmd_plat_key','Platform type is required','required_if_not_void2',array($this,'new_place'));
 			$this->addRule('new_place','Name exceeds the maximum length allowed (100 characters)','maxlength',100);
 			$this->addValidationRulesSiteBoundings('Site ');
-/*			if (isset($this->dataset->sites[0]) && !empty($this->dataset->sites[0]) && $this->dataset->sites[0]->place_id > 0){
-				$this->getElement('new_place')->setAttribute('onfocus','blur()');
-				$this->getElement('place_alt_min')->setAttribute('onfocus','blur()');
-				$this->getElement('place_alt_max')->setAttribute('onfocus','blur()');
-					
-				$this->getElement('gcmd_plat_key')->setAttribute('onfocus','blur()');
-				$this->getElement('west_bound')->setAttribute('onfocus','blur()');
-				$this->getElement('east_bound')->setAttribute('onfocus','blur()');
-				$this->getElement('north_bound')->setAttribute('onfocus','blur()');
-				$this->getElement('south_bound')->setAttribute('onfocus','blur()');
-			}else{
-				$this->addRule('new_place','The site name is already present in the database. Select it in the drop-down list or chose another name.','existe',array('place','place_name'));
-			}*/
 	}
 
 	function initForm(){
@@ -232,9 +208,8 @@ class site_form extends base_site_form{
 
 		if (isset($dataset->sites[0]->gcmd_plateform_keyword) && !empty($dataset->sites[0]->gcmd_plateform_keyword)){
 					$this->getElement('gcmd_plat_key')->setSelected($dataset->sites[0]->gcmd_plateform_keyword->gcmd_plat_id);
-				}
+		}
 
-	//	$this->getElement('place')->setSelected($dataset->sites[0]->place_id);
 		$this->getElement('new_place')->setValue($dataset->sites[0]->place_name);
 		
 		
@@ -316,8 +291,7 @@ class site_form extends base_site_form{
 	
 
 	function displayForm($nb_pi,$nb_sensors,$tab_nbVars,$tab_nbCalcVars){
-		//echo 'in display form<br>';
-		//echo 'nb_sensors = '.$nb_sensors.'<br>';
+
 		$this->addValidationRules();
 
 		$this->initForm();
@@ -394,8 +368,6 @@ class site_form extends base_site_form{
 		echo '<tr><td>'.$this->getElement('placeByLev')->getLabel().'</td><td colspan="3">'.$this->getElement('placeByLev')->toHTML().'</td></tr>';
 
 		echo '<tr><td>'.$this->getElement('new_place')->getLabel().'</td><td>'.$this->getElement('new_place')->toHTML().'</td>';
-		/*echo '<tr><td colspan="2">'.$this->getElement('place')->getLabel().'&nbsp;&nbsp;'.$this->getElement('place')->toHTML();
-		echo '&nbsp;&nbsp;or add '.$this->getElement('new_place')->getLabel().''.$this->getElement('new_place')->toHTML().'</td>';*/
 		echo '<td>'.$this->getElement('gcmd_plat_key')->getLabel().'</td><td>'.$this->getElement('gcmd_plat_key')->toHTML().'</td></tr>';
 
 		$this->displaySiteBoundingsForm();
@@ -431,8 +403,7 @@ class site_form extends base_site_form{
 			echo '<td>'.$this->getElement('sensor_url_'.$i)->getLabel().'</td><td>'.$this->getElement('sensor_url_'.$i)->toHTML().'</td></tr>';
 			echo '<tr><td>'.$this->getElement('sensor_environment_'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('sensor_environment_'.$i)->toHTML().'</td></tr>';
 			echo '<tr><th colspan="4" align="center"><a name="a_param_'.$i.'" ></a><b>Measured parameters</b></td></tr>';
-			//echo 'nb vars : '.$tab_nbVars[$i].'<br>';
-			//echo 'nb_calc_vars = '.$tab_nbCalcVars[$i].'<br>';
+
 			for ($j = 0; $j < $tab_nbVars[$i]; $j++){
 				echo '<tr><td colspan="4" align="center"><b>Measured parameter '.($j+1).' by instrument '.($i+1).'</b>'.$this->getElement('var_id_'.$i.'_'.$j)->toHTML().'</td></tr>';
 				$this->displayErrorsParams($i,$j);
@@ -487,16 +458,15 @@ class site_form extends base_site_form{
 		$dataset->sites[0] = new place;
 		
 		$sitesLev = $this->exportValue('placeByLev');
-                $pred_site_id = 0;
-                for ($j = 3;$j >= 0;$j--){
-                      if (isset($sitesLev[$j]) && $sitesLev[$j] > 0){
-                           $pred_site_id = $sitesLev[$j];
-                           break;
-                      }
-                }
-                $dataset->sites[0]->pla_place_id = $pred_site_id;
+		$pred_site_id = 0;
+		for ($j = 3;$j >= 0;$j--){
+			if (isset($sitesLev[$j]) && $sitesLev[$j] > 0){
+				$pred_site_id = $sitesLev[$j];
+				break;
+			}
+		}
+        $dataset->sites[0]->pla_place_id = $pred_site_id;
 		
-		//$dataset->sites[0]->place_id = $this->exportValue('place');
 		$dataset->sites[0]->place_name = $this->exportValue('new_place');
 		if (empty($dataset->sites[0]->place_name)){
 			$dataset->sites[0]->place_id = -1;
@@ -512,10 +482,7 @@ class site_form extends base_site_form{
 		// SENSOR
 		unset($dataset->dats_sensors);
 		$dataset->dats_sensors = array();
-		//unset($dataset->dats_variables);
-		//$dataset->dats_variables = array();
-		//$start = 0;
-		//echo "nb_sensors: $nb_sensors<br>";
+
 		for ($i = 0; $i < $nb_sensors; $i++)
 		{
 			$dataset->dats_sensors[$i] = new dats_sensor();
@@ -529,10 +496,8 @@ class site_form extends base_site_form{
 			}else{
 				$dataset->dats_sensors[$i]->sensor->sensor_id = 0;
 			}
-			//echo 'sensor_id = '.$dataset->dats_sensors[$i]->sensor->sensor_id.'<br>';
 	
 			$dataset->dats_sensors[$i]->sensor->gcmd_sensor_id = $this->exportValue('sensor_gcmd_'.$i);
-			//echo 'gcmd_sensor_id = '.$dataset->dats_sensors[$i]->sensor->gcmd_sensor_id.'<br>';
 	
 			if ($dataset->dats_sensors[$i]->sensor->gcmd_sensor_id != 0)
 			{
@@ -542,7 +507,6 @@ class site_form extends base_site_form{
 	
 			$dataset->dats_sensors[$i]->sensor->manufacturer = new manufacturer;
 			$dataset->dats_sensors[$i]->sensor->manufacturer->manufacturer_id = $this->exportValue('manufacturer_'.$i);
-			//echo 'manufacturer_id = '.$dataset->dats_sensors[$i]->sensor->manufacturer->manufacturer_id.'<br>';
 			$dataset->dats_sensors[$i]->sensor->manufacturer->manufacturer_name = $this->exportValue('new_manufacturer_'.$i);
 			$dataset->dats_sensors[$i]->sensor->manufacturer->manufacturer_url = $this->exportValue('new_manufacturer_url_'.$i);
 	
@@ -606,12 +570,10 @@ class site_form extends base_site_form{
 	}
 
 	function addVariable($i){
-		//echo 'in add variable, nb_var = '.$this->dataset->dats_sensors[$i]->nbVars.'<br>';
 		$this->createFormVariable($i,$this->dataset->dats_sensors[$i]->nbVars-1,'');
 	}
 
 	function addVariableCalcul($i){
-		//echo 'in add variable calcul, nb_var = '.$this->dataset->dats_sensors[$i]->nbCalcVars.'<br>';
 		$this->createFormVariable($i,$this->dataset->dats_sensors[$i]->nbCalcVars-1,'calcul');
 	}
 

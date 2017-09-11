@@ -14,7 +14,6 @@ function isValidInterval($min,$max){
 }
 
 function validGid($element_name, $element_value){
-	//echo "test $element_value<br>";
 	if ( empty($element_value) || ( is_numeric($element_value) && $element_value > 999 ) )
 		return true;
 	else
@@ -30,16 +29,9 @@ function validGid($element_name, $element_value){
  */
 function validDate($element_name, $element_value){
 	return isValidDate($element_value);
-	/*$temp = explode('-', $element_value);
-	 if (count($temp) != 3){
-	 return false;
-	 }else{
-	 return checkdate($temp['1'],$temp['2'],$temp['0']);
-	 }*/
 }
 
 function validPeriod($element_names, $element_values){
-	//echo 'date 1: '.$element_values[0];
 
 	if (isset($element_values[0]) && isset($element_values[1]) && isValidDate($element_values[0]) && isValidDate($element_values[1]) ){
 		return $element_values[0] <= $element_values[1];
@@ -56,7 +48,6 @@ function validPeriod($element_names, $element_values){
 function existe($element, $value, $args){
 	$obj = new $args[0];
 	$obj->$args[1] = $value;
-	//echo 'existe() '.$args[0].'.'.$args[1].': '.$value.'<br>';
 	return ! $obj->existe();
 }
 
@@ -69,12 +60,9 @@ function existe($element, $value, $args){
  */
 function contact_email_required($element, $value, $args)
 {
-	//echo '$value'.$value.'<br>';
 
 	$email = $args[0]->exportValue("email1_".$args[1]);
 	$org = $args[0]->exportValue("organism_".$args[1]);
-
-	//echo '$email'.$email.'<br>';
 
 	if (!empty($value) && empty($email)){
 		return false;
@@ -89,7 +77,6 @@ function contact_email_required($element, $value, $args)
  */
 function contact_organism_required($element, $value, $args)
 {
-	//echo '$value'.$value.'<br>';
 
 	$org = $args[0]->exportValue("organism_".$args[1]);
 	$org_sname = $args[0]->exportValue("org_sname_".$args[1]);
@@ -115,8 +102,7 @@ function number_range($element, $value, $args)
 }
 
 function validInterval($element_names, $element_values){
-	//echo 'elt 1: '.$element_values[0].'<br>';
-	//echo 'elt 2: '.$element_values[1].'<br>';
+
 	if (isset($element_values[0]) && !empty($element_values[0]) && isset($element_values[1]) && !empty($element_values[1])){
 		return isValidInterval($element_values[0],$element_values[1]);
 	}else{
@@ -133,8 +119,6 @@ function validParam($element, $value, $args){
 	$gcmd = $args[0]->exportValue('gcmd_science_key_'.$suffix);
 	$varName = $args[0]->exportValue('new_variable_'.$suffix);
 
-	//echo 'validParam: '.$gcmd[0].' - '.$varName.' - '.$value;
-
 	if (!empty($value) && ($gcmd[0] == 0) && empty($varName) ){
 		return false;
 	}else{
@@ -144,14 +128,6 @@ function validParam($element, $value, $args){
 }
 
 function validUnit_existe($element_names, $element_values){
-	/*$cpt = 0;
-	 echo 'validUnit<br>';
-	 foreach ($element_values as $val){
-	 if (!empty($val))
-	 $cpt++;
-	 echo '- '.$val.'<br>';
-	 }
-	 echo '$cpt'.$cpt;*/
 
 	if ($element_values[0] == 0){
 		if (isset($element_values[1]) && !empty($element_values[1])){
@@ -165,14 +141,6 @@ function validUnit_existe($element_names, $element_values){
 }
 
 function validUnit_required($element_names, $element_values){
-	/*$cpt = 0;
-	 echo 'validUnit<br>';
-	 foreach ($element_values as $val){
-	 if (!empty($val))
-	 $cpt++;
-	 echo '- '.$val.'<br>';
-	 }
-	 echo '$cpt'.$cpt;*/
 
 	if ($element_values[0] == 0){
 		if (isset($element_values[2]) && !empty($element_values[2])){
@@ -194,7 +162,7 @@ function completeBoundings($element_names, $element_values){
 		if (strlen($val) > 0)
 		$cpt++;
 	}
-	//echo 'boundings: '.$cpt.'<br>';
+
 	if ($cpt == 0 || $cpt == 4){
 		return true;
 	}else{
@@ -219,12 +187,8 @@ function validBoundings($element_names, $element_values){
 	 */
 	function couple_not_null($element, $value, $args)
 		{
-			//echo '$element'.$element.'<br>';
-			//echo '$value'.$value.'<br>';
-			//echo '$arg 1'.$args[1].'<br>';
-			$arg_value = $args[0]->exportValue($args[1]);
 
-			//echo '$arg_value'.$arg_value.'<br>';
+			$arg_value = $args[0]->exportValue($args[1]);
 			
 			if ($value == 0 && empty($arg_value)){
 				return false;

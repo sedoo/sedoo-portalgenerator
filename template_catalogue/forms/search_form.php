@@ -324,9 +324,7 @@ class search_form extends HTML_QuickForm {
                                 </table>
                                 <br>
                                 </td></tr></table>';
-		echo '</td></tr>';
-		// echo '<tr><td>'.$this->getElement('order_by')->geLabel().'</td><td colspan="4">'.$this->getElement('order_by')->toHTML().'</td></tr>';
-		
+		echo '</td></tr>';		
 		echo '<tr><td colspan="2">' . $this->getElement ( 'filter_data' )->getLabel () . '</td><td colspan="2">' . $this->getElement ( 'filter_data' )->toHTML () . '</td></tr>';
 		echo '<tr><td colspan="2">' . $this->getElement ( 'filter_data_db' )->getLabel () . '</td><td colspan="2">' . $this->getElement ( 'filter_data_db' )->toHTML () . '</td></tr>';
 		
@@ -335,7 +333,6 @@ class search_form extends HTML_QuickForm {
 	}
 	function saveForm() {
 		$keys = $this->exportValue ( 'keywords' );
-		// $this->keywords = split(' ',$keys);
 		if (isset ( $keys ) && ! empty ( $keys ))
 			$this->keywords = explode ( ' ', $keys );
 		else

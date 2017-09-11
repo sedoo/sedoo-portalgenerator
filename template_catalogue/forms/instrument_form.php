@@ -5,7 +5,7 @@
  * Formulaire pour un instrument -> on suppose un seul instrument par dataset, avec plusieurs sites et variables possibles
  * C'est pas top, mais répond au besoin urgent. Je ferai mieux en rentrant de vacances
  */
-require_once("forms/base_form.php");
+require_once ("forms/base_form.php");
 
 class instrument_form extends base_form{
 
@@ -51,12 +51,7 @@ class instrument_form extends base_form{
 		$location = new gcmd_location_keyword();
 		$loc_select = $location->chargeFormLoc($this, 'locationByLev'.$i, 'Location Keyword');
 		$this->addElement($loc_select);
-		
-		/*$place = new place;
-		$levels_select = $place->chargeFormSiteLevels($this,'placeByLev_'.$i,'Predefined site (if relevant)');
-		$this->addElement($levels_select);*/
-		
-		
+	
 		$key = new gcmd_plateform_keyword;
 		$key_select = $key->chargeForm($this,'gcmd_plat_key_'.$i,'Platform type');
 		$this->addElement($key_select);
@@ -64,11 +59,7 @@ class instrument_form extends base_form{
 		$k = new gcmd_plateform_keyword;
 		$k_select = $k->chargeFormPlat($this, 'platByLev'.$i, 'Platform Keyword');
 		$this->addElement($k_select);
-			
-		/*$place = new place;
-		$place_select = $place->chargeForm($this,'place_'.$i,'Site',$i);
-		$this->addElement($place_select);*/
-			
+					
 		$this->addElement('text','new_place_'.$i,'Exact location', array('size'=>50));
 				
 		$this->createFormSiteBoundings($i);
@@ -79,7 +70,6 @@ class instrument_form extends base_form{
 
 	function createFormSensor(){
 		$this->createFormManufacturer();
-		//$this->createFormSensorKeyword();
 		$this->createFormSensorKeywords();
 		
 		$this->addElement('hidden','sensor_id');
@@ -100,14 +90,12 @@ class instrument_form extends base_form{
 		$this->getElement('sensor_vert_resolution')->setLabel("Vertical coverage");
 		$this->getElement('sensor_lat_resolution')->setLabel("Horizontal coverage");
 		
-		//$this->addElement('text','sensor_precision','Precision');
 		$this->addElement('text','sensor_latitude','Latitude (°)');
 		$this->addElement('text','sensor_longitude','Longitude (°)');
 		$this->addElement('text','sensor_altitude','Height above ground (m)');
 
 		$this->addElement('file','upload_image','Photo');
-		//$this->addElement('hidden','sensor_image');
-		$this->addElement('submit','upload','Upload');//,array('onclick' => "uploadImage('upload_image')"));
+		$this->addElement('submit','upload','Upload');
 		$this->addElement('submit','delete','Delete');
 	}
 
@@ -147,19 +135,16 @@ class instrument_form extends base_form{
 		$this->addRule('sensor_model','Instrument: Model exceeds the maximum length allowed (100 characters)','maxlength',100);
 		
 		$this->addValidationRulesResolution();
-		//$this->addRule('sensor_precision','Sensor precision: max 100 characters','maxlength',100);
 		$this->addRule('sensor_calibration','Instrument: Calibration exceeds the maximum length allowed (250 characters)','maxlength',250);
 			
 		$this->addRule('new_manufacturer','Instrument: Manufacturer name exceeds the maximum length allowed (250 characters)','maxlength',250);
 		$this->addRule('new_manufacturer_url','Instrument: Manufacturer url exceeds the maximum length allowed (250 characters)','maxlength',250);
 
 		if (isset($this->dataset->dats_sensors[0]->sensor->manufacturer) && !empty($this->dataset->dats_sensors[0]->sensor->manufacturer) && $this->dataset->dats_sensors[0]->sensor->manufacturer->manufacturer_id > 0){
-			/*$this->getElement('new_manufacturer')->setAttribute('onfocus','blur()');
-			$this->getElement('new_manufacturer_url')->setAttribute('onfocus','blur()');*/
+
 			$this->disableElement('new_manufacturer');
 			$this->disableElement('new_manufacturer_url');
 		}else {
-			//$this->addRule('manufacturer','Instrument a manufacturer with the same name already exists in the database','existe',array('manufacturer','manufacturer_name'));
 		}
 			
 		//Sites
@@ -172,30 +157,7 @@ class instrument_form extends base_form{
 			
 			
 			$this->addRule('new_place_'.$i,'Site '.($i+1).': Name exceeds the maximum length allowed (100 characters)','maxlength',100);
-			$this->addValidationRulesSiteBoundings($i,'Site '.($i+1));
-
-			
-			//$this->addRule('new_place_'.$i,'Location '.($i+1).': This location name is already present in the database. Please choose another name.','existe',array('place','place_name'));
-			/*if (isset($this->dataset->sites[$i]) && !empty($this->dataset->sites[$i]) && $this->dataset->sites[$i]->place_id > 0){
-
-				$this->disableElement('new_place_'.$i);
-				$this->disableElement('place_alt_min_'.$i);
-				$this->disableElement('place_alt_max_'.$i);
-				$this->disableElement('gcmd_plat_key_'.$i);
-				$this->disableElement('west_bound_'.$i);
-				$this->disableElement('east_bound_'.$i);
-				$this->disableElement('north_bound_'.$i);
-				$this->disableElement('south_bound_'.$i);				
-			}else{
-				$this->addRule('new_place_'.$i,'Site '.($i+1).': The site name is already present in the database. Select it in the drop-down list or chose another name.','existe',array('place','place_name'));
-				if (!empty($this->dataset->sites[$i]->place_name)){
-					$siteNames[] = 'new_place_'.$i;
-				}
-			}*/
-			//TODO sensor_envir => instrument présent
-			//$this->addRule(array('sensor_environment_'.$i,''))
-
-
+			$this->addValidationRulesSiteBoundings($i,'Site '.($i+1));		
 		}
 		if (count($siteNames) > 0){
 			$this->addRule($siteNames,'Site names must be distinct.','distinct');
@@ -244,7 +206,6 @@ class instrument_form extends base_form{
 			}
 
 			if (isset($dataset->dats_sensors[0]->sensor->gcmd_instrument_keyword) && !empty($dataset->dats_sensors[0]->sensor->gcmd_instrument_keyword)){
-				//$this->getElement('sensor_gcmd')->setSelected($dataset->dats_sensors[0]->sensor->gcmd_instrument_keyword->gcmd_sensor_id);
 				$table = array();
 				$gcmd = $dataset->dats_sensors[0]->sensor->gcmd_instrument_keyword;
 				
@@ -304,13 +265,6 @@ class instrument_form extends base_form{
 				$this->getElement( 'locationByLev'.$i )->setValue( $table );
 				}
 				
-				
-				/*if (isset($dataset->sites[$i]->boundings) && !empty($dataset->sites[$i]->boundings)){
-					$this->getElement('west_bound_'.$i)->setValue($dataset->sites[$i]->boundings->west_bounding_coord);
-					$this->getElement('east_bound_'.$i)->setValue($dataset->sites[$i]->boundings->east_bounding_coord);
-					$this->getElement('north_bound_'.$i)->setValue($dataset->sites[$i]->boundings->north_bounding_coord);
-					$this->getElement('south_bound_'.$i)->setValue($dataset->sites[$i]->boundings->south_bounding_coord);
-				}*/
 				if (isset($dataset->sites[$i]->gcmd_plateform_keyword) && !empty($dataset->sites[$i]->gcmd_plateform_keyword)){
 					//$this->getElement('gcmd_plat_key_'.$i)->setSelected($dataset->sites[$i]->gcmd_plateform_keyword->gcmd_plat_id);
 					$table = array();
@@ -327,10 +281,7 @@ class instrument_form extends base_form{
 					$this->getElement('platByLev'.$i)->setValue($table);
 				}
 
-				//$this->getElement('place_'.$i)->setSelected($dataset->sites[$i]->place_id);
 				$this->getElement('new_place_'.$i)->setValue($dataset->sites[$i]->place_name);
-				//$this->getElement('place_alt_min_'.$i)->setValue($dataset->sites[$i]->place_elevation_min);
-				//$this->getElement('place_alt_max_'.$i)->setValue($dataset->sites[$i]->place_elevation_max);
 				$this->getElement('sensor_environment_'.$i)->setValue($dataset->sites[$i]->sensor_environment);
 			}
 		}
@@ -401,22 +352,17 @@ class instrument_form extends base_form{
 			}
 		}
 		echo '<div id="errors" color="red"></div><br>';
-		//echo $_SERVER['REQUEST_URI'].'<br>';
-        //echo 'strpos:'.strpos($_SERVER['REQUEST_URI'],'&datsId').'<br>'; 
 		
 		if (strpos($_SERVER['REQUEST_URI'],'&datsId')){
-			//$reqUri = strstr($_SERVER['REQUEST_URI'],'&datsId',true);
 			$reqUri = substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],'&datsId'));
-			//echo $reqUri.'<br>';
 		}else  if (strpos($_SERVER['REQUEST_URI'],'?datsId')){
 			$reqUri = substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],'?datsId'));
 		}else{
 			$reqUri = $_SERVER['REQUEST_URI'];
 		}
 		
-		//echo '<form action="spip.php?rubrique4" method="post" name="frminstr" id="frminstr" enctype="multipart/form-data">';
 		echo '<form action="'.$reqUri.'" method="post" name="frminstr" id="frminstr" enctype="multipart/form-data">';
-
+		
 		echo '<SCRIPT LANGUAGE="Javascript" SRC="/js/functions.js"> </SCRIPT>';
 		echo '<SCRIPT LANGUAGE="Javascript" SRC="/js/aide.js"> </SCRIPT>';
 		
@@ -432,20 +378,12 @@ class instrument_form extends base_form{
 		echo $this->getElement('dats_id')->toHTML();
 		echo $this->getElement('sensor_id')->toHTML();
 		
-		echo '<table><tr><th class="top" colspan="3" align="left"><font color="#467AA7">Required fields are in blue</font></td><th class="top" align="right">';
-                //echo $this->getElement('reset')->toHTML().'</td></tr>';
-	
+		echo '<table><tr><th class="top" colspan="3" align="left"><font color="#467AA7">Required fields are in blue</font></td><th class="top" align="right">';	
 		echo '</td></tr>';
-		
-	        echo '<tr><td colspan="4" align="center"><a href="'.$reqUri.'?datsId=-10">Reset</a></td></tr>';
-
-	
-	        
-	    
+	    echo '<tr><td colspan="4" align="center"><a href="'.$reqUri.'?datsId=-10">Reset</a></td></tr>';
 		echo '<tr><th colspan="4" align="center"><a name="a_general" ></a><b>General information</b></th></tr>';
 		$this->displayErrorsGeneralInfo();
 		echo '<tr><td><font color="#467AA7">'.$this->getElement('dats_title')->getLabel().'</font></td><td colspan="3">'.$this->getElement('dats_title')->toHTML().'</td></tr>';
-
 		echo '<tr><td rowspan="2">'.$this->getElement('period')->getLabel().'</td><td rowspan="2">'.$this->getElement('period')->toHTML().'</td><td>'.$this->getElement('dats_date_begin')->getLabel().'</td><td>'.$this->getElement('dats_date_end')->getLabel()."</td></tr>";
 		echo '<tr><td>'.$this->getElement('dats_date_begin')->toHTML().'</td><td>'.$this->getElement('dats_date_end')->toHTML().'<br>'.$this->getElement('dats_date_end_not_planned')->toHTML().'&nbsp;'.$this->getElement('dats_date_end_not_planned')->getLabel().'</td></tr>';
 
@@ -458,25 +396,22 @@ class instrument_form extends base_form{
 		}
 		echo '<tr><td colspan="3" align="center">'.$this->getElement('bouton_add_projet')->toHTML().'</td></tr>';
 		
-		
 		echo '<script>
-		$(function() {
-			$( "#PersonHelp" ).dialog({dialogClass: "alert"});
-	    
-			$( "#PersonHelp" ).dialog("close");
-		});
-		</script>';
+				$(function() {
+					$( "#PersonHelp" ).dialog({dialogClass: "alert"});
+				
+					$( "#PersonHelp" ).dialog("close");
+				});
+			</script>';
 		 
 		echo '<div id="PersonHelp" title="Help">
-		<p>
-		- A <b>Principal Investigator</b> or <b>Lead Scientist</b> is the scientist responsible for the in-situ instrument or site, or model simulations or forecasts, or satellite product provided by the dataset. He/She will receive an email every time the dataset is downloaded.'
-		.'<br/><br/>- A <b>Dataset Contact</b> is a scientist who may be contacted regarding the dataset, but not necessarily responsible for the dataset.'
-		.'<br/><br/>- A <b>Database Contact</b> is just responsible for providing the data to '.$project_name.' users.'
-		.'<br/><br/>If you are using the form to put a data request, choose User as contact type.
-		</p>
-		</div>';
-		
-
+				<p>
+				- A <b>Principal Investigator</b> or <b>Lead Scientist</b> is the scientist responsible for the in-situ instrument or site, or model simulations or forecasts, or satellite product provided by the dataset. He/She will receive an email every time the dataset is downloaded.'
+				.'<br/><br/>- A <b>Dataset Contact</b> is a scientist who may be contacted regarding the dataset, but not necessarily responsible for the dataset.'
+				.'<br/><br/>- A <b>Database Contact</b> is just responsible for providing the data to '.$project_name.' users.'
+				.'<br/><br/>If you are using the form to put a data request, choose User as contact type.
+				</p>
+			</div>';
 		echo '</tr><tr>';
 		echo '<tr><th colspan="4" align="center"><a name="a_contact" ></a><b>Contact information</b>';
 		echo "&nbsp;<input src='/img/aide-icone-16.png' type='image' onmouseover=\"javascript: $('#PersonHelp').dialog('open');\" onmouseout=\"javascript: $( '#PersonHelp' ).dialog('close');\" />";
@@ -487,13 +422,6 @@ class instrument_form extends base_form{
    			$this->displayPersonForm($i);
 		}		
 		echo '<tr><td colspan="4" align="center">'.$this->getElement('bouton_add_pi')->toHTML().'</td></tr>';
-/*
-		echo '<tr><th colspan="4" align="center"><a name="a_descr" ></a><b>Data description</b></td></tr>';
-		echo '<tr><td>'.$this->getElement('dats_abstract')->getLabel().'</td><td colspan="3">'.$this->getElement('dats_abstract')->toHTML().'</td></tr>';
-		echo '<tr><td>'.$this->getElement('dats_purpose')->getLabel().'</td><td colspan="3">'.$this->getElement('dats_purpose')->toHTML().'</td></tr>';
-		echo '<tr><td>'.$this->getElement('dats_reference')->getLabel().'</td><td colspan="3">'.$this->getElement('dats_reference')->toHTML().'</td></tr>';
-*/
-		//echo '<tr><th colspan="4" align="center"><a name="a_descr" ></a><b>Data description</b></td></tr>';
 		$this->displayDataDescrForm(true);
 		
 		//Document attaché
@@ -512,7 +440,6 @@ class instrument_form extends base_form{
 		echo '<tr><th colspan="4" align="center"><a name="a_instru" ></a><b>Instrument information</b>'.$this->getHideShow('row_sensor');
 		echo "</th></tr>";
 		$this->displayErrorsInstru();
-		//echo '<tr name="row_sensor"><td>'.$this->getElement('sensor_gcmd')->getLabel().'</td><td colspan="3">'.$this->getElement('sensor_gcmd')->toHTML().'</td></tr>';
 
 		echo '<tr name="row_sensor"><td>'.$this->getElement('sensor_gcmd_')->getLabel().'</td><td colspan="3">'.$this->getElement('sensor_gcmd_')->toHTML().'</td></tr>';
 		echo '<tr name="row_sensor"><td>'.$this->getElement('sampler')->getLabel().'</td><td colspan="3">'.$this->getElement('sampler')->toHTML().'</td></tr>';
@@ -521,7 +448,6 @@ class instrument_form extends base_form{
 		echo '<tr name="row_sensor"><td>'.$this->getElement('new_manufacturer_url')->getLabel().'</td><td colspan="3">'.$this->getElement('new_manufacturer_url')->toHTML().'</td></tr>';
 		echo '<tr name="row_sensor"><td>'.$this->getElement('sensor_model')->getLabel().'</td><td>'.$this->getElement('sensor_model')->toHTML().'</td>';
 		echo '<td>'.$this->getElement('sensor_calibration')->getLabel().'</td><td>'.$this->getElement('sensor_calibration')->toHTML().'</td></tr>';
-		/*echo '<tr><td>'.$this->getElement('sensor_precision')->getLabel().'</td><td>'.$this->getElement('sensor_precision')->toHTML().'</td>';*/
 		echo '<tr name="row_sensor"><td>'.$this->getElement('sensor_resol_temp')->getLabel().'</td><td>'.$this->getElement('sensor_resol_temp')->toHTML().'</td><td colspan="2"></td></tr>';
 
 		echo '<tr name="row_sensor"><td>'.$this->getElement('sensor_lat_resolution')->getLabel().'</td><td>'.$this->getElement('sensor_lat_resolution')->toHTML().'</td>';
@@ -551,28 +477,12 @@ class instrument_form extends base_form{
 		{
 			echo '<tr><td colspan="4" align="center"><b>Location '.($i+1).'</b>'.$this->getHideShow('row_site_'.$i).'</td></tr>';
 			$this->displayErrorsSite($i);
-			//1 echo '<tr name="row_site_'.$i.'"><td colspan="2">'.$this->getElement('place_'.$i)->getLabel().'&nbsp;&nbsp;'.$this->getElement('place_'.$i)->toHTML();
-			//2 echo '<tr name="row_site_'.$i.'"><td>'.$this->getElement('place_'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('place_'.$i)->toHTML();
-			
-			//echo '<tr name="row_site_'.$i.'"><td>'.$this->getElement('placeByLev_'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('placeByLev_'.$i)->toHTML().'</td></tr>';
+	
 			echo '<tr name="row_site_'.$i.'"><td>'.$this->getElement('locationByLev'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('locationByLev'.$i)->toHTML().'</td></tr>';
 			echo '<tr name="row_site_'.$i.'"><td>'.$this->getElement('platByLev'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('platByLev'.$i)->toHTML().'</td></tr>';
-			echo '<tr name="row_site_'.$i.'"><td>'.$this->getElement('new_place_'.$i)->getLabel().'</td><td colspan="3">'./*$this->getElement('place_'.$i)->toHTML();
-			echo '&nbsp;&nbsp;or add '.$this->getElement('new_place_'.$i)->getLabel().''.*/$this->getElement('new_place_'.$i)->toHTML().'</td>';
+			echo '<tr name="row_site_'.$i.'"><td>'.$this->getElement('new_place_'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('new_place_'.$i)->toHTML().'</td>';
 
-			//1 echo '<td name="row_site_'.$i.'">'.$this->getElement('gcmd_plat_key_'.$i)->getLabel().'</td><td>'.$this->getElement('gcmd_plat_key_'.$i)->toHTML().'</td></tr>';
-			//2 echo '</tr><tr><td name="row_site_'.$i.'">'.$this->getElement('gcmd_plat_key_'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('gcmd_plat_key_'.$i)->toHTML().'</td></tr>';
-			//echo '<td name="row_site_'.$i.'">'.$this->getElement('gcmd_plat_key_'.$i)->getLabel().'</td><td>'.$this->getElement('gcmd_plat_key_'.$i)->toHTML().'</td></tr>';
-
-			
-			
 			$this->displaySiteBoundingsForm($i);
-			/*echo '<tr><td>'.$this->getElement('west_bound_'.$i)->getLabel().'</td><td>'.$this->getElement('west_bound_'.$i)->toHTML().'</td>';
-			echo '<td>'.$this->getElement('east_bound_'.$i)->getLabel().'</td><td>'.$this->getElement('east_bound_'.$i)->toHTML().'</td></tr>';
-			echo '<tr><td>'.$this->getElement('north_bound_'.$i)->getLabel().'</td><td>'.$this->getElement('north_bound_'.$i)->toHTML().'</td>';
-			echo '<td>'.$this->getElement('south_bound_'.$i)->getLabel().'</td><td>'.$this->getElement('south_bound_'.$i)->toHTML().'</td></tr>';
-			echo '<tr><td>'.$this->getElement('place_alt_min_'.$i)->getLabel().'</td><td>'.$this->getElement('place_alt_min_'.$i)->toHTML().'</td>';
-			echo '<td>'.$this->getElement('place_alt_max_'.$i)->getLabel().'</td><td>'.$this->getElement('place_alt_max_'.$i)->toHTML().'</td></tr>';*/
 			echo '<tr name="row_site_'.$i.'"><td>'.$this->getElement('sensor_environment_'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('sensor_environment_'.$i)->toHTML().'</td></tr>';
 		}
 		echo '<tr><td colspan="4" align="center">'.$this->getElement('bouton_add_site')->toHTML().'</td></tr>';
@@ -591,72 +501,30 @@ class instrument_form extends base_form{
 			$this->displayParamForm('calcul'.$i,true,true);		
 		}
 		echo '<tr><td colspan="4" align="center">'.$this->getElement('bouton_add_variable_calcul')->toHTML().'</td></tr>';
-		
-		
-		/*for ($i = 0; $i < $nb_variable; $i++)
-		{
-			echo '<tr><td colspan="4" align="center"><b>Measured parameter '.($i+1).'</b>'.$this->getElement('var_id_'.$i)->toHTML().'</td></tr>';
-			$this->displayErrorsParams($i);
-			echo '<tr><td>'.$this->getElement('gcmd_science_key_'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('gcmd_science_key_'.$i)->toHTML().'</td></tr>';
-		
-			echo '<tr><td colspan="2">'.$this->getElement('new_variable_'.$i)->getLabel().'</td><td colspan="2">'.$this->getElement('new_variable_'.$i)->toHTML().'</td></tr>';
-			echo '<tr><td>'.$this->getElement('unit_'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('unit_'.$i)->toHTML();
-			echo '&nbsp;&nbsp;or add '.$this->getElement('new_unit_'.$i)->getLabel().''.$this->getElement('new_unit_'.$i)->toHTML();
-			echo $this->getElement('new_unit_code_'.$i)->getLabel().''.$this->getElement('new_unit_code_'.$i)->toHTML().'</td></tr>';
-			echo '<tr><td>'.$this->getElement('methode_acq_'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('methode_acq_'.$i)->toHTML().'</td></tr>';
-			echo '<tr><td>'.$this->getElement('var_date_min_'.$i)->getLabel().'</td><td>'.$this->getElement('var_date_min_'.$i)->toHTML().'</td>';
-			echo '<td>'.$this->getElement('var_date_max_'.$i)->getLabel().'</td><td>'.$this->getElement('var_date_max_'.$i)->toHTML().'</td></tr>';
-			echo '<tr><td>'.$this->getElement('sensor_precision_'.$i)->getLabel().'</td><td>'.$this->getElement('sensor_precision_'.$i)->toHTML().'</td><td colspan="2"></td></tr>';
-		}
-		echo '<tr><td colspan="4" align="center">'.$this->getElement('bouton_add_variable')->toHTML().'</td></tr>';
-		echo '<tr><th colspan="4" align="center"><a name="a_param_calcul" ></a><b>Derived parameters (if relevant)</b></td></tr>';
-		for ($i = 0; $i < $nb_variable_calcul; $i++)
-		{
-			$this->displayErrorsParams('calcul'.$i);
-			echo '<tr><td colspan="4" align="center"><b>Derived parameter '.($i+1).'</b>'.$this->getElement('var_id_calcul'.$i)->toHTML().'</td></tr>';
-			echo '<tr><td>'.$this->getElement('gcmd_science_key_calcul'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('gcmd_science_key_calcul'.$i)->toHTML().'</td></tr>';
-			echo '<tr><td colspan="2">'.$this->getElement('new_variable_calcul'.$i)->getLabel().'</td><td colspan="2">'.$this->getElement('new_variable_calcul'.$i)->toHTML().'</td></tr>';
-			echo '<tr><td>'.$this->getElement('unit_calcul'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('unit_calcul'.$i)->toHTML();
-			echo '&nbsp;&nbsp;or add '.$this->getElement('new_unit_calcul'.$i)->getLabel().''.$this->getElement('new_unit_calcul'.$i)->toHTML();
-			echo $this->getElement('new_unit_code_calcul'.$i)->getLabel().''.$this->getElement('new_unit_code_calcul'.$i)->toHTML().'</td></tr>';
-			echo '<tr><td>'.$this->getElement('methode_acq_calcul'.$i)->getLabel().'</td><td colspan="3">'.$this->getElement('methode_acq_calcul'.$i)->toHTML().'</td></tr>';
-			echo '<tr><td>'.$this->getElement('var_date_min_calcul'.$i)->getLabel().'</td><td>'.$this->getElement('var_date_min_calcul'.$i)->toHTML().'</td>';
-			echo '<td>'.$this->getElement('var_date_max_calcul'.$i)->getLabel().'</td><td>'.$this->getElement('var_date_max_calcul'.$i)->toHTML().'</td></tr>';
-			echo '<tr><td>'.$this->getElement('sensor_precision_calcul'.$i)->getLabel().'</td><td>'.$this->getElement('sensor_precision_calcul'.$i)->toHTML().'</td><td colspan="2"></td></tr>';
-		}
-		echo '<tr><td colspan="4" align="center">'.$this->getElement('bouton_add_variable_calcul')->toHTML().'</td></tr>';*/
-		
 		echo '<script>
-		$(function() {
-			$( "#UseHelp" ).dialog({dialogClass: "alert"});
-		
-			$( "#UseHelp" ).dialog("close");
-		
-		});
-		</script>';
+				$(function() {
+					$( "#UseHelp" ).dialog({dialogClass: "alert"});
+				
+					$( "#UseHelp" ).dialog("close");
+				
+				});
+			</script>';
 			
 		echo '<div id="UseHelp" title="Help">
-		<p>
-		- <b>Use constraint</b> encourages people to mention you, when using your data.<br/><br/><u>For example</u>: <i>"Permission is granted to use these data and images in research and publications when accompanied by the following statement: ... . </i>at you to complete the following"
-		</p>
-		</div>';
+				<p>
+				- <b>Use constraint</b> encourages people to mention you, when using your data.<br/><br/><u>For example</u>: <i>"Permission is granted to use these data and images in research and publications when accompanied by the following statement: ... . </i>at you to complete the following"
+				</p>
+			</div>';
 		
 		echo '<tr><th colspan="4" align="center"><a name="a_use" ></a><b>Data use information</b>';
 		echo '</td></tr>';
 		$this->displayErrorsUseInfo();
 		echo '<tr><td>'.$this->getElement('dats_use_constraints')->getLabel().'</td><td colspan="3">'.$this->getElement('dats_use_constraints')->toHTML()."&nbsp;<input src='/img/aide-icone-16.png' type='image' onmouseover=\"javascript: $('#UseHelp').dialog('open');\" onmouseout=\"javascript: $( '#UseHelp' ).dialog('close');\" /></td></tr>";
-		//echo '<td>'.$this->getElement('dats_access_constraints')->getLabel().'</td><td>'.$this->getElement('dats_access_constraints')->toHTML().'</td></tr>';
-
-		//echo '<td>'.$this->getElement('dats_quality')->getLabel().'</td><td>'.$this->getElement('dats_quality')->toHTML().'</td></tr>';
-		/*echo '<tr><td>'.$this->getElement('data_center')->getLabel().'</td><td>'.$this->getElement('data_center')->toHTML().'</td>';
-		echo '<td>'.$this->getElement('url')->getLabel().'</td><td>'.$this->getElement('url')->toHTML().'</td></tr>';*/
 		echo '<tr><td>'.$this->getElement('data_policy')->getLabel().'</td><td colspan="3">'.$this->getElement('data_policy')->toHTML();
 		echo '&nbsp;&nbsp;or add ' .$this->getElement('new_data_policy')->getLabel().'&nbsp;'.$this->getElement('new_data_policy')->toHTML().'</td></tr>';
 		echo '<tr><td>'.$this->getElement('database')->getLabel().'</td><td colspan="3">'.$this->getElement('database')->toHTML();
 		echo '&nbsp;&nbsp;or add '.$this->getElement('new_database')->getLabel().'&nbsp;'.$this->getElement('new_database')->toHTML().'</td></tr>';
 		echo '<td>'.$this->getElement('new_db_url')->getLabel().'</td><td>'.$this->getElement('new_db_url')->toHTML().'</td><td colspan="2"></td></tr>';
-		/*echo '<tr><td>'.$this->getElement('data_format')->getLabel().'</td><td>'.$this->getElement('data_format')->toHTML();
-		 echo '<td>or add '.$this->getElement('other_data_format')->getLabel().'</td><td name="td_data_formats">'.$this->getElement('other_data_format')->toHTML().'</td></tr>';*/
 
 		for ($i = 0; $i < $this->dataset->nbFormats; $i++){
 			echo '<tr>';
@@ -667,9 +535,6 @@ class instrument_form extends base_form{
 			echo '&nbsp;&nbsp;or add '.$this->getElement('new_data_format_'.$i)->getLabel().''.$this->getElement('new_data_format_'.$i)->toHTML().'</td></tr>';
 		}
 		echo '<tr><td colspan="3" align="center">'.$this->getElement('bouton_add_format')->toHTML().'</td></tr>';
-
-		/*echo '<tr><td>'.$this->getElement('data_format')->getLabel().'</td><td>'.$this->getElement('data_format')->toHTML();
-		 echo '<td>or add '.$this->getElement('other_data_format')->getLabel().'</td><td name="td_data_formats">'.$this->getElement('other_data_format')->toHTML().'</td></tr>';*/
 		echo '<tr>';
 		echo '<th colspan="4" align="center">'.$this->getElement('bouton_save')->toHTML().'</td></th></table>';
 		echo '</form>';
@@ -728,8 +593,6 @@ class instrument_form extends base_form{
 		$dataset->dats_sensors[0]->sensor->sensor_calibration = $this->exportValue('sensor_calibration');
 		
 		$this->saveFormResolution();
-		
-		//$dataset->dats_sensors[0]->sensor->sensor_precision = $this->exportValue('sensor_precision');
 		$dataset->dats_sensors[0]->nb_sensor = $this->exportValue('nb_sensor');
 		$dataset->dats_sensors[0]->sensor->sensor_elevation = $this->exportValue('sensor_altitude');
 		$lat = $this->exportValue('sensor_latitude');
@@ -749,11 +612,8 @@ class instrument_form extends base_form{
 
 		//SITES
 		$dataset->sites = array();
-		//$dataset->predSites = array();
 		for ($i = 0; $i < $nb_site; $i++){
 			$dataset->sites[$i] = new place;
-				
-			
 			$sitesLev = $this->exportValue('locationByLev'.$i);
 			$pred_site_id = 0;
 			for ($j = 3;$j >= 0;$j--){
@@ -774,10 +634,7 @@ class instrument_form extends base_form{
 				$dataset->sites[$i]->place_id = -1;
 			}else if(empty($dataset->sites[$i]->place_id)) {
                 	$dataset->sites[$i]->place_id = 0;
-                }
-				
-			//$dataset->sites[$i]->gcmd_plat_id = $this->exportValue('gcmd_plat_key_'.$i);
-			
+			}			
 			
 			$sitesPlat = $this->exportValue('platByLev'.$i);
 			$pred_plat_id = 0;
@@ -796,7 +653,6 @@ class instrument_form extends base_form{
 			
 			//sensor environment
 			$sensor_environment = $this->exportValue('sensor_environment_'.$i);
-			//echo '$sensor_environment:'.$sensor_environment.'<br>';
 			if (isset($sensor_environment) && !empty($sensor_environment)){
 				$dataset->sites[$i]->sensor_environment = $sensor_environment;
 			}

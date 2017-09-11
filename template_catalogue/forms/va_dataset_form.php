@@ -1,8 +1,8 @@
 <?php
 
-require_once("forms/base_form.php");
-require_once("forms/validation.php");
-require_once("bd/sensor_place.php");
+require_once ("forms/base_form.php");
+require_once ("forms/validation.php");
+require_once ("bd/sensor_place.php");
 
 class va_dataset_form extends base_form {
 	
@@ -72,7 +72,6 @@ class va_dataset_form extends base_form {
 				}
 			}
 			if (isset ( $this->dataset->nbSatFormSensor )){
-				//$this->dataset->nbSatFormSensor = $this->dataset->nbSatFormSensor - 1;
 				if($this->dataset->nbSatForm <= $this->dataset->nbSatFormSensor){
 					$this->dataset->nbSatForm = $this->dataset->nbSatFormSensor;
 				}
@@ -242,7 +241,6 @@ class va_dataset_form extends base_form {
 	function initVaFormResolution(){
 		$this->getElement('sensor_resol_tmp')->setValue($this->dats_sensors[0]->sensor_resol_temp);
 		$this->getElement('sensor_vert_res')->setValue($this->dats_sensors[0]->sensor_vert_resolution);
-		//$this->getElement('sensor_horiz_resolution')->setValue($this->dataset->dats_sensors[0]->sensor_horiz_resolution);
 		$this->getElement('sensor_lat_res')->setValue($this->dats_sensors[0]->sensor_lat_resolution);
 		$this->getElement('sensor_lon_res')->setValue($this->dats_sensors[0]->sensor_lon_resolution);
 	}
@@ -334,7 +332,6 @@ class va_dataset_form extends base_form {
 				}
 			}
 		}
-		//$boxesNames = "['new_instrument_".$i."','sat_sensor_url_".$i."','sensor_gcmd_".$i."']";
 		$boxesNames = "['new_instrument_".$i."']";
 		$columnsNames = "['sensor_model','sensor_url','gcmd_sensor_id']"; 
 		$this->addElement('select','instrument_'.$i,"Instrument",$array,array('onchange' => "fillBoxes('instrument_".$i."',".$boxesNames.",'sensor',".$columnsNames.");"));
@@ -356,7 +353,6 @@ class va_dataset_form extends base_form {
 	}
 	
 	function createFormSensor($i){
-		//$this->createFormInstruManufacturer($i);
 		$this->createFormSensorKeywordVaDataset($i);
 		$this->addElement('hidden','sensor_id_'.$i);
 		$this->addElement('text','sensor_model_'.$i,'Model');
@@ -510,26 +506,20 @@ class va_dataset_form extends base_form {
 		$this->addRule('new_data_policy','Data use information: Data policy exceeds the maximum length allowed (100 characters)','maxlength',100);	
 		$attrs = array();
 		if (isset($this->dataset->database) && !empty($this->dataset->database) && $this->dataset->database->database_id > 0){
-			//$this->getElement('new_database')->setAttribute('onfocus','blur()');
-			//$this->getElement('new_db_url')->setAttribute('onfocus','blur()');
+
 			$this->disableElement('new_database');
 			$this->disableElement('new_db_url');
 		}
-		/*else {
-			//$this->addRule('new_database','A database with the same title already exists','existe',array('database','database_name'));
-		}*/
+
 		$this->addRule('new_database','Data use information: Database name exceeds the maximum length allowed (250 characters)','maxlength',250);
 		$this->addRule('new_db_url','Data use information: Database url exceeds the maximum length allowed (250 characters)','maxlength',250);	
 		//Formats
 		for ($i = 0; $i < $this->dataset->nbFormats; $i++){
 			$this->addRule('data_format_'.$i,'Data use information: Format name '.($i+1).' exceeds the maximum length allowed (100 characters)','maxlength',100);
 			if (isset($this->dataset->data_formats[$i]) && !empty($this->dataset->data_formats[$i]) && $this->dataset->data_formats[$i]->data_format_id > 0){
-				//$this->getElement('new_data_format_'.$i)->setAttribute('onfocus','blur()');
 				$this->disableElement('new_data_format_'.$i);
 			}
-			/*else{
-				//$this->addRule('new_data_format_'.$i,'Data format '.($i+1).': This format already exists in the database','existe',array('data_format','data_format_name'));
-			}*/
+
 		}
 		//Contacts
 		$this->addRule('pi_0','Contact 1 is required','couple_not_null',array($this,'pi_name_0'));
@@ -545,22 +535,13 @@ class va_dataset_form extends base_form {
 			$this->addRule('email1_'.$i,'Contact '.($i+1).': email1 exceeds the maximum length allowed (250 characters)','maxlength',250);
 			$this->addRule('email2_'.$i,'Contact '.($i+1).': email2 exceeds the maximum length allowed (250 characters)','maxlength',250);
 			if (isset($this->dataset->originators[$i]) && !empty($this->dataset->originators[$i]) && $this->dataset->originators[$i]->pers_id > 0){
-				//$this->getElement('pi_name_'.$i)->setAttribute('onfocus','blur()');
-				//$this->getElement('email1_'.$i)->setAttribute('onfocus','blur()');
-				//$this->getElement('email2_'.$i)->setAttribute('onfocus','blur()');
-				//$this->getElement('organism_'.$i)->setAttribute('onfocus','blur()');
 				$this->disableElement('pi_name_'.$i);
 				$this->disableElement('email1_'.$i);
 				$this->disableElement('email2_'.$i);
 				$this->disableElement('organism_'.$i);
 			}
-			/*else{
-				//$this->addRule('pi_name_'.$i,'Contact '.($i+1).': A contact with the same name is already present in the database. Select it in the drop-down list.','existe',array('personne','pers_name'));
-			}*/
+
 			if (isset($this->dataset->originators[$i]->organism) && !empty($this->dataset->originators[$i]->organism) && $this->dataset->originators[$i]->organism->org_id > 0){
-				//$this->getElement('org_sname_'.$i)->setAttribute('onfocus','blur()');
-				//$this->getElement('org_fname_'.$i)->setAttribute('onfocus','blur()');
-				//$this->getElement('org_url_'.$i)->setAttribute('onfocus','blur()');
 				$this->disableElement('org_sname_'.$i);
 				$this->disableElement('org_fname_'.$i);
 				$this->disableElement('org_url_'.$i);
@@ -575,10 +556,7 @@ class va_dataset_form extends base_form {
 		$this->AddModValidationRules();
 		$this->AddSatValidationRules();
 		$this->AddInstruValidationRules();
-
-		//$this->addRule('grid_type','Coverage: Grid type exceeds the maximum length allowed (100 characters)','maxlength',100);
 		$this->addVaValidationRulesResolution('Coverage');
-		//$this->addRule('sensor_resol_temp','Coverage: Temporal resolution is incorrect','validDate');
 		$this->addRule('sensor_resol_tmp','Coverage: temporal resolution is incorrect','regex',"/^[0-9]{2}[:][0-9]{2}[:][0-9]{2}$/");
 		$this->addValidationRulesGeoCoverage();
 		//PARAMETER
@@ -591,7 +569,6 @@ class va_dataset_form extends base_form {
 	function addVaValidationRulesResolution($prefixMsg = 'Instrument'){
 		$this->addRule('sensor_resol_tmp',$prefixMsg.': Observation frequency exceeds the maximum length allowed (100 characters)','maxlength',100);
 		$this->addRule('sensor_vert_res',$prefixMsg.': Vertical coverage exceeds the maximum length allowed (100 characters)','maxlength',100);
-		//$this->addRule('sensor_horiz_resolution',$prefixMsg.': Horizontal coverage exceeds the maximum length allowed (100 characters)','maxlength',100);
 		$this->addRule('sensor_lat_res',$prefixMsg.': Latitude coverage exceeds the maximum length allowed (100 characters)','maxlength',100);
 		$this->addRule('sensor_lon_res',$prefixMsg.': Longitude coverage exceeds the maximum length allowed (100 characters)','maxlength',100);
 	}
@@ -599,10 +576,8 @@ class va_dataset_form extends base_form {
 	function AddModValidationRules() {
 		if ($this->dataset->nbModForm > 0) {
 			for($i = $this->dataset->nbSatForm; $i < ($this->dataset->nbModForm + $this->dataset->nbSatForm); $i ++) {
-				// $this->addRule('model_'.($i-$this->dataset->nbSatForm),"Model ".($i-$this->dataset->nbSatForm  +1).": Model name selection is required",'required');
 				$this->addRule ( 'new_model_' . ($i - $this->dataset->nbSatForm), "Model " . ($i - $this->dataset->nbSatForm +1) . ": model name is required", 'required' );
 				$this->addRule ( 'model_categ_' . ($i - $this->dataset->nbSatForm), "Model " . ($i - $this->dataset->nbSatForm  +1) . ": Model type is required", 'required' );
-				// $this->addRule('simu_'.($i-$this->dataset->nbSatForm),"Model ".($i-$this->dataset->nbSatForm  +1).": simulation selection is required",'required');
 				$this->addRule ( 'new_simu_' . ($i - $this->dataset->nbSatForm), "Model " . ($i - $this->dataset->nbSatForm  +1) . ": Simulation is required", 'required' );
 				$this->addRule ( 'sensor_resol_temp__' . ($i - $this->dataset->nbSatForm), "Model " . ($i - $this->dataset->nbSatForm  +1) . ": temporal resolution is incorrect", 'regex', "/^[0-9]{2}[:][0-9]{2}[:][0-9]{2}$/" );
 			}
@@ -612,12 +587,9 @@ class va_dataset_form extends base_form {
 	function addSatValidationRules() {
 		if ($this->dataset->nbSatForm > 0) {
 			for($i = 0; $i < $this->dataset->nbSatForm; $i ++) {
-				//$this->addRule('satellite_'.$i,'Satellite '.$i.': instrument selection is required','required');
 				$this->addRule ( 'new_satellite_' . ($i), 'Satellite ' . ($i + 1) . ': Satellite is required', 'required' );
-				//$this->addRule ( 'instrument_' . $i, 'Satellite ' . ($i + 1) . ': Instrument selection is required', 'required' );
 				$this->addRule ( 'new_instrument_' . $i, 'Satellite ' . ($i + 1) . ': Instrument is required', 'required' );
 				$this->addRule ( 'sensor_gcmd_' . $i, 'Satellite ' . ($i + 1) . ': Instrument type is required', 'required' );
-				// $this->addRule('sat_sensor_url_'.$i,'Satellite '.$i.': Reference is required','required');
 				$this->addRule ( 'sensor_resol_temp' . $i, 'Satellite ' . ($i + 1) . ': temporal resolution is incorrect', 'regex', "/^[0-9]{2}[:][0-9]{2}[:][0-9]{2}$/" );
 			}
 		}
@@ -628,14 +600,10 @@ class va_dataset_form extends base_form {
 		if ($this->dataset->nbInstruForm > 0) {
 			$dataset = & $this->dataset;
 			for($i = $ind; $i < ($dataset->nbInstruForm + $ind); $i ++) {
-				// $this->addRule('sensor_id_'.($i-$ind),'Instrument '.($i-$ind + 1).': Instrument id is required','required');
 				$this->addRule ( 'sensor_gcmd' . ($i - $ind), 'Instrument ' . ($i - $ind + 1) . ': Instrument type is required', 'required' );
-				// $this->addRule('sensor_url_'.($i-$ind),'Instrument '.($i - $ind + 1).': Reference is required','required');
-				// $this->addRule('sensor_model_'.($i-$ind),'Instrument '.($i-$ind + 1).': Sensor model is required','required');
 				$this->addRule ( 'sensor_resol_temp_' . ($i - $ind), 'Instrument ' . ($i - $ind + 1) . ': temporal resolution is incorrect', 'regex', "/^[0-9]{2}[:][0-9]{2}[:][0-9]{2}$/" );
 				$this->addRule ( 'new_place_' . ($i - $ind), 'Instrument ' . ($i - $ind + 1) . ': Exact location is required', 'required' );
 				$this->addRule ( 'gcmd_plat_key_' . ($i - $ind), 'Instrument ' . ($i - $ind + 1) . ': Platform type is required', 'required' );
-				// $this->addRule('sensor_environment_'.($i-$ind),'Instrument '.($i - $ind + 1).': Instrument environment is required','required');
 			}
 		}
 	}
@@ -686,7 +654,6 @@ class va_dataset_form extends base_form {
 				$this->dataset->sites[$i+1]->place_name = $this->exportValue('new_model_'.($i-$this->dataset->nbSatForm));
 				$this->dataset->sites[$i+1]->bound_id = -1;
 				
-				//		$this->dataset->sites[1]->gcmd_plat_id = $this->exportValue('model_type');
 				$categ_modele = $this->exportValue('model_categ_'.($i-$this->dataset->nbSatForm));
 				$this->dataset->sites[$i+1]->gcmd_plat_id = $categ_modele[0];
 				$this->dataset->sites[$i+1]->pla_place_id = $categ_modele[1];
@@ -749,7 +716,6 @@ class va_dataset_form extends base_form {
 				
 				$this->dataset->dats_sensors[$i+1]->sensor->sensor_model = $this->exportValue('new_instrument_'.$i);
 				$this->dataset->dats_sensors[$i+1]->sensor->gcmd_sensor_id = $this->exportValue('sensor_gcmd_'.$i);
-				//$this->saveFormResolution('',$i-$this->dataset->nbModForm);
 				$this->dataset->dats_sensors[$i+1]->sensor_resol_temp = $this->exportValue('sensor_resol_temp'.$i);
 							
 				if ($this->dataset->dats_sensors[$i+1]->sensor->gcmd_sensor_id != 0){
@@ -770,7 +736,6 @@ class va_dataset_form extends base_form {
 		$ind=$this->dataset->nbModForm+$this->dataset->nbSatForm+1;
 		if($this->dataset->nbInstruForm > 0){
 			$dataset = & $this->dataset;
-			//$dataset->dats_sensors = array();
 			for($i = $ind; $i < ($dataset->nbInstruForm+$ind); $i++){
 				
 				$dataset->dats_sensors[$i] = new dats_sensor;
@@ -794,20 +759,13 @@ class va_dataset_form extends base_form {
 				}
 				
 				$dataset->dats_sensors[$i]->sensor->manufacturer = new manufacturer;
-				//$dataset->dats_sensors[$i]->sensor->manufacturer->manufacturer_id = $this->exportValue('manufacturer_'.($i-$ind));
-				
-				//$dataset->dats_sensors[$i]->sensor->manufacturer->manufacturer_name = $this->exportValue('new_manufacturer_'.($i-$ind));
-				//$dataset->dats_sensors[$i]->sensor->manufacturer->manufacturer_url = $this->exportValue('new_manufacturer_url_'.($i-$ind));
 				
 				if (empty($dataset->dats_sensors[$i]->sensor->manufacturer->manufacturer_name)){
 					$dataset->dats_sensors[$i]->sensor->manufacturer->manufacturer_id = -1;
 				}
-				
-				//$dataset->dats_sensors[$i]->sensor->manufacturer_id = & $dataset->dats_sensors[$i]->sensor->manufacturer->manufacturer_id;
-				
+								
 				$dataset->dats_sensors[$i]->sensor->sensor_url = $this->exportValue('sensor_url_'.($i-$ind));
 				$dataset->dats_sensors[$i]->sensor->sensor_model = $this->exportValue('sensor_model_'.($i-$ind));
-				//$dataset->dats_sensors[$i]->sensor->sensor_calibration = $this->exportValue('sensor_calibration_'.($i-$ind));
 				$this->dataset->dats_sensors[$i]->sensor_resol_temp = $this->exportValue('sensor_resol_temp_'.($i-$ind));	
 				$dataset->dats_sensors[$i]->sensor->bound_id = -1;
 				
@@ -832,7 +790,6 @@ class va_dataset_form extends base_form {
 				
 				//sensor environment
 				$sensor_environment = $this->exportValue('sensor_environment_'.($i-$ind));
-				//echo '$sensor_environment:'.$sensor_environment.'<br>';
 				if (isset($sensor_environment) && !empty($sensor_environment)){
 					$dataset->sites[$i]->sensor_environment = $sensor_environment;
 				}
@@ -965,7 +922,6 @@ class va_dataset_form extends base_form {
 		$this->displayFormBegin('frmvadataset',false,true);
 		//----------------------------------------------------------Data description's form------------------------------------------------------------------------------------------------
 		echo '<tr><th colspan="4" align="center"><a name="a_descr" ><a name="a_general" ></a><b>Data description</b></td></tr>';
-		//$this->displayErrorsModDataDescr();
 		echo '<tr><td><font color="#467AA7">'.$this->getElement('dats_title')->getLabel().'</font></td><td colspan="3">'.$this->getElement('dats_title')->toHTML().'</td></tr>';
 		for ($i = 0; $i < $this->dataset->nbProj; $i++){
 			echo '<tr>';
@@ -999,8 +955,7 @@ class va_dataset_form extends base_form {
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		//----------------------------------------------------------Contact's form-----------------------------------------------------------------------------------------------------
 		echo '<tr><th colspan="4" align="center"><a name="a_contact" ></a><b>Contact information</b><br></th></tr>';
-		//$this->displayErrorsContact(0);
-		//$this->displayPersonForm(0,true);
+
 		for ($i = 0; $i < $this->dataset->nbPis; $i++){
 			echo '<tr><td colspan="4" align="center"><b>Contact '.($i+1).'</b><br>';//</td></tr>';
 			$this->displayErrorsContact($i);

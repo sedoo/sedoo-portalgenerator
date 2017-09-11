@@ -114,8 +114,6 @@ class base_form extends login_form {
 		$key = new gcmd_science_keyword ();
 		$key_select = $key->chargeForm ( $this, 'gcmd_science_key' . $suffix, 'Parameter keyword' );
 		$this->addElement ( $key_select );
-		
-		// echo "create variable ".$type.$i."_".$j."<br>";
 		$this->addElement ( 'hidden', 'var_id' . $suffix );
 		$this->addElement ( 'text', 'new_variable' . $suffix, 'New parameter name (if different from the selected parameter keyword)' );
 		$this->applyFilter ( 'new_variable' . $suffix, 'trim' );
@@ -196,16 +194,12 @@ class base_form extends login_form {
 		if (isset ( $this->dataset->data_policy ) && ! empty ( $this->dataset->data_policy ) && $this->dataset->data_policy->data_policy_id > 0) {
 			$this->getElement ( 'new_data_policy' )->setAttribute ( 'onfocus', 'blur()' );
 		} else {
-			// $this->addRule('new_data_policy','A data policy with the same name already exists in the database','existe',array('data_policy','data_policy_name'));
 		}
 		$this->addRule ( 'new_data_policy', 'Data use information: Data policy exceeds the maximum length allowed (100 characters)', 'maxlength', 100 );
 		if (isset ( $this->dataset->database ) && ! empty ( $this->dataset->database ) && $this->dataset->database->database_id > 0) {
-			// $this->getElement('new_database')->setAttribute('onfocus','blur()');
-			// $this->getElement('new_db_url')->setAttribute('onfocus','blur()');
 			$this->disableElement ( 'new_database' );
 			$this->disableElement ( 'new_db_url' );
 		} else {
-			// $this->addRule('new_database','A database with the same title already exists','existe',array('database','database_name'));
 		}
 		$this->addRule ( 'new_database', 'Data use information: Database name exceeds the maximum length allowed (250 characters)', 'maxlength', 250 );
 		$this->addRule ( 'new_db_url', 'Data use information: Database url exceeds the maximum length allowed (250 characters)', 'maxlength', 250 );
@@ -214,10 +208,8 @@ class base_form extends login_form {
 		for($i = 0; $i < $this->dataset->nbFormats; $i ++) {
 			$this->addRule ( 'data_format_' . $i, 'Data use information: Format name ' . ($i + 1) . ' exceeds the maximum length allowed (100 characters)', 'maxlength', 100 );
 			if (isset ( $this->dataset->data_formats [$i] ) && ! empty ( $this->dataset->data_formats [$i] ) && $this->dataset->data_formats [$i]->data_format_id > 0) {
-				// $this->getElement('new_data_format_'.$i)->setAttribute('onfocus','blur()');
 				$this->disableElement ( 'new_data_format_' . $i );
 			} else {
-				// $this->addRule('new_data_format_'.$i,'Data format '.($i+1).': This format already exists in the database','existe',array('data_format','data_format_name'));
 			}
 		}
 		
@@ -243,22 +235,14 @@ class base_form extends login_form {
 			$this->addRule ( 'email2_' . $i, 'Contact ' . ($i + 1) . ': email2 exceeds the maximum length allowed (250 characters)', 'maxlength', 250 );
 			
 			if (isset ( $this->dataset->originators [$i] ) && ! empty ( $this->dataset->originators [$i] ) && $this->dataset->originators [$i]->pers_id > 0) {
-				// $this->getElement('pi_name_'.$i)->setAttribute('onfocus','blur()');
-				// $this->getElement('email1_'.$i)->setAttribute('onfocus','blur()');
-				// $this->getElement('email2_'.$i)->setAttribute('onfocus','blur()');
-				// $this->getElement('organism_'.$i)->setAttribute('onfocus','blur()');
 				$this->disableElement ( 'pi_name_' . $i );
 				$this->disableElement ( 'email1_' . $i );
 				$this->disableElement ( 'email2_' . $i );
 				$this->disableElement ( 'organism_' . $i );
 			} else {
-				// $this->addRule('pi_name_'.$i,'Contact '.($i+1).': A contact with the same name is already present in the database. Select it in the drop-down list.','existe',array('personne','pers_name'));
 			}
 			
 			if (isset ( $this->dataset->originators [$i]->organism ) && ! empty ( $this->dataset->originators [$i]->organism ) && $this->dataset->originators [$i]->organism->org_id > 0) {
-				// $this->getElement('org_sname_'.$i)->setAttribute('onfocus','blur()');
-				// $this->getElement('org_fname_'.$i)->setAttribute('onfocus','blur()');
-				// $this->getElement('org_url_'.$i)->setAttribute('onfocus','blur()');
 				$this->disableElement ( 'org_sname_' . $i );
 				$this->disableElement ( 'org_fname_' . $i );
 				$this->disableElement ( 'org_url_' . $i );
@@ -379,8 +363,6 @@ class base_form extends login_form {
 		), $prefixMsg . ': Date end must be after date begin', 'validPeriod' );
 		
 		if (isset ( $this->dataset->dats_variables [$i]->unit ) && ($this->dataset->dats_variables [$i]->unit->unit_id > 0)) {
-			// $this->getElement('new_unit_'.$suffix)->setAttribute('onfocus','blur()');
-			// $this->getElement('new_unit_code_'.$suffix)->setAttribute('onfocus','blur()');
 			$this->disableElement ( 'new_unit_' . $suffix );
 			$this->disableElement ( 'new_unit_code_' . $suffix );
 		} else {
@@ -475,9 +457,7 @@ class base_form extends login_form {
 	function createFormDataFormat($i) {
 		$dformat = new data_format ();
 		$dformat_select = $dformat->chargeForm ( $this, 'data_format_' . $i, 'Data format ' . ($i + 1), $i );
-		// $dformat_select->setMultiple(true);
 		$this->addElement ( $dformat_select );
-		// $this->addElement('text','other_data_format','new (separated by ;)');
 		$this->addElement ( 'text', 'new_data_format_' . $i, 'new data format: ' );
 	}
 	function createFormOrganisme($indice) {
@@ -510,16 +490,6 @@ class base_form extends login_form {
 		$ct = new contact_type ();
 		$ct_select = $ct->chargeForm ( $this, 'contact_type_' . $indice, 'Contact type' );
 		$this->addElement ( $ct_select );
-		/*
-		 * $seekProv = array(
-		 * new HTML_QuickForm_radio('seeker_'.$indice, null, 'provide','0'),
-		 * new HTML_QuickForm_radio('seeker_'.$indice, null, 'use','1')
-		 * );
-		 * $tab['seeker_'.$indice] = '0';
-		 * $this->setDefaults($tab);
-		 */
-		// $this->addGroup($seekProv, 'seeker_'.$indice, 'Do you plan to provide/use this dataset ?', null, false);
-		// $this->getElement('seeker_'.$indice)->setValue('0');
 		$this->createFormOrganisme ( $indice );
 	}
 	function createFormSiteBoundings($i) {
@@ -536,16 +506,13 @@ class base_form extends login_form {
 		$this->addElement ( $area_select );
 		$this->addElement ( 'text', 'new_area', 'Area name' );
 		$this->applyFilter ( 'new_area', 'trim' );
-		// $this->addElement('hidden','gcmd_area');
 		$this->createFormSiteBoundings ( 0 );
 	}
 	function initFormGeoCoverage() {
 		if (isset ( $this->dataset->sites ) && ! empty ( $this->dataset->sites )) {
 			if (isset ( $this->dataset->sites [0] ) && ! empty ( $this->dataset->sites [0] )) {
 				$this->getElement ( 'area' )->setSelected ( $this->dataset->sites [0]->place_id );
-				$this->getElement ( 'new_area' )->setValue ( $this->dataset->sites [0]->place_name );
-				// $this->getElement('gcmd_area')->setValue($this->dataset->sites[0]->gcmd_plateform_keyword->gcmd_plat_id);
-				
+				$this->getElement ( 'new_area' )->setValue ( $this->dataset->sites [0]->place_name );				
 				$this->initFormSiteBoundings ( 0 );
 			}
 		}
@@ -556,7 +523,6 @@ class base_form extends login_form {
 		
 		$this->dataset->sites [0]->place_id = $this->exportValue ( 'area' );
 		$this->dataset->sites [0]->place_name = $this->exportValue ( 'new_area' );
-		// $this->dataset->sites[0]->gcmd_plat_id = $this->exportValue('gcmd_area');
 		$this->dataset->sites [0]->gcmd_plateform_keyword = new gcmd_plateform_keyword ();
 		$this->dataset->sites [0]->gcmd_plateform_keyword = $this->dataset->sites [0]->gcmd_plateform_keyword->getByName ( "Geographic Regions" );
 		$this->dataset->sites [0]->gcmd_plat_id = & $this->dataset->sites [0]->gcmd_plateform_keyword->gcmd_plat_id;
@@ -742,16 +708,6 @@ class base_form extends login_form {
 		$this->getElement ( 'org_url_' . $i )->setValue ( $this->dataset->originators [$i]->organism->org_url );
 		
 		$this->getElement ( 'contact_type_' . $i )->setSelected ( $this->dataset->originators [$i]->contact_type_id );
-		// $tab['seeker_'.$i] = $this->dataset->originators[$i]->seeker;
-		// $this->setDefaults($tab);
-		
-		// echo 'initFormPersonne seeker: '.$this->dataset->originators[$i]->seeker.'<br>';
-		
-		/*
-		 * foreach ($this->dataset->originators[$i]->seeker as $seeker){
-		 * echo '- '.$seeker.'<br>';
-		 * }
-		 */
 	}
 	
 	function initFormVariable($i, $suffix) {
@@ -889,9 +845,6 @@ class base_form extends login_form {
 		
 		$this->dataset->originators [$i]->contact_type_id = $this->exportValue ( 'contact_type_' . $i );
 		
-		// $tab = array_values($this->exportValue('seeker_'.$i));
-		// $this->dataset->originators[$i]->seeker = $tab[0];
-		
 		$this->dataset->originators [$i]->org_id = &  $this->dataset->originators [$i]->organism->org_id;
 	}
 	
@@ -914,9 +867,7 @@ class base_form extends login_form {
 					break;
 				}
 			}
-			
-			// echo "gcmd: $gcmd_id<br>";
-			
+						
 			if ($gcmd_id > 0) {
 				$dataset->dats_variables [$i + $incr]->variable->gcmd = new gcmd_science_keyword ();
 				$dataset->dats_variables [$i + $incr]->variable->gcmd = $dataset->dats_variables [$i + $incr]->variable->gcmd->getById ( $gcmd_id );
@@ -928,15 +879,12 @@ class base_form extends login_form {
 			}
 			
 			$dataset->dats_variables [$i + $incr]->var_id = & $dataset->dats_variables [$i + $incr]->variable->var_id;
-			
-			// echo 'saveForm, var id: '.$dataset->dats_variables[$i+$incr]->var_id.'<br>';
-			
+						
 			$dataset->dats_variables [$i + $incr]->unit = new unit ();
 			$dataset->dats_variables [$i + $incr]->unit->unit_id = $this->exportValue ( 'unit_' . $suffix . $i );
 			$dataset->dats_variables [$i + $incr]->unit->unit_name = $this->exportValue ( 'new_unit_' . $suffix . $i );
 			$dataset->dats_variables [$i + $incr]->unit->unit_code = $this->exportValue ( 'new_unit_code_' . $suffix . $i );
 			
-			// echo 'Unit: '.$dataset->dats_variables[$i+$incr]->unit->unit_name.'<br>';
 			if (empty ( $dataset->dats_variables [$i + $incr]->unit->unit_name )) {
 				$dataset->dats_variables [$i + $incr]->unit->unit_id = - 1;
 			}
@@ -955,8 +903,6 @@ class base_form extends login_form {
 			$dataset->dats_sensors [0]->sensor->sensor_vars [$i + $incr] = new sensor_var ();
 			$dataset->dats_sensors [0]->sensor->sensor_vars [$i + $incr]->sensor_precision = & $dataset->dats_variables [$i + $incr]->variable->sensor_precision;
 			$dataset->dats_sensors [0]->sensor->sensor_vars [$i + $incr]->variable = & $dataset->dats_variables [$i + $incr]->variable;
-			
-			// echo 'Flag: '.$dataset->dats_variables[$i+$incr]->flag_param_calcule.'<br>';
 		}
 	}
 	function getErrorMessage($elementName) {
@@ -1059,7 +1005,7 @@ class base_form extends login_form {
 		echo '<tr><td rowspan="2">' . $this->getElement ( 'period' )->getLabel () . '</td><td rowspan="2">' . $this->getElement ( 'period' )->toHTML () . '</td><td>' . $this->getElement ( 'dats_date_begin' )->getLabel () . '</td><td>' . $this->getElement ( 'dats_date_begin' )->toHTML () . "</td></tr>";
 		echo '<tr><td>' . $this->getElement ( 'dats_date_end' )->getLabel () . '</td><td>' . $this->getElement ( 'dats_date_end' )->toHTML () . '<br>' . $this->getElement ( 'dats_date_end_not_planned' )->toHTML () . '&nbsp;' . $this->getElement ( 'dats_date_end_not_planned' )->getLabel () . '</td></tr>';
 	}
-	// function displayPersonForm($i, $withSeeker = false){
+
 	function displayPersonForm($i) {
 		echo '<tr><td><font color="#467AA7">' . $this->getElement ( 'contact_type_' . $i )->getLabel () . '</font>';
 		echo '</td><td colspan="3">' . $this->getElement ( 'contact_type_' . $i )->toHTML ();
@@ -1146,13 +1092,11 @@ class base_form extends login_form {
 		echo '<div id="errors" color="red"></div><br>';
 		
 		if (strpos ( $_SERVER ['REQUEST_URI'], '?datsId' )) {
-			// $reqUri = strstr($_SERVER['REQUEST_URI'],'&datsId',true);
 			$reqUri = substr ( $_SERVER ['REQUEST_URI'], 0, strpos ( $_SERVER ['REQUEST_URI'], '?datsId' ) );
 		} else {
 			$reqUri = $_SERVER ['REQUEST_URI'];
 		}
 		
-		// echo '<form action="spip.php?rubrique'.$rubId.'" method="post" name="'.$frmname.'" id="'.$frmname.'" >';
 		if ($multipart) {
 			echo "<form action='$reqUri' method='post' name='$frmname' id='$frmname' enctype='multipart/form-data' >";
 		} else {

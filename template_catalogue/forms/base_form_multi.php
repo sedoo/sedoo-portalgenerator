@@ -1,56 +1,48 @@
 <?php
 
-require_once("forms/login_form.php");
-require_once("common.php");
-require_once("bd/dataset.php");
-require_once("bd/project.php");
-require_once("bd/period.php");
-require_once("bd/personne.php");
-require_once("bd/contact_type.php");
-require_once("bd/organism.php");
-require_once("bd/dataset_type.php");
-require_once("bd/data_format.php");
-require_once("bd/dats_var.php");
-require_once("bd/dats_sensor.php");
-require_once("bd/sensor.php");
-require_once("bd/gcmd_instrument_keyword.php");
-require_once("bd/manufacturer.php");
-require_once("bd/variable.php");
-require_once("bd/gcmd_science_keyword.php");
-require_once("bd/place.php");
-require_once("bd/boundings.php");
-require_once("bd/gcmd_plateform_keyword.php");
-require_once("bd/unit.php");
-require_once("bd/data_policy.php");
-require_once("bd/database.php");
-require_once("bd/gcmd_location_keyword.php");
+require_once ("forms/login_form.php");
+require_once ("common.php");
+require_once ("bd/dataset.php");
+require_once ("bd/project.php");
+require_once ("bd/period.php");
+require_once ("bd/personne.php");
+require_once ("bd/contact_type.php");
+require_once ("bd/organism.php");
+require_once ("bd/dataset_type.php");
+require_once ("bd/data_format.php");
+require_once ("bd/dats_var.php");
+require_once ("bd/dats_sensor.php");
+require_once ("bd/sensor.php");
+require_once ("bd/gcmd_instrument_keyword.php");
+require_once ("bd/manufacturer.php");
+require_once ("bd/variable.php");
+require_once ("bd/gcmd_science_keyword.php");
+require_once ("bd/place.php");
+require_once ("bd/boundings.php");
+require_once ("bd/gcmd_plateform_keyword.php");
+require_once ("bd/unit.php");
+require_once ("bd/data_policy.php");
+require_once ("bd/database.php");
+require_once ("bd/gcmd_location_keyword.php");
 
-class base_form_multi extends login_form{
+class base_form_multi extends login_form {
 
 	var $dataset;
 
 	function createLoginForm(){
                 //User déjà loggé sur le site hymex.org
                 if ($_SERVER['HTTP_REFERER'] == 'http://www.hymex.org/private/catalog/index.php'){
-                        //$hymexUser = new mistralsUser();
-                        //echo 'arrive de hymex.org<br>';
-
                         $hymexUser = new user();
                         $hymexUser->cn = 'hymex';
                         $_SESSION['loggedUser'] = serialize($hymexUser);
-                        //return;
                 }
 
                 if (isset($_SESSION['loggedUser'])){
                         $this->user = unserialize($_SESSION['loggedUser']);
-                        //echo 'loggedUser trouvé dans la session<br>';
-                        //echo 'type: '.get_class($this->user).'<br>';
                 }
 
                 if (!$this->isCat($this->dataset)){
                         parent::createLoginForm('Login');
-
-
                 }
         }
 
@@ -217,7 +209,6 @@ class base_form_multi extends login_form{
                 $key_select = $key->chargeForm($this,'gcmd_science_key_'.$type.$i.'_'.$j,'Parameter keyword');
                 $this->addElement($key_select);
 
-                //echo "create variable ".$type.$i."_".$j."<br>";
                 $this->addElement('hidden','var_id_'.$type.$i.'_'.$j);
                 $this->addElement('text','new_variable_'.$type.$i.'_'.$j,'New parameter name (if not in parameter keyword list)');//,array('onchange' => "resetSelect('variable_".$type.$i."')"));
                 $this->applyFilter('new_variable_'.$type.$i.'_'.$j,'trim');
@@ -233,21 +224,12 @@ class base_form_multi extends login_form{
                 $this->applyFilter('methode_acq_'.$type.$i.'_'.$j,'trim');
                 $this->addElement('text','sensor_precision_'.$type.$i.'_'.$j,'Sensor precision');
                 $this->applyFilter('sensor_precision_'.$type.$i.'_'.$j,'trim');
-/*
-                // format pour les dates
-                $options = array(
-                                'language'  => 'en',
-                                'format'    => 'Y-M-d',
-                );
-                $this->addElement('text','var_date_min_'.$type.$i.'_'.$j,'Date begin (yyyy-mm-jj)',$options);
-                $this->addElement('text','var_date_max_'.$type.$i.'_'.$j,'Date end (yyyy-mm-jj)',$options);
-*/
+
         }
 
 
 	function initFormVariable($i,$j,$suffix = ''){
                 if (isset($this->dataset->dats_sensors[$i]->sensor->sensor_vars[$j]) && !empty($this->dataset->dats_sensors[$i]->sensor->sensor_vars[$j]) && ($this->dataset->dats_sensors[$i]->sensor->sensor_vars[$j]->var_id > 0) ){
-                        //echo "variable : ".$suffix.$i."_".$j."<br>";
                         $this->getElement('var_id_'.$suffix.$i.'_'.$j)->setValue($this->dataset->dats_sensors[$i]->sensor->sensor_vars[$j]->var_id);
                         $this->getElement('new_variable_'.$suffix.$i.'_'.$j)->setValue($this->dataset->dats_sensors[$i]->sensor->sensor_vars[$j]->variable->var_name);
                         $gcmd = new gcmd_science_keyword;
@@ -268,8 +250,6 @@ class base_form_multi extends login_form{
                                 $this->getElement('gcmd_science_key_'.$suffix.$i.'_'.$j)->setValue($table);
                         }
                         $this->getElement('methode_acq_'.$suffix.$i.'_'.$j)->setValue($this->dataset->dats_sensors[$i]->sensor->sensor_vars[$j]->methode_acq);
-//                        $this->getElement('var_date_min_'.$suffix.$i.'_'.$j)->setValue($this->dataset->dats_sensors[$i]->sensor->sensor_vars[$j]->date_min);
-//                        $this->getElement('var_date_max_'.$suffix.$i.'_'.$j)->setValue($this->dataset->dats_sensors[$i]->sensor->sensor_vars[$j]->date_max);
 
                         $this->getElement('sensor_precision_'.$suffix.$i.'_'.$j)->setValue($this->dataset->dats_sensors[$i]->sensor->sensor_vars[$j]->sensor_precision);
                         if (isset($this->dataset->dats_sensors[$i]->sensor->sensor_vars[$j]->unit) && !empty($this->dataset->dats_sensors[$i]->sensor->sensor_vars[$j]->unit) && ($this->dataset->dats_sensors[$i]->sensor->sensor_vars[$j]->unit->unit_id > 0) ){
@@ -540,7 +520,6 @@ class base_form_multi extends login_form{
                 if (isset($this->dataset->data_policy) && !empty($this->dataset->data_policy) && $this->dataset->data_policy->data_policy_id > 0){
                         $this->getElement('new_data_policy')->setAttribute('onfocus','blur()');
                 }else {
-                        //$this->addRule('new_data_policy','A data policy with the same name already exists in the database','existe',array('data_policy','data_policy_name'));
                 }
                 $this->addRule('new_data_policy','Data use information: Data policy exceeds the maximum length allowed (100 characters)','maxlength',100);
 
@@ -549,7 +528,6 @@ class base_form_multi extends login_form{
                         $this->disableElement('new_database');
                         $this->disableElement('new_db_url');
                 }else {
-                        //$this->addRule('new_database','A database with the same title already exists','existe',array('database','database_name'));
                 }
                 $this->addRule('new_database','Data use information: Database name exceeds the maximum length allowed (250 characters)','maxlength',250);
                 $this->addRule('new_db_url','Data use information: Database url exceeds the maximum length allowed (250 characters)','maxlength',250);
@@ -560,7 +538,6 @@ class base_form_multi extends login_form{
                         if (isset($this->dataset->data_formats[$i]) && !empty($this->dataset->data_formats[$i]) && $this->dataset->data_formats[$i]->data_format_id > 0){
                                 $this->disableElement('new_data_format_'.$i);
                         }else{
-                                //$this->addRule('new_data_format_'.$i,'Data format '.($i+1).': This format already exists in the database','existe',array('data_format','data_format_name'));
                         }
                 }
 
@@ -585,7 +562,6 @@ class base_form_multi extends login_form{
                                 $this->disableElement('email2_'.$i);
                                 $this->disableElement('organism_'.$i);
                         }else{
-                                //$this->addRule('pi_name_'.$i,'Contact '.($i+1).': A contact with the same name is already present in the database. Select it in the drop-down list.','existe',array('personne','pers_name'));
                         }
 
                         if (isset($this->dataset->originators[$i]->organism) && !empty($this->dataset->originators[$i]->organism) && $this->dataset->originators[$i]->organism->org_id > 0){
@@ -611,10 +587,6 @@ class base_form_multi extends login_form{
                 $this->addRule('north_bound',$prefixMsg.': North bounding coordinate is incorrect','number_range',array(-90,90));
                 $this->addRule('south_bound',$prefixMsg.': South bounding coordinate must be numeric','numeric');
                 $this->addRule('south_bound',$prefixMsg.': South bounding coordinate is incorrect','number_range',array(-90,90));
-                //$this->addRule(array('west_bound', 'east_bound','south_bound', 'north_bound'), $prefixMsg.': Incomplete boundings', 'completeBoundings');
-                //$this->addRule(array('east_bound','south_bound', 'north_bound', 'west_bound'), $prefixMsg.': Incomplete boundings', 'completeBoundings');
-
-                               
                 $this->addRule(array('west_bound', 'east_bound','south_bound', 'north_bound'), $prefixMsg.': Incorrect boundings', 'validBoundings');
                 $this->addRule('place_alt_min',$prefixMsg.': Altitude min must be numeric','numeric');
                 $this->addRule('place_alt_max',$prefixMsg.': Altitude max must be numeric','numeric');
@@ -667,9 +639,6 @@ class base_form_multi extends login_form{
                 echo '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 echo $this->getElement('new_unit_code_'.$i.'_'.$j)->getLabel().' '.$this->getElement('new_unit_code_'.$i.'_'.$j)->toHTML().'</td></tr>';
                 echo '<tr><td>'.$this->getElement('methode_acq_'.$i.'_'.$j)->getLabel().'</td><td colspan="3">'.$this->getElement('methode_acq_'.$i.'_'.$j)->toHTML().'</td></tr>';
-/*                echo '<tr><td>'.$this->getElement('var_date_min_'.$i.'_'.$j)->getLabel().'</td><td>'.$this->getElement('var_date_min_'.$i.'_'.$j)->toHTML().'</td>';
-                echo '<td>'.$this->getElement('var_date_max_'.$i.'_'.$j)->getLabel().'</td><td>'.$this->getElement('var_date_max_'.$i.'_'.$j)->toHTML().'</td></tr>';
-*/
                 echo '<tr><td>'.$this->getElement('sensor_precision_'.$i.'_'.$j)->getLabel().'</td><td>'.$this->getElement('sensor_precision_'.$i.'_'.$j)->toHTML().'</td><td colspan="2"></td></tr>';
 	}
 	
@@ -726,7 +695,7 @@ class base_form_multi extends login_form{
 
 	function displayErrorsParams($suffix){
                 $this->displayErrors(array('new_variable_'.$suffix,'unit_'.$suffix,'new_unit_'.$suffix,'new_unit_code_'.$suffix,
-                        'sensor_precision_'.$suffix,'methode_acq_'.$suffix/*,'var_date_min_'.$suffix,'var_date_max_'.$suffix*/));
+                        'sensor_precision_'.$suffix,'methode_acq_'.$suffix));
 
         }
 

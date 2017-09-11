@@ -1,9 +1,9 @@
 <?php
 
-require_once("bd/dats_quality.php");
-require_once("bd/journal.php");
-require_once('forms/graph_utils.php');
-require_once("editDataset.php");
+require_once ("bd/dats_quality.php");
+require_once ("bd/journal.php");
+require_once ('forms/graph_utils.php');
+require_once ("editDataset.php");
 
 class stats_form_dats extends login_form{
 	
@@ -89,9 +89,7 @@ class stats_form_dats extends login_form{
 	}
 	
 	
-	function displayUpdates(){
-		//echo '<h2>Updates</h2>';
-			
+	function displayUpdates(){			
 		$journal = new journal();
 		$journal = $journal->getByDataset($this->dats->dats_id,TYPE_NEW.','.TYPE_UPDATE);
 		echo '<table>';
@@ -103,7 +101,6 @@ class stats_form_dats extends login_form{
 
 	
 	function displayDownloadsHistory(){
-		//echo '<h2>Downloads</h2>';	
 		$query = 'select date from journal where type_journal_id = '.TYPE_NEW.' and dats_id = '.$this->datsId.";";
 		$bd = new bdConnect;
 		$startI = 0;
@@ -115,12 +112,10 @@ class stats_form_dats extends login_form{
 			$startI = 1;
 		}
 		$query = 'select date from journal inner join dataset using (dats_id) where type_journal_id = '.TYPE_DL.' and dats_id = '.$this->dats->dats_id." order by date;";
-		//echo $query;
 		$bd = new bdConnect;
 		if ($resultat = $bd->get_data($query)){
 			for ($i=$startI; $i < count($resultat) + $startI;$i++){
 				$date = $resultat[$i-$startI][0];
-				//echo "<br/>- $i ".substr($date, 0, 10);
 				$datax[$i] = strtotime($date);
 				$datay[$i] = $i + 1 - $startI;
 			}

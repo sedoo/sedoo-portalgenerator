@@ -10,8 +10,6 @@ class doi_form extends login_form {
 	function createForm($project_name) {
 		if (isset ( $_SESSION ['loggedUser'] )) {
 			$this->user = unserialize ( $_SESSION ['loggedUser'] );
-			// echo 'loggedUser trouvé dans la session<br>';
-			// echo 'type: '.get_class($this->user).'<br>';
 		}
 		
 		if ($this->isRoot ()) {
@@ -91,8 +89,7 @@ class doi_form extends login_form {
 		return $var;
 	}
 	
-	
-function displaydoixml($dats_id,$xmlstr, $project_name){
+	function displaydoixml($dats_id,$xmlstr, $project_name) {
 		$projects = getProjects($dats_id);
 		$Doi ['projects'] = getProjectsName($projects);
         $varxml = createDoiXml ( $dats_id, $xmlstr, $project_name );
@@ -152,31 +149,19 @@ function displaydoixml($dats_id,$xmlstr, $project_name){
 				'rows' => 10 
 		) );
 		$error->setValue ( '' );
-		//$this->addRule ( 'error', 'Metadata is required' );
 		
 		$this->addElement ( 'submit', 'bouton_ok', 'Create DOI' );
 	}
 	function registerDoi($project_name) {
-		
-		// print_r($_POST);
 		$doi = DOI_PREFIX . $_POST ['doi'];
 		$dats_id = $_POST ['dataset'];
 		$metadata = $_POST ['metadata'];
-		$url = "http://".$_SERVER['HTTP_HOST']."/" . $project_name . "/?editDatsId=$dats_id";
-		// echo "<br/><br/>";
-		// echo "$metadata<br/>";
-		// error_log($metadata);
-		// echo "<br/><br/>";
-		
+		$url = "http://".$_SERVER['HTTP_HOST']."/" . $project_name . "/?editDatsId=$dats_id";	
 		$xml = simplexml_load_string ( $metadata );
 		if ($xml === false) {
 			echo 'Erreur lors de l\'analyse du document';
 			return;
 		}
-		
-		// echo "<br/>";
-		
-		// print_r($xml);
 		
 		$domElt = dom_import_simplexml ( $xml );
 		if (! $domElt) {
@@ -200,8 +185,6 @@ function displaydoixml($dats_id,$xmlstr, $project_name){
 		}
 		
 		echo "REGISTER: $doi => $url";
-		// $dom->formatOutput = true;
-		// $metadata = $xml->asXML();
 		
 		// Enregistrement dans la base datacite
 		createDoi ( $doi, $url, $metadata );
@@ -228,7 +211,6 @@ function displaydoixml($dats_id,$xmlstr, $project_name){
 		$reqUri = $_SERVER ['REQUEST_URI'];
 		
 		echo '<SCRIPT LANGUAGE="Javascript" SRC="/js/functions.js"> </SCRIPT>';
-		
 		echo '<form action="' . $reqUri . '" method="post" id="frmdoi" name="frmdoi" >';
 		echo '<table>';
 		echo '<tr><td><b>' . $this->getElement ( 'dataset' )->getLabel () . '</b></td><td>' . $this->getElement ( 'dataset' )->toHTML () . '</td></tr>';

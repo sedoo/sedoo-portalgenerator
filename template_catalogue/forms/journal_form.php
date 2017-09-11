@@ -75,7 +75,6 @@ class journal_form extends login_form {
 	}
 	function resetAddForm() {
 		$this->getElement ( 'comment' )->setValue ( null );
-		//$this->getElement ( 'type_journal' )->setSelected ( 2 );
 	}
 	function readJournal($type, $filter = false) {
 		$this->journal = new journal ();

@@ -103,9 +103,7 @@ class sat_form extends base_form {
 		if (isset ( $this->dataset->dataType ) && ! empty ( $this->dataset->dataType )) {
 			$this->getElement ( 'sat_categ' )->setSelected ( $this->dataset->dataType->place_id );
 		}
-		
-		// echo 'nb site: '.$this->dataset->nbSites.'<br>';
-		
+				
 		for($i = 0; $i < $this->dataset->nbSites; $i ++) {
 			
 			if (isset ( $this->dataset->sats ) && ! empty ( $this->dataset->sats )) {
@@ -142,9 +140,7 @@ class sat_form extends base_form {
 		$this->saveFormBase ();
 		// Coverage
 		$this->saveFormGeoCoverage ();
-		
-		// echo 'nb site: '.$this->dataset->nbSites.'<br>';
-		
+				
 		// Data type
 		$this->dataset->dataType = new place ();
 		$this->dataset->dataType = $this->dataset->dataType->getById ( $this->exportValue ( 'sat_categ' ) );
@@ -221,7 +217,6 @@ class sat_form extends base_form {
 		if (isset ( $this->dataset->data_policy ) && ! empty ( $this->dataset->data_policy ) && $this->dataset->data_policy->data_policy_id > 0) {
 			$this->getElement ( 'new_data_policy' )->setAttribute ( 'onfocus', 'blur()' );
 		} else {
-			// $this->addRule('new_data_policy','A data policy with the same name already exists in the database','existe',array('data_policy','data_policy_name'));
 		}
 		$this->addRule ( 'new_data_policy', 'Data use information: Data policy exceeds the maximum length allowed (100 characters)', 'maxlength', 100 );
 		$attrs = array ();
@@ -229,7 +224,6 @@ class sat_form extends base_form {
 			$this->disableElement ( 'new_database' );
 			$this->disableElement ( 'new_db_url' );
 		} else {
-			// $this->addRule('new_database','A database with the same title already exists','existe',array('database','database_name'));
 		}
 		$this->addRule ( 'new_database', 'Data use information: Database name exceeds the maximum length allowed (250 characters)', 'maxlength', 250 );
 		$this->addRule ( 'new_db_url', 'Data use information: Database url exceeds the maximum length allowed (250 characters)', 'maxlength', 250 );
@@ -237,10 +231,8 @@ class sat_form extends base_form {
 		for($i = 0; $i < $this->dataset->nbFormats; $i ++) {
 			$this->addRule ( 'data_format_' . $i, 'Data use information: Format name ' . ($i + 1) . ' exceeds the maximum length allowed (100 characters)', 'maxlength', 100 );
 			if (isset ( $this->dataset->data_formats [$i] ) && ! empty ( $this->dataset->data_formats [$i] ) && $this->dataset->data_formats [$i]->data_format_id > 0) {
-				// $this->getElement('new_data_format_'.$i)->setAttribute('onfocus','blur()');
 				$this->disableElement ( 'new_data_format_' . $i );
 			} else {
-				// $this->addRule('new_data_format_'.$i,'Data format '.($i+1).': This format already exists in the database','existe',array('data_format','data_format_name'));
 			}
 		}
 		
@@ -269,7 +261,6 @@ class sat_form extends base_form {
 				$this->disableElement ( 'email2_' . $i );
 				$this->disableElement ( 'organism_' . $i );
 			} else {
-				// $this->addRule('pi_name_'.$i,'Contact '.($i+1).': A contact with the same name is already present in the database. Select it in the drop-down list.','existe',array('personne','pers_name'));
 			}
 			
 			if (isset ( $this->dataset->originators [$i]->organism ) && ! empty ( $this->dataset->originators [$i]->organism ) && $this->dataset->originators [$i]->organism->org_id > 0) {
@@ -321,7 +312,6 @@ class sat_form extends base_form {
 		$this->addRule ( 'sensor_resol_temp', 'Coverage: temporal resolution is incorrect', 'regex', "/^[0-9]{4}[-][0-9]{2}[-][0-9]{2} [0-9]{2}[:][0-9]{2}[:][0-9]{2}$/" );
 		$this->addValidationRulesGeoCoverage ();
 		// PARAMETER
-		// $this->addValidationRulesVariable(0,'0','Parameter');
 		for($i = 0; $i < $this->dataset->nbVars; $i ++) {
 			$this->addValidationRulesVariable ( $i, $i, 'Parameter ' . ($i + 1) );
 		}

@@ -1,5 +1,5 @@
 <?php
-require_once("HTML/QuickForm.php");
+require_once ("HTML/QuickForm.php");
 /*
  * Created on 24 sept. 2010
  *

@@ -84,12 +84,10 @@ class site_form_simple extends base_form {
 		$this->createFormSensor ( $this->dataset->nbSensors - 1 );
 	}
 	function addVariableSensor($i) {
-		// echo "nbVars $i: ".$this->dataset->dats_sensors[$i]->nbVars.'<br/>';
 		$this->createFormVariable ( $i, '', $this->dataset->dats_sensors [$i]->nbVars - 1 ); // base_form ok
 	}
 	private function initFormVariableSensor($i, $j) {
 		if (isset ( $this->dataset->dats_sensors [$i]->sensor->sensor_vars [$j] ) && ! empty ( $this->dataset->dats_sensors [$i]->sensor->sensor_vars [$j] ) && ($this->dataset->dats_sensors [$i]->sensor->sensor_vars [$j]->var_id > 0)) {
-			// echo "variable : ".$suffix.$i."_".$j."<br>";
 			$this->getElement ( 'var_id_' . $i . '_' . $j )->setValue ( $this->dataset->dats_sensors [$i]->sensor->sensor_vars [$j]->var_id );
 			$this->getElement ( 'new_variable_' . $i . '_' . $j )->setValue ( $this->dataset->dats_sensors [$i]->sensor->sensor_vars [$j]->variable->var_name );
 			$gcmd = new gcmd_science_keyword ();
@@ -146,9 +144,7 @@ class site_form_simple extends base_form {
 			ksort ( $table );
 			$this->getElement ( 'placeByLev' )->setValue ( $table );
 		}
-		
-		// echo "init site_id: ".$dataset->sites[0]->place_id."<br/>";
-		
+				
 		if (isset ( $dataset->sites [0]->gcmd_plateform_keyword ) && ! empty ( $dataset->sites [0]->gcmd_plateform_keyword )) {
 			$this->getElement ( 'gcmd_plat_key_0' )->setSelected ( $dataset->sites [0]->gcmd_plateform_keyword->gcmd_plat_id );
 		}
@@ -175,12 +171,7 @@ class site_form_simple extends base_form {
 					$this->initFormResolution ( $i ); // base_form ok
 					
 					$this->getElement ( 'sensor_url_' . $i )->setValue ( $dataset->dats_sensors [$i]->sensor->sensor_url );
-					
-					/*
-					 * if (isset($dataset->dats_sensors[$i]->nb_sensor) && !empty($dataset->dats_sensors[$i]->nb_sensor)){
-					 * $this->getElement('nb_sensor_'.$i)->setValue($dataset->dats_sensors[$i]->nb_sensor);
-					 * }
-					 */
+
 					if (isset ( $dataset->dats_sensors [$i]->sensor->boundings ) && ! empty ( $dataset->dats_sensors [$i]->sensor->boundings )) {
 						// pour les instruments fixes seulement, lt_min = lat_max et lon_min = lon_max
 						$this->getElement ( 'sensor_longitude_' . $i )->setValue ( $dataset->dats_sensors [$i]->sensor->boundings->west_bounding_coord );
@@ -248,7 +239,6 @@ class site_form_simple extends base_form {
 				$this->getElement ( 'new_manufacturer_' . $i )->setAttribute ( 'onfocus', 'blur()' );
 				$this->getElement ( 'new_manufacturer_url_' . $i )->setAttribute ( 'onfocus', 'blur()' );
 			} else {
-				// $this->addRule('manufacturer','Instrument a manufacturer with the same name already exists in the database','existe',array('manufacturer','manufacturer_name'));
 			}
 			// Variables
 			for($j = 0; $j < $this->dataset->dats_sensors [$i]->nbVars; $j ++) {
@@ -258,10 +248,6 @@ class site_form_simple extends base_form {
 				$this->addRule ( 'new_variable_' . $suffix, $prefixMsg . ': Name exceeds the maximum length allowed (100 characters)', 'maxlength', 100 );
 				$this->addRule ( 'new_unit_' . $suffix, $prefixMsg . ': Unit name exceeds the maximum length allowed (50 characters)', 'maxlength', 50 );
 				$this->addRule ( 'new_unit_code_' . $suffix, $prefixMsg . ': Unit code exceeds the maximum length allowed (20 characters)', 'maxlength', 20 );
-				
-				// $this->addRule('var_date_min_'.$suffix,$prefixMsg.': Date begin is not a date','validDate');
-				// $this->addRule('var_date_max_'.$suffix,$prefixMsg.': Date end is not a date','validDate');
-				// $this->addRule(array('var_date_min_'.$suffix,'var_date_max_'.$suffix),$prefixMsg.': Date end must be after date begin','validPeriod');
 				
 				if (isset ( $this->dataset->sensors [$i]->sensor_vars [$j]->unit ) && ($this->dataset->sensors [$i]->sensor_vars [$j]->unit->unit_id > 0)) {
 					$this->disableElement ( 'new_unit_' . $suffix );
@@ -279,8 +265,6 @@ class site_form_simple extends base_form {
 					), $prefixMsg . ': this unit is already present in the database', 'validUnit_existe' );
 				}
 				
-				// $this->addRule('var_date_min_'.$suffix,$prefixMsg.': Keyword or name is required when date begin is specified','validParam',array($this,$suffix));
-				// $this->addRule('var_date_max_'.$suffix,$prefixMsg.': Keyword or name is required when date end is specified','validParam',array($this,$suffix));
 				$this->addRule ( 'new_unit_' . $suffix, $prefixMsg . ': Keyword or name is required when unit is specified', 'validParam', array (
 						$this,
 						$suffix 
@@ -354,7 +338,6 @@ class site_form_simple extends base_form {
 			$dataset->sites [0]->gcmd_plateform_keyword = $dataset->sites [0]->gcmd_plateform_keyword->getById ( $dataset->sites [0]->gcmd_plat_id );
 		}
 		$this->saveFormSiteBoundings ( 0 ); // base_form ok
-		                                 // echo "save site_id: ".$dataset->sites[0]->place_id."<br/>";
 		                                 
 		// SENSORS
 		unset ( $dataset->dats_sensors );
@@ -392,9 +375,7 @@ class site_form_simple extends base_form {
 			$dataset->dats_sensors [$i]->sensor->sensor_model = $this->exportValue ( 'sensor_model_' . $i );
 			$dataset->dats_sensors [$i]->sensor->sensor_calibration = $this->exportValue ( 'sensor_calibration_' . $i );
 			$this->saveFormResolution ( $i ); // base_form ok
-			                               
-			// $dataset->dats_sensors[$i]->nb_sensor = $this->exportValue('nb_sensor_'.$i);
-			
+			                               			
 			$dataset->dats_sensors [$i]->sensor->sensor_elevation = $this->exportValue ( 'sensor_altitude_' . $i );
 			$lat = $this->exportValue ( 'sensor_latitude_' . $i );
 			$lon = $this->exportValue ( 'sensor_longitude_' . $i );
@@ -437,10 +418,7 @@ class site_form_simple extends base_form {
 					$dataset->dats_sensors [$i]->sensor->sensor_vars [$j]->unit->unit_name = $this->exportValue ( 'new_unit_' . $i . '_' . $j );
 					$dataset->dats_sensors [$i]->sensor->sensor_vars [$j]->unit->unit_code = $this->exportValue ( 'new_unit_code_' . $i . '_' . $j );
 					$dataset->dats_sensors [$i]->sensor->sensor_vars [$j]->unit->unit_id = $this->exportValue ( 'unit_' . $i . '_' . $j );
-					// echo "$i, $j: $var_id ".$dataset->dats_sensors[$i]->sensor->sensor_vars[$j]->unit->unit_id."<br/>";
 					$dataset->dats_sensors [$i]->sensor->sensor_vars [$j]->methode_acq = $this->exportValue ( 'methode_acq_' . $i . '_' . $j );
-					// $dataset->dats_sensors[$i]->sensor->sensor_vars[$j]->date_min = $this->exportValue('var_date_min_'.$i.'_'.$j);
-					// $dataset->dats_sensors[$i]->sensor->sensor_vars[$j]->date_max = $this->exportValue('var_date_max_'.$i.'_'.$j);
 					$dataset->dats_sensors [$i]->sensor->sensor_vars [$j]->sensor_precision = $this->exportValue ( 'sensor_precision_' . $i . '_' . $j );
 				}
 			}
@@ -564,8 +542,6 @@ class site_form_simple extends base_form {
 		/**
 		 * *** Instruments ****
 		 */
-		
-		// echo '<tr><th colspan="4" align="center"><a name="a_instru" ></a><b>Instrument information</b></td></tr>';
 		for($i = 0; $i < $this->dataset->nbSensors; $i ++) {
 			echo '<tr><th colspan="4" align="center">';
 			if ($i == $this->dataset->nbSensors - 1) {
@@ -675,10 +651,6 @@ class site_form_simple extends base_form {
 		echo '&nbsp;&nbsp;or add ' . $this->getElement ( 'new_unit_' . $i . '_' . $j )->getLabel () . '' . $this->getElement ( 'new_unit_' . $i . '_' . $j )->toHTML ();
 		echo $this->getElement ( 'new_unit_code_' . $i . '_' . $j )->getLabel () . '' . $this->getElement ( 'new_unit_code_' . $i . '_' . $j )->toHTML () . '</td></tr>';
 		echo '<tr><td>' . $this->getElement ( 'methode_acq_' . $i . '_' . $j )->getLabel () . '</td><td colspan="3">' . $this->getElement ( 'methode_acq_' . $i . '_' . $j )->toHTML () . '</td></tr>';
-		/*
-		 * echo '<tr><td>'.$this->getElement('var_date_min_'.$i.'_'.$j)->getLabel().'</td><td>'.$this->getElement('var_date_min_'.$i.'_'.$j)->toHTML().'</td>';
-		 * echo '<td>'.$this->getElement('var_date_max_'.$i.'_'.$j)->getLabel().'</td><td>'.$this->getElement('var_date_max_'.$i.'_'.$j)->toHTML().'</td></tr>';
-		 */
 		echo '<tr><td>' . $this->getElement ( 'sensor_precision_' . $i . '_' . $j )->getLabel () . '</td><td>' . $this->getElement ( 'sensor_precision_' . $i . '_' . $j )->toHTML () . '</td><td colspan="2"></td></tr>';
 	}
 	private function displayErrorsParamsSensor($i, $j) {
@@ -689,7 +661,8 @@ class site_form_simple extends base_form {
 				'new_unit' . $suffix,
 				'new_unit_code' . $suffix,
 				'sensor_precision' . $suffix,
-				'methode_acq' . $suffix/*,'var_date_min_'.$suffix,'var_date_max_'.$suffix*/) );
+				'methode_acq' . $suffix
+		) );
 	}
 	private function displayErrorsInstru($i) {
 		$this->displayErrors ( array (

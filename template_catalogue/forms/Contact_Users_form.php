@@ -1,9 +1,9 @@
 <?php 
 
-require_once("/sites/kernel/#MainProject/conf.php");
-require_once("HTML/QuickForm.php");
-require_once("ldap/ldapConnect.php");
-require_once("mail.php");
+require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("HTML/QuickForm.php");
+require_once ("ldap/ldapConnect.php");
+require_once ("mail.php");
 
 class Contact_Users_form extends HTML_QuickForm{
 
@@ -52,18 +52,7 @@ class Contact_Users_form extends HTML_QuickForm{
 			sendMailSimple($user->mail,$Subject,$Message,ROOT_EMAIL,true);
 		}
 		
-	}
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 }
 
 

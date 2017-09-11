@@ -1,9 +1,9 @@
 <?php
 
-require_once("bd/dataset.php");
-require_once("bd/journal.php");
-require_once('filtreProjets.php');
-require_once('editDataset.php');
+require_once ("bd/dataset.php");
+require_once ("bd/journal.php");
+require_once ('filtreProjets.php');
+require_once ('editDataset.php');
 
 class archive_form extends login_form{
 	
@@ -13,8 +13,6 @@ class archive_form extends login_form{
 	function createForm($projectName){
 		if (isset($_SESSION['loggedUser'])){
 			$this->user = unserialize($_SESSION['loggedUser']);
-			//echo 'loggedUser trouvé dans la session<br>';
-			//echo 'type: '.get_class($this->user).'<br>';
 		}
 				
 		$this->projectName = $projectName;
@@ -94,7 +92,6 @@ class archive_form extends login_form{
 		echo '</table>';
 	}
 	
-	
 	function reset(){
 		$this->getElement('comment')->setValue(null);
 	}
@@ -112,13 +109,9 @@ class archive_form extends login_form{
 		
 		echo '</table>';
 		echo '</form>';
-		
-				
+			
 		$this->displayArchiveList();
 	}
-	
-	
-	
 }
 
 ?>

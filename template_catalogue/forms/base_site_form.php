@@ -1,29 +1,28 @@
 <?php
-require_once("forms/login_form.php");
-require_once("/sites/kernel/#MainProject/conf.php");
-require_once("bd/dataset.php");
-require_once("bd/dataset.php");
-require_once("bd/project.php");
-require_once("bd/period.php");
-require_once("bd/personne.php");
-require_once("bd/organism.php");
-require_once("bd/dataset_type.php");
-require_once("bd/data_format.php");
-require_once("bd/dats_var.php");
-require_once("bd/dats_sensor.php");
-require_once("bd/sensor.php");
-require_once("bd/gcmd_instrument_keyword.php");
-require_once("bd/manufacturer.php");
-require_once("bd/variable.php");
-require_once("bd/gcmd_science_keyword.php");
-require_once("bd/place.php");
-require_once("bd/boundings.php");
-require_once("bd/gcmd_plateform_keyword.php");
-require_once("bd/unit.php");
-require_once("bd/data_policy.php");
-require_once("bd/database.php");
+require_once ("forms/login_form.php");
+require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("bd/dataset.php");
+require_once ("bd/dataset.php");
+require_once ("bd/project.php");
+require_once ("bd/period.php");
+require_once ("bd/personne.php");
+require_once ("bd/organism.php");
+require_once ("bd/dataset_type.php");
+require_once ("bd/data_format.php");
+require_once ("bd/dats_var.php");
+require_once ("bd/dats_sensor.php");
+require_once ("bd/sensor.php");
+require_once ("bd/gcmd_instrument_keyword.php");
+require_once ("bd/manufacturer.php");
+require_once ("bd/variable.php");
+require_once ("bd/gcmd_science_keyword.php");
+require_once ("bd/place.php");
+require_once ("bd/boundings.php");
+require_once ("bd/gcmd_plateform_keyword.php");
+require_once ("bd/unit.php");
+require_once ("bd/data_policy.php");
+require_once ("bd/database.php");
 
-//class base_site_form extends HTML_QuickForm{
 class base_site_form extends login_form{
 
 	var $dataset;
@@ -36,27 +35,21 @@ class base_site_form extends login_form{
 				$projectUser = new portalUser ();
 				$projectUser->cn = strtolower ( $project_name );
 				$_SESSION ['loggedUser'] = serialize ( $projectUser );
-				// return;
 			}
 		} else {
 			if ($_SERVER ['HTTP_REFERER'] == PORTAL_WebSite){
 				$projectUser = new portalUser ();
 				$projectUser->cn = strtolower ( $project_name );
 				$_SESSION ['loggedUser'] = serialize ( $projectUser );
-				// return;
 			}
 		}
 
 		if (isset($_SESSION['loggedUser'])){
 			$this->user = unserialize($_SESSION['loggedUser']);
-			//echo 'loggedUser trouvé dans la session<br>';
-		}/*else{
-			parent::createLoginForm('Username');
-		}*/
+		}
 		
 		if (!$this->isCat($this->dataset)){
-			parent::createLoginForm('Login');
-			
+			parent::createLoginForm('Login');	
 		}
 	}
 
@@ -126,7 +119,6 @@ class base_site_form extends login_form{
 		if (isset($this->dataset->data_policy) && !empty($this->dataset->data_policy) && $this->dataset->data_policy->data_policy_id > 0){
 			$this->getElement('new_data_policy')->setAttribute('onfocus','blur()');
 		}else {
-			//$this->addRule('new_data_policy','A data policy with the same name already exists in the database','existe',array('data_policy','data_policy_name'));
 		}
 		$this->addRule('new_data_policy','Data use information: Data policy exceeds the maximum length allowed (100 characters)','maxlength',100);
 			
@@ -135,7 +127,6 @@ class base_site_form extends login_form{
 			$this->disableElement('new_database');
 			$this->disableElement('new_db_url');
 		}else {
-			//$this->addRule('new_database','A database with the same title already exists','existe',array('database','database_name'));
 		}
 		$this->addRule('new_database','Data use information: Database name exceeds the maximum length allowed (250 characters)','maxlength',250);
 		$this->addRule('new_db_url','Data use information: Database url exceeds the maximum length allowed (250 characters)','maxlength',250);
@@ -146,7 +137,6 @@ class base_site_form extends login_form{
 			if (isset($this->dataset->data_formats[$i]) && !empty($this->dataset->data_formats[$i]) && $this->dataset->data_formats[$i]->data_format_id > 0){
 				$this->disableElement('new_data_format_'.$i);
 			}else{
-				//$this->addRule('new_data_format_'.$i,'Data format '.($i+1).': This format already exists in the database','existe',array('data_format','data_format_name'));
 			}
 		}
 
@@ -171,7 +161,6 @@ class base_site_form extends login_form{
 				$this->disableElement('email2_'.$i);
 				$this->disableElement('organism_'.$i);
 			}else{
-				//$this->addRule('pi_name_'.$i,'Contact '.($i+1).': A contact with the same name is already present in the database. Select it in the drop-down list.','existe',array('personne','pers_name'));
 			}
 
 			if (isset($this->dataset->originators[$i]->organism) && !empty($this->dataset->originators[$i]->organism) && $this->dataset->originators[$i]->organism->org_id > 0){
@@ -185,7 +174,6 @@ class base_site_form extends login_form{
 				$this->addRule('pi_name_'.$i,'Contact '.($i+1).': organism is required','contact_organism_required',array($this,$i));
 			}
 		}
-
 	}
 
 	function initFormSiteBoundings(){
@@ -266,7 +254,6 @@ class base_site_form extends login_form{
 	}
 	
 	function addValidationRulesVariable($i,$j,$suffix,$prefixMsg){
-		//echo 'adding validation rule to variable '.$suffix.' for i = '.$i.' j = '.$j.'<br>';
 		$this->addRule('sensor_precision_'.$suffix,$prefixMsg.': Sensor precision exceeds the maximum length allowed (100 characters)','maxlength',100);
 		$this->addRule('new_variable_'.$suffix,$prefixMsg.': Name exceeds the maximum length allowed (100 characters)','maxlength',100);
 		$this->addRule('new_unit_'.$suffix,$prefixMsg.': Unit name exceeds the maximum length allowed (50 characters)','maxlength',50);
@@ -430,8 +417,6 @@ class base_site_form extends login_form{
 		$this->applyFilter('sensor_vert_resolution_'.$i,'trim');
 		$this->addElement('text','sensor_horiz_resolution_'.$i,'Horizontal');
 		$this->applyFilter('sensor_horiz_resolution_'.$i,'trim');
-		/*$this->addElement('text','sensor_lon_resolution_'.$i,'Longitude');
-		$this->applyFilter('sensor_lon_resolution_'.$i,'trim');*/
 	}
 	
 	function createFormVariable($i,$j,$type = ''){
@@ -699,8 +684,7 @@ class base_site_form extends login_form{
 	function saveFormVariables($i,$nb,$flag = 0,$suffix = '',$incr = 0){
 
 		$dataset = & $this->dataset;
-		//echo 'in saveFormVariables<br>';
-		//echo 'i = '.$i.' nb = '.$nb.' flag = '.$flag.' suffix = '.$suffix.' incr = '.$incr.'<br>';
+
 		$indice = 0;
 		for ($j = 0; $j < $nb; $j++)
 		{
@@ -716,10 +700,8 @@ class base_site_form extends login_form{
 					break;
 				}
 			}
-			//echo '<b>gcmd_id = '.$gcmd_id.'</b><br>';
 			if ($gcmd_id > 0 || !empty($var_name))
 			{
-				//echo '<b>saving sensor_var at indice '.($indice+$incr).'<br></b>';
 				$dataset->dats_sensors[$i]->sensor->sensor_vars[$indice+$incr] = new sensor_var;
 				$dataset->dats_sensors[$i]->sensor->sensor_vars[$indice+$incr]->variable = new variable;
 				$dataset->dats_sensors[$i]->sensor->sensor_vars[$indice+$incr]->variable->var_id = $var_id;
@@ -738,31 +720,6 @@ class base_site_form extends login_form{
 				$dataset->dats_sensors[$i]->sensor->sensor_vars[$indice+$incr]->sensor_precision = $this->exportValue('sensor_precision_'.$suffix.$i.'_'.$j);
 				$indice++;
 			}
-			/*else{
-				if (empty($dataset->dats_sensors[$i]->sensor->sensor_vars[$j+$incr]->variable->var_name)){
-					$dataset->dats_sensors[$i]->sensor->sensor_vars[$j+$incr]->variable->var_id = -1;
-				}
-			}*/
-			
-			
-			/*if ($dataset->dats_sensors[$i]->sensor->sensor_vars[$j+$incr]->variable->var_id != -1)
-			{
-				$start = count($this->dataset->dats_variables);
-				$dataset->dats_variables[$j+$start] = new dats_var;
-				$dataset->dats_variables[$j+$start]->variable = & $dataset->dats_sensors[$i]->sensor->sensor_vars[$j+$incr]->variable;
-				$dataset->dats_variables[$j+$start]->var_id = & $dataset->dats_sensors[$i]->sensor->sensor_vars[$j+$incr]->variable->var_id;
-				$dataset->dats_variables[$j+$start]->unit = & $dataset->dats_sensors[$i]->sensor->sensor_vars[$j+$incr]->unit;
-	
-				if (empty($this->dataset->dats_variables[$j+$start]->unit->unit_id) && empty($this->dataset->dats_variables[$j+$start]->unit->unit_name)){
-					$dataset->dats_variables[$j+$start]->unit->unit_id = -1;
-				}
-				$dataset->dats_variables[$j+$start]->unit_id = & $dataset->dats_variables[$j+$start]->unit->unit_id;
-				$dataset->dats_variables[$j+$start]->methode_acq = & $dataset->dats_sensors[$i]->sensor->sensor_vars[$j+$incr]->methode_acq;
-				$dataset->dats_variables[$j+$start]->date_min = & $dataset->dats_sensors[$i]->sensor->sensor_vars[$j+$incr]->date_min;
-				$dataset->dats_variables[$j+$start]->date_max = & $dataset->dats_sensors[$i]->sensor->sensor_vars[$j+$incr]->date_max;
-				$dataset->dats_variables[$j+$start]->flag_param_calcule = $flag;
-				$dataset->dats_variables[$j+$start]->variable->sensor_precision = & $dataset->dats_sensors[$i]->sensor->sensor_vars[$j+$incr]->sensor_precision;
-			}*/
 		}
 		return $indice;
 	}
@@ -799,7 +756,6 @@ class base_site_form extends login_form{
 					}
 				}
 			}
-			//else echo '<b>dataset->dats_sensors['.$i.']->sensor_vars is empty</b><br>';
 		}
 	}
 
@@ -829,8 +785,7 @@ class base_site_form extends login_form{
 		$messages = $this->getErrorMessages($elementNames);
 		if (isset($messages) && !empty($messages)){
 			echo '<tr><td colspan="4"><font color="red" >'.$messages.'</font></td></tr>';
-		}/*else
-		echo '<tr><td colspan="4">toto</td></tr>';*/
+		}
 	}
 
 	function displayErrorsContact($i){
@@ -923,7 +878,6 @@ class base_site_form extends login_form{
 	function displayFormBegin($frmname){
 		echo '<div id="errors" color="red"></div><br>';
 		if (strpos($_SERVER['REQUEST_URI'],'?datsId')){
-                        //$reqUri = strstr($_SERVER['REQUEST_URI'],'&datsId',true);
                         $reqUri = substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],'?datsId'));
                 }else{
                         $reqUri = $_SERVER['REQUEST_URI'];

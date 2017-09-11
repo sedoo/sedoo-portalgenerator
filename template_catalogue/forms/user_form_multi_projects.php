@@ -270,12 +270,6 @@ class user_form_new extends login_form {
 			echo '<tr><td colspan="3" >';
 			echo 'With this form, I fully accept the <a href="/portal/Data-Policy" target="_blank" >data and publication policy</a><br/><br/>In particular :<br>';
 			echo $this->getElement ( 'chkChart' )->toHTML ();
-			/*
-			echo "<br/><br/>In the case of any publication or communication using datasets or products obtained in the database:<br>";
-			echo $this->getElement ( '_chkChart2' )->toHTML ();
-			echo "<br/><br/>If I process a dataset or product based on data received under the present data policy:<br>";
-			echo $this->getElement ( '_chkChart3' )->toHTML ();
-			*/
 			echo '</td></tr>';
 		}
 		if ($isPortalForm == false) {

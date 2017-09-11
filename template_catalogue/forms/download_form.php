@@ -10,8 +10,8 @@ require_once ("utils/ZipArchiveTest.php");
 require_once ("/sites/kernel/#MainProject/conf.php");
 require_once 'extract/requeteFilesXml.php';
 require_once 'extract/sortieCGI.php';
+
 class download_form extends login_form {
-	// var $nbFichiers = 0;
 	var $filesList;
 	var $path;
 	var $jeu;
@@ -507,9 +507,9 @@ function displayDirectory() {
 		$previousDir = null;
 		foreach ( array_keys ( $this->selection ) as $i ) {
 			if (! $this->isChild ( $this->selection [$i], $this->pathJeu )) {
-				unset ( $this->selection [$i] ); // $this->removeItemFromSelection($i);
+				unset ( $this->selection [$i] ); 
 			} else if (isset ( $previousDir ) && $this->isChild ( $this->selection [$i], $previousDir )) {
-				unset ( $this->selection [$i] ); // $this->removeItemFromSelection($i);
+				unset ( $this->selection [$i] ); 
 			} else if (is_dir ( $this->selection [$i] )) {
 				$previousDir = $this->selection [$i];
 			}

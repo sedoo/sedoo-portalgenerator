@@ -119,10 +119,7 @@ function getGraphUsers($requetes, $yDeb, $title = '') {
 function getGraphRequetesByDataset($datax, $datay) {
 	$graph = new Graph ( 600, 400 );
 	$graph->SetMargin ( 40, 40, 30, 130 );
-	// $graph->title->Set("$datsTitle downloads");
-	
 	$xmin = $datax [0];
-	// $xmax = $datax[$i-1] + (31 * 24 * 3600);
 	$xmax = time ();
 	$graph->SetScale ( 'intlin', 0, 0, $xmin, $xmax );
 	list ( $tickPositions, $minTickPositions ) = DateScaleUtils::GetTicks ( $datax, DSUTILS_MONTH2 );

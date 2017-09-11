@@ -1,10 +1,10 @@
 <?php 
 
-require_once("forms/base_form.php");
-require_once("/sites/kernel/#MainProject/conf.php");
-require_once('scripts/filtreProjets.php');
-require_once("bd/dataset.php");
-require_once("bd/bdConnect.php");
+require_once ("forms/base_form.php");
+require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ('scripts/filtreProjets.php');
+require_once ("bd/dataset.php");
+require_once ("bd/bdConnect.php");
 
 class duplicate_dataset_form extends base_form {
 	
@@ -13,7 +13,6 @@ class duplicate_dataset_form extends base_form {
 	
 	function createForm($project_name){
 		$dts = new dataset;
-		//$liste = $dts->getOnlyTitles("select dats_id,dats_title from dataset inner join dats_proj using (dats_id) inner join project using (project_id) where project_name = '$project_name' order by dats_title");
 		$liste = $dts->getOnlyTitles("select dats_id,dats_title from dataset order by dats_title");
 		$array [0] = "-- Datasets list --";
 		for ($i = 0; $i < count($liste); $i++){

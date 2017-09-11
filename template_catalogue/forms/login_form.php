@@ -354,7 +354,6 @@ class login_form extends HTML_QuickForm {
 		echo '<tr id="forgot_row_4"><td><font color="#467AA7">' . $this->getElement ( 'password' )->getLabel () . '</font></td><td>' . $this->getElement ( 'password' )->toHTML () . '</td></tr>';
 		echo '<tr id="forgot_row_5"><td colspan="2" align="center">' . $this->getElement ( 'bouton_login' )->toHTML (); // .'</td></tr>';
 		if ($withForgot) {
-			// echo '<tr><td colspan="2" ><a style="cursor:default;" onclick="showForgotForm()">Forgotten password</a></td></tr>';
 			echo '<br><a style="cursor:pointer;font-size: 80%;" onclick="showForgotForm()">Forgotten password</a>';
 		}
 		echo '</td></tr>';

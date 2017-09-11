@@ -8,7 +8,6 @@ require_once 'extract/sortieCGI.php';
 class db_requests_forms extends login_form{
 
 	var $requetes;
-
 	var $isAdmin;
 
 	function createForm($admin = false){
@@ -44,7 +43,6 @@ class db_requests_forms extends login_form{
 	private function printResume($xml){
 		$requete = requeteXml::readXml($xml);
 		return nl2br($requete->toString());
-		//return "TODO";
 	}
 	
 	private function loadRequetes(){
@@ -56,7 +54,6 @@ class db_requests_forms extends login_form{
 	}
 	
 	function kill($id){
-		//echo "kill $id<br>";
 		foreach ($this->requetes as $r){
 			if ($r->requeteId == $id){
 				$r->kill();
@@ -66,12 +63,10 @@ class db_requests_forms extends login_form{
 	}
 	
 	function send($id){
-		//echo "send $id<br>";
 		foreach ($this->requetes as $r){
 			if ($r->requeteId == $id){
 				if (send_to_cgi($r->xml,$retour)){
 					$elts = explode(':',$retour);
-					//echo "$retour<br>";
 					if ($elts[0] == '00')
 						echo "<font size=\"3\" color='green'>Extraction successfully launched. The result will be send to you by email.</font>";
 					else
@@ -114,8 +109,7 @@ class db_requests_forms extends login_form{
 			echo '<tr><td>'.(($r->dateFin)?$r->dateFin->format('Y-m-d H:i'):'').'</td></tr>';
 			echo '<tr><td colspan="4" align="center">'.$this->getElement("bouton__kill_$r->requeteId")->toHTML().'&nbsp;&nbsp;'
                                 .$this->getElement("bouton_launch_$r->requeteId")->toHTML()."</td></tr>";			
-
-						
+		
 		}
 		echo '</table></form>';
 	}

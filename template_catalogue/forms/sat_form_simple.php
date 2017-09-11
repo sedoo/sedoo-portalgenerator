@@ -1,5 +1,5 @@
 <?php
-require_once("forms/base_form.php");
+require_once ("forms/base_form.php");
 
 class sat_form_simple extends base_form{
 				
@@ -124,7 +124,6 @@ class sat_form_simple extends base_form{
 			if (isset($this->dataset->dataType) && !empty($this->dataset->dataType)){
 				$this->getElement('sat_categ')->setSelected($this->dataset->dataType->place_id);
 			}
-			//echo 'nb site: '.$this->dataset->nbSites.'<br>';
 				
 			for ($i = 0; $i < $this->dataset->nbSites; $i++){
 					
@@ -137,15 +136,12 @@ class sat_form_simple extends base_form{
 					}
 
 				}
-					
-				//echo 'init site: '.$this->dataset->sites[$i+1]->place_id.'<br>';
-				
+									
 				if (isset($this->dataset->dats_sensors[$i]->sensor->gcmd_instrument_keyword) && !empty($this->dataset->dats_sensors[$i]->sensor->gcmd_instrument_keyword)){
 					$this->getElement('sensor_gcmd_'.$i)->setSelected($this->dataset->dats_sensors[$i]->sensor->gcmd_instrument_keyword->gcmd_sensor_id);
 				}
 					
 				//Instrument
-				//echo 'initForm sensor_id:'.$this->dataset->dats_sensors[0]->sensor->sensor_id.'<br>';
 				if (isset($this->dataset->dats_sensors[$i]->sensor) && !empty($this->dataset->dats_sensors[$i]->sensor)){
 					$this->getElement('instrument_'.$i)->setSelected($this->dataset->dats_sensors[$i]->sensor->sensor_id);
 					$this->getElement('new_instrument_'.$i)->setValue($this->dataset->dats_sensors[$i]->sensor->sensor_model);
@@ -159,7 +155,6 @@ class sat_form_simple extends base_form{
 			$this->initFormGrid();
 			
 			//Parameter
-			//$this->initFormVariable(0,0);
 			for ($i = 0; $i < $this->dataset->nbVars; $i++){
 				$this->initFormVariable($i,$i);
 			}
@@ -183,9 +178,7 @@ class sat_form_simple extends base_form{
 			//Data type
 			$this->dataset->dataType = new place;
 			$this->dataset->dataType = $this->dataset->dataType->getById($this->exportValue('sat_categ'));
-			
-			//echo 'nb site: '.$this->dataset->nbSites.'<br>';
-			
+						
 			//Sat
 			$this->dataset->dats_sensors = array();
 			for ($i = 0; $i < $this->dataset->nbSites; $i++){
@@ -201,8 +194,6 @@ class sat_form_simple extends base_form{
 				if (empty($this->dataset->sats[$i]->place_name)){
 					$this->dataset->sats[$i]->place_id = -1;
 				}
-
-				//echo "save site $i: ".$this->dataset->sites[$i+1]->place_name.'<br>';
 				
 				// Instrument
 				$this->dataset->dats_sensors[$i] = new dats_sensor();
@@ -211,8 +202,6 @@ class sat_form_simple extends base_form{
 
 				$this->dataset->dats_sensors[$i]->sensor->sensor_model = $this->exportValue('new_instrument_'.$i);
 				$this->dataset->dats_sensors[$i]->sensor->gcmd_sensor_id = $this->exportValue('sensor_gcmd_'.$i);
-
-				//echo "instru: ".$this->dataset->dats_sensors[$i]->sensor->sensor_id."-".$this->dataset->dats_sensors[$i]->sensor->sensor_model.'<br>';
 
 				if ($this->dataset->dats_sensors[$i]->sensor->gcmd_sensor_id != 0){
 					$this->dataset->dats_sensors[$i]->sensor->gcmd_instrument_keyword = new gcmd_instrument_keyword;
@@ -230,14 +219,8 @@ class sat_form_simple extends base_form{
 	                	$this->dataset->dats_sensors[$i]->sensor_lat_resolution = $this->exportValue('sensor_lat_resolution');
         		        $this->dataset->dats_sensors[$i]->sensor_lon_resolution = $this->exportValue('sensor_lon_resolution');
 			}
-			
-//			$this->saveFormResolution();
-//			$this->saveFormGrid();
-			
-			//echo 'saveForm sensor_id:'.$this->dataset->dats_sensors[0]->sensor->sensor_id.'<br>';
 					
 			//Parameter
-			//$this->saveFormVariables(1);
 			$this->saveFormVariables($this->dataset->nbVars);
 						
 			//REQ DATA_FORMAT
@@ -276,18 +259,14 @@ class sat_form_simple extends base_form{
 			if (isset($this->dataset->data_policy) && !empty($this->dataset->data_policy) && $this->dataset->data_policy->data_policy_id > 0){
 				$this->getElement('new_data_policy')->setAttribute('onfocus','blur()');
 			}else {
-				//$this->addRule('new_data_policy','A data policy with the same name already exists in the database','existe',array('data_policy','data_policy_name'));
 			}
 			$this->addRule('new_data_policy','Data use information: Data policy exceeds the maximum length allowed (100 characters)','maxlength',100);
 				
 			$attrs = array();
 			if (isset($this->dataset->database) && !empty($this->dataset->database) && $this->dataset->database->database_id > 0){
-				//$this->getElement('new_database')->setAttribute('onfocus','blur()');
-				//$this->getElement('new_db_url')->setAttribute('onfocus','blur()');
 				$this->disableElement('new_database');
 				$this->disableElement('new_db_url');
 			}else {
-				//$this->addRule('new_database','A database with the same title already exists','existe',array('database','database_name'));
 			}
 			$this->addRule('new_database','Data use information: Database name exceeds the maximum length allowed (250 characters)','maxlength',250);
 			$this->addRule('new_db_url','Data use information: Database url exceeds the maximum length allowed (250 characters)','maxlength',250);
@@ -296,10 +275,8 @@ class sat_form_simple extends base_form{
 			for ($i = 0; $i < $this->dataset->nbFormats; $i++){
 				$this->addRule('data_format_'.$i,'Data use information: Format name '.($i+1).' exceeds the maximum length allowed (100 characters)','maxlength',100);
 				if (isset($this->dataset->data_formats[$i]) && !empty($this->dataset->data_formats[$i]) && $this->dataset->data_formats[$i]->data_format_id > 0){
-					//$this->getElement('new_data_format_'.$i)->setAttribute('onfocus','blur()');
 					$this->disableElement('new_data_format_'.$i);
 				}else{
-					//$this->addRule('new_data_format_'.$i,'Data format '.($i+1).': This format already exists in the database','existe',array('data_format','data_format_name'));
 				}
 			}
 	
@@ -319,22 +296,15 @@ class sat_form_simple extends base_form{
 				$this->addRule('email2_'.$i,'Contact '.($i+1).': email2 exceeds the maximum length allowed (250 characters)','maxlength',250);
 	
 				if (isset($this->dataset->originators[$i]) && !empty($this->dataset->originators[$i]) && $this->dataset->originators[$i]->pers_id > 0){
-					//$this->getElement('pi_name_'.$i)->setAttribute('onfocus','blur()');
-					//$this->getElement('email1_'.$i)->setAttribute('onfocus','blur()');
-					//$this->getElement('email2_'.$i)->setAttribute('onfocus','blur()');
-					//$this->getElement('organism_'.$i)->setAttribute('onfocus','blur()');
 					$this->disableElement('pi_name_'.$i);
 					$this->disableElement('email1_'.$i);
 					$this->disableElement('email2_'.$i);
 					$this->disableElement('organism_'.$i);
 				}else{
-					//$this->addRule('pi_name_'.$i,'Contact '.($i+1).': A contact with the same name is already present in the database. Select it in the drop-down list.','existe',array('personne','pers_name'));
 				}
 	
 				if (isset($this->dataset->originators[$i]->organism) && !empty($this->dataset->originators[$i]->organism) && $this->dataset->originators[$i]->organism->org_id > 0){
-					//$this->getElement('org_sname_'.$i)->setAttribute('onfocus','blur()');
-					//$this->getElement('org_fname_'.$i)->setAttribute('onfocus','blur()');
-					//$this->getElement('org_url_'.$i)->setAttribute('onfocus','blur()');
+
 					$this->disableElement('org_sname_'.$i);
 					$this->disableElement('org_fname_'.$i);
 					$this->disableElement('org_url_'.$i);
@@ -374,7 +344,6 @@ class sat_form_simple extends base_form{
 				$this->addRule('sensor_resol_temp','Coverage: temporal resolution is incorrect','regex',"/^[0-9]{4}[-][0-9]{2}[-][0-9]{2} [0-9]{2}[:][0-9]{2}[:][0-9]{2}$/");
 			$this->addValidationRulesGeoCoverage();
 			//PARAMETER
-			//$this->addValidationRulesVariable(0,'0','Parameter');
 			for ($i = 0; $i < $this->dataset->nbVars; $i++){
 				$this->addValidationRulesVariable($i,$i,'Parameter '.($i+1));
 			}
@@ -421,16 +390,12 @@ class sat_form_simple extends base_form{
 		}
 		
 			$this->displayFormBegin('frmsat',$simpleVersion);
-			
-        	//echo '<tr><th colspan="4" align="center"><a name="a_general" ></a><b>General information</b></th></tr>';
-        	   			       
-   			//echo '<tr><th colspan="4" align="center"><a name="a_contact" ></a><b>Dataset seeker or provider</b><br></th></tr>';
+
    			if ($simpleVersion)
    				echo '<tr><th colspan="4" align="center"><a name="a_contact" ></a><b>Enter your contact details</b><br></th></tr>';
    			else
    				echo '<tr><th colspan="4" align="center"><a name="a_contact" ></a><b>Contact information</b><br></th></tr>';
-   			//$this->displayErrorsContact(0);
-   			//$this->displayPersonForm(0,true);
+
 			for ($i = 0; $i < $this->dataset->nbPis; $i++){
 				echo '<tr><td colspan="4" align="center"><b>Contact '.($i+1).'</b><br>';//</td></tr>';
 				$this->displayErrorsContact($i);
@@ -452,20 +417,15 @@ class sat_form_simple extends base_form{
    			echo '<tr><td><font>'.$this->getElement('dats_doi')->getLabel().'</font></td><td colspan="3">'.$this->getElement('dats_doi')->toHTML().'</td></tr>';
    			if (!$simpleVersion)
    				echo '<tr><td>'.$this->getElement('dats_version')->getLabel().'</td><td>'.$this->getElement('dats_version')->toHTML().'</td><td colspan="2" /></tr>';
-   			
 
-			//echo '<tr><td>'.$this->getElement('project_0')->getLabel().'</td>';
-   			//echo '<td colspan="3">'.$this->getElement('project_0')->toHTML().'</td></tr>';
-   			for ($i = 0; $i < $this->dataset->nbProj; $i++){
-                        	echo '<tr>';
-                        	if ($i == 0){
-                                	echo '<td rowspan="'.($this->dataset->nbProj+1).'">Useful in the framework of</td>';
-                        	}
-                        	echo '<td colspan="3">'.$this->getElement('project_'.$i)->toHTML().'</td></tr>';
-                	}
-                	echo '<tr><td colspan="3" align="center">'.$this->getElement('bouton_add_projet')->toHTML().'</td></tr>';
-
-                
+   			for ($i = 0; $i < $this->dataset->nbProj; $i++) {
+				echo '<tr>';
+				if ($i == 0){
+						echo '<td rowspan="'.($this->dataset->nbProj+1).'">Useful in the framework of</td>';
+				}
+				echo '<td colspan="3">'.$this->getElement('project_'.$i)->toHTML().'</td></tr>';
+			}
+            echo '<tr><td colspan="3" align="center">'.$this->getElement('bouton_add_projet')->toHTML().'</td></tr>';
    			echo '<tr><td><font color="#467AA7">'.$this->getElement('dats_purpose')->getLabel().'</font></td><td colspan="3">'.$this->getElement('dats_purpose')->toHTML().'</td></tr>';
 			
    			if (!$simpleVersion)
@@ -510,20 +470,11 @@ class sat_form_simple extends base_form{
           	echo '<tr><td colspan="4" align="center"><b>Temporal Coverage</b><br></td></tr>';
           	echo '<tr><td>'.$this->getElement('dats_date_begin')->getLabel().'</td><td>'.$this->getElement('dats_date_begin')->toHTML()."</td>";
           	echo '<td>'.$this->getElement('dats_date_end')->getLabel().'</td><td>'.$this->getElement('dats_date_end')->toHTML().'</td></tr>';
-          	/*echo '<tr><td colspan="4" align="center"><b>Geographic Coverage</b><br></td></tr>';
-          	//echo '<tr><td>'.$this->getElement('area_name')->getLabel().'</td><td>'.$this->getElement('area_name')->toHTML().'</td><td colspan="2" /></tr>';
-          	echo '<tr><td><font color="#467AA7">'.$this->getElement('area')->getLabel().'</font></td><td colspan="3">'.$this->getElement('area')->toHTML();
-          	echo '&nbsp;&nbsp;or add new&nbsp;'.$this->getElement('new_area')->toHTML().'</td></tr>';
-          	         	
-         	$this->displaySiteBoundingsForm(0);*/
          	$this->displayGeoCoverageForm(!$simpleVersion);
          	$this->displayDataResolutionForm($simpleVersion);
          	
          	if (!$simpleVersion)
          		$this->displayGridForm();
-         	/*echo '<tr><td colspan="4" align="center"><b>Grid type</b><br></td></tr>';
-         	echo '<tr><td>'.$this->getElement('grid_type')->getLabel().'</td><td>'.$this->getElement('grid_type')->toHTML().'</td><td colspan="2"></td></tr>';
-     		echo '<tr><td>'.$this->getElement('grid_comment')->getLabel().'</td><td colspan="3">'.$this->getElement('grid_comment')->toHTML().'</td></tr>';*/
          	
        		if (!$simpleVersion) {
           		echo '<tr><th colspan="4" align="center"><a name="a_use" ></a><b>Data use information</b></td></tr>';
@@ -541,16 +492,9 @@ class sat_form_simple extends base_form{
 
 				echo '<tr><td>'.$this->getElement('required_data_format')->getLabel().'</td><td colspan="3">'.$this->getElement('required_data_format')->toHTML().'</td></tr>';
        		}
-          	/*
-   			echo '<tr>';
-   			echo '<td colspan="4" align="center">'.$this->getElement('bouton_save')->toHTML().'</td></tr></table>';
-   			echo '</form>';*/
-			$this->displayFormEnd();
 
-			
+			$this->displayFormEnd();
 		}
-		
-		
 	}	
 		
 ?>		

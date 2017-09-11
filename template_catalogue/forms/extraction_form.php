@@ -33,16 +33,7 @@ class extraction_form extends map_form {
 			$withBbox = false;
 			
 			if ($search) {
-				/*if (isset ( $_SESSION ['requete_search_form'] )) {
-					$requete = unserialize ( $_SESSION ['requete_search_form'] );
-					$this->requete->latMin = round ( $requete->latMin / 10000.0, 5 );
-					$this->requete->latMax = round ( $requete->latMax / 10000.0, 5 );
-					$this->requete->lonMin = round ( $requete->lonMin / 10000.0, 5 );
-					$this->requete->lonMax = round ( $requete->lonMax / 10000.0, 5 );
-					$this->requete->dateMin = $requete->date_begin;
-					$this->requete->dateMax = $requete->date_end;
-					$gcmd_id = $requete->gcmd_variable;
-				}*/
+
 				if ( array_key_exists('bbox',$_REQUEST) ){
 					if (!empty($_REQUEST['bbox'])){
 						$coords = explode(',', $_REQUEST['bbox']);
@@ -53,12 +44,7 @@ class extraction_form extends map_form {
 						$withBbox = true;
 					}
 				}
-				/*if ($dtstart) {
-					$recherche['period']['min'] = $dtstart;
-				}
-				if ($dtend) {
-					$recherche['period']['max'] = $dtend;
-				}*/
+
 				if ( array_key_exists('dtstart',$_REQUEST) ){
 					if (!empty($_REQUEST['dtstart'])){
 						$this->requete->dateMin = $_REQUEST['dtstart'];
@@ -75,8 +61,7 @@ class extraction_form extends map_form {
 			if (isset ( $dats_id )) {
 				$dats_ids = $dats_id;
 			} else if (!empty($_REQUEST['searchDatsIds']) ) {
-				//$datasets = unserialize ( $_SESSION ['result_search_form_datasets'] );
-				$dats_ids = $_REQUEST['searchDatsIds']; //implode ( ", ", $datasets );
+				$dats_ids = $_REQUEST['searchDatsIds']; 
 			}
 			$this->registerRule ( 'validDate', 'function', 'validDate' );
 			$this->registerRule ( 'validPeriod', 'function', 'validPeriod' );
@@ -87,9 +72,7 @@ class extraction_form extends map_form {
 			$this->createFormFormat ();
 			$this->createFormFormatOption ();
 			$this->createFormFlag ();
-			$this->createFormDelta ();
-			//if (isset ( $this->datsId ) && $this->datsId > 0) {
-			
+			$this->createFormDelta ();			
 			
 			if ($withBbox){
 				$this->createFormMap ($this->requete->latMin, $this->requete->latMax,
@@ -98,10 +81,7 @@ class extraction_form extends map_form {
 				$this->createFormMap ();
 			}
 			$this->addValidationRulesMap ();
-			
-			/*}else{
-				$this->createFormZone ();
-			}*/
+
 			$this->createFormPeriod ($dats_ids);
 			
 			$this->addElement ( 'submit', 'bouton_submit', 'Submit' );
@@ -179,37 +159,32 @@ class extraction_form extends map_form {
 		}
 	}
 	function createFormPeriod( $dats_ids ) {
-		/*if ($this->search) {
-			$this->addElement ( 'hidden', 'date_min' );
-			$this->addElement ( 'hidden', 'date_max' );
-		} else {*/
-			$this->addElement ( 'text', 'date_min', 'Date min (yyyy-mm-dd)', array (
-					'size' => 10,
-					'id' => 'date_min' 
-			) );
-			$this->addElement ( 'text', 'date_max', 'Date max (yyyy-mm-dd)', array (
-					'size' => 10,
-					'id' => 'date_max' 
-			) );
-			$this->addRule ( 'date_min', 'Date min is not a date', 'validDate' );
-			$this->addRule ( 'date_max', 'Date max is not a date', 'validDate' );
-		//}
+
+		$this->addElement ( 'text', 'date_min', 'Date min (yyyy-mm-dd)', array (
+				'size' => 10,
+				'id' => 'date_min' 
+		) );
+		$this->addElement ( 'text', 'date_max', 'Date max (yyyy-mm-dd)', array (
+				'size' => 10,
+				'id' => 'date_max' 
+		) );
+		$this->addRule ( 'date_min', 'Date min is not a date', 'validDate' );
+		$this->addRule ( 'date_max', 'Date max is not a date', 'validDate' );
+
 		
 		$this->minValidDate = null;
 		$this->maxValidDate = null;
-		//if (isset ( $this->datsId ) && $this->datsId > 0) {
-			$insD = new inserted_dataset ();
-			$insDatasets = $insD->getByDatsIds ( $dats_ids );
-			foreach ( $insDatasets as $insDataset ) {
-				if (($this->minValidDate == null) || ($insDataset->date_min < $this->minValidDate)) {
-					$this->minValidDate = $insDataset->date_min;
-				}
-				if (($this->maxValidDate == null) || ($insDataset->date_max > $this->maxValidDate)) {
-					$this->maxValidDate = $insDataset->date_max;
-				}
+		$insD = new inserted_dataset ();
+		$insDatasets = $insD->getByDatsIds ( $dats_ids );
+		foreach ( $insDatasets as $insDataset ) {
+			if (($this->minValidDate == null) || ($insDataset->date_min < $this->minValidDate)) {
+				$this->minValidDate = $insDataset->date_min;
 			}
-		//}
-		
+			if (($this->maxValidDate == null) || ($insDataset->date_max > $this->maxValidDate)) {
+				$this->maxValidDate = $insDataset->date_max;
+			}
+		}
+
 		$defaultValues ['date_min'] = null;
 		$defaultValues ['date_max'] = null;
 			
@@ -226,60 +201,7 @@ class extraction_form extends map_form {
 		
 		$this->setDefaults ( $defaultValues );
 	}
-/*	function createFormZone() {
-		$this->addElement ( 'hidden', 'lon_min', 'West bounding coordinate (°)', array (
-				'size' => 3 
-		) );
-		$this->addElement ( 'hidden', 'lon_max', 'East bounding coordinate (°)', array (
-				'size' => 3 
-		) );
-		$this->addElement ( 'hidden', 'lat_min', 'South bounding coordinate (°)', array (
-				'size' => 3 
-		) );
-		$this->addElement ( 'hidden', 'lat_max', 'North bounding coordinate (°)', array (
-				'size' => 3 
-		) );
-		if (! $this->search) {
-			$this->addRule ( 'lat_min', 'South bounding coordinate must be numeric', 'numeric' );
-			$this->addRule ( 'lat_min', 'South bounding coordinate is incorrect', 'number_range', array (
-					- 90,
-					90 
-			) );
-			$this->addRule ( 'lat_max', 'North bounding coordinate must be numeric', 'numeric' );
-			$this->addRule ( 'lat_max', 'North bounding coordinate is incorrect', 'number_range', array (
-					- 90,
-					90 
-			) );
-			$this->addRule ( 'lon_min', 'West bounding coordinate must be numeric', 'numeric' );
-			$this->addRule ( 'lon_min', 'West bounding coordinate is incorrect', 'number_range', array (
-					- 180,
-					180 
-			) );
-			$this->addRule ( 'lon_max', 'East bounding coordinate  must be numeric', 'numeric' );
-			$this->addRule ( 'lon_max', 'East bounding coordinate is incorrect', 'number_range', array (
-					- 180,
-					180 
-			) );
-			
-			$this->addRule ( array (
-					'lat_min',
-					'lat_max' 
-			), 'North bounding coordinate must be greater than South bounding coordinate', 'validInterval' );
-			$this->addRule ( array (
-					'lon_min',
-					'lon_max' 
-			), 'East bounding coordinate must be greater than West bounding coordinate', 'validInterval' );
-		}
-		$defaultValues ['lon_min'] = $this->requete->lonMin;
-		$defaultValues ['lon_max'] = $this->requete->lonMax;
-		$defaultValues ['lat_min'] = $this->requete->latMin;
-		$defaultValues ['lat_max'] = $this->requete->latMax;
-		$this->setDefaults ( $defaultValues );
-		$this->getElement ( 'lon_min' )->freeze ();
-		$this->getElement ( 'lon_max' )->freeze ();
-		$this->getElement ( 'lat_min' )->freeze ();
-		$this->getElement ( 'lat_max' )->freeze ();
-	}*/
+
 	function createFormFlag() {
 		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;yes', 1 );
 		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;no', 0 );
@@ -303,9 +225,7 @@ class extraction_form extends map_form {
 	}
 	function createFormFormat() {
 		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;Ascii (Nasa Ames)', 'ames' );
-		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;netCdf', 'netcdf'/*, array (
-				'disabled' => 'true' 
-		)*/ );
+		$options [] = & HTML_QuickForm::createElement ( 'radio', null, null, '&nbsp;netCdf', 'netcdf');
 		$this->addGroup ( $options, 'format', 'Format', '&nbsp;&nbsp;' );
 		$defaultValues ['format'] = $this->requete->format;
 		$this->setDefaults ( $defaultValues );
@@ -329,8 +249,6 @@ class extraction_form extends map_form {
 	function saveRequete() {
 		$this->requete->format = $_POST ['format'];
 		$this->requete->format_version = '1001m';
-				
-		//$this->requete->format_version = $_POST ['format_version'];
 		$this->requete->compression = $_POST ['compression'];
 		if (isset ( $_POST ['param'] ) && ! empty ( $_POST ['param'] ))
 			$this->requete->variables = $_POST ['param'];
@@ -351,7 +269,6 @@ class extraction_form extends map_form {
 	}
 	function send() {
 		if (send_to_cgi ( $this->requete->toXml (), $retour )) {
-			//echo "retour: $retour";
 			$elts = explode ( ':', $retour );
 			if ($elts [0] == '00') {
 				$this->msg = "Request successfully sent. The result will be send to you by email.";
@@ -374,7 +291,6 @@ class extraction_form extends map_form {
 		
 		echo '<h1>Data selection</h1>';
 		if ($this->search) {
-			//echo "<br /><a href='/$this->projectName/Search-result' style='font-size:110%;font-weight:bold;'>&lt;&lt;&nbsp;Back to search result</a><br /><br />";
 			ElasticSearchUtils::addBackToSearchResultLink();
 		}
 		foreach ( $this->_errors as $error ) {
@@ -385,40 +301,22 @@ class extraction_form extends map_form {
 		echo '<form action="" method="post" name="frmmap" id="frmmap" >';
 		echo "<table>";
 		echo "<tr><th colspan='4' align='center'>Data</th></tr>";
-		//if (isset ( $this->datsId ) && $this->datsId > 0){
-			echo '<tr><td><b>' . $this->getElement ( 'dataset' )->getLabel () . '</b></td><td colspan="3">' . $this->getElement ( 'dataset' )->toHTML () . '</td></tr>';
-		//}
+		echo '<tr><td><b>' . $this->getElement ( 'dataset' )->getLabel () . '</b></td><td colspan="3">' . $this->getElement ( 'dataset' )->toHTML () . '</td></tr>';
 		echo '<tr><td><b>' . $this->getElement ( 'param' )->getLabel () . '</b></td><td colspan="3">' . $this->getElement ( 'param' )->toHTML () . '</td></tr>';
 		echo '<tr><td><b>' . $this->getElement ( 'flag' )->getLabel () . '</b></td><td>' . $this->getElement ( 'flag' )->toHTML () . '</td>';
 		echo '<td><b>' . $this->getElement ( 'delta' )->getLabel () . '</b></td><td>' . $this->getElement ( 'delta' )->toHTML () . '</td></tr>';
-		/*if ($this->search) {
-			
-		} else {*/
-			echo "<tr><th colspan='4' align='center'>Period</th></tr>";
-			echo '<tr><td><b>' . $this->getElement ( 'date_min' )->getLabel () . '</b></td><td align="right">' . $this->getElement ( 'date_min' )->toHTML () . '</td>';
-			echo '<td><b>' . $this->getElement ( 'date_max' )->getLabel () . '</b></td><td align="right">' . $this->getElement ( 'date_max' )->toHTML () . '</td></tr>';
-		//}
-		
-		//if (isset ( $this->datsId ) && $this->datsId > 0) {
-			echo "<tr><th colspan='4' align='center'>Zone</th></tr>";
-			echo "<tr><td colspan='4'>";
-			$this->displayFormMap ();
-			echo '</td></tr>';
-		//}
+		echo "<tr><th colspan='4' align='center'>Period</th></tr>";
+		echo '<tr><td><b>' . $this->getElement ( 'date_min' )->getLabel () . '</b></td><td align="right">' . $this->getElement ( 'date_min' )->toHTML () . '</td>';
+		echo '<td><b>' . $this->getElement ( 'date_max' )->getLabel () . '</b></td><td align="right">' . $this->getElement ( 'date_max' )->toHTML () . '</td></tr>';
+		echo "<tr><th colspan='4' align='center'>Zone</th></tr>";
+		echo "<tr><td colspan='4'>";
+		$this->displayFormMap ();
+		echo '</td></tr>';
 		echo "<tr><th colspan='4' align='center'>Options</th></tr>";
 		echo '<tr><td><b>' . $this->getElement ( 'format' )->getLabel () . '</b></td><td colspan="3">' . $this->getElement ( 'format' )->toHTML () . '</td></tr>';
-		//echo '<tr><td><b>' . $this->getElement ( 'format_version' )->getLabel () . '</b></td><td colspan="3">' . $this->getElement ( 'format_version' )->toHTML () . '</td></tr>';
 		echo '<tr><td><b>' . $this->getElement ( 'compression' )->getLabel () . '</b></td><td colspan="3">' . $this->getElement ( 'compression' )->toHTML () . '</td></tr>';
 		echo '<tr><th colspan="4" align="center">' . $this->getElement ( 'bouton_submit' )->toHTML () . '</th></tr>';
 		echo "</table>";
-	/*	if ( !isset ( $this->datsId ) ) {
-			//echo $this->getElement ( 'date_min' )->toHTML ();
-			//echo $this->getElement ( 'date_max' )->toHTML ();
-			echo $this->getElement ( 'lon_min' )->toHTML ();
-			echo $this->getElement ( 'lon_max' )->toHTML ();
-			echo $this->getElement ( 'lat_min' )->toHTML ();
-			echo $this->getElement ( 'lat_max' )->toHTML ();
-		}*/
 		echo '</form>';
 	}
 }

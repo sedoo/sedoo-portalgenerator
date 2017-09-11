@@ -18,10 +18,6 @@ class mod_form extends base_form{
 		$this->addElement('text','new_model','Model name');
 		$this->applyFilter('new_model','trim');
 
-//		$modType = new gcmd_plateform_keyword;
-//		$modType_select = $modType->chargeFormMod($this,'model_type','Model type');
-//		$this->addElement($modType_select);
-
 		$categ_select = $place->chargeFormModelCategsNew($this,'model_categ','Model type');
 		$this->addElement($categ_select);
 
@@ -52,17 +48,8 @@ class mod_form extends base_form{
 		$dformat = new data_format;
 		$dformat_select = $dformat->chargeFormDestFormat($this,'required_data_format','Distribution data format','NetCDF');
 		$this->addElement($dformat_select);
-		
-/*
-		$this->addElement('text','grid_type','Original grid type');
-		$this->applyFilter('grid_type','trim');
-		$this->addElement('textarea','grid_comment','Grid and resolution related information',array('cols'=>70, 'rows'=>5));
-		$this->applyFilter('grid_comment','trim');*/
-
 		$this->getElement('organism_0')->setLabel("Organization short name");
 		$this->getElement('project_0')->setLabel("Useful in the framework of");
-		
-		
 		$this->getElement('dats_abstract')->setLabel("Model / simulation description ");
 		$this->getElement('dats_purpose')->setLabel("Purpose");
 		$this->getElement('database')->setLabel("Data center");
@@ -147,22 +134,14 @@ class mod_form extends base_form{
 	function saveForm(){
 			
 		$this->saveFormBase();
-				
-	
 		$this->saveFormGeoCoverage();
-		
-		
-		/*$this->dataset->dats_sensors[0]->grid_type = $this->exportValue('grid_type');
-		$this->dataset->dats_sensors[0]->grid_comment = $this->exportValue('grid_comment');*/
 
 		//Mod
 		$this->dataset->model = new place;
 		$this->dataset->model->place_id = $this->exportValue('model');
-		//$this->dataset->sites[1]->place_id = 0;
 		$this->dataset->model->place_name = $this->exportValue('new_model');
 		$this->dataset->model->bound_id = -1;
 		
-//		$this->dataset->sites[1]->gcmd_plat_id = $this->exportValue('model_type');
 		$categ_modele = $this->exportValue('model_categ');
 		if ($categ_modele[1]){
 			$this->dataset->dataType->place_id = $categ_modele[1];
@@ -176,7 +155,6 @@ class mod_form extends base_form{
 		$this->dataset->dats_sensors[0]->sensor = new sensor;
 		$this->dataset->dats_sensors[0]->sensor->sensor_id = $this->exportValue('simu');
 		$this->dataset->dats_sensors[0]->sensor->sensor_model = $this->exportValue('new_simu');
-		//$this->dataset->dats_sensors[0]->sensor->gcmd_sensor_id = $this->exportValue('sensor_gcmd');
 		$this->dataset->dats_sensors[0]->sensor->gcmd_sensor_id = -1;
 
 		$this->dataset->dats_sensors[0]->sensor->manufacturer_id = -1;
@@ -220,18 +198,14 @@ class mod_form extends base_form{
 		if (isset($this->dataset->data_policy) && !empty($this->dataset->data_policy) && $this->dataset->data_policy->data_policy_id > 0){
 			$this->getElement('new_data_policy')->setAttribute('onfocus','blur()');
 		}else {
-			//$this->addRule('new_data_policy','A data policy with the same name already exists in the database','existe',array('data_policy','data_policy_name'));
 		}
 		$this->addRule('new_data_policy','Data use information: Data policy exceeds the maximum length allowed (100 characters)','maxlength',100);
 			
 		$attrs = array();
 		if (isset($this->dataset->database) && !empty($this->dataset->database) && $this->dataset->database->database_id > 0){
-			//$this->getElement('new_database')->setAttribute('onfocus','blur()');
-			//$this->getElement('new_db_url')->setAttribute('onfocus','blur()');
 			$this->disableElement('new_database');
 			$this->disableElement('new_db_url');
 		}else {
-			//$this->addRule('new_database','A database with the same title already exists','existe',array('database','database_name'));
 		}
 		$this->addRule('new_database','Data use information: Database name exceeds the maximum length allowed (250 characters)','maxlength',250);
 		$this->addRule('new_db_url','Data use information: Database url exceeds the maximum length allowed (250 characters)','maxlength',250);
@@ -240,10 +214,8 @@ class mod_form extends base_form{
 		for ($i = 0; $i < $this->dataset->nbFormats; $i++){
 			$this->addRule('data_format_'.$i,'Data use information: Format name '.($i+1).' exceeds the maximum length allowed (100 characters)','maxlength',100);
 			if (isset($this->dataset->data_formats[$i]) && !empty($this->dataset->data_formats[$i]) && $this->dataset->data_formats[$i]->data_format_id > 0){
-				//$this->getElement('new_data_format_'.$i)->setAttribute('onfocus','blur()');
 				$this->disableElement('new_data_format_'.$i);
 			}else{
-				//$this->addRule('new_data_format_'.$i,'Data format '.($i+1).': This format already exists in the database','existe',array('data_format','data_format_name'));
 			}
 		}
 
@@ -263,22 +235,14 @@ class mod_form extends base_form{
 			$this->addRule('email2_'.$i,'Contact '.($i+1).': email2 exceeds the maximum length allowed (250 characters)','maxlength',250);
 
 			if (isset($this->dataset->originators[$i]) && !empty($this->dataset->originators[$i]) && $this->dataset->originators[$i]->pers_id > 0){
-				//$this->getElement('pi_name_'.$i)->setAttribute('onfocus','blur()');
-				//$this->getElement('email1_'.$i)->setAttribute('onfocus','blur()');
-				//$this->getElement('email2_'.$i)->setAttribute('onfocus','blur()');
-				//$this->getElement('organism_'.$i)->setAttribute('onfocus','blur()');
 				$this->disableElement('pi_name_'.$i);
 				$this->disableElement('email1_'.$i);
 				$this->disableElement('email2_'.$i);
 				$this->disableElement('organism_'.$i);
 			}else{
-				//$this->addRule('pi_name_'.$i,'Contact '.($i+1).': A contact with the same name is already present in the database. Select it in the drop-down list.','existe',array('personne','pers_name'));
 			}
 
 			if (isset($this->dataset->originators[$i]->organism) && !empty($this->dataset->originators[$i]->organism) && $this->dataset->originators[$i]->organism->org_id > 0){
-				//$this->getElement('org_sname_'.$i)->setAttribute('onfocus','blur()');
-				//$this->getElement('org_fname_'.$i)->setAttribute('onfocus','blur()');
-				//$this->getElement('org_url_'.$i)->setAttribute('onfocus','blur()');
 				$this->disableElement('org_sname_'.$i);
 				$this->disableElement('org_fname_'.$i);
 				$this->disableElement('org_url_'.$i);
@@ -299,23 +263,14 @@ class mod_form extends base_form{
 
 		if (isset($this->dataset->model) && !empty($this->dataset->model) && $this->dataset->model->place_id > 0){
 			$this->disableElement('new_model');
-			//$this->disableElement('model_type');
-		}/*else{
-			$this->addRule('new_model','Model: The model name is already present in the database. Select it in the drop-down list or chose another name.','existe',array('place','place_name'));
-		}*/
+		}
 		
 		if (isset($this->dataset->dats_sensors[0]->sensor) && !empty($this->dataset->dats_sensors[0]->sensor) && $this->dataset->dats_sensors[0]->sensor->sensor_id > 0){
 			$this->disableElement('new_simu');
-		}
-		
-		
-		//$this->addRule('grid_type','Coverage: Grid type exceeds the maximum length allowed (100 characters)','maxlength',100);
+		}	
 			
-		$this->addValidationRulesResolution('Coverage');
-		//$this->addRule('sensor_resol_temp','Coverage: Temporal resolution is incorrect','validDate');
-		
+		$this->addValidationRulesResolution('Coverage');		
 		$this->addRule('sensor_resol_temp','Coverage: temporal resolution is incorrect','regex',"/^[0-9]{4}[-][0-9]{2}[-][0-9]{2} [0-9]{2}[:][0-9]{2}[:][0-9]{2}$/");
-		
 		$this->addValidationRulesGeoCoverage();
 
 		//PARAMETER
@@ -363,15 +318,10 @@ class mod_form extends base_form{
 			}
 		}
 
-		$this->displayFormBegin('frmmod',false,true);
+		$this->displayFormBegin('frmmod',false,true);		
 			
-		//echo '<tr><th colspan="4" align="center"><a name="a_general" ></a><b>General information</b></th></tr>';
-		
-			
-		//echo '<tr><th colspan="4" align="center"><a name="a_contact" ></a><b>Dataset seeker or provider</b><br></th></tr>';
 		echo '<tr><th colspan="4" align="center"><a name="a_contact" ></a><b>Contact information</b><br></th></tr>';
-		//$this->displayErrorsContact(0);
-		//$this->displayPersonForm(0,true);
+
 		for ($i = 0; $i < $this->dataset->nbPis; $i++){
 			echo '<tr><td colspan="4" align="center"><b>Contact '.($i+1).'</b><br>';//</td></tr>';
 			$this->displayErrorsContact($i);
@@ -386,7 +336,6 @@ class mod_form extends base_form{
  
 		echo '<tr><td><font color="#467AA7">'.$this->getElement('model')->getLabel().'</font></td><td colspan="3">'.$this->getElement('model')->toHTML();
 		echo '&nbsp;&nbsp;or add new&nbsp;'.$this->getElement('new_model')->toHTML().'</td></tr>';
-//		echo '<tr><td>'.$this->getElement('model_type')->getLabel().'</td><td colspan="3">'.$this->getElement('model_type')->toHTML().'</td></tr>';
 
 		echo '<tr><td><font color="#467AA7">'.$this->getElement('simu')->getLabel().'</font></td><td colspan="3">'.$this->getElement('simu')->toHTML();
 		echo '&nbsp;&nbsp;or add new&nbsp;'.$this->getElement('new_simu')->toHTML().'</td></tr>';
@@ -396,9 +345,6 @@ class mod_form extends base_form{
 		$this->displayErrorsModDataDescr();
 		echo '<tr><td><font color="#467AA7">'.$this->getElement('dats_title')->getLabel().'</font></td><td colspan="3">'.$this->getElement('dats_title')->toHTML().'</td></tr>';
 		echo '<tr><td><font>'.$this->getElement('dats_doi')->getLabel().'</font></td><td colspan="3">'.$this->getElement('dats_doi')->toHTML().'</td></tr>';
-		//echo '<tr><td>'.$this->getElement('dats_version')->getLabel().'</td><td>'.$this->getElement('dats_version')->toHTML().'</td><td colspan="2" /></tr>';
-		//echo '<tr><td>'.$this->getElement('project_0')->getLabel().'</td>';
-		//echo '<td colspan="3">'.$this->getElement('project_0')->toHTML().'</td></tr>';
 
 		for ($i = 0; $i < $this->dataset->nbProj; $i++){
                                 echo '<tr>';

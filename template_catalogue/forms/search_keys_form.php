@@ -5,10 +5,10 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-require_once("HTML/QuickForm.php");
-require_once("HTML/QuickForm/radio.php");
-require_once("common.php");
-require_once("validation.php");
+require_once ("HTML/QuickForm.php");
+require_once ("HTML/QuickForm/radio.php");
+require_once ("common.php");
+require_once ("validation.php");
 
 class search_keys_form extends HTML_QuickForm{
 	
