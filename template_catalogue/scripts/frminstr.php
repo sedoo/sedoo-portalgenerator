@@ -145,9 +145,6 @@ if ($form->isCat ( $form->dataset,$project_name )) {
 		$form->dataset->nbFormats = 1;
 		$form->dataset->nbProj = 1;
 		$form->dataset->dats_id = 0;
-		
-
-		
 	}
 	
 	// TODO nettoyer
