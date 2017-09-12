@@ -87,17 +87,6 @@
     		}
     		return $this->data_policy_id;
     	}
-    	 
-		function insertOld()
-    	{
-     	 	$query = "insert into data_policy (data_policy_name) values ('".str_replace("'","\'",$this->data_policy_name)."')";
-     	 	     	 	     	 	     	 
-     	 	$bd = new bdConnect;
-      		$bd->insert($query);
-      		$this->data_policy_id = $bd->getLastId("data_policy_data_policy_id_seq");
-      		
-      		return $this->data_policy_id;
-    	}
     	
     	function idExiste()
     	{

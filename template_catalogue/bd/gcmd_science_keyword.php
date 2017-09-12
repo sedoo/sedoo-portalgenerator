@@ -175,53 +175,5 @@
 	        $s->setOptions(array($array_topic,$array_categorie,$array_variable,$array_variable2));
 	        return $s;
     	}
-    	
-    	//creer element select pour formulaire
-    	function chargeFormOld($form,$label,$titre)
-    	{
-    		$query = "select * from gcmd_science_keyword where gcmd_level = 1 order by gcmd_name";
-			$liste_topic = $this->getByQuery($query);
-        	$array_topic[0] = "-- Topic --";
-        	$array_categorie[0][0] = "-- Term --";
-        	$array_variable[0][0][0] = "-- Var_level1 --";
-        	$array_variable2[0][0][0][0] = "-- Var_level2 --";
-
-	        //charge les catégories par topic, les variable par catégorie
-	        for ($i = 0; $i < count($liste_topic); $i++)
-	        {
-	          	$j = $liste_topic[$i]->gcmd_id;
-	          	$array_topic[$j] = $liste_topic[$i]->gcmd_name;
-	         	 //charge les catégories du topic
-	         	$query2 = "select * from gcmd_science_keyword where gcm_gcmd_id = ".$j." order by gcmd_name";
-	          	$liste_categ = $this->getByQuery($query2);
-	          	$array_categorie[$j][0] = "-- Category --";
-		        for ($k = 0; $k < count($liste_categ); $k++)
-		        {
-		        	$l = $liste_categ[$k]->gcmd_id;
-		            $array_categ[$j][$l] = $liste_categ[$k]->gcmd_name;
-		            //charge les variable de la categorie
-		            $array_variable[$j][$l][0] = "-- Var_level1 --";
-		            $query3 = "select * from gcmd_science_keyword where gcm_gcmd_id = ".$l." order by gcmd_name";
-		            $liste_param = $this->getByQuery($query3);
-		            for ($m = 0; $m < count($liste_param); $m++)
-		            {
-		            	$n = $liste_param[$m]->gcmd_id;
-		                $array_variable[$j][$l][$n] = $liste_param[$m]->gcmd_name;
-		                //variable niveau 2
-		                $array_variable2[$j][$l][$n][0] = "-- Var_level2 --";
-		                $query4 = "select * from gcmd_science_keyword where gcm_gcmd_id = ".$n." order by gcmd_name";
-		                $param2 = $this->getByQuery($query4);
-		                for ($o = 0; $o < count($param2);$o++)
-		                {
-		                	$p = $param2[$o]->gcmd_id;
-		                	$array_variable2[$j][$l][$n][$p] = $param2->gcmd_name;
-		                }
-		            }
-		        }
-	        }
-	        $s = & $form->createElement('hierselect',$label,$titre);
-	        $s->setOptions(array($array_topic,$array_categorie,$array_variable,$array_variable2));
-	        return $s;
-	    }
  	}
 ?>

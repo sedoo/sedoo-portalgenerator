@@ -65,46 +65,22 @@
       		return $tab_res;
     	}
 
-    	function getLastIdOld($sequence){    	
-    		$this->db_open();
-    		$query = "SELECT last_value from ".$sequence;    		
-    		$res = pg_query($this->conn,$query) or die('Erreur SQL !'.$query.''.pg_last_error());
-    		$id = pg_fetch_array($res);
-    		$this->db_close();
-    		return $id[0];
-
-    	}
 		function getLastId($sequence){
 			$query = "SELECT last_value from ".$sequence;
 			$res = $this->exec($query);
     		$id = pg_fetch_array($res);
     		return $id[0];
-    	}
-    	
-    	function insertOld($requete)
-    	{
-      		$this->db_open();
-      		$res = pg_query($this->conn,$requete) or die('Erreur SQL !'.$requete.''.pg_last_error());
-      		$this->db_close();
-		}
-		
-		function updateOld($requete)
-    	{
-      		$this->db_open();
-      		pg_query($this->conn,$requete) or die('Erreur SQL !'.$requete.''.pg_last_error());
-      		$this->db_close();
-    	}
-    	
+    	}	
     	
     	function insert($requete)
     	{
     		$this->exec($requete);
-    	}
+		}
+		
 		function update($requete)
     	{
       		return $this->exec($requete);
-    	}
-    	
+    	}    	
 
     	function exec($requete){
     		if (!isset($this->conn) || empty($this->conn))
@@ -126,9 +102,6 @@
     	}
     	function rollbackTransaction(){
 			return $this->exec("ROLLBACK");
-    	}
-    	
-    	
-    	
+    	}    	
 	}
 ?>

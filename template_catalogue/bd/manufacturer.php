@@ -5,7 +5,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- 	require_once("bd/bdConnect.php");
+ 	require_once ("bd/bdConnect.php");
  	
  	class manufacturer
  	{
@@ -116,28 +116,6 @@
     			$this->manufacturer_id = $bd->getLastId('manufacturer_manufacturer_id_seq');
     		}
     		return $this->manufacturer_id;
-    	}
-    	 
- 	
-    	function insertOld()
-    	{
-    		$query_insert = "insert into manufacturer (manufacturer_name";
-     	 	$query_values = "values ('".str_replace("'","\'",$this->manufacturer_name)."')";
-    		   		
-      		
-    		if (isset($this->manufacturer_url) && !empty($this->manufacturer_url))
-     	 	{
-     	 		$query_insert .= ",manufacturer_url";
-     	 		$query_values .= ",'".str_replace("'","\'",$this->manufacturer_url)."'";
-     	 	}
-      		
-     	 	$bd = new bdConnect;
-      		$bd->insert($query);
-     	 	$query = $query_insert.") ".$query_values.")";
-     	 	
-      		$this->manufacturer_id = $bd->getLastId('manufacturer_manufacturer_id_seq');
-      		return $this->manufacturer_id;
-      		
     	}
 
     	//creer element select pour formulaire

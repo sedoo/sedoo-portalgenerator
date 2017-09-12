@@ -164,31 +164,5 @@
       		return $s;
         	
     	}
-    	
-    	//creer element select pour formulaire
-    	function chargeFormOld($form,$label,$titre)
-    	{
-
-      		$liste = $this->getAll();
-      		$array_proj[0] = "--Project--";
-      		$array_sous_proj[0][0] = "--Sub_project--";
-      		for ($i = 0; $i < count($liste); $i++)
-        	{
-          		$j = $liste[$i]->project_id;
-          		$array_proj[$j] = $liste[$i]->project_name;
-          		//charge les sous-projets
-          		$array_sous_proj[$j][0] = "--Sub_project--";
-          		$query = "select * from project where pro_project_id = ".$j." order by project_name";
-          		$sous_proj = $this->getByQuery($query);
-          		for ($k = 0; $k < count(sous_proj);$k++)
-          		{
-          			$l = $sous_proj[$k]->project_id;
-          			$array_sous_proj[$j][$l] = $sous_proj[$k]->project_name;
-          		}
-        	}
-      		 $s = & $form->createElement('hierselect',$label,$titre);
-	        $s->setOptions(array($array_proj,$array_sous_proj));
-      		return $s;
-    	}
  	}
 ?>

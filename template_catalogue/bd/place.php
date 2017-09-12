@@ -259,50 +259,7 @@
 	      		$this->place_id = $bd->getLastId("place_place_id_seq");
     		}
       		return $this->place_id;
-    	}
-    	
- 		function insertOld()
-    	{
-    		    	    		
-    		if ($this->bound_id != -1){
-    			$this->boundings->insert();
-    			$this->bound_id = $this->boundings->bound_id;
-    			echo 'bound_id:'.$this->bound_id.'<br>';
-    		}
-    		
-     	 	$query_insert = "insert into place (place_name,gcmd_plat_id";
-     	 	$query_values = "values ('".str_replace("'","\'",$this->place_name)."'" .
-     	 					",".$this->gcmd_plat_id;
-     	 	if (isset($this->bound_id) && !empty($this->bound_id) && $this->bound_id != -1)
-     	 	{
-     	 		$query_insert .= ",bound_id";
-     	 		$query_values .= ",".$this->bound_id;
-     	 	}
-     	 	if (isset($this->pla_place_id) && !empty($this->pla_place_id))
-     	 	{
-     	 		$query_insert .= ",pla_place_id";
-     	 		$query_values .= ",".$this->pla_place_id;
-     	 	}
-     	 	if (isset($this->place_elevation_min) && !empty($this->place_elevation_min))
-     	 	{
-     	 		$query_insert .= ",place_elevation_min";
-     	 		$query_values .= ",".doubleAlt2int($this->place_elevation_min);
-     	 	}
-     	 	if (isset($this->place_elevation_max) && !empty($this->place_elevation_max))
-     	 	{
-     	 		$query_insert .= ",place_elevation_max";
-     	 		$query_values .= ",".doubleAlt2int($this->place_elevation_max);
-     	 	}
-     	 	$query = $query_insert.") ".$query_values.")";
-      		$bd = new bdConnect;
-      		$bd->insert($query);
-      		
-      		$this->place_id = $bd->getLastId("place_place_id_seq");
-      		
-      		return $this->place_id;
-    	}
-
-    	
+    	}  	
     	
     	function chargeFormModelCategsNew($form,$label,$titre){
     		$gcmd = new gcmd_plateform_keyword();

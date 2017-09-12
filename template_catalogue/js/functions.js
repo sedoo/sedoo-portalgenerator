@@ -391,40 +391,6 @@ function updateGcmd(suffix){
 	}
 }
 
-function updateSatOld(){
-	
-	fillBoxes('satellite',['new_satellite'],'place',['place_name']);
-	
-	liste = document.getElementsByName("satellite")[0];
-	value=liste[liste.selectedIndex].value;
-	
-	if (value <= 0){
-		listeInstru = document.getElementsByName("instrument")[0];
-		listeInstru.options.length = 1;
-		listeInstru.options[0].value = 0;
-		listeInstru.options[0].text = "";
-				
-	}else{
-		var xmlhttp = getXmlHttp();
-
-		if (xmlhttp != null){
-
-			xmlhttp.onreadystatechange=function(){
-				if (xmlhttp.readyState==4){
-
-					if (xmlhttp.status==200)
-						readDataInstru(xmlhttp.responseXML,"instrument");
-					else 
-						document.getElementById("errors").innerHTML="[Ajax] Error code " + xmlhttp.status;
-
-				}
-			}
-			xmlhttp.open("GET", "squelettes/recupInstrus.php?satId="+value, true);
-			xmlhttp.send("");  
-		}
-	}
-}
-
 function updateSat(index){
 	
 	fillBoxes('satellite_'+index,['new_satellite_'+index],'place',['place_name']);

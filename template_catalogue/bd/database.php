@@ -6,7 +6,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
-require_once("bd/bdConnect.php");
+require_once ("bd/bdConnect.php");
  
  	class database
 	{
@@ -23,24 +23,6 @@ require_once("bd/bdConnect.php");
 		function toString() {
 			return $this->database_name.(($this->database_url)?',url: '.$this->database_url:'');
 		}
-		
-		function insertOld() {
-     	 	$query_insert = "INSERT INTO database (database_name";
-     	 	$query_values =	"VALUES ('".str_replace("'","\'",$this->database_name)."'";
-     	 	
-     	 	if (isset($this->database_url) && !empty($this->database_url))
-     	 	{
-     	 		$query_insert .= ",database_url";
-     	 		$query_values .= ",'".$this->database_url."'";
-     	 	}
-     	 	     	 
-     	 	$query = $query_insert.") ".$query_values.")";
-      		$bd = new bdConnect;
-      		$bd->insert($query);
-      		$this->database_id = $bd->getLastId("database_database_id_seq");
-      		
-      		return $this->database_id;
-    	}
 		
     	function insert(& $bd) {
     		if (!$this->existe()){

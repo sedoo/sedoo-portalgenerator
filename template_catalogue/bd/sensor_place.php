@@ -106,28 +106,11 @@
     			$bd->exec($query);
     		}
     	}
-    	 
- 	function insertOld()
-    	{
-     	 	
-     	 	$query_insert = "insert into sensor_place (sensor_id,place_id";
-     	 	$query_values =	"values (".$this->sensor_id.",".$this->place_id;
-     	 	     	 	
-    		if (isset($this->environment) && !empty($this->environment))
-     	 	{
-     	 		$query_insert .= ",environment";
-     	 		$query_values .= ",'".str_replace("'","\'",$this->environment)."'";
-     	 	}
-     	 	$query = $query_insert.") ".$query_values.")";
-     	 	
-      		$bd = new bdConnect;
-      		$bd->insert($query);
-    	}
-    function updateByDatsPlaceID ($dats_id, $old_place_id, $place_id){
-    	$query_update = "update sensor_place set place_id = '.$place_id.' where sensor_id in (select sensor_id from sensor left join dats_sensor using (sensor_id) where dats_id = '.$dats_id.' and place_id='.$old_place_id.')";
-    	$bd = new bdConnect;
-      	$bd->exec($query_update);
- 	}
- 	
- 	}
+
+		function updateByDatsPlaceID ($dats_id, $old_place_id, $place_id){
+			$query_update = "update sensor_place set place_id = '.$place_id.' where sensor_id in (select sensor_id from sensor left join dats_sensor using (sensor_id) where dats_id = '.$dats_id.' and place_id='.$old_place_id.')";
+			$bd = new bdConnect;
+			$bd->exec($query_update);
+		}
+	}
 ?>

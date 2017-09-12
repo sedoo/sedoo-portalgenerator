@@ -5,9 +5,9 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- 	require_once("bd/bdConnect.php");
- 	require_once("bd/dataset.php");
- 	require_once("bd/project.php");
+ 	require_once ("bd/bdConnect.php");
+ 	require_once ("bd/dataset.php");
+ 	require_once ("bd/project.php");
  	
  	class dats_proj
  	{
@@ -75,14 +75,6 @@
 
     			$bd->exec($query);
     		}
-    	}
-    	
-    	function insertOld()
-    	{
-     	 	$query = "insert into dats_proj (dats_id,project_id) " .
-     	 			"values (".$this->dats_id.",".$this->project_id.")";
-      		$bd = new bdConnect;
-      		$bd->insert($query);
     	}
  	}
 ?>

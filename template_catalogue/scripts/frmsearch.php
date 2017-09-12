@@ -93,72 +93,7 @@ function makeWhereBoundings($f) {
 	}
 	return null;
 }
-function makeWhereBoundingsOld($f) {
-	$where_lat_min = null;
-	$where_lat_max = null;
-	$where_lon_min = null;
-	$where_lon_max = null;
-	$where_boundings = null;
-	$minLat = 250000;
-	$maxLat = 500000;
-	$minLon = - 100000;
-	$maxLon = 400000;
-	
-	if (isset ( $f->latMin ) && $f->latMin > $minLat)
-		$where_lat_min = "(north_bounding_coord is null or north_bounding_coord >= " . $f->latMin . ")";
-	if (isset ( $f->latMax ) && $f->latMax < $maxLat)
-		$where_lat_max = "(south_bounding_coord is null or south_bounding_coord <= " . $f->latMax . ")";
-	if (isset ( $f->lonMin ) && $f->lonMin > $minLon)
-		$where_lon_min = "(east_bounding_coord is null or east_bounding_coord >= " . $f->lonMin . ")";
-	if (isset ( $f->lonMax ) && $f->lonMax < $maxLon)
-		$where_lon_max = "(west_bounding_coord is null or west_bounding_coord <= " . $f->lonMax . ")";
-	if (isset ( $where_lat_min ) || isset ( $where_lat_max ) || isset ( $where_lon_min ) || isset ( $where_lon_max )) {
-		$where_boundings = "bound_id in (select distinct bound_id from boundings where ";
-		$where_boundings_sensor = "dats_id in (select distinct dats_id from dats_sensor where sensor_id in " . "(select distinct sensor_id from sensor where bound_id is null ";
-		$where_boundings_sensor .= "or bound_id in (select distinct bound_id from boundings where ";
-		if (isset ( $where_lat_min )) {
-			$where_boundings .= $where_lat_min;
-			$where_boundings_sensor .= $where_lat_min;
-			if (isset ( $where_lat_max )) {
-				$where_boundings_sensor .= " and " . $where_lat_max;
-				$where_boundings .= " and " . $where_lat_max;
-			}
-			if (isset ( $where_lon_min )) {
-				$where_boundings_sensor .= " and " . $where_lon_min;
-				$where_boundings .= " and " . $where_lon_min;
-			}
-			if (isset ( $where_lon_max )) {
-				$where_boundings_sensor .= " and " . $where_lon_max;
-				$where_boundings .= " and " . $where_lon_max;
-			}
-		} else if (isset ( $where_lat_max )) {
-			$where_boundings .= $where_lat_max;
-			$where_boundings_sensor .= $where_lat_max;
-			if (isset ( $where_lon_min )) {
-				$where_boundings_sensor .= " and " . $where_lon_min;
-				$where_boundings .= " and " . $where_lon_min;
-			}
-			if (isset ( $where_lon_max )) {
-				$where_boundings_sensor .= " and " . $where_lon_max;
-				$where_boundings .= " and " . $where_lon_max;
-			}
-		} else if (isset ( $where_lon_min )) {
-			$where_boundings .= $where_lon_min;
-			$where_boundings_sensor .= $where_lon_min;
-			if (isset ( $where_lon_max )) {
-				$where_boundings_sensor .= " and " . $where_lon_max;
-				$where_boundings .= " and " . $where_lon_max;
-			}
-		} else if (isset ( $where_lon_max )) {
-			$where_boundings .= $where_lon_max;
-			$where_boundings_sensor .= $where_lon_max;
-		}
-		$where_boundings .= ") or (bound_id is null ";
-		$where_boundings_sensor .= ")))";
-		return "(" . $where_boundings . " and " . $where_boundings_sensor . "))";
-	}
-	return null;
-}
+
 function makeWhereProject($project_name) {
 	$projects = get_filtre_projets ( $project_name );
 	

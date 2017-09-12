@@ -393,23 +393,7 @@ class admin_form extends login_form {
 		}
 		return 1;
 	}
-	function displayUsersListHeaderOld($first = 1, $nb = USERS_PER_PAGE, $registered = false, $rejected = false) {
-		if ($registered) {
-			echo '<tr><th colspan="5"><a href="' . $this->getReqUri () . '">&lt;&lt;</a>&nbsp;&nbsp;<a href="' . $this->getReqUri () . '&first=' . max ( $first - $nb, 1 ) . '">&lt;</a>&nbsp;&nbsp;';
-			echo $first . ' - ' . (min ( count ( $this->registeredUsers ), $first + $nb - 1 )) . ' / ' . count ( $this->registeredUsers ) . ' users';
-			echo '&nbsp;&nbsp;<a href="' . $this->getReqUri () . '&first=' . min ( $first + $nb, max ( count ( $this->registeredUsers ) - $nb + 1, 1 ) ) . '">&gt;</a>&nbsp;&nbsp;<a href="' . $this->getReqUri () . '&first=' . max ( count ( $this->registeredUsers ) - $nb + 1, 1 ) . '">&gt;&gt;</a>';
-			echo '<br><form name="frmsearchuser" id="frmsearchuser" method="post" action="' . $this->getReqUri () . '" >';
-			echo $this->getElement ( 'search' )->toHTML () . '&nbsp;' . $this->getElement ( 'bouton_search' )->toHTML ();
-			echo '</form></th></tr>';
-			echo '<tr><th>Name</th><th>Affiliation</th><th>Group</th><th>More...</th><th></th></tr>';
-		} else if ($rejected) {
-			echo '<tr><th colspan="4">' . count ( $this->rejectedRequests ) . ' rejected requests</th></tr>';
-			echo '<tr><th>Name</th><th>Affiliation</th><th>More...</th><th></th></tr>';
-		} else {
-			echo '<tr><th colspan="5">' . count ( $this->pendingRequests ) . ' pending requests</th></tr>';
-			echo '<tr><th>Application Date</th><th>Name</th><th>Affiliation</th><th>More...</th><th></th></tr>';
-		}
-	}
+
 	function displayUsersListHeader($first = 1, $nb = USERS_PER_PAGE, $registered = false, $rejected = false, $project = null) {
 		if ($project == null) {
 			if ($registered) {

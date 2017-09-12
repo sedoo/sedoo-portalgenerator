@@ -133,21 +133,6 @@
       		      		
     	}
     	
-		function insertOld()
-    	{
-     	 	$query = "insert into variable (var_name,gcmd_id) " .
-     	 			"values ('".str_replace("'","\'",$this->var_name)."'" .
-     	 					",".$this->gcmd_id.")";
-     	 	
-     	 	echo 'gcmd_id:'.$this->gcmd_id.'<br>';
-     	 	
-      		$bd = new bdConnect;
-      		$bd->insert($query);
-      		$this->var_id = $bd->getLastId("variable_var_id_seq");
-      		
-      		return $this->var_id;
-    	}
-    	
     	//creer element select pour formulaire
     	function chargeForm($form,$label,$titre,$indice,$type)
     	{

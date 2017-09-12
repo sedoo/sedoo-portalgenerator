@@ -5,9 +5,9 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- 	require_once("bd/bdConnect.php");
- 	require_once("bd/dataset.php");
- 	require_once("bd/place.php");
+ 	require_once ("bd/bdConnect.php");
+ 	require_once ("bd/dataset.php");
+ 	require_once ("bd/place.php");
  	
  	class dats_place
  	{
@@ -65,14 +65,6 @@
           		return true;
         	}
         	return false;
-    	}
-    	
- 	function insertOld()
-    	{
-     	 	$query = "insert into dats_place (dats_id,place_id) " .
-     	 			"values (".$this->dats_id.",".$this->place_id.")";
-      		$bd = new bdConnect;
-      		$bd->insert($query);
     	}
     	 
     	function insert(& $bd)

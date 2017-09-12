@@ -108,24 +108,6 @@
     			
     		}
     		return $this->bound_id;
-    	}
-    	
- 	function insertOld()
-    	{
-    		if (!$this->existe()){
-    			$query = "insert into boundings (west_bounding_coord,east_bounding_coord," .
-     	 			"north_bounding_coord,south_bounding_coord) " .
-     	 			"values (".doubleCoord2int($this->west_bounding_coord).",".doubleCoord2int($this->east_bounding_coord)."," .
-    			doubleCoord2int($this->north_bounding_coord).",".doubleCoord2int($this->south_bounding_coord).")";
-    			    			
-    			$bd = new bdConnect;
-    			$bd->insert($query);
-				
-    			$this->bound_id = $bd->getLastId('boundings_bound_id_seq');
-    			
-    		}
-    		return $this->bound_id;
-    	}
- 		
+    	} 		
  	}
 ?>

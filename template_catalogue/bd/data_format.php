@@ -102,18 +102,6 @@
         	return false;
     	}
     	
-    	function insertOld()
-    	{
-     	 	$query = "insert into data_format (data_format_name) " .
-     	 			"values ('".str_replace("'","\'",$this->data_format_name)."')";
-      		$bd = new bdConnect;
-      		$bd->insert($query);
-      		
-      		$this->data_format_id = $bd->getLastId("data_format_data_format_id_seq");
-      		
-      		return $this->data_format_id;
-    	}
-    	
     	function insert(& $bd)
     	{
     		if (!$this->existe()){

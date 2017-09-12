@@ -194,45 +194,5 @@
       		
       		return $this->pers_id;
     	}
-    	
-    	
-    	function insertOld()
-    	{
-    		
-    		//Insertion de l'organisme
-    		if ($this->organism->org_id == 0){
-    			$this->organism->insert();
-    		}
-    		
-    		echo 'pers.org_id:'.$this->org_id.'<br>';
-    		
-     	 	$query_insert = "insert into personne (pers_name";
-     	 	$query_values =	"values ('".str_replace("'","\'",$this->pers_name)."'";
-
-     	 	if (isset($this->org_id) && !empty($this->org_id) && ($this->org_id != 0) )
-     	 	{
-     	 		$query_insert .= ",org_id";
-     	 		$query_values .= ",".$this->org_id;
-     	 	}
-     	 	if (isset($this->pers_email_1) && !empty($this->pers_email_1))
-     	 	{
-     	 		$query_insert .= ",pers_email_1";
-     	 		$query_values .= ",'".$this->pers_email_1."'";
-     	 	}
-     	 	if (isset($this->pers_email_2) && !empty($this->pers_email_2))
-     	 	{
-     	 		$query_insert .= ",pers_email_2";
-     	 		$query_values .= ",'".$this->pers_email_2."'";
-     	 	}
-     	 	
-     	 	$query = $query_insert.") ".$query_values.")";
-      		$bd = new bdConnect;
-      		
-      		echo 'query pers: '.$query.'<br>';
-      		$bd->insert($query);
-      		$this->pers_id = $bd->getLastId("personne_pers_id_seq");
-      		
-      		return $this->pers_id;
-    	}
  	}
 ?>

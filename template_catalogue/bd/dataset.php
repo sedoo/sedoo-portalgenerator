@@ -934,20 +934,6 @@ class dataset {
 		}
 	}
 	
-	// 1 seul
-	function insert_sensorsOld() {
-		if ($this->dats_sensors [0]->sensor->sensor_id == 0) {
-			$this->dats_sensors [0]->sensor_id = $this->dats_sensors [0]->sensor->insert ( $this->bdConn );
-		} else if ($this->dats_sensors [0]->sensor->sensor_id > 0) {
-			$this->dats_sensors [0]->sensor_id = $this->dats_sensors [0]->sensor->update ( $this->bdConn );
-		}
-		
-		if ($this->dats_sensors [0]->sensor_id != - 1) {
-			$this->dats_sensors [0]->dats_id = $this->dats_id;
-			$this->dats_sensors [0]->insert ( $this->bdConn );
-		}
-	}
-	
 	// 1 seul, ben non, plusieurs !
 	// modif by lolo
 	function insert_sensors() {
@@ -1050,11 +1036,6 @@ class dataset {
 		$query = "select * from dataset_type where dats_type_id in " . "(select distinct dats_type_id from dats_type where dats_id = " . $this->dats_id . ")";
 		$dtype = new dataset_type ();
 		$this->dataset_types = $dtype->getByQuery ( $query );
-	}
-	function get_dats_sensorsOld() {
-		$query = "select * from dats_sensor where dats_id = " . $this->dats_id;
-		$dats_sensor = new dats_sensor ();
-		$this->dats_sensors = $dats_sensor->getByQuery ( $query );
 	}
 	function get_projects() {
 		$query = "select * from project where project_id in " . "(select distinct project_id from dats_proj where dats_id = " . $this->dats_id . ")";

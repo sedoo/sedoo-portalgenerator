@@ -128,25 +128,6 @@
     		}
     		return $this->unit_id;
     	}
-    	 
-		function insertOld(){
-			
-     	 	$query_insert = "insert into unit (unit_name";
-     	 	$query_values =	"values ('".str_replace("'","\'",$this->unit_name)."'";
-     	 	
-     	 	if (isset($this->unit_code) && !empty($this->unit_code))
-     	 	{
-     	 		$query_insert .= ",unit_code";
-     	 		$query_values .= ",'".$this->unit_code."'";
-     	 	}
-     	 	     	 
-     	 	$query = $query_insert.") ".$query_values.")";
-      		$bd = new bdConnect;
-      		$bd->insert($query);
-      		$this->unit_id = $bd->getLastId("unit_unit_id_seq");
-      		
-      		return $this->unit_id;
-    	}
     	
     	//creer element select pour formulaire
     	function chargeForm($form,$label,$titre,$indice,$type)
