@@ -362,8 +362,6 @@
     		return $this->chargeFormByType($form,$label,$titre,model_dataset::GCMD_CATEG,"updateMod();");
     	}
 
-    	
-    	    	
     	//Encore utilisé par va dataset
     	//TODO remplacer par le nouveau
 		function chargeFormMod($form,$label,$titre,$onchange = "updateMod();"){
