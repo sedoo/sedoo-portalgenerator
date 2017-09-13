@@ -6,7 +6,7 @@ require_once ("sortie/print_utils.php");
 require_once ("bd/dataset_factory.php");
 
 require_once ("scripts/lstDataUtils.php");
-require_once ('conf/doi.conf.php');
+require_once ("conf/doi.conf.php");
 
 function editContact(& $pis){
 	foreach ($pis as $pi){
@@ -54,15 +54,15 @@ function editContact(& $pis){
 }
 
 function editDOI($doi){
-        if (isset($doi) && !empty($doi)){
-                echo "<tr><td><b>Dataset DOI</b></td><td colspan='3'>$doi";
-                $f = fopen(DATACITE_CITATION.$doi,'r');
-                if ($f){
-                        echo '<p><strong>How to cite: </strong>'.fgets($f).'</p>';
-                }
-                echo '<a target="_blank" class="btn_tag" href="'.DATACITE_BIBTEX.$doi.'" title="Export to BibTeX">Export to BibTeX</a>';
-                echo "</td></tr>";
-        }
+	if (isset($doi) && !empty($doi)){
+			echo "<tr><td><b>Dataset DOI</b></td><td colspan='3'>$doi";
+			$f = fopen(DATACITE_CITATION.$doi,'r');
+			if ($f){
+					echo '<p><strong>How to cite: </strong>'.fgets($f).'</p>';
+			}
+			echo '<a target="_blank" class="btn_tag" href="'.DATACITE_BIBTEX.$doi.'" title="Export to BibTeX">Export to BibTeX</a>';
+			echo "</td></tr>";
+	}
 }
 
 function editDataAvailability(& $dataset, $projectName, $queryArgs = array()){

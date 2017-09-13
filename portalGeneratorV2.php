@@ -109,7 +109,7 @@ class PortalGenerator {
 				$this->makeConfPhp ();
 				$this->createProjectsDirectories ();
 				echo "Setting portal name in all folders...\n";
-				DirUtils::changeWordInDirectory ( $this->phpTargetDir, '#MainProject', strtolower($this->portalName) );
+				DirUtils::changeWordInDirectory ( $this->phpTargetDir, '#MainProject', $this->portalName );
 				echo "Renaming folder...\n";
 				DirUtils::rmDirectory ( $this->phpTargetDir . '/project-directory-template' );
 			} else {
@@ -215,8 +215,8 @@ class PortalGenerator {
 		}
 				
 		if (in_array ( '--skip-php', $this->options ) === false) {
-			$content .= "mkdir -p $this->rootPath" . "/" . strtolower ($this->xmlContent['name']) . "\n"; //modif
-			$content .= "mv catalogue/conf/conf.php " . "$this->rootPath" . "/" . strtolower ($this->xmlContent['name']) . "\n"; //modif
+			$content .= "mkdir -p $this->rootPath" . "/" . $this->xmlContent['name'] . "\n"; //modif
+			$content .= "mv catalogue/conf/conf.php " . "$this->rootPath" . "/" . $this->xmlContent['name'] . "\n"; //modif
 			$content .= "mv " . "catalogue $this->webPath \n"; //modif
 		}
 	

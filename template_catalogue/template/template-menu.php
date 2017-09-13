@@ -9,7 +9,8 @@ else {
 	// require("inc-colonne-project.html");
 	$root_path_menu = $project_name;
 	$subscribe_url= "".$_SERVER['HTTP_HOST']."/".$project_name."/Register";
-
+	echo $project_name ."\n";
+	echo MainProject . "\n";
 }
 ?>
 
@@ -22,7 +23,7 @@ else {
 	if(( (defined(''.strtolower($project_name).'DataPolicy') ) && (constant(strtolower($project_name).'DataPolicy') != '')) || ( (defined('Portal_DataPolicy') ) && (constant('Portal_DataPolicy') == 'true')) ){
 
 		echo "<a href='/".$root_path_menu."/Data-Policy' class=\"tag\"><span>Data policy</span></a>";
-		}
+	}
 
 
 	?>
