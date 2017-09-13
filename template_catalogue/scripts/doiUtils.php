@@ -1,6 +1,6 @@
 <?php
 
-require_once('conf/doi.conf.php');
+// require_once('conf/doi.conf.php');
 
 function createDoi($doi,$url,$metadata){
 	if (uploadMetadataDoi($metadata)){
