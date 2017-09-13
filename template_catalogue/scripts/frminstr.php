@@ -7,7 +7,7 @@ require_once ('/sites/kernel/#MainProject/conf.php');
 require_once ("forms/validation.php");
 require_once ("forms/doi_form.php");
 require_once ('xml/DoiXml.php');
-require_once ('conf/doi.conf.php');
+// require_once ('conf/doi.conf.php');
 require_once ('scripts/doiUtils.php');
 require_once ('mail.php');
 
