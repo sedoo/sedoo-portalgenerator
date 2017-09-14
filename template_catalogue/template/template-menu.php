@@ -1,4 +1,7 @@
 <?php
+echo $_SERVER['SERVER_NAME'];
+echo $_REQUEST['project'];
+
 if ($project_name == MainProject) {
 	// require("inc-colonne.html");
 	$root_path_menu = "portal";
@@ -9,12 +12,11 @@ else {
 	// require("inc-colonne-project.html");
 	$root_path_menu = $project_name;
 	$subscribe_url= "".$_SERVER['HTTP_HOST']."/".$project_name."/Register";
-	echo $project_name ."\n";
-	echo MainProject . "\n";
 }
 ?>
 
-<!-- <h2><?php echo $project_name; ?></h2> -->
+ <h2>Project name : <?php echo $project_name; ?></h2>
+ 
 
 <section>
 	<a href="https://<?php echo $subscribe_url;?>" class="tag"><span>Subscribe</span></a>
@@ -38,25 +40,25 @@ else {
 	<a href="/Data-Search">Advanced search</a>
 	<?php
 	if(constant(strtolower($project_name).'_HasParameterSearch') == 'true'){
-		echo "<a href='/".$root_path_menu."/Parameter-search'>By parameters</a>";
+		echo "<a href='/".$root_path_menu."/Parameter-search/?project=".MainProject."'>By parameters</a>";
 	}
 	if(constant(strtolower($project_name).'_HasInstrumentSearch') == 'true'){
-		echo "<a href='/".$root_path_menu."/Instrument-search'>By instruments</a>";
+		echo "<a href='/".$root_path_menu."/Instrument-search/?project=".MainProject."'>By instruments</a>";
 	}
 	if(constant(strtolower($project_name).'_HasCountrySearch') == 'true'){
-		echo "<a href='/".$root_path_menu."/Country-search'>By countries</a>";
+		echo "<a href='/".$root_path_menu."/Country-search/?project=".MainProject."'>By countries</a>";
 	}
 	if(constant(strtolower($project_name).'_HasPlatformSearch') == 'true'){
-		echo "<a href='/".$root_path_menu."/Plateform-search'>By platform types</a>";
+		echo "<a href='/".$root_path_menu."/Plateform-search/?project=".MainProject."'>By platform types</a>";
 	}
 	if(constant(strtolower($project_name).'_HasProjectSearch') == 'true'){
-		echo "<a href='/".$root_path_menu."/Project-search'>By projects</a>";
+		echo "<a href='/".$root_path_menu."/Project-search/?project=".MainProject."'>By projects</a>";
 	}
 	if(constant(strtolower($project_name).'_HasEventSearch') == 'true'){
-		echo "<a href='/".$root_path_menu."/Events'>By events</a>";
+		echo "<a href='/".$root_path_menu."/Events/?project=".MainProject."'>By events</a>";
 	}
 	if(constant(strtolower($project_name).'_HasCampaignSearch') == 'true'){
-		echo "<a href='/".$root_path_menu."/Campaign-search'>By campaigns</a>";
+		echo "<a href='/".$root_path_menu."/Campaign-search/?project=".MainProject."'>By campaigns</a>";
 	}
 
 	if(constant(strtolower($project_name).'_HasModelRequest') == 'true' || constant(strtolower($project_name).'_HasSatelliteRequest') == 'true' || constant(strtolower($project_name).'_HasInsituRequest') == 'true'){
@@ -68,14 +70,14 @@ else {
 	}
 
 	if(constant(strtolower($project_name).'_HasModelRequest') == 'true'){
-		echo "<a href='/".$root_path_menu."/Model-outputs-request' class=\"subitem\">Model outputs</a>";
+		echo "<a href='/".$root_path_menu."/Model-outputs-request/?project=".MainProject."' class=\"subitem\">Model outputs</a>";
 	}
 	
 	if(constant(strtolower($project_name).'_HasSatelliteRequest') == 'true'){
-		echo "<a href='/".$root_path_menu."/Satellite-products-request' class=\"subitem\">Satellite products</a>";
+		echo "<a href='/".$root_path_menu."/Satellite-products-request/?project=".MainProject."' class=\"subitem\">Satellite products</a>";
 	}
 	if(constant(strtolower($project_name).'_HasInsituRequest') == 'true'){
-		echo "<a href='/".$root_path_menu."/In-situ-data-request' class=\"subitem\">In situ data</a>";
+		echo "<a href='/".$root_path_menu."/In-situ-data-request/?project=".MainProject."' class=\"subitem\">In situ data</a>";
 	}		
     ?>			
 </section>
@@ -87,19 +89,19 @@ else {
 	
 	<?php
 	if(constant(strtolower($project_name).'_HasModelOutputs') == 'true'){
-		echo "<a href='/".$root_path_menu."/Model-Data/?datsId=-10' class=\"subitem\">Model outputs</a>";
+		echo "<a href='/".$root_path_menu."/Model-Data/?datsId=-10&project=".MainProject."' class=\"subitem\">Model outputs</a>";
 	}
 	if(constant(strtolower($project_name).'_HasSatelliteProducts') == 'true'){
-		echo "<a href='/".$root_path_menu."/Satellite-Data/?datsId=-10' class=\"subitem\">Satellite products</a>";
+		echo "<a href='/".$root_path_menu."/Satellite-Data/?datsId=-10&project=".MainProject."' class=\"subitem\">Satellite products</a>";
 	}
 	if(constant(strtolower($project_name).'_HasInsituProducts') == 'true'){
-		echo "<a href='/".$root_path_menu."/In-Situ-Instrument-Registration/?datsId=-10' class=\"subitem\">Instrument</a>";
+		echo "<a href='/".$root_path_menu."/In-Situ-Instrument-Registration/?datsId=-10&project=".MainProject."' class=\"subitem\">Instrument</a>";
 	}
 	if(constant(strtolower($project_name).'_HasMultiInsituProducts') == 'true'){
-		echo "<a href='/".$root_path_menu."/In-Situ-Site-Registration/?datsId=-10' class=\"subitem\">Multi-instrumented platform</a>";
+		echo "<a href='/".$root_path_menu."/In-Situ-Site-Registration/?datsId=-10&project_name=".MainProject."' class=\"subitem\">Multi-instrumented platform</a>";
 	}
 	if(constant(strtolower($project_name).'_HasValueAddedProducts') == 'true'){
-		echo "<a href='/".$root_path_menu."/Value-Added-Dataset/?datsId=-10' class=\"subitem\">Value-added dataset</a>";
+		echo "<a href='/".$root_path_menu."/Value-Added-Dataset/?datsId=-10&project=".MainProject."' class=\"subitem\">Value-added dataset</a>";
 	}
 	?>
 
@@ -137,7 +139,7 @@ else {
 	<a href="/<?php echo $root_path_menu; ?>/Provide-data">Provide data</a>
 	</section>
 	<section>
-		<a href="<?php 'http://'.$_SERVER['HTTP_HOST']?>/Database-Content?project=<?php echo $project_name; ?>"	target=blank>Database Content</a>
+		<a href="<?php 'http://'.$_SERVER['HTTP_HOST']?>/Database-Content?project=<?php echo $project; ?>"	target=blank>Database Content</a>
 	</section>
 <?php
 }
