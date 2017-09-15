@@ -46,7 +46,7 @@ class AerisUtils {
 		}
 		
 		$proj = new project ();
-		$projList = $proj->getIdByProjectName ( $projectName );
+		$projList = $proj->getByProjectName ( $projectName );
 		foreach ( $projList as $p ) {
 			echo "<br/><b>$p->project_id $p->project_name</b><br/>";
 			$query = "SELECT DISTINCT dats_id, dats_title FROM dataset JOIN dats_proj USING (dats_id) JOIN project USING (project_id) " 

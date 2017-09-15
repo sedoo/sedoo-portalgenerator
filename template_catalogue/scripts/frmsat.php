@@ -28,6 +28,7 @@ if (isset ( $datsId ) && ! empty ( $datsId )) {
 	$form->dataset = dataset_factory::createSatelliteDatasetById($datsId);
 	$_SESSION ['datasetSat'] = serialize ( $form->dataset );
 } else if (isset ( $_SESSION ['datasetSat'] )) {
+	//echo 'dataset trouvé dans la session<br>';
 	$form->dataset = unserialize ( $_SESSION ['datasetSat'] );
 }
 if ($form->isCat ( $form->dataset, $project_name )) {

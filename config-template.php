@@ -16,32 +16,26 @@ set_include_path ( '.:/usr/local/pear/share/pear:/usr/share/php:'.$localInstallP
 * ----- dedian default config -----
 * 'user' 	=> 'www-data',
 * 'group' 	=> 'www-data',	
-* 'path'	=> '/etc/apache2/',
+* 'logDir'	=> '/var/log/apache2',
+* 'confDir'	=> '/etc/apache2/sites-enabled',
+* 'service'	=> 'apache2',
 *
 * ----- redhat / centos default config -----
 * 'user' 	=> 'apache',
 * 'group' 	=> 'apache',	
-* 'path'	=> '/etc/httpd',
+* 'logDir'	=> '/var/log/httpd',
+* 'confDir'	=> '/etc/httpd/conf.d',
+* 'service'	=> 'httpd',
 *
 ************/
 
 $apacheConf = array(
 	'user' 		=> 'apache',
 	'group' 	=> 'apache',	
-	'path'		=> '/etc/httpd',
+	'logDir'		=> '/var/log/apache2', // '/var/log/httpd'
+	'service'		=> 'apache2', //'httpd'
+	'confDir'		=> '/etc/apache2/sites-enabled'
 	);
-
-/**
-* DATABASE
-************/
-
-$databaseConf = array(
-	'host' 			=> 'DB-HOST', 
-	'db_name'		=> 'DB-NAME',
-	'db_user' 		=> 'DB-USER', 
-	'db_password'	=> 'DB-PASSWD',
-
-);
 
 /**
 * LDAP
@@ -49,7 +43,7 @@ $databaseConf = array(
 
 $ldapConf = array(
 	'user' 		=> 'LDAP-USER',
-	'group' 	=> 'LDAP-GROUP',
+	'group' 	=> 'LDAP-GROUP'
 	);
 
 /**
@@ -58,7 +52,7 @@ $ldapConf = array(
 ************/
 $javaBin = array(
 	'maven_bin'		=> '/usr/bin',
-	'java_bin'		=> '/usr/local/j2sdk/bin',
+	'java_bin'		=> '/usr/bin' // '/usr/local/j2sdk6/bin' sur twodoo
 )
 
 

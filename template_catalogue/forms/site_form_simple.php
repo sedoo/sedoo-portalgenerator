@@ -171,7 +171,6 @@ class site_form_simple extends base_form {
 					$this->initFormResolution ( $i ); // base_form ok
 					
 					$this->getElement ( 'sensor_url_' . $i )->setValue ( $dataset->dats_sensors [$i]->sensor->sensor_url );
-
 					if (isset ( $dataset->dats_sensors [$i]->sensor->boundings ) && ! empty ( $dataset->dats_sensors [$i]->sensor->boundings )) {
 						// pour les instruments fixes seulement, lt_min = lat_max et lon_min = lon_max
 						$this->getElement ( 'sensor_longitude_' . $i )->setValue ( $dataset->dats_sensors [$i]->sensor->boundings->west_bounding_coord );
