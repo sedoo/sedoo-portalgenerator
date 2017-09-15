@@ -5,7 +5,7 @@ require_once ("ldap/ldapConnect.php");
 require_once ("mail.php");
 require_once ("bd/journal.php");
 require_once ("ldap/ldapUtils.php");
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 require_once ("ldap/guestuser.php");
 class login_form extends HTML_QuickForm {
 	var $user;

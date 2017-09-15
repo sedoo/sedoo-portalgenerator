@@ -1,7 +1,7 @@
 <?php
 require_once ("bd/journal.php");
 require_once ("mail.php");
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 require_once ('scripts/filtreProjets.php');
 class journal_form extends login_form {
 	var $journal;

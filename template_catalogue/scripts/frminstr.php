@@ -3,7 +3,7 @@ require_once ("bd/dataset.php");
 require_once ("bd/personne.php");
 require_once ("forms/instrument_form.php");
 require_once ("editDataset.php");
-require_once ('/sites/kernel/#MainProject/conf.php');
+require_once ('conf/conf.php');
 require_once ("forms/validation.php");
 require_once ("forms/doi_form.php");
 require_once ('xml/DoiXml.php');

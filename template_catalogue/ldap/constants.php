@@ -1,5 +1,5 @@
 <?php
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 
 define("PEOPLE_BASE","ou=People,".LDAP_BASE);
 define("PROJECT_BASE","ou=Project,".LDAP_BASE);

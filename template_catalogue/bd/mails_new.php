@@ -4,7 +4,7 @@ require_once ("bd/dataset.php");
 require_once ("mail.php");
 require_once ("ldap/ldapConnect.php");
 require_once ("sortie/fiche2pdf_functions.php");
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 
 
 class mails {

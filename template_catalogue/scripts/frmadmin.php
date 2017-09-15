@@ -1,5 +1,5 @@
 <?php
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 require_once ("forms/admin_form.php");
 
 echo '<SCRIPT LANGUAGE="Javascript" SRC="/js/admin.js"> </SCRIPT>';

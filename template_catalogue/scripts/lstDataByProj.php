@@ -3,7 +3,7 @@
 require_once ('bd/project.php');
 require_once ('scripts/lstDataUtils.php');
 require_once ('scripts/TreeMenu.php');
-require_once ('/sites/kernel/#MainProject/conf.php');
+require_once ('conf/conf.php');
 
 $tree = new HTML_TreeMenu();
 

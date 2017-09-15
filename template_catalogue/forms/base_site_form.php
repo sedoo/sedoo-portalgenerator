@@ -1,6 +1,6 @@
 <?php
 require_once ("forms/login_form.php");
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 require_once ("bd/dataset.php");
 require_once ("bd/dataset.php");
 require_once ("bd/project.php");

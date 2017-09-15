@@ -1,5 +1,5 @@
 <?php
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 $file = ATT_FILES_PATH.'/'.$_REQUEST['file'];
 
 if (isset($file) && !is_dir($file) && file_exists($file)){

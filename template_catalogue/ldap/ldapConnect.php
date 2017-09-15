@@ -1,5 +1,5 @@
 <?php
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 require_once ("ldap/portalUser.php");
 require_once ("ldap/projectUser.php");
 require_once ("ldap/user.php");

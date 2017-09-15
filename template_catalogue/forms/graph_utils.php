@@ -6,7 +6,7 @@ require_once ('jpgraph_pie.php');
 require_once ('jpgraph_date.php');
 require_once ('jpgraph_utils.inc.php');
 require_once ('jpgraph_text.inc.php');
-require_once ('/sites/kernel/#MainProject/conf.php');
+require_once ('conf/conf.php');
 require_once ("countries.php");
 define ( 'ECHELLE_GRAPHE_MOIS', 0 );
 function displayGraph($graph, $image) {

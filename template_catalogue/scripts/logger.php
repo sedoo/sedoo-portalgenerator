@@ -1,5 +1,5 @@
 <?php
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 $LOG_DEBUG = 1;
 $LOG_INFO = 2;
 $LOG_ERROR = 3;

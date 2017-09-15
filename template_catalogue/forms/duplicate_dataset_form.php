@@ -1,7 +1,7 @@
 <?php 
 
 require_once ("forms/base_form.php");
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 require_once ('scripts/filtreProjets.php');
 require_once ("bd/dataset.php");
 require_once ("bd/bdConnect.php");

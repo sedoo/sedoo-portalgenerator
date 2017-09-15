@@ -1,5 +1,5 @@
 <?php
-	require_once ("/sites/kernel/#MainProject/conf.php");
+	require_once ("conf/conf.php");
 	if (! isset ( $_SESSION ))
 		session_start ();
 	$project_name = $_REQUEST ['project_name'];

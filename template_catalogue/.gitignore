@@ -3,7 +3,7 @@
 /.buildpath
 /.metadata
 /att_img
-/sites/kernel/#MainProject/conf.php
+conf/conf.php
 /target
 /graphs
 /bd/test_jlb.php

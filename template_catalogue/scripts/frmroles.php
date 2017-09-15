@@ -3,7 +3,7 @@
 require_once ("bd/dats_role.php");
 require_once ("bd/dataset.php");
 require_once ('filtreProjets.php');
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 
 echo "<h1>Database Roles</h1><p/>";
 

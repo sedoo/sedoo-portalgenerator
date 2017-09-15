@@ -1,7 +1,7 @@
 <?php 
 require_once ('utils/phpwkhtmltopdf/WkHtmlToPdf.php');
 require_once ('scripts/editDataset.php');
-require_once ('/sites/kernel/#MainProject/conf.php');
+require_once ('conf/conf.php');
 
 $root = $_SERVER['DOCUMENT_ROOT'];
 

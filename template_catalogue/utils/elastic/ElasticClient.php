@@ -2,7 +2,7 @@
 
 require 'elastic/vendor/autoload.php';
 
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 require_once ("utils/elastic/elastic_dataset_factory.php");
 require_once ("bd/gcmd_science_keyword.php");
 

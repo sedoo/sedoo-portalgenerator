@@ -1,5 +1,5 @@
 <?php 
-    require_once ("/sites/kernel/#MainProject/conf.php");
+    require_once ("conf/conf.php");
 
     define('XML_TEMPLATE','https://'.$_SERVER['HTTP_HOST'].'/extract/requete.xml');
     define('XML_DEFAULT_FORMAT','ames');

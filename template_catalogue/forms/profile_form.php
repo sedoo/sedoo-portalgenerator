@@ -2,7 +2,7 @@
 require_once ("forms/login_form.php");
 require_once ("countries.php");
 require_once ("bd/journal.php");
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 class profile_form extends login_form {
 	function createForm() {
 		if (isset ( $_SESSION ['loggedUser'] )) {

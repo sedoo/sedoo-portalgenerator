@@ -3,7 +3,7 @@ require_once ('utils/phpwkhtmltopdf/WkHtmlToPdf.php');
 require_once ('scripts/lstDataUtils.php');
 require_once ("dataset.php");
 require_once ("scripts/filtreProjets.php");
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 
 // Database Identifiants
 $db_name = DB_NAME;

@@ -3,7 +3,7 @@ require_once ("bd/journal.php");
 require_once ("bd/url.php");
 require_once ("bd/role.php");
 require_once ("bd/dats_role.php");
-require_once ("/sites/kernel/#MainProject/conf.php");
+require_once ("conf/conf.php");
 
 define ( "ADD_URL_LOCAL", 1 );
 define ( "ADD_URL_IPSL", 2 );

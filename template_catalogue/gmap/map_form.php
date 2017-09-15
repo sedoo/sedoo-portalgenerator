@@ -1,5 +1,5 @@
 <?php
-require_once ('/sites/kernel/#MainProject/conf.php');
+require_once ('conf/conf.php');
 define('MISSING_VALUE','NA');
 
 class map_form{
