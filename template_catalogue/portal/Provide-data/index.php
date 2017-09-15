@@ -1,7 +1,7 @@
 <?php
 if (!isset($_SESSION))
         session_start();
-require_once ('/sites/kernel/#MainProject/conf.php');
+require_once ('conf/conf.php');
 $project_name="#MainProject";
 $project_url="/#MainProject";
 $titreMilieu="Provide data";
@@ -45,7 +45,7 @@ Use contraints example: Permission is granted to use these data and images in re
 <br>
 <p><strong>Provide model outputs or value-added datasets</strong></p>
 
-<p>Large dataset providers are invited to contact  <b><?php echo constant(strtolower($project_name).'_AdminGroup_Email'');?></b> in order to define the best way to upload the data.</p></div>
+<p>Large dataset providers are invited to contact  <b><?php echo constant(strtolower($project_name).'_AdminGroup_Email');?></b> in order to define the best way to upload the data.</p></div>
 </div>
 <?php
   $milieu = ob_get_clean();
