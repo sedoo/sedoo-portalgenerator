@@ -71,7 +71,7 @@
  		function getIdByProjectName($name){
  			if (!isset($name) || empty($name))
  				return new project;
- 			$query = "select project_id from project where project_name = '".$name."'";
+ 			$query = "select project_id from project where project_name ILIKE '".$name."'";
  			$bd = new bdConnect;
  			if ($resultat = $bd->get_data($query))
  			{
