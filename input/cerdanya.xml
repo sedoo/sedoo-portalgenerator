@@ -2,7 +2,7 @@
 <portal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <name>Cerdanya</name>
-  <path>/sites/kernel</path>  
+  <path>/sites</path>  
   <website>http://cerdanya.sedoo.fr</website>
   <googleAnalyticAccount></googleAnalyticAccount>
   <SSLCertificateFile>/etc/apache2/ssl/cerdanya.crt</SSLCertificateFile>
