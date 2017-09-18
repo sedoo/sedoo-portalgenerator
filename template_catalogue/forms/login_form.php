@@ -331,7 +331,7 @@ class login_form extends HTML_QuickForm {
 		}
 		$this->displayLoginForm ( $titre, $withForgot, $displayForgot );
 		$reqUri = '/User-Account-Creation';
-		if ($project_name != MainProject)
+		if ($project_name != strToLower(MainProject))
 			$reqUri = '/' . $project_name . '/Register';
 		echo "<a href='" . $reqUri . "'><h5 style ='color:rgb(70,122,167);'>If you are a new user, please click here to register.</h5></a> <br>";
 		echo "</table></center>";
