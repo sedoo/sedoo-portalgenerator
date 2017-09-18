@@ -5,17 +5,8 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <path>/sites</path>  
   <website>http://kascade.sedoo.fr</website>
   <googleAnalyticAccount>UA-74848043-1</googleAnalyticAccount>
-  <SSLCertificateFile>/etc/apache2/ssl/cerdanya.crt</SSLCertificateFile>
-  <SSLCertificateKeyFile>/etc/apache2/ssl/cerdanya.key</SSLCertificateKeyFile>    
-  <faviconPath>/img/favicon.ico</faviconPath>
-  <bannerHeight>100px</bannerHeight>
-  <displayBannerTitle>true</displayBannerTitle>
-  <displayLogoOnBanner>false</displayLogoOnBanner>
-  <logoPath>/img/logo_mistrals.jpg</logoPath>
-  <topbarPath>/img/bg_head_middle2.jpg</topbarPath>
-  <footerTextPeriod>2015</footerTextPeriod>
-  <footerTextDeveloper>Sedoo</footerTextDeveloper>
-  <footerTextDeveloperWebsite>http://www.obs-mip.fr/recherche/plates-formes/sedoo</footerTextDeveloperWebsite>
+  <SSLCertificateFile>/etc/apache2/ssl/kascade.crt</SSLCertificateFile>
+  <SSLCertificateKeyFile>/etc/apache2/ssl/kascade.key</SSLCertificateKeyFile>    
   <dns>kascade.sedoo.fr</dns>
   <extractInformPi>false</extractInformPi>
   <publicDataRole>public</publicDataRole>
@@ -23,12 +14,12 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <doiPrefix>10.6096/</doiPrefix>
   <testMode>true</testMode>
   <yearStart>2010</yearStart>
-  <monthStart>9</monthStart>   
   <ftp>ftp://kascade.sedoo.fr</ftp>
   <adminGroupEmail>kascadeAdmin@sedoo.fr</adminGroupEmail>
   <rootEmail>kascadeRoot@sedoo.fr</rootEmail>
   <managerEmail>kascadeManager@sedoo.fr</managerEmail>
-  <datapolicy></datapolicy>    
+  <contactEmail>kascadeManager@sedoo.fr</contactEmail>
+  <datapolicy></datapolicy> 
   <homePage>0</homePage>
   <database>
       <host>shiva</host>

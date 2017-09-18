@@ -215,9 +215,10 @@ class PortalGenerator {
 		}
 				
 		if (in_array ( '--skip-php', $this->options ) === false) {
-			$content .= "mkdir -p $this->rootPath" . "/" . $this->xmlContent['name'] . "\n"; //modif
-			$content .= "mv catalogue/conf/conf.php " . "$this->rootPath" . "/projects/" . $this->xmlContent['name'] . "/conf/\n"; //modif
-			$content .= "mv " . "catalogue $this->rootPath/kernel/ \n"; //modif
+			$content .= "mkdir -p $this->rootPath" . "/projects/" . $this->xmlContent['name'] . "/conf \n"; //modif
+			$content .= "mkdir -p $this->rootPath" . "/kernel \n";
+			$content .= "mv catalogue/conf/conf.php " . "$this->rootPath" . "/projects/" . $this->xmlContent['name'] . "/conf \n"; //modif
+			$content .= "mv " . "catalogue $this->rootPath/kernel \n"; //modif
 		}
 	
 		if (in_array ( '--skip-apache', $this->options ) === false) {
@@ -1010,7 +1011,7 @@ class PortalGenerator {
         		. "\t SSLCertificateFile " . $this->xmlContent ['SSLCertificateFile'] . "\n"
         		. "\t SSLCertificateKeyFile " . $this->xmlContent ['SSLCertificateKeyFile'] . "\n";
 				
-		$content .=	"\t <Directory $documentRoot> \n" . "\t\t Require all granted\n" . "\t\t php_value include_path \".:". $this->rootPath . "/" . $this->portalName . ":/usr/share/pear:/usr/share/php:/usr/local/lib/php/:$documentRoot/scripts:$documentRoot/:$documentRoot/template:/usr/share/php/jpgraph\" \n" . "\t </Directory> \n"; 
+		$content .=	"\t <Directory $documentRoot> \n" . "\t\t Require all granted\n" . "\t\t php_value include_path \".:". $this->rootPath . "/projects/" . $this->portalName . ":/usr/share/pear:/usr/share/php:/usr/local/lib/php/:$documentRoot/scripts:$documentRoot/:$documentRoot/template:/usr/share/php/jpgraph\" \n" . "\t </Directory> \n"; 
 		$content .= "\t <Directory $documentRoot/att_img> \n" . "\t\t AllowOverride All \n" . "\t </Directory> \n";
 		
 		$content .="\t ScriptAlias /extract/cgi-bin/ $this->rootPath/extract/cgi-bin/ \n";
