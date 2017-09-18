@@ -160,17 +160,19 @@ class user_form_new extends login_form {
 						$this->projects [$proj] [$i] = $projectList [$i]->cn . ' - ' . $projectList [$i]->description;
 						$this->addElement ( 'checkbox', $proj . '_wg_' . $i, $this->projects [$proj] [$i] );
 					}
-					if (constant(strtolower ( $proj ) . 'SubProjects') != '') {
+					if (defined (strtolower ( $proj ) . 'SubProjects') ) {
 						$this->addElement ( 'text', $proj . '_sub_project', "Do you participate in one of the $proj subprojects ?" );
 						$this->applyFilter ( $proj . '_sub_project', 'trim' );
 					}
 					// Charte
-					$i = 0;
-					for($i = 0; $i < constant(strtolower ( $proj ) . 'NbSignDataPolicy'); $i ++) {
-						$obj_charte [] = &HTML_QuickForm::createElement ( 'checkbox', $proj . '_chart_' . $i, null, '&nbsp;' . (constant(strtolower ( $proj ) . 'SignDataPolicy' . $i)) );
+					if ( defined( strtolower ( $proj ) . 'NbSignDataPolicy') ) {
+						$i = 0;
+						for($i = 0; $i < constant(strtolower ( $proj ) . 'NbSignDataPolicy'); $i ++) {
+							$obj_charte [] = &HTML_QuickForm::createElement ( 'checkbox', $proj . '_chart_' . $i, null, '&nbsp;' . (constant(strtolower ( $proj ) . 'SignDataPolicy' . $i)) );
+						}
+						$this->addGroup ( $obj_charte, $proj . '_chkChart', null, '<br />' );
+						$obj_charte = null;
 					}
-					$this->addGroup ( $obj_charte, $proj . '_chkChart', null, '<br />' );
-					$obj_charte = null;
 				}
 			}
 		}
