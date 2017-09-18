@@ -78,7 +78,17 @@ class treeByPlat {
 	
 	function isEmptyTypeTab() {
 		$gcmd = new gcmd_plateform_keyword ();
-		$query = 'SELECT * FROM gcmd_plateform_keyword WHERE gcmd_plat_id != 1 AND gcmd_plat_id != 23 ' . ' AND ( gcmd_plat_id IN (SELECT distinct gcmd_plat_id FROM place where place_id in (' . 'SELECT distinct place_id FROM dats_place WHERE dats_id IN (' . "SELECT distinct dats_id FROM dats_proj where project_id in ($this->projects)))) or gcmd_plat_id in (15,16,22,14) )" . ' ORDER BY gcmd_plat_name';
+		$query = 
+		"SELECT * 
+		FROM gcmd_plateform_keyword 
+		WHERE gcmd_plat_id != 1 
+		AND gcmd_plat_id != 23 
+		AND ( gcmd_plat_id IN (
+			SELECT DISTINCT gcmd_plat_id FROM place WHERE place_id IN (
+				SELECT DISTINCT place_id FROM dats_place WHERE dats_id IN (
+					SELECT DISTINCT dats_id FROM dats_proj WHERE project_id IN ($this->projects))))) 
+		OR gcmd_plat_id IN (15,16,22,14)
+		ORDER BY gcmd_plat_name";
 		$plat_list = $gcmd->getByQuery ( $query );
 		foreach ( $plat_list as $plat ) {
 			$ids [] = $plat->gcmd_plat_id;

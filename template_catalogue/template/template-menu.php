@@ -1,8 +1,6 @@
 <?php
-echo $_SERVER['SERVER_NAME'];
-echo $_REQUEST['project'];
 
-if ($project_name == MainProject) {
+if ($project_name == strToLower(MainProject)) {
 	// require("inc-colonne.html");
 	$root_path_menu = "portal";
 	$subscribe_url= "".$_SERVER['HTTP_HOST']."/User-Account-Creation";
@@ -15,7 +13,7 @@ else {
 }
 ?>
 
- <h2>Project name : <?php echo $project_name; ?></h2>
+<!-- <h2>Project name : <?php echo $project_name; ?></h2> -->
  
 
 <section>
