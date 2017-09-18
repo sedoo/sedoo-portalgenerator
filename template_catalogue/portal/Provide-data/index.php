@@ -2,7 +2,7 @@
 if (!isset($_SESSION))
         session_start();
 require_once ('conf/conf.php');
-$project_name="#MainProject";
+$project_name = explode ( '.', $_SERVER['SERVER_NAME'] )[0]; //"#MainProject";
 $project_url="/#MainProject";
 $titreMilieu="Provide data";
 ob_start();
