@@ -216,9 +216,8 @@ class PortalGenerator {
 				
 		if (in_array ( '--skip-php', $this->options ) === false) {
 			$content .= "mkdir -p $this->rootPath" . "/projects/" . $this->xmlContent['name'] . "/conf \n"; //modif
-			$content .= "mkdir -p $this->rootPath" . "/kernel \n";
 			$content .= "mv catalogue/conf/conf.php " . "$this->rootPath" . "/projects/" . $this->xmlContent['name'] . "/conf \n"; //modif
-			$content .= "mv " . "catalogue $this->rootPath/kernel \n"; //modif
+			$content .= "mv " . "catalogue $this->rootPath \n"; //modif
 		}
 	
 		if (in_array ( '--skip-apache', $this->options ) === false) {
