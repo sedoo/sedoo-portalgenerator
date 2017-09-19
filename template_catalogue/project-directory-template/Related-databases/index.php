@@ -10,7 +10,7 @@ ob_start ();
 <br>
 <br>
 <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>">Other
-	#MainProject Databases</a>
+<?php echo constant('MainProject'); ?> Databases</a>
 <?php
 $milieu = ob_get_clean ();
 include ("template.php");

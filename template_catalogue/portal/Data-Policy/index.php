@@ -13,8 +13,8 @@ ob_start ();
 
 	<div class="">
 		<p>
-			Download the #MainProject Data Policy
-			<a href="#MainProject_DataPolicy.pdf" type='application/pdf'>here</a>
+			Download the <?php echo constant('MainProject'); ?> Data Policy
+			<a href="<?php echo constant('MainProject');?>_DataPolicy.pdf" type='application/pdf'>here</a>
 			.
 		</p>
 	</div>

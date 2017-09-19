@@ -11,7 +11,7 @@ ob_start();
 <div class="column1-unit">
 <br><br>
 <div class=""><p><strong>Provide <i>in situ</i> data</strong></p>
-<p>#MainProject data providers are invited to upload their data files on the #MainProject ftp site: <b><?php echo Portal_FTP_Site; ?></b> . To achieve it you may use a ftp client, like filezilla or coreftp, and your portal login and password to connect. 
+<p><?php echo constant('MainProject'); ?> data providers are invited to upload their data files on the <?php echo constant('MainProject'); ?> ftp site: <b><?php echo Portal_FTP_Site; ?></b> . To achieve it you may use a ftp client, like filezilla or coreftp, and your portal login and password to connect. 
 If not already done, you can register at the following address:
 <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>/User-Account-Creation"><?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>/User-Account-Creation </a> 
 </p>
@@ -40,7 +40,7 @@ so that we can make the data avalaible.  Don't forget to mention the following i
 <li>Which data policy (Public, <?php echo MainProject; if(constant(strtolower($project_name).'_HasAssociatedUsers') == 'true'){ echo ", ".$project_name." Core or Associated Users";} else { echo " or ".$project_name." Core Users"; }?> Access)  
 and "use constraints" should be applied to your data.
 Use contraints example: Permission is granted to use these data and images in research and publications when accompanied by the following statement:
-"Data were obtained from the #MainProject program, sponsored by Grants <?php echo MainProject."/".$project_name;?> [ and the relevant project or Institution or Lab]."
+"Data were obtained from the <?php echo constant('MainProject'); ?> program, sponsored by Grants <?php echo MainProject."/".$project_name;?> [ and the relevant project or Institution or Lab]."
 </ul>
 <br>
 <p><strong>Provide model outputs or value-added datasets</strong></p>
