@@ -13,7 +13,7 @@ ob_start();
 <div class=""><p><strong>Provide <i>in situ</i> data</strong></p>
 <p><?php echo constant('MainProject'); ?> data providers are invited to upload their data files on the <?php echo constant('MainProject'); ?> ftp site: <b><?php echo Portal_FTP_Site; ?></b> . To achieve it you may use a ftp client, like filezilla or coreftp, and your portal login and password to connect. 
 If not already done, you can register at the following address:
-<a href="<?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>/User-Account-Creation"><?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>/User-Account-Creation </a> 
+<a href="<?php echo 'https://'.$_SERVER['HTTP_HOST']; ?>/User-Account-Creation"><?php echo 'https://'.$_SERVER['HTTP_HOST']; ?>/User-Account-Creation </a> 
 </p>
 <p>When possible, please convert your datafiles into netCDF or CSV format for data exchange. 
 <p>Once connected to the FTP, please</p>
@@ -29,8 +29,8 @@ In particular, a readme file describing the data files content and format is wel
 <p>
 If not already done, <b>add or update  a metadata form </b>describing the datasets you provide at the 
 following address:
-<a href="<?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>/portal/Provide-metadata/" >
-<?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>portal/Provide-metadata</a>
+<a href="<?php echo 'https://'.$_SERVER['HTTP_HOST']; ?>/portal/Provide-metadata/" >
+<?php echo 'https://'.$_SERVER['HTTP_HOST']; ?>portal/Provide-metadata</a>
 <p>
 After uploading your data, please <b>inform us</b> by email: <b><?php if (defined( strtolower($project_name).'_AdminGroup_Email' ) ) echo constant(strtolower($project_name).'_AdminGroup_Email') ;?></b>
 so that we can make the data avalaible.  Don't forget to mention the following items:
