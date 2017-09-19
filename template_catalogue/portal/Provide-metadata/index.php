@@ -12,7 +12,7 @@ ob_start ();
 	<br>
 	<div>
 		<p>
-			The <?php echo constant('MainProject'); ?> database offers data providers the possibility to add or
+			The <?php echo MainProject; ?> database offers data providers the possibility to add or
 			update metadata describing the datasets they are responsible for.
 			Sharing information about the data is indeed a very important step to
 			foster collaboration. Data access information (url link, procedure…)
@@ -80,7 +80,7 @@ ob_start ();
 			<br>
 			To
 			<b>update your metadata</b>
-			, browse the <?php echo constant('MainProject'); ?> catalogue, edit your dataset description by
+			, browse the <?php echo MainProject; ?> catalogue, edit your dataset description by
 			clicking on its title, and then clic on the update button located at
 			the bottom of the page.
 			<br>

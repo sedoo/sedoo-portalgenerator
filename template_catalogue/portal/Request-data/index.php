@@ -12,7 +12,7 @@ ob_start ();
 	<br>
 	<div class="">
 		<p>
-			If you did not find needed datasets in the <?php echo constant('MainProject'); ?> database, you can
+			If you did not find needed datasets in the <?php echo MainProject; ?> database, you can
 			fill in the forms below to detail the data you expect.
 			<br>
 		</p>
