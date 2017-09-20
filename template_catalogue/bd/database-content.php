@@ -109,7 +109,7 @@ function ecrireEtat($db, $plateformes, $isPDF = false) {
 	
 	foreach ( $plateformes as $p ) {
 		if ($p->count) {
-			if ($project_name == MainProject || $isPDF == true) {
+			if ($project_name == strtolower(MainProject) || $isPDF == true) {
 				$server_response .= "<div class='panel panel-info' style = 'page-break-inside: auto;'>" . "<div class='panel-heading' style = 'page-break-inside: avoid;'><h3 class='panel-title' style = 'page-break-inside: avoid;'>" . $p->name . "</h3></div>" . "<div class='panel-body' style = 'page-break-inside: auto;'>" . "<table class='table table-striped' style = 'page-break-inside: auto;'>";
 				$server_response .= "<thead style = 'page-break-inside: avoid;'>" . "<tr style = 'page-break-inside: avoid;'>" . "<th style = 'page-break-inside: avoid;'>Dataset Name</th>" . "<th style = 'page-break-inside: avoid;'>PIs Name</th>" . "<th style = 'page-break-inside: avoid;'>Period Begin</th>" . "<th style = 'page-break-inside: avoid;'>Period End</th>" . "<th style = 'page-break-inside: avoid;'></th>" . "</tr>" . "</thead>" . "<tbody style = 'page-break-inside: auto;'>";
 			} else {
@@ -117,7 +117,7 @@ function ecrireEtat($db, $plateformes, $isPDF = false) {
 				$server_response .= "<thead>" . "<tr>" . "<th max-width = 30% width = 30% >Name</th>" . "<th width = 5% >ID</th>" . "<th width = 15% >Insertion/last update</th>" . "<th width = 10% >PIs Name</th>" . "<th width = 10% >PIs Role</th>" . "<th width = 10% >Period Begin</th>" . "<th width = 10% >Period End</th>" . "<th width = 10% ></th>" . "</tr>" . "</thead>" . "<tbody>";
 			}
 			foreach ( $p->ds as $ds ) {
-				if ($project_name == MainProject || $isPDF == true) {
+				if ($project_name == strtolower(MainProject) || $isPDF == true) {
 					$server_response .= "<tr style = 'page-break-inside: avoid;'><td style = 'page-break-inside: avoid;' width = 40%><h5 style='color: #31708f;page-break-inside: avoid;'>" . $ds->dats_title . "</h5></td>" . "<td style = 'page-break-inside: avoid;' width = 25%><h5 style = 'page-break-inside: avoid;'>" . $ds->uids [0] . "</h5></td>" . "<td style = 'page-break-inside: avoid;' width = 10%><h5 style = 'page-break-inside: avoid;'>" . $ds->dd . "</h5></td>" . "<td style = 'page-break-inside: avoid;' width = 10%><h5 style = 'page-break-inside: avoid;'>" . $ds->df . "</h5></td>" . "<td style = 'page-break-inside: avoid;' width = 15%><h5 style = 'page-break-inside: avoid;'><a href=\"http://$_SERVER[HTTP_HOST]?editDatsId=$ds->dats_id&datsId=$ds->dats_id\">View metadata</a></h5></td></tr>";
 				} else {
 					$server_response .= "<tr><td style='color: #31708f;' max-width = 30% width = 30% >" . $ds->dats_title . "</td>" . "<td width = 5%>" . $ds->dats_id . "</td>";
@@ -133,7 +133,7 @@ function ecrireEtat($db, $plateformes, $isPDF = false) {
 				}
 			}
 			$server_response .= "</tbody>" . "</table></div><br>";
-			if ($project_name == MainProject || $isPDF == true) {
+			if ($project_name == strtolower(MainProject) || $isPDF == true) {
 				$server_response .= "</div>";
 			}
 		}
@@ -203,7 +203,7 @@ function getDatasetsByProject($Project, $isPDF = false) {
 			$last_update = pg_fetch_row ( $res1 );
 			loadInPlateForme ( $db, $plateformes, trim ( $url [0] ), $result, $uids, $sgbd, $role, $ins_date [0], $last_update [0] );
 		}
-		if ($project_name == MainProject || $isPDF == true) {
+		if ($project_name == strtolower(MainProject) || $isPDF == true) {
 			$server_resp = ecrireEtat ( $db, $plateformes, true );
 		} else {
 			$server_resp = ecrireEtat ( $db, $plateformes );
@@ -264,7 +264,7 @@ EOD;
 function fillProjectsTab($Project_Name = null) {
 	global $Projects, $project_name, $Dats_Projects;
 	reset ( $Projects );
-	if ($project_name == MainProject) {
+	if ($project_name == strtolower(MainProject)) {
 		while ( $element = current ( $Projects ) ) {
 			$Dats_Projects [key ( $Projects )] = getDatasetsByProject ( $element );
 			next ( $Projects );
