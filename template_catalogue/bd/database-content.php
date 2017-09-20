@@ -13,7 +13,7 @@ $db = '';
 $Dats_Projects = array ();
 // Projects Ids
 $Projects = array ();
-$Dats_Projects = array ();
+
 foreach ( $MainProjects as $pro ) {
 	$Projects [$pro] = get_filtre_projets ( $pro );
 }
