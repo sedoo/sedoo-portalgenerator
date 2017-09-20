@@ -124,12 +124,7 @@ class treeByPlat {
 		$plat_ids = implode ( ",", $ids );
 		$plat_ids = rtrim ( $plat_ids, "," );
 		$sites_ids = rtrim ( $sites_ids, "," );
-		$dats_type_ids = array (
-				0,
-				1,
-				2,
-				3 
-		);
+		$dats_type_ids = array (0,1,2,3);
 		
 		foreach ( $dats_type_ids as $type_id ) {
 			if ($type_id > 0)
@@ -145,7 +140,8 @@ class treeByPlat {
 			else
 				$whereFilter = '';
 			
-			$query_dp1 = "select distinct dats_id from dats_place where place_id in (select place_id from place where place_id in ( $sites_ids ) or (pla_place_id in ( $sites_ids ) and place_level is null))";
+			if ($sites_ids !== NULL) $query_dp1 = "select distinct dats_id from dats_place where place_id in (select place_id from place where place_id in ( $sites_ids ) or (pla_place_id in ( $sites_ids ) and place_level is null))";
+			else $query_dp1 = 0;
 			$query_dp2 = "select distinct dats_id from dats_place where place_id in (select place_id from place where gcmd_plat_id in ($plat_ids) and (pla_place_id is null or pla_place_id not in (select place_id from place where place_level is not null and gcmd_plat_id in ($plat_ids,14))) and place_level is null)";
 			$query = "select dats_id, dats_title from dataset left join dats_type using (dats_id) where dats_id in (select distinct dats_id from dats_proj where project_id in ($this->projects)) and ( dats_id in ($query_dp1) or dats_id in ($query_dp2) ) and is_requested is null $whereDataOnly $whereDataType $whereFilter order by dats_title";
 			$dts = new dataset ();
