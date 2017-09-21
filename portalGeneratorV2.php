@@ -5,33 +5,37 @@ class PortalGenerator {
 	var $templateDir = './template_catalogue';
 	var $extractDir = './extracteur';
 	var $inputDir = './input';
+
 	var $targetDir = './target';
-	var $phpTargetDir;
-	var $apacheTargetDir;
-	var $databaseTargetDir;
-	var $ldapTargetDir;
-	var $ftpTargetDir;
-	var $extractTargetDir;
-	var $backupTargetDir;
-	var $xmlSchema = './input/projet-template.xsd';
-	var $xmlContent;
-	var $projects = array ();
-	var $subProjects = array ();
-	var $ldapProjects = array ();
+	var $phpTargetDir; 			// ./target/catalogue
+	var $apacheTargetDir;		// ./target/apache
+	var $databaseTargetDir;		// ./target/database
+	var $ldapTargetDir;			// ./target/ldap
+	var $ftpTargetDir;			// ./target/ftp
+	var $extractTargetDir;		// ./target/extraction
+	var $backupTargetDir;		// ./target/backup
+
+	// chemin vers le modèle XML
+	var $xmlSchema = './input/projet-template.xsd'; 
+	// tableau associatif donnant accès aux valeur du fichier XML : $this->xmlContent['balise']
+	var $xmlContent;								
+	var $projects = array (); 		// plus utilisé
+	var $subProjects = array (); 	// plus utilisé
+	var $ldapProjects = array (); 	
 	var $portalName;
-	var $options = array ();
-	var $conf = array ();
+	var $options = array (); 	// tableau d'options passées en argument à l'exécution du portalGenerator
+	var $conf = array (); 		// tableau de confs définies dans config.php
 	
-	var $rootPath;
-	var $dataPath;
-	var $depotPath;
-	var $backupPath;
-	var $workPath;
-	var $dlPath;
-	var $logPath;
-	var $attFilesPath;
-	var $mapsPath;
-	var $webPath;
+	var $rootPath; 		// /sites
+	var $dataPath; 		// /sites/data
+	var $depotPath; 	// /sites/depot
+	var $backupPath; 	// /sites/backup
+	var $workPath; 		// /sites/work
+	var $dlPath; 		// /sites/work/dl
+	var $logPath; 		// /sites/work/log
+	var $attFilesPath;	// /sites/work/attached
+	var $mapsPath;		// /sites/work/maps
+	var $webPath;		// /sites/catalogue
 	
 	function __construct($conf, $options = array()) {
 		$this->options = $options;
@@ -106,9 +110,9 @@ class PortalGenerator {
 			
 			// PHP
 			if (in_array ( '--skip-php', $this->options ) === false) {
-				// $this->copyTemplateCatalogue ();
+				$this->copyTemplateCatalogue ();
 				$this->makeConfPhp ();
-				$this->createProjectsDirectories ();
+				// $this->createProjectsDirectories ();
 				echo "Setting portal name in all folders...\n";
 				DirUtils::changeWordInDirectory ( $this->phpTargetDir, '#MainProject', $this->portalName );
 				echo "Renaming folder...\n";
@@ -122,7 +126,7 @@ class PortalGenerator {
 				if (! file_exists ( $this->ldapTargetDir )) {
 					exec ( "mkdir $this->ldapTargetDir" );
 				}
-				$this->readLdapProjects();
+				// $this->readLdapProjects();
 				$this->makeLdap ();
 			} else {
 				echo "Skip LDAP\n";
@@ -371,9 +375,9 @@ class PortalGenerator {
 		$content .= $this->comment ( "Répertoires des images et fichiers attachés" );
 		$content .= "define('ATT_FILES_PATH','" . $this->attFilesPath . "');\n";
 		
-		
-		$content .= "define('STATS_DEFAULT_MIN_YEAR', " . date ( 'Y' ) . ");\n";
-		
+		date_default_timezone_set('UTC');
+		$content .= "define('STATS_DEFAULT_MIN_YEAR', " . date ('Y') . ");\n";
+				
 		$content .= $this->comment ( "répertoire du site web" );
 		$content .= "define('WEB_PATH','" . $this->webPath . "');\n";
 		
@@ -450,21 +454,24 @@ class PortalGenerator {
 		else
 			$content .= "define('Portal_DataPolicy','');\n";
 		$content .= $this->comment ( "Paramètres pour la connexion avec la BDD" );
+		
 		// Roles
-		$roles = null;
-		$m = 0;
-		foreach ( $this->xmlContent ['roles'] ['role'] as $role ) {
-			$m ++;
-			$roles .= $role;
-			if ($m < count ( $this->xmlContent ['roles'] ['role'] )) {
-				$roles .= ",";
+		if (isset( $this->xmlContent ['roles']) ) {
+			$roles = null;
+			$m = 0;
+			foreach ( $this->xmlContent ['roles'] ['role'] as $role ) {
+				$m ++;
+				$roles .= $role;
+				if ($m < count ( $this->xmlContent ['roles'] ['role'] )) {
+					$roles .= ",";
+				}
 			}
+			$content .= $this->comment ( "Liste des roles pour le portail" );
+			if (isset ( $roles ) && ! empty ( $roles ))
+				$content .= "define('" . strtolower ( $this->xmlContent ['name'] ) . "ListRoles','" . $roles . "');\n";
+			else
+				$content .= "define('" . strtolower ( $this->xmlContent ['name'] ) . "ListRoles','');\n";
 		}
-		$content .= $this->comment ( "Liste des roles pour le portail" );
-		if (isset ( $roles ) && ! empty ( $roles ))
-			$content .= "define('" . strtolower ( $this->xmlContent ['name'] ) . "ListRoles','" . $roles . "');\n";
-		else
-			$content .= "define('" . strtolower ( $this->xmlContent ['name'] ) . "ListRoles','');\n";
 		
 		$content .= $this->comment ( "Année et mois du début du portail" );
 		if (isset ( $this->xmlContent ['yearStart'] ) && ! empty ( $this->xmlContent ['yearStart'] ))
@@ -654,16 +661,16 @@ class PortalGenerator {
 		else
 			$content .= "define('" . strtolower ( $this->xmlContent ['name'] ) . "_HasGreenTag','');\n";
 		
-		if (! isset ( $this->xmlContent ["mainProjects"] ['project'] [0] ) && empty ( $this->xmlContent ["mainProjects"] ['project'] [0] )) {
-			$tab_mainProjects = $this->xmlContent ["mainProjects"] ['project'];
-			unset ( $this->xmlContent ["mainProjects"] ['project'] );
-			$this->xmlContent ["mainProjects"] ['project'] [0] = $tab_mainProjects;
-		}
-		if (! isset ( $this->xmlContent ["otherProjects"] ['project'] [0] ) && empty ( $this->xmlContent ["otherProjects"] ['project'] [0] )) {
-			$tab_otherProjects = $this->xmlContent ["otherProjects"] ['project'];
-			unset ( $this->xmlContent ["otherProjects"] ['project'] );
-			$this->xmlContent ["otherProjects"] ['project'] [0] = $tab_otherProjects;
-		}
+		// if (! isset ( $this->xmlContent ["mainProjects"] ['project'] [0] ) && empty ( $this->xmlContent ["mainProjects"] ['project'] [0] )) {
+		// 	$tab_mainProjects = $this->xmlContent ["mainProjects"] ['project'];
+		// 	unset ( $this->xmlContent ["mainProjects"] ['project'] );
+		// 	$this->xmlContent ["mainProjects"] ['project'] [0] = $tab_mainProjects;
+		// }
+		// if (! isset ( $this->xmlContent ["otherProjects"] ['project'] [0] ) && empty ( $this->xmlContent ["otherProjects"] ['project'] [0] )) {
+		// 	$tab_otherProjects = $this->xmlContent ["otherProjects"] ['project'];
+		// 	unset ( $this->xmlContent ["otherProjects"] ['project'] );
+		// 	$this->xmlContent ["otherProjects"] ['project'] [0] = $tab_otherProjects;
+		// }
 		
 		$content .= $this->comment ( "Paramètre de la carte dans la recherche avancée" );
 		if (isset ( $this->xmlContent ['map'] ['MAP_DEFAULT_LAT_MIN'] ) && ! empty ( $this->xmlContent ['map'] ['MAP_DEFAULT_LAT_MIN'] ))
@@ -684,265 +691,271 @@ class PortalGenerator {
 			$content .= "define('MAP_DEFAULT_LON_MAX','');\n";
 			
 		// Projects informations
-		$j = 0;
-		$compt = 0;
-		$mainprojects = null;
-		foreach ( array (
-				$this->xmlContent ["mainProjects"],
-				$this->xmlContent ["otherProjects"] 
-		) as $Projects ) {
-			foreach ( $Projects ['project'] as $proj ) {
-				if (isset ( $proj ) && ! empty ( $proj )) {
-					$j ++;
-					if ($compt == 0)
-						$mainprojects .= $proj ['name'];
-					$content .= "\n";
-					$content .= $this->comment ( "Paramètres de " . $proj ['name'] );
-					$content .= $this->comment ( "Le compte google analytic de " . $proj ['name'] );
-					if (isset ( $proj ['googleAnalyticAccount'] ) && ! empty ( $proj ['googleAnalyticAccount'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "GoogleAnalytic','" . $proj ['googleAnalyticAccount'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "GoogleAnalytic','');\n";
-					$content .= $this->comment ( "Les différents ID des sites que le projet peut avoir" );
-					if (isset ( $proj ['sites'] ) && ! empty ( $proj ['sites'] ))
-						$content .= "define('" . strtoupper ( $proj ['name'] ) . "_SITES','" . $proj ['sites'] . "');\n";
-					else
-						$content .= "define('" . strtoupper ( $proj ['name'] ) . "_SITES','');\n";
-					$content .= $this->comment ( "Répertoires pour les dépots ftp" );
-					if (isset ( $proj ['depot'] ) && ! empty ( $proj ['depot'] ))
-						$content .= "define('" . strtoupper ( $proj ['name'] ) . "_DEPOT','" . $proj ['depot'] . "');\n";
-					else
-						$content .= "define('" . strtoupper ( $proj ['name'] ) . "_DEPOT','');\n";
-					$content .= $this->comment ( "Hauteur de la bannière" );
-					if (isset ( $proj ['bannerHeight'] ) && ! empty ( $proj ['bannerHeight'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_BannerHeight','" . $proj ['bannerHeight'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_BannerHeight','');\n";
-					$content .= $this->comment ( "Affichage ou pas du nom du projet dans la bannière" );
-					if (isset ( $proj ['displayBannerTitle'] ) && ! empty ( $proj ['displayBannerTitle'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_DisplayBannerTitle','" . $proj ['displayBannerTitle'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_DisplayBannerTitle','');\n";
-					$content .= $this->comment ( "Affichage ou pas du logo du projet dans la bannière" );
-					if (isset ( $proj ['displayLogoOnBanner'] ) && ! empty ( $proj ['displayLogoOnBanner'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_DisplayLogoOnBanner','" . $proj ['displayLogoOnBanner'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_DisplayLogoOnBanner','');\n";
-					$content .= $this->comment ( "Le chemin du logo du projet" );
-					if (isset ( $proj ['logoPath'] ) && ! empty ( $proj ['logoPath'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_LogoPath','" . $proj ['logoPath'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_LogoPath','');\n";
-					$content .= $this->comment ( "La barre du haut pour le projet" );
-					if (isset ( $proj ['topbarPath'] ) && ! empty ( $proj ['topbarPath'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_TopBarPath','" . $proj ['topbarPath'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_TopBarPath','');\n";
-					$content .= $this->comment ( "Année et mois du début du projet" );
-					if (isset ( $proj ['yearStart'] ) && ! empty ( $proj ['yearStart'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "yDeb','" . $proj ['yearStart'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "yDeb','');\n";
-					
-					$content .= $this->comment ( "Site web du projet s'il y en a " );
-					if (isset ( $proj ['website'] ) && ! empty ( $proj ['website'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "WebSite','" . $proj ['website'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "WebSite','');\n";
-					$content .= $this->comment ( "Email du responsable du projet" );
-					if (isset ( $proj ['managerEmail'] ) && ! empty ( $proj ['managerEmail'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "Manager_Email','" . $proj ['managerEmail'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "Manager_Email','');\n";
-					$content .= $this->comment ( "Email de contact du responsable du projet" );
-					if (isset ( $proj ['contactEmail'] ) && ! empty ( $proj ['contactEmail'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "Contact_Email','" . $proj ['contactEmail'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "Contact_Email','');\n";
-					$content .= $this->comment ( "l'adresse mail des admin du projet" );
-					if (isset ( $proj ['adminGroupEmail'] ) && ! empty ( $proj ['adminGroupEmail'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_AdminGroup_Email','" . $proj ['adminGroupEmail'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_AdminGroup_Email','');\n";
-					$content .= $this->comment ( "Datapolicy générale du projet" );
-					if (isset ( $proj ['datapolicy'] ) && ! empty ( $proj ['datapolicy'] )) {
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "DataPolicy','" . $proj ['datapolicy'] . "');\n";
-					} else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "DataPolicy','');\n";
-					if ($j < count ( $this->xmlContent ['mainProjects'] ['project'] ) && $compt == 0) {
-						$mainprojects .= ",";
-					}
-					// roles
-					$roles = null;
-					$m = 0;
-					foreach ( $proj ['roles'] ['role'] as $role ) {
-						$m ++;
-						$roles .= $role;
-						if ($m < count ( $proj ['roles'] ['role'] )) {
-							$roles .= ",";
-						}
-					}
-					$content .= $this->comment ( "Liste des roles pour chaque projet ('hymexCore','hymexAsso', ...)" );
-					if (isset ( $roles ) && ! empty ( $roles ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "ListRoles','" . $roles . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "ListRoles','');\n";
-					$roles = null;
-					// logos
-					$c = 0;
-					$logos = null;
-					foreach ( $proj ['HomePageAssoLogosPath'] ['logo'] as $logo ) {
-						$c ++;
-						$logos .= $logo;
-						if ($c < count ( $proj ['HomePageAssoLogosPath'] ['logo'] )) {
-							$logos .= ",";
-						}
-					}
-					$content .= $this->comment ( "Les chemins des logos des partenaires dans la page d'acceuil du projets" );
-					if (isset ( $logos ) && ! empty ( $logos ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HomePageAssoLogosPath','" . $logos . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HomePageAssoLogosPath','');\n";
-					$logos = null;
-					// subprojects
-					$k = 0;
-					$subprojects = null;
-					foreach ( $proj ['subprojects'] ['subproject'] as $subproj ) {
-						$k ++;
-						if (count ( $proj ['subprojects'] ['subproject'] ) > 1)
-							$subprojects .= $subproj ['name'];
+		if (isset($this->xmlContent["mainProjects"]["project"]) || isset($this->xmlContent["otherProjects"]["project"])) {
+			$j = 0;
+			$compt = 0;
+			$mainprojects = null;
+			foreach ( array (
+					$this->xmlContent ["mainProjects"],
+					$this->xmlContent ["otherProjects"] 
+			) as $Projects ) {
+				foreach ( $Projects ['project'] as $proj ) {
+					if (isset ( $proj ) && ! empty ( $proj )) {
+						$j ++;
+						if ($compt == 0)
+							$mainprojects .= $proj ['name'];
+						$content .= "\n";
+						$content .= $this->comment ( "Paramètres de " . $proj ['name'] );
+						$content .= $this->comment ( "Le compte google analytic de " . $proj ['name'] );
+						if (isset ( $proj ['googleAnalyticAccount'] ) && ! empty ( $proj ['googleAnalyticAccount'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "GoogleAnalytic','" . $proj ['googleAnalyticAccount'] . "');\n";
 						else
-							$subprojects .= $subproj;
-						if ($k < count ( $proj ['subprojects'] ['subproject'] )) {
-							$subprojects .= ",";
-						}
-					}
-					$content .= $this->comment ( "Sous projets du projet (Les projets qu'on affiche dans le menu du haut du portail)" );
-					if (isset ( $subprojects ) && ! empty ( $subprojects ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "SubProjects','" . $subprojects . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "SubProjects','');\n";
-					if (isset ( $subprojects ) && ! empty ( $subprojects ))
-						$this->subProjects [$proj ['name']] = explode ( ',', $subprojects );
-					$subprojects = null;
-					// datapolicy
-					$content .= $this->comment ( "nombre de charte à signer pour le projet" );
-					if (isset ( $proj ['signDatapolicies'] ['signDatapolicy'] ) && ! empty ( $proj ['signDatapolicies'] ['signDatapolicy'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "NbSignDataPolicy','" . count ( $proj ['signDatapolicies'] ['signDatapolicy'] ) . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "NbSignDataPolicy','');\n";
-					$content .= $this->comment ( "Chartes à signer pour le projet" );
-					$i = 0;
-					foreach ( $proj ['signDatapolicies'] ['signDatapolicy'] as $dp ) {
-						if (isset ( $dp ) && ! empty ( $dp ))
-							$content .= "define('" . strtolower ( $proj ['name'] ) . "SignDataPolicy" . $i . "','" . $dp . "');\n";
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "GoogleAnalytic','');\n";
+						$content .= $this->comment ( "Les différents ID des sites que le projet peut avoir" );
+						if (isset ( $proj ['sites'] ) && ! empty ( $proj ['sites'] ))
+							$content .= "define('" . strtoupper ( $proj ['name'] ) . "_SITES','" . $proj ['sites'] . "');\n";
 						else
-							$content .= "define('" . strtolower ( $proj ['name'] ) . "SignDataPolicy" . $i . "','');\n";
-						$i ++;
+							$content .= "define('" . strtoupper ( $proj ['name'] ) . "_SITES','');\n";
+						$content .= $this->comment ( "Répertoires pour les dépots ftp" );
+						if (isset ( $proj ['depot'] ) && ! empty ( $proj ['depot'] ))
+							$content .= "define('" . strtoupper ( $proj ['name'] ) . "_DEPOT','" . $proj ['depot'] . "');\n";
+						else
+							$content .= "define('" . strtoupper ( $proj ['name'] ) . "_DEPOT','');\n";
+						$content .= $this->comment ( "Hauteur de la bannière" );
+						if (isset ( $proj ['bannerHeight'] ) && ! empty ( $proj ['bannerHeight'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_BannerHeight','" . $proj ['bannerHeight'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_BannerHeight','');\n";
+						$content .= $this->comment ( "Affichage ou pas du nom du projet dans la bannière" );
+						if (isset ( $proj ['displayBannerTitle'] ) && ! empty ( $proj ['displayBannerTitle'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_DisplayBannerTitle','" . $proj ['displayBannerTitle'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_DisplayBannerTitle','');\n";
+						$content .= $this->comment ( "Affichage ou pas du logo du projet dans la bannière" );
+						if (isset ( $proj ['displayLogoOnBanner'] ) && ! empty ( $proj ['displayLogoOnBanner'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_DisplayLogoOnBanner','" . $proj ['displayLogoOnBanner'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_DisplayLogoOnBanner','');\n";
+						$content .= $this->comment ( "Le chemin du logo du projet" );
+						if (isset ( $proj ['logoPath'] ) && ! empty ( $proj ['logoPath'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_LogoPath','" . $proj ['logoPath'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_LogoPath','');\n";
+						$content .= $this->comment ( "La barre du haut pour le projet" );
+						if (isset ( $proj ['topbarPath'] ) && ! empty ( $proj ['topbarPath'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_TopBarPath','" . $proj ['topbarPath'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_TopBarPath','');\n";
+						$content .= $this->comment ( "Année et mois du début du projet" );
+						if (isset ( $proj ['yearStart'] ) && ! empty ( $proj ['yearStart'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "yDeb','" . $proj ['yearStart'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "yDeb','');\n";
+						
+						$content .= $this->comment ( "Site web du projet s'il y en a " );
+						if (isset ( $proj ['website'] ) && ! empty ( $proj ['website'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "WebSite','" . $proj ['website'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "WebSite','');\n";
+						$content .= $this->comment ( "Email du responsable du projet" );
+						if (isset ( $proj ['managerEmail'] ) && ! empty ( $proj ['managerEmail'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "Manager_Email','" . $proj ['managerEmail'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "Manager_Email','');\n";
+						$content .= $this->comment ( "Email de contact du responsable du projet" );
+						if (isset ( $proj ['contactEmail'] ) && ! empty ( $proj ['contactEmail'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "Contact_Email','" . $proj ['contactEmail'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "Contact_Email','');\n";
+						$content .= $this->comment ( "l'adresse mail des admin du projet" );
+						if (isset ( $proj ['adminGroupEmail'] ) && ! empty ( $proj ['adminGroupEmail'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_AdminGroup_Email','" . $proj ['adminGroupEmail'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_AdminGroup_Email','');\n";
+						$content .= $this->comment ( "Datapolicy générale du projet" );
+						if (isset ( $proj ['datapolicy'] ) && ! empty ( $proj ['datapolicy'] )) {
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "DataPolicy','" . $proj ['datapolicy'] . "');\n";
+						} else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "DataPolicy','');\n";
+						if ($j < count ( $this->xmlContent ['mainProjects'] ['project'] ) && $compt == 0) {
+							$mainprojects .= ",";
+						}
+						// roles
+						$roles = null;
+						$m = 0;
+						foreach ( $proj ['roles'] ['role'] as $role ) {
+							$m ++;
+							$roles .= $role;
+							if ($m < count ( $proj ['roles'] ['role'] )) {
+								$roles .= ",";
+							}
+						}
+						$content .= $this->comment ( "Liste des roles pour chaque projet ('hymexCore','hymexAsso', ...)" );
+						if (isset ( $roles ) && ! empty ( $roles ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "ListRoles','" . $roles . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "ListRoles','');\n";
+						$roles = null;
+						// logos
+						$c = 0;
+						$logos = null;
+						foreach ( $proj ['HomePageAssoLogosPath'] ['logo'] as $logo ) {
+							$c ++;
+							$logos .= $logo;
+							if ($c < count ( $proj ['HomePageAssoLogosPath'] ['logo'] )) {
+								$logos .= ",";
+							}
+						}
+						$content .= $this->comment ( "Les chemins des logos des partenaires dans la page d'accueil du projet" );
+						if (isset ( $logos ) && ! empty ( $logos ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HomePageAssoLogosPath','" . $logos . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HomePageAssoLogosPath','');\n";
+						$logos = null;
+
+						/*
+						// subprojects
+						$k = 0;
+						$subprojects = null;
+						foreach ( $proj ['subprojects'] ['subproject'] as $subproj ) {
+							$k ++;
+							if (count ( $proj ['subprojects'] ['subproject'] ) > 1)
+								$subprojects .= $subproj ['name'];
+							else
+								$subprojects .= $subproj;
+							if ($k < count ( $proj ['subprojects'] ['subproject'] )) {
+								$subprojects .= ",";
+							}
+						}
+						$content .= $this->comment ( "Sous projets du projet (Les projets qu'on affiche dans le menu du haut du portail)" );
+						if (isset ( $subprojects ) && ! empty ( $subprojects ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "SubProjects','" . $subprojects . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "SubProjects','');\n";
+						if (isset ( $subprojects ) && ! empty ( $subprojects ))
+							$this->subProjects [$proj ['name']] = explode ( ',', $subprojects );
+						$subprojects = null;
+						*/
+						// datapolicy
+						$content .= $this->comment ( "nombre de charte à signer pour le projet" );
+						if (isset ( $proj ['signDatapolicies'] ['signDatapolicy'] ) && ! empty ( $proj ['signDatapolicies'] ['signDatapolicy'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "NbSignDataPolicy','" . count ( $proj ['signDatapolicies'] ['signDatapolicy'] ) . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "NbSignDataPolicy','');\n";
+						$content .= $this->comment ( "Chartes à signer pour le projet" );
+						$i = 0;
+						foreach ( $proj ['signDatapolicies'] ['signDatapolicy'] as $dp ) {
+							if (isset ( $dp ) && ! empty ( $dp ))
+								$content .= "define('" . strtolower ( $proj ['name'] ) . "SignDataPolicy" . $i . "','" . $dp . "');\n";
+							else
+								$content .= "define('" . strtolower ( $proj ['name'] ) . "SignDataPolicy" . $i . "','');\n";
+							$i ++;
+						}
+						$content .= $this->comment ( "Le code de la page d'acceuil : 0 si c'est une page d'acceuil normale, et de 1 à 7 pour afficher selon les critères de recherche disponibles (même ordre fichier xml)" );
+						if (isset ( $proj ['homePage'] ) && ! empty ( $proj ['homePage'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HomePage','" . $proj ['homePage'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HomePage','0');\n";
+						$content .= $this->comment ( "Menu du gauche pour le projet, la valeur des paramètres doit être true ou false" );
+						// parameters
+						$param = $proj ['parameters'];
+						if (isset ( $param ['HasAdminCorner'] ) && ! empty ( $param ['HasAdminCorner'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasAdminCorner','" . $param ['HasAdminCorner'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasAdminCorner','');\n";
+						if (isset ( $param ['HasParameterSearch'] ) && ! empty ( $param ['HasParameterSearch'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasParameterSearch','" . $param ['HasParameterSearch'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasParameterSearch','');\n";
+						if (isset ( $param ['HasInstrumentSearch'] ) && ! empty ( $param ['HasInstrumentSearch'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasInstrumentSearch','" . $param ['HasInstrumentSearch'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasInstrumentSearch','');\n";
+						if (isset ( $param ['HasCountrySearch'] ) && ! empty ( $param ['HasCountrySearch'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasCountrySearch','" . $param ['HasCountrySearch'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasCountrySearch','');\n";
+						if (isset ( $param ['HasPlatformSearch'] ) && ! empty ( $param ['HasPlatformSearch'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasPlatformSearch','" . $param ['HasPlatformSearch'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasPlatformSearch','');\n";
+						if (isset ( $param ['HasProjectSearch'] ) && ! empty ( $param ['HasProjectSearch'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasProjectSearch','" . $param ['HasProjectSearch'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasProjectSearch','');\n";
+						if (isset ( $param ['HasEventSearch'] ) && ! empty ( $param ['HasEventSearch'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasEventSearch','" . $param ['HasEventSearch'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasEventSearch','');\n";
+						if (isset ( $param ['HasCampaignSearch'] ) && ! empty ( $param ['HasCampaignSearch'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasCampaignSearch','" . $param ['HasCampaignSearch'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasCampaignSearch','');\n";
+						if (isset ( $param ['HasModelRequest'] ) && ! empty ( $param ['HasModelRequest'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasModelRequest','" . $param ['HasModelRequest'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasModelRequest','');\n";
+						if (isset ( $param ['HasSatelliteRequest'] ) && ! empty ( $param ['HasSatelliteRequest'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasSatelliteRequest','" . $param ['HasSatelliteRequest'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasSatelliteRequest','');\n";
+						if (isset ( $param ['HasInsituRequest'] ) && ! empty ( $param ['HasInsituRequest'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasInsituRequest','" . $param ['HasInsituRequest'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasInsituRequest','');\n";
+						if (isset ( $param ['HasModelOutputs'] ) && ! empty ( $param ['HasModelOutputs'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasModelOutputs','" . $param ['HasModelOutputs'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasModelOutputs','');\n";
+						if (isset ( $param ['HasSatelliteProducts'] ) && ! empty ( $param ['HasSatelliteProducts'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasSatelliteProducts','" . $param ['HasSatelliteProducts'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasSatelliteProducts','');\n";
+						if (isset ( $param ['HasInsituProducts'] ) && ! empty ( $param ['HasInsituProducts'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasInsituProducts','" . $param ['HasInsituProducts'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasInsituProducts','');\n";
+						if (isset ( $param ['HasMultiInsituProducts'] ) && ! empty ( $param ['HasMultiInsituProducts'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasMultiInsituProducts','" . $param ['HasMultiInsituProducts'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasMultiInsituProducts','');\n";
+						if (isset ( $param ['HasValueAddedProducts'] ) && ! empty ( $param ['HasValueAddedProducts'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasValueAddedProducts','" . $param ['HasValueAddedProducts'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasValueAddedProducts','');\n";
+						$content .= $this->comment ( "Les chemins des images des partenaires dans la page d'acceuil" );
+						if (isset ( $param ['HasAssociatedUsers'] ) && ! empty ( $param ['HasAssociatedUsers'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasAssociatedUsers','" . $param ['HasAssociatedUsers'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasAssociatedUsers','');\n";
+						$content .= $this->comment ( "Pour l'affichage ou pas des autres projets du portail dans le menu du haut comme pour Hymex" );
+						if (isset ( $param ['DisplayOnlyProjectOnTopBar'] ) && ! empty ( $param ['DisplayOnlyProjectOnTopBar'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_DisplayOnlyProjectOnTopBar','" . $param ['DisplayOnlyProjectOnTopBar'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_DisplayOnlyProjectOnTopBar','');\n";
+						$content .= $this->comment ( "Les tags à afficher" );
+						if (isset ( $param ['HasBlueTag'] ) && ! empty ( $param ['HasBlueTag'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasBlueTag','" . $param ['HasBlueTag'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasBlueTag','');\n";
+						if (isset ( $param ['HasPurpleTag'] ) && ! empty ( $param ['HasPurpleTag'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasPurpleTag','" . $param ['HasPurpleTag'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasPurpleTag','');\n";
+						if (isset ( $param ['HasOrangeTag'] ) && ! empty ( $param ['HasOrangeTag'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasOrangeTag','" . $param ['HasOrangeTag'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasOrangeTag','');\n";
+						if (isset ( $param ['HasGreenTag'] ) && ! empty ( $param ['HasGreenTag'] ))
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasGreenTag','" . $param ['HasGreenTag'] . "');\n";
+						else
+							$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasGreenTag','');\n";
 					}
-					$content .= $this->comment ( "Le code de la page d'acceuil : 0 si c'est une page d'acceuil normale, et de 1 à 7 pour afficher selon les critères de recherche disponibles (même ordre fichier xml)" );
-					if (isset ( $proj ['homePage'] ) && ! empty ( $proj ['homePage'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HomePage','" . $proj ['homePage'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HomePage','0');\n";
-					$content .= $this->comment ( "Menu du gauche pour le projet, la valeur des paramètres doit être true ou false" );
-					// parameters
-					$param = $proj ['parameters'];
-					if (isset ( $param ['HasAdminCorner'] ) && ! empty ( $param ['HasAdminCorner'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasAdminCorner','" . $param ['HasAdminCorner'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasAdminCorner','');\n";
-					if (isset ( $param ['HasParameterSearch'] ) && ! empty ( $param ['HasParameterSearch'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasParameterSearch','" . $param ['HasParameterSearch'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasParameterSearch','');\n";
-					if (isset ( $param ['HasInstrumentSearch'] ) && ! empty ( $param ['HasInstrumentSearch'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasInstrumentSearch','" . $param ['HasInstrumentSearch'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasInstrumentSearch','');\n";
-					if (isset ( $param ['HasCountrySearch'] ) && ! empty ( $param ['HasCountrySearch'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasCountrySearch','" . $param ['HasCountrySearch'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasCountrySearch','');\n";
-					if (isset ( $param ['HasPlatformSearch'] ) && ! empty ( $param ['HasPlatformSearch'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasPlatformSearch','" . $param ['HasPlatformSearch'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasPlatformSearch','');\n";
-					if (isset ( $param ['HasProjectSearch'] ) && ! empty ( $param ['HasProjectSearch'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasProjectSearch','" . $param ['HasProjectSearch'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasProjectSearch','');\n";
-					if (isset ( $param ['HasEventSearch'] ) && ! empty ( $param ['HasEventSearch'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasEventSearch','" . $param ['HasEventSearch'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasEventSearch','');\n";
-					if (isset ( $param ['HasCampaignSearch'] ) && ! empty ( $param ['HasCampaignSearch'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasCampaignSearch','" . $param ['HasCampaignSearch'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasCampaignSearch','');\n";
-					if (isset ( $param ['HasModelRequest'] ) && ! empty ( $param ['HasModelRequest'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasModelRequest','" . $param ['HasModelRequest'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasModelRequest','');\n";
-					if (isset ( $param ['HasSatelliteRequest'] ) && ! empty ( $param ['HasSatelliteRequest'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasSatelliteRequest','" . $param ['HasSatelliteRequest'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasSatelliteRequest','');\n";
-					if (isset ( $param ['HasInsituRequest'] ) && ! empty ( $param ['HasInsituRequest'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasInsituRequest','" . $param ['HasInsituRequest'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasInsituRequest','');\n";
-					if (isset ( $param ['HasModelOutputs'] ) && ! empty ( $param ['HasModelOutputs'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasModelOutputs','" . $param ['HasModelOutputs'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasModelOutputs','');\n";
-					if (isset ( $param ['HasSatelliteProducts'] ) && ! empty ( $param ['HasSatelliteProducts'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasSatelliteProducts','" . $param ['HasSatelliteProducts'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasSatelliteProducts','');\n";
-					if (isset ( $param ['HasInsituProducts'] ) && ! empty ( $param ['HasInsituProducts'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasInsituProducts','" . $param ['HasInsituProducts'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasInsituProducts','');\n";
-					if (isset ( $param ['HasMultiInsituProducts'] ) && ! empty ( $param ['HasMultiInsituProducts'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasMultiInsituProducts','" . $param ['HasMultiInsituProducts'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasMultiInsituProducts','');\n";
-					if (isset ( $param ['HasValueAddedProducts'] ) && ! empty ( $param ['HasValueAddedProducts'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasValueAddedProducts','" . $param ['HasValueAddedProducts'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasValueAddedProducts','');\n";
-					$content .= $this->comment ( "Les chemins des images des partenaires dans la page d'acceuil" );
-					if (isset ( $param ['HasAssociatedUsers'] ) && ! empty ( $param ['HasAssociatedUsers'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasAssociatedUsers','" . $param ['HasAssociatedUsers'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasAssociatedUsers','');\n";
-					$content .= $this->comment ( "Pour l'affichage ou pas des autres projets du portail dans le menu du haut comme pour Hymex" );
-					if (isset ( $param ['DisplayOnlyProjectOnTopBar'] ) && ! empty ( $param ['DisplayOnlyProjectOnTopBar'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_DisplayOnlyProjectOnTopBar','" . $param ['DisplayOnlyProjectOnTopBar'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_DisplayOnlyProjectOnTopBar','');\n";
-					$content .= $this->comment ( "Les tags à afficher" );
-					if (isset ( $param ['HasBlueTag'] ) && ! empty ( $param ['HasBlueTag'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasBlueTag','" . $param ['HasBlueTag'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasBlueTag','');\n";
-					if (isset ( $param ['HasPurpleTag'] ) && ! empty ( $param ['HasPurpleTag'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasPurpleTag','" . $param ['HasPurpleTag'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasPurpleTag','');\n";
-					if (isset ( $param ['HasOrangeTag'] ) && ! empty ( $param ['HasOrangeTag'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasOrangeTag','" . $param ['HasOrangeTag'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasOrangeTag','');\n";
-					if (isset ( $param ['HasGreenTag'] ) && ! empty ( $param ['HasGreenTag'] ))
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasGreenTag','" . $param ['HasGreenTag'] . "');\n";
-					else
-						$content .= "define('" . strtolower ( $proj ['name'] ) . "_HasGreenTag','');\n";
 				}
+				$compt ++;
 			}
-			$compt ++;
 		}
+		/*
 		$i = 0;
 		foreach ( $this->xmlContent ['otherProjects'] ['project'] as $proj ) {
 			$i ++;
@@ -969,14 +982,16 @@ class PortalGenerator {
 		$content .= "\n";
 		$content .= $this->comment ( "Tableau qui contient les autres projets" );
 		$content .= '$OtherProjects = explode(",", "' . $otherprojects . '");';
+		*/
 		$content .= "\n\n";
 		$content .= "?>";
 		fwrite ( $file, $content );
 		fclose ( $file );
 		
-		$this->projects = explode ( ',', $mainprojects . ',' . $otherprojects );
+		// $this->projects = explode ( ',', $mainprojects . ',' . $otherprojects );
 	}
-	
+
+	/*
 	private function readLdapProjects(){
 		$this->ldapProjects = array();
 		foreach ( array (
@@ -992,12 +1007,13 @@ class PortalGenerator {
 			}
 		}
 	}
+	*/
 	
 	function makeApache() {
 		echo "Generating apache configurationfile ...\n";
 		$serverName = $this->xmlContent ['dns'];
 		$documentRoot = $this->webPath;
-		
+
 		$apacheLogDir = $this->conf['apache']['logDir'];
 		
 		$content = "<VirtualHost *:443> \n";
