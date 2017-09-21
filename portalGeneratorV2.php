@@ -57,6 +57,7 @@ class PortalGenerator {
 			exec ( 'chmod -R 777 ' . $this->phpTargetDir . '/graphs' );
 		}
 	}
+	/*
 	private function createProjectsDirectories() {
 		echo "Creating projects directories...\n";
 		if (isset ( $this->projects ) && ! empty ( $this->projects )) {
@@ -78,7 +79,7 @@ class PortalGenerator {
 				}
 			}
 		}
-	}
+	}*/
 	function make($xmlFilePath) {
 		$this->clean ();
 		if (XmlUtils::validateXml ( $xmlFilePath, $this->xmlSchema )) {
@@ -105,13 +106,13 @@ class PortalGenerator {
 			
 			// PHP
 			if (in_array ( '--skip-php', $this->options ) === false) {
-				$this->copyTemplateCatalogue ();
+				// $this->copyTemplateCatalogue ();
 				$this->makeConfPhp ();
 				$this->createProjectsDirectories ();
 				echo "Setting portal name in all folders...\n";
 				DirUtils::changeWordInDirectory ( $this->phpTargetDir, '#MainProject', $this->portalName );
 				echo "Renaming folder...\n";
-				DirUtils::rmDirectory ( $this->phpTargetDir . '/project-directory-template' );
+				// DirUtils::rmDirectory ( $this->phpTargetDir . '/project-directory-template' );
 			} else {
 				echo "Skip php\n";
 			}
