@@ -1,13 +1,11 @@
 <?php
 
 if ($project_name == strToLower(MainProject)) {
-	// require("inc-colonne.html");
 	$root_path_menu = "portal";
 	$subscribe_url= "".$_SERVER['HTTP_HOST']."/User-Account-Creation";
 
 }
 else {
-	// require("inc-colonne-project.html");
 	$root_path_menu = $project_name;
 	$subscribe_url= "".$_SERVER['HTTP_HOST']."/".$project_name."/Register";
 }

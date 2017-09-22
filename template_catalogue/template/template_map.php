@@ -17,9 +17,6 @@ header ( "Content-type: text/html; charset=UTF8" );
 
 	</main>                    
 </div> <!-- end content-area -->
-<!-- <footer>
-    <?php //require("inc-footer.html");?>
-</footer> -->
 
 </body>
 </html>

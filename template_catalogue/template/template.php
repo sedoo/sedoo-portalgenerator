@@ -17,9 +17,6 @@
         <?php require('template/template-milieu.php');?>
     </main>                    
 </div> <!-- end content-area -->
-<!-- <footer>
-    <?php //require("inc-footer.html");?>
-</footer> -->
 
 </body>
 </html>
