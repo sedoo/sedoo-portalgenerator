@@ -2,32 +2,32 @@
 
 require_once ("bd/bdConnect.php");
 require_once ("scripts/logger.php");
-require_once ("bd/status_final.php");
-require_once ("bd/status_progress.php");
-require_once ("bd/boundings.php");
-require_once ("bd/organism.php");
-require_once ("bd/period.php");
-require_once ("bd/dataset_type.php");
-require_once ("bd/dats_originator.php");
-require_once ("bd/dats_place.php");
-require_once ("bd/dats_sensor.php");
+require_once ("bd/status_final.php"); 
+require_once ("bd/status_progress.php"); 
+require_once ("bd/boundings.php"); 
+require_once ("bd/organism.php"); 
+require_once ("bd/period.php"); 
+require_once ("bd/dataset_type.php"); 
+require_once ("bd/dats_originator.php"); 
+require_once ("bd/dats_place.php"); 
+require_once ("bd/dats_sensor.php"); 
 require_once ("bd/dats_var.php");
-require_once ("bd/dats_type.php");
+require_once ("bd/dats_type.php"); 
 require_once ("bd/dats_data_format.php");
 require_once ("bd/dats_proj.php");
-require_once ("bd/data_format.php");
-require_once ("bd/data_policy.php");
-require_once ("bd/database.php");
+require_once ("bd/data_format.php"); 
+require_once ("bd/data_policy.php"); 
+require_once ("bd/database.php"); 
 require_once ("bd/sensor.php");
-require_once ("bd/unit.php");
+require_once ("bd/unit.php"); 
 require_once ("bd/sensor_place.php");
-require_once ("bd/place.php");
+require_once ("bd/place.php"); 
 require_once ("bd/variable.php");
 require_once ("bd/sensor_var.php");
 require_once ("scripts/mail.php");
 require_once ("sortie/fiche2pdf_functions.php");
 require_once ("utils/elastic/ElasticClient.php");
-require_once ("sedoo-metadata/sedoo_metadata_utils.php");
+require_once ("sedoo-metadata/sedoo_metadata_utils.php"); // fichier inexistant
 
 class dataset {
 	var $dats_id;
