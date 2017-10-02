@@ -5,7 +5,7 @@ require_once ("forms/validation.php");
 require_once ("editDataset.php");
 require_once ("scripts/upload.php");
 
-if ($project_name != MainProject) {
+if ($project_name != strtolower(MainProject)) {
 	if ($_SERVER ['HTTP_REFERER'] == constant(strtolower ( $project_name ) .'WebSite')){
 		$_SESSION ['username'] = strtolower($project_name);
 	}
