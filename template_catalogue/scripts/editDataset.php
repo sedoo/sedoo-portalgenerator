@@ -260,12 +260,12 @@ function editSensorResolution(& $ds, $isGrid=false){
 
 function editSatelliteDataset(& $dataset,$project_name, $queryArgs = array()){
 	if (isset ( $dataset ) && ! empty ( $dataset )) {
-		if ($project_name != MainProject)
+		if ($project_name != strtolower(MainProject))
 			$rubrique_cible = "/$project_name/Satellite-Data";
 		else
 			$rubrique_cible = "/portal/Satellite-Data";
 		if ($dataset->is_requested) {
-			if ($project_name != MainProject)
+			if ($project_name != strtolower(MainProject))
 				$rubrique_cible = "/$project_name/Satellite-products-request";
 			else
 				$rubrique_cible = "/portal/Satellite-products-request";
@@ -322,7 +322,7 @@ function editSatelliteDataset(& $dataset,$project_name, $queryArgs = array()){
 }
 
 function editValueDataset(& $dataset,$project_name, $queryArgs = array()){
-	if ($project_name != MainProject )
+	if ($project_name != strtolower(MainProject) )
 		$rubrique_cible = "/$project_name/Value-Added-Data";
 	else
 		$rubrique_cible = "/portal/Value-Added-Data";
@@ -374,7 +374,7 @@ function editValueDataset(& $dataset,$project_name, $queryArgs = array()){
 }
 
 function editValueAddedDataset(& $dataset,$project_name, $queryArgs = array()) {
-	if ($project_name != MainProject )
+	if ($project_name != strtolower(MainProject) )
 		$rubrique_cible = "/$project_name/Value-Added-Dataset";
 	else
 		$rubrique_cible = "/portal/Value-Added-Dataset";
@@ -488,12 +488,12 @@ function editValueAddedDataset(& $dataset,$project_name, $queryArgs = array()) {
 
 
 function editModelDataset(& $dataset,$project_name, $queryArgs = array()){
-	if ($project_name != MainProject )
+	if ($project_name != strtolower(MainProject) )
 		$rubrique_cible = "/$project_name/Model-Data";
 	else
 		$rubrique_cible = "/portal/Model-Data";
 	if ($dataset->is_requested){
-		if ($project_name != MainProject )
+		if ($project_name != strtolower(MainProject) )
 			$rubrique_cible = "/$project_name/Model-outputs-request";
 		else
 			$rubrique_cible = "/portal/Model-outputs-request";
@@ -606,7 +606,7 @@ function editDataset($datsId, $project_name, $display_archived = false, $queryAr
 
 
 function editInSituDatasetSite(& $dataset,$project_name, $queryArgs = array()){
-	if ($project_name != MainProject)
+	if ($project_name != strtolower(MainProject))
 		$rubrique_cible = "/$project_name/In-Situ-Site-Registration";
 	else
 		$rubrique_cible = "/portal/In-Situ-Site-Registration";
@@ -705,7 +705,7 @@ function editInSituDatasetSite(& $dataset,$project_name, $queryArgs = array()){
 
 
 function editInSituDataset(& $dataset,$project_name, $queryArgs = array()){
-	if ($project_name != MainProject )
+	if ($project_name != strtolower(MainProject) )
 		$rubrique_cible = "/$project_name/In-Situ-Instrument-Registration";
 	else
 		$rubrique_cible = "/portal/In-Situ-Instrument-Registration";

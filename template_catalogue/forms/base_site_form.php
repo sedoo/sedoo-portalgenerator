@@ -30,7 +30,7 @@ class base_site_form extends login_form{
 	function createLoginForm(){
 		global $project_name;
 		//User déjà loggé sur le site de référence
-	if ($project_name != MainProject) {
+	if ($project_name != strtolower(MainProject)) {
 			if ($_SERVER ['HTTP_REFERER'] == constant(strtolower ( $project_name ) .'WebSite')){
 				$projectUser = new portalUser ();
 				$projectUser->cn = strtolower ( $project_name );

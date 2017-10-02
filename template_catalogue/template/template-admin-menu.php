@@ -1,6 +1,6 @@
 <?php
 
-if($project_name != MainProject) {
+if($project_name != strtolower(MainProject)) {
 	$root_admin_path = "".$project_name."/Admin-Corner";
 }
 else {

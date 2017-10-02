@@ -14,7 +14,7 @@ if (constant(strtolower($project_name).'_HasCampaignSearch') == 'true' || in_arr
 }
 include 'legende.php';
 
-if ( $project_name &&  $project_name != MainProject){
+if ( $project_name &&  $project_name != strtolower(MainProject)){
 	$query = "SELECT * FROM project WHERE pro_project_id IS NULL AND project_name = '$project_name' ORDER BY project_name";
 }else{
 	$query = "SELECT * FROM project WHERE pro_project_id IS NULL ORDER BY project_name";

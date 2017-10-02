@@ -11,7 +11,7 @@ require_once ('scripts/filtreProjets.php');
 	
 	$typePrec = -1;
 	$dataset_liste = array();
-	if ($project_name == MainProject) //OverAll datasets
+	if ($project_name == strtolower(MainProject)) //OverAll datasets
 	{
 		echo '<h2>IN SITU</h2>';
 		 $query = "select dataset.dats_id, dataset.dats_title from dataset where " .

@@ -11,7 +11,7 @@ $stform = new stats_form();
 $stform->createForm($project_name);
 
 if ( ( in_array($project_name, $MainProjects ) && $stform->isProjectAdmin() )
-		|| (($project_name == MainProject) && $stform->isPortalAdmin())){
+		|| (($project_name == strtolower(MainProject)) && $stform->isPortalAdmin())){
 	$stform->display($datsId);
 }
 

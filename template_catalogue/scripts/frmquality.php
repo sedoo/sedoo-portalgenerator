@@ -14,7 +14,7 @@ if ( isset($_REQUEST['datsId']) ){
 if ($datsId > 0){
 	$dats = new dataset();
 	$dats = $dats->getById($datsId);
-	if ($project_name == MainProject){
+	if ($project_name == strtolower(MainProject)){
 		echo "<a href='/Admin-Corner/?adm&pageId=13'>&lt;&lt;&nbsp;Back</a>";
 	}else{
 		echo "<a href='/$project_name/Admin-Corner/?adm&pageId=13'>&lt;&lt;&nbsp;Back</a>";

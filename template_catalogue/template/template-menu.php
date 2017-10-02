@@ -102,7 +102,7 @@ else {
 	?>
 
 <?php
-if ($project_name == MainProject) {
+if ($project_name == strtolower(MainProject)) {
 	echo "</section>";
 	if(isset($MainProjects) && !empty($MainProjects)){
 		echo "<section>";

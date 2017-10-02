@@ -1,7 +1,7 @@
 <?php
 require_once ("bd/project.php");
 function get_filtre_projets($project_name) {
-	if (isset($project_name) && !empty($project_name) && $project_name != MainProject) {
+	if (isset($project_name) && !empty($project_name) && $project_name != strtolower(MainProject)) {
 		$project = new project ();
 		$pro = $project->getIdByProjectName ( $project_name );
 		if(isset($pro->project_id) && !empty($pro->project_id))

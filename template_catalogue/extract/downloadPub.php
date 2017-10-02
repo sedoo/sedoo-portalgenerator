@@ -3,7 +3,7 @@
 	if (! isset ( $_SESSION ))
 		session_start ();
 	$project_name = $_REQUEST ['project_name'];
-	if ($project_name != MainProject)
+	if ($project_name != strtolower(MainProject))
 		$project_url = "/" . $project_name;
 	else
 		$project_url = "/";

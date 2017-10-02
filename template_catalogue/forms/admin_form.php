@@ -41,7 +41,7 @@ class admin_form extends login_form {
 				$this->registeredUsers = unserialize ( $_SESSION [strtolower ( $project_name ) . 'registeredUsers'] );
 				$this->createRegisteredUsersForm ();
 			}
-			if ($project_name == MainProject) {
+			if ($project_name == strtolower(MainProject)) {
 				foreach ( $MainProjects as $pro ) {
 					if (! isset ( $_SESSION [strtolower($pro) . 'registeredUsers'] ) && empty ( $_SESSION [strtolower($pro) . 'registeredUsersByProject'] )) {
 						$this->readRegisteredUsersListByProject ( $pro );
@@ -83,7 +83,7 @@ class admin_form extends login_form {
 			$nvAttrs [$project_name . "RegistrationDate"] = date ( FORMAT_DATE );
 			try {
 				$ldapConn->openAdm ();
-				if ($project_name != MainProject) {
+				if ($project_name != strtolower(MainProject)) {
 					if ((! isset ( $user->memberOf ) && $group == strtolower ( $project_name ) . 'Core') || (isset ( $user->memberOf ) && in_array ( strtolower ( $project_name ), $user->memberOf ) == false && $group == strtolower ( $project_name ) . 'Core')) {
 						if (array_key_exists ( strtolower ( MainProject ) . 'ApplicationDate', $user->attrs )) {
 							$Attrs ["objectClass"] [] = strtolower ( MainProject ) . 'User';
@@ -119,7 +119,7 @@ class admin_form extends login_form {
 					// Ajout memberUid aux groupes
 					$attrs ['memberUid'] = $user->mail;
 					$ldapConn->addAttributes ( 'groupId=' . $group . ',' . GROUP_BASE, $attrs );
-					if ($project_name != MainProject) {
+					if ($project_name != strtolower(MainProject)) {
 						if ($group == strtolower ( $project_name ) . 'Core') {
 							$ldapConn->addAttributes ( 'groupId=' . strtolower ( $project_name ) . 'Asso,' . GROUP_BASE, $attrs );
 						}

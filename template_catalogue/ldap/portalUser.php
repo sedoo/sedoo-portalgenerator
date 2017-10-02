@@ -193,7 +193,7 @@ class portalUser extends entry {
 	
 	function isAdmin() {
 		global $project_name,$MainProjects;
-		if(in_array($project_name,$MainProjects) || $project_name == MainProject)
+		if(in_array($project_name,$MainProjects) || $project_name == strtolower(MainProject))
 			return $this->isMemberOf ( array (
 					strtolower($project_name).'Adm',
 					'root' 

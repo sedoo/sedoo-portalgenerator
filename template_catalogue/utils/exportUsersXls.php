@@ -57,7 +57,7 @@ if ($form->isAdmin($project_name)){
 }else{
 	$url = $_SERVER['HTTP_REFERER'];
 	if ( !isset($url) || empty($url) ){
-		if($project_name != MainProject)
+		if($project_name != strtolower(MainProject))
 			$url = 'http://'.$_SERVER['HTTP_HOST'].'/'.$project_name;
 		else
 			$url = 'http://'.$_SERVER['HTTP_HOST'].'/';

@@ -1,11 +1,11 @@
 <?php
-if((PortalGoogleAnalytic != '' && $project_name == MainProject) || (defined(strtolower($project_name).'GoogleAnalytic') && (constant(strtolower($project_name).'GoogleAnalytic') != '' && $project_name != MainProject))) {    
+if((PortalGoogleAnalytic != '' && $project_name == strtolower(MainProject)) || (defined(strtolower($project_name).'GoogleAnalytic') && (constant(strtolower($project_name).'GoogleAnalytic') != '' && $project_name != strtolower(MainProject)))) {    
 ?>
 <script type='text/javascript'>
 
   var _gaq = _gaq || [];
   <?php
-		if($project_name == MainProject)
+		if($project_name == strtolower(MainProject))
 			echo "_gaq.push(['_setAccount', '".PortalGoogleAnalytic."']);";
 		else
 			echo "_gaq.push(['_setAccount', '".constant(strtolower($project_name).'GoogleAnalytic')."']);";
