@@ -23,7 +23,7 @@ class stats_form extends login_form{
 			$this->user = unserialize($_SESSION['loggedUser']);
 		}
 
-		if (constant(strtolower($project_name).'yDeb') != ''){
+		if (defined(strtolower($project_name).'yDeb') && constant(strtolower($project_name).'yDeb') != ''){
 			$this->yDeb = constant(strtolower($project_name).'yDeb');
 		}
 		
@@ -92,7 +92,7 @@ class stats_form extends login_form{
 		$resultat[0][0] = 0;
 		$resultat['c'] = array();
 		$resultat['r'] = array();
-		if ($this->projectName == MainProject) {
+		if ($this->projectName == strtolower(MainProject)) {
 			$userClass = strtolower(MainProject).'User';
 			$roles = array (
 					strtolower(MainProject) 

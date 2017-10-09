@@ -6,7 +6,10 @@ require_once ("ldap/validator.php");
 require_once ("ldap/projectUser.php");
 
 /*
- * Teste si element n'est pas vide qu'un 2e champ est rempli. element: element sur lequel s'applique la regle value: valeur saisie args: array(0 => formulaire, 1 => champ texte à vérifier)
+ * Teste si element n'est pas vide qu'un 2e champ est rempli. 
+ * element: element sur lequel s'applique la regle value
+ * value: valeur saisie 
+ * args: array(0 => formulaire, 1 => champ texte à vérifier)
  */
 function valid_xor($element, $value, $args) {
 	$arg_value = $args [0]->exportValue ( $args [1] );
@@ -126,12 +129,14 @@ if ($form->isLogged ()) {
 				strtolower ( MainProject ) . 'Adm' 
 		) )) {
 			echo "<font size=\"3\" color='green'><b>You are already registered to access " . MainProject . " data.</b></font><br>";
-		} else if ((array_key_exists ( strtolower ( MainProject ) . 'ApplicationDate', $form->user->attrs [strtolower ( MainProject )] ) && $form->user->attrs [strtolower ( MainProject ) . 'Status'] [0] == 'pending') || (array_key_exists ( strtolower ( MainProject ) . 'ApplicationDate', $form->user->attrs ) && $form->user->attrs [strtolower ( MainProject ) . 'Status'] [0] == 'pending')) {
-			echo "<font size=\"3\" color='orange'><b>You have already submitted a request, please wait for the administrator confirmation (you will receive a mail).</b></font><br>";
-		} else if ((array_key_exists ( strtolower ( MainProject ) . 'ApplicationDate', $form->user->attrs [strtolower ( MainProject )] ) && $form->user->attrs [strtolower ( MainProject ) . 'Status'] [0] == 'rejected') || (array_key_exists ( strtolower ( MainProject ) . 'ApplicationDate', $form->user->attrs ) && $form->user->attrs [strtolower ( MainProject ) . 'Status'] [0] == 'rejected')) {
-			echo "<font size=\"3\" color='red'><b>We have received your request for an access to the " . MainProject . " database. Considering the details you provided, your request has been rejected. \n If you think that your request should have been agreed or if you would like to collaborate with some " . MainProject . "scientists, please contact 
-" . Portal_AdminGroup_Email . " .</b></font><br>";
-		} else {
+		} 
+// 		else if ((array_key_exists ( strtolower ( MainProject ) . 'ApplicationDate', $form->user->attrs [strtolower ( MainProject )] ) && $form->user->attrs [strtolower ( MainProject ) . 'Status'] [0] == 'pending') || (array_key_exists ( strtolower ( MainProject ) . 'ApplicationDate', $form->user->attrs ) && $form->user->attrs [strtolower ( MainProject ) . 'Status'] [0] == 'pending')) {
+// 			echo "<font size=\"3\" color='orange'><b>You have already submitted a request, please wait for the administrator confirmation (you will receive a mail).</b></font><br>";
+// 		} else if ((array_key_exists ( strtolower ( MainProject ) . 'ApplicationDate', $form->user->attrs [strtolower ( MainProject )] ) && $form->user->attrs [strtolower ( MainProject ) . 'Status'] [0] == 'rejected') || (array_key_exists ( strtolower ( MainProject ) . 'ApplicationDate', $form->user->attrs ) && $form->user->attrs [strtolower ( MainProject ) . 'Status'] [0] == 'rejected')) {
+// 			echo "<font size=\"3\" color='red'><b>We have received your request for an access to the " . MainProject . " database. Considering the details you provided, your request has been rejected. \n If you think that your request should have been agreed or if you would like to collaborate with some " . MainProject . "scientists, please contact 
+// " . Portal_AdminGroup_Email . " .</b></font><br>";
+// 		} 
+		else {
 			
 			if (isset ( $_POST ['bouton_save'] )) {
 				if ($form_user->validate () && $form_user->validateChart ( true )) {

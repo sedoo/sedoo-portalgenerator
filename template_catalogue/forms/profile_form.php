@@ -112,14 +112,14 @@ class profile_form extends login_form {
 		if (isset ( $this->user->abstract ) && ! empty ( $this->user->abstract )) {
 			echo '<tr><th colspan="4" align="center"><b>Planned Work</b></th></tr>';
 			echo "<tr><td><b>Description</b></td><td colspan='3'>" . $this->user->abstract . "</td></tr>";
-			foreach ( $MainProjects as $project ) {
-				if (isset ( $this->user->attrs [strtolower ( $project ) . 'Abstract'] ) && ! empty ( $this->user->attrs [strtolower ( $project ) . 'Abstract'] )) {
-					if (is_array ( $this->user->attrs [strtolower ( $project ) . 'Abstract'] ))
-						echo "<tr><td><b>Work in $project</b></td><td colspan='3'>" . $this->user->attrs [strtolower ( $project ) . 'Abstract'] [0] . "</td></tr>";
-					else
-						echo "<tr><td><b>Work in $project</b></td><td colspan='3'>" . $this->user->attrs [strtolower ( $project ) . 'Abstract'] . "</td></tr>";
-				}
-			}
+			// foreach ( $MainProjects as $project ) {
+			// 	if (isset ( $this->user->attrs [strtolower ( $project ) . 'Abstract'] ) && ! empty ( $this->user->attrs [strtolower ( $project ) . 'Abstract'] )) {
+			// 		if (is_array ( $this->user->attrs [strtolower ( $project ) . 'Abstract'] ))
+			// 			echo "<tr><td><b>Work in $project</b></td><td colspan='3'>" . $this->user->attrs [strtolower ( $project ) . 'Abstract'] [0] . "</td></tr>";
+			// 		else
+			// 			echo "<tr><td><b>Work in $project</b></td><td colspan='3'>" . $this->user->attrs [strtolower ( $project ) . 'Abstract'] . "</td></tr>";
+			// 	}
+			// }
 			if (isset ( $this->user->associatedProject ) && ! empty ( $this->user->associatedProject )) {
 				echo "<tr><td><b>Member of</b></td><td colspan='3'>" . $this->user->associatedProject . "</td></tr>";
 			}

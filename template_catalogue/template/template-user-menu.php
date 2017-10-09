@@ -23,36 +23,36 @@
 	
 	<?php 
 	$user = unserialize($_SESSION['loggedUser']);
-	reset($MainProjects);
-	while($project = current($MainProjects)){
-		if(constant(strtolower($project).'DataPolicy') != ''){
-        	echo "<a href='/Your-Account?p&pageId=".(key($MainProjects)+15)."'>$project database";
-			if ($user->attrs[strtolower($project).'Status'][0] == 'registered') 
-				echo "<span style='color:green;'> (registered)</span>";
-			else if ($user->attrs[strtolower($project).'Status'][0] == 'pending')
-				echo "<span style='color:orange; '> (pending)</span>";
-			else if ($user->attrs[strtolower($project).'Status'][0] == 'rejected')
-				echo "<span style='color:red; '> (rejected)</span>";
-			echo "</a>";
-		}
-    	next($MainProjects);
-	}
-	reset($MainProjects);
-	reset($OtherProjects);
-	while($project = current($OtherProjects)){
-		if(constant(strtolower($project).'DataPolicy') != ''){
-        	echo "<a href='/Your-Account?p&pageId=".(key($OtherProjects)+count($MainProjects)+15)."'>$project database";
-			if ($user->attrs[strtolower($project).'Status'][0] == 'registered') 
-				echo "<span style='color:green;'> (registered)</span>";
-			else if ($user->attrs[strtolower($project).'Status'][0] == 'pending')
-				echo "<span style='color:orange; '> (pending)</span>";
-			else if ($user->attrs[strtolower($project).'Status'][0] == 'rejected')
-				echo "<span style='color:red; '> (rejected)</span>";
-			echo "</a>";
-		}
-    	next($OtherProjects);
-	}
-	reset($OtherProjects);
+	// reset($MainProjects);
+	// while($project = current($MainProjects)){
+	// 	if(constant(strtolower($project).'DataPolicy') != ''){
+    //     	echo "<a href='/Your-Account?p&pageId=".(key($MainProjects)+15)."'>$project database";
+	// 		if ($user->attrs[strtolower($project).'Status'][0] == 'registered') 
+	// 			echo "<span style='color:green;'> (registered)</span>";
+	// 		else if ($user->attrs[strtolower($project).'Status'][0] == 'pending')
+	// 			echo "<span style='color:orange; '> (pending)</span>";
+	// 		else if ($user->attrs[strtolower($project).'Status'][0] == 'rejected')
+	// 			echo "<span style='color:red; '> (rejected)</span>";
+	// 		echo "</a>";
+	// 	}
+    // 	next($MainProjects);
+	// }
+	// reset($MainProjects);
+	// reset($OtherProjects);
+	// while($project = current($OtherProjects)){
+	// 	if(constant(strtolower($project).'DataPolicy') != ''){
+    //     	echo "<a href='/Your-Account?p&pageId=".(key($OtherProjects)+count($MainProjects)+15)."'>$project database";
+	// 		if ($user->attrs[strtolower($project).'Status'][0] == 'registered') 
+	// 			echo "<span style='color:green;'> (registered)</span>";
+	// 		else if ($user->attrs[strtolower($project).'Status'][0] == 'pending')
+	// 			echo "<span style='color:orange; '> (pending)</span>";
+	// 		else if ($user->attrs[strtolower($project).'Status'][0] == 'rejected')
+	// 			echo "<span style='color:red; '> (rejected)</span>";
+	// 		echo "</a>";
+	// 	}
+    // 	next($OtherProjects);
+	// }
+	// reset($OtherProjects);
 	?>
 </section>
 

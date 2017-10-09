@@ -81,14 +81,14 @@ ob_start ();
 			To
 			<b>update your metadata</b>
 			, browse the #project catalogue, edit your dataset description by
-			clicking on its title, and then clic on the update button located at
+			clicking on its title, and then click on the update button located at
 			the bottom of the page.
 			<br>
 
 			<br>
 
 			Do not hesitate to contact us in case of any difficulty:
-			<b><?php echo constant(strtolower($project_name).'_AdminGroup_Email');?></b>
+			<b><?php if (defined(strtolower($project_name).'_AdminGroup_Email')) echo constant(strtolower($project_name).'_AdminGroup_Email');?></b>
 			.
 			<br>
 		</p>

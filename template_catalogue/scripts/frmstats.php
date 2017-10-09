@@ -10,9 +10,14 @@ if ( isset($_REQUEST['datsId']) && !empty($_REQUEST['datsId']) ){
 $stform = new stats_form();
 $stform->createForm($project_name);
 
-if ( ( in_array($project_name, $MainProjects ) && $stform->isProjectAdmin() )
-		|| (($project_name == strtolower(MainProject)) && $stform->isPortalAdmin())){
-	$stform->display($datsId);
+if ($MainProjects != NULL) {
+	if ( ( in_array($project_name, $MainProjects ) && $stform->isProjectAdmin() )
+			|| (($project_name == strtolower(MainProject)) && $stform->isPortalAdmin())){
+		$stform->display($datsId);
+	}
+} else {
+	if ($stform->isProjectAdmin() || $stform->isPortalAdmin())
+		$stform->display($datsId);
 }
 
 ?>

@@ -325,7 +325,7 @@ class login_form extends HTML_QuickForm {
 		echo "<table>";
 		echo "<br><h5>If you are already registered to the ".MainProject." database, please use your ids to login in the following form:</h5>";
 		if ($withForgotPass == true) {
-			if ($this->forgottenPassword ()) {
+			if ($this->forgottenPassword (MainProject)) {
 				echo "<h4 style='color:green'> A new password has been generated and sent to you by email, please use it to login.</h4>";
 			}
 		}

@@ -41,7 +41,7 @@ class admin_form extends login_form {
 				$this->registeredUsers = unserialize ( $_SESSION [strtolower ( $project_name ) . 'registeredUsers'] );
 				$this->createRegisteredUsersForm ();
 			}
-			if ($project_name == strtolower(MainProject)) {
+			if ($project_name == strtolower(MainProject) && $MainProjects != NULL) {
 				foreach ( $MainProjects as $pro ) {
 					if (! isset ( $_SESSION [strtolower($pro) . 'registeredUsers'] ) && empty ( $_SESSION [strtolower($pro) . 'registeredUsersByProject'] )) {
 						$this->readRegisteredUsersListByProject ( $pro );

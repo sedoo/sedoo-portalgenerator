@@ -96,32 +96,32 @@ class portalUser extends entry {
 			$this->applicationDate = $d;
 		}else{
 			$minDate= new DateTime ("now");
-			foreach($MainProjects as $proj){
-				if (isset($attrs [strtolower($proj).'ApplicationDate']) && !empty($attrs [strtolower($proj).'ApplicationDate'])) {
-					$d=$attrs [strtolower($proj).'ApplicationDate'][0];
-					$Date= new DateTime( $d[0].$d[1].$d[2].$d[3].'-'.$d[4].$d[5].'-'.$d[6].$d[7]);
-					if($minDate > $Date){
-						$minDate = $Date;
-					}
-					$this->applicationDate = $minDate;
-				}
-			}
+			// foreach($MainProjects as $proj){
+			// 	if (isset($attrs [strtolower($proj).'ApplicationDate']) && !empty($attrs [strtolower($proj).'ApplicationDate'])) {
+			// 		$d=$attrs [strtolower($proj).'ApplicationDate'][0];
+			// 		$Date= new DateTime( $d[0].$d[1].$d[2].$d[3].'-'.$d[4].$d[5].'-'.$d[6].$d[7]);
+			// 		if($minDate > $Date){
+			// 			$minDate = $Date;
+			// 		}
+			// 		$this->applicationDate = $minDate;
+			// 	}
+			// }
 		}
 		if (isset($attrs [strtolower(MainProject).'RegistrationDate']) && !empty($attrs [strtolower(MainProject).'RegistrationDate'])) {
 			$d=$attrs [strtolower(MainProject).'RegistrationDate'][0];
 			$this->registrationDate = $d;
 		}else{
 			$minDate= new DateTime ("now");
-			foreach($MainProjects as $proj){
-				if (isset($attrs [strtolower($proj).'RegistrationDate']) && !empty($attrs [strtolower($proj).'RegistrationDate'])) {
-					$d=$attrs [strtolower($proj).'RegistrationDate'][0];
-					$Date= new DateTime( $d[0].$d[1].$d[2].$d[3].'-'.$d[4].$d[5].'-'.$d[6].$d[7]);
-					if($minDate > $Date){
-						$minDate = $Date;
-					}
-					$this->registrationDate = $minDate;
-				}
-			}
+			// foreach($MainProjects as $proj){
+			// 	if (isset($attrs [strtolower($proj).'RegistrationDate']) && !empty($attrs [strtolower($proj).'RegistrationDate'])) {
+			// 		$d=$attrs [strtolower($proj).'RegistrationDate'][0];
+			// 		$Date= new DateTime( $d[0].$d[1].$d[2].$d[3].'-'.$d[4].$d[5].'-'.$d[6].$d[7]);
+			// 		if($minDate > $Date){
+			// 			$minDate = $Date;
+			// 		}
+			// 		$this->registrationDate = $minDate;
+			// 	}
+			// }
 		}
 	}
 	function toString($withDn = false) {
@@ -193,7 +193,7 @@ class portalUser extends entry {
 	
 	function isAdmin() {
 		global $project_name,$MainProjects;
-		if(in_array($project_name,$MainProjects) || $project_name == strtolower(MainProject))
+		if($project_name == strtolower(MainProject)) //in_array($project_name,$MainProjects || (condition suppprimée)		
 			return $this->isMemberOf ( array (
 					strtolower($project_name).'Adm',
 					'root' 

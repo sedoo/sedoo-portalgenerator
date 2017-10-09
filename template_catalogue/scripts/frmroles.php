@@ -11,14 +11,15 @@ $projects = 'SELECT DISTINCT dats_id FROM dats_proj WHERE project_id IN ('.get_f
 
 $r = new role;
 $listeRoles = "'".PUBLIC_DATA_ROLE."'";
-$roles = explode(',',constant(strtolower($project_name).'ListRoles'));
-$string_roles=null;
-foreach($roles as $rol){
-	$string_roles .= "'".$rol."'";
-	$string_roles .= ",";
+if (defined(strtolower($project_name).'ListRoles')) {
+	$roles = explode(',',constant(strtolower($project_name).'ListRoles'));
+	$string_roles=null;
+	foreach($roles as $rol){
+		$string_roles .= "'".$rol."'";
+		$string_roles .= ",";
+	}
+	$listeRoles .= ",".substr_replace($string_roles, "", -1);
 }
-$listeRoles .= ",".substr_replace($string_roles, "", -1);
-
 
 $roles = $r->getByQuery("SELECT * FROM role WHERE role_name IN ($listeRoles)");
 

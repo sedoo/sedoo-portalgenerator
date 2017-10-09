@@ -88,9 +88,9 @@ class ldapConnect {
 			$entry = ldap_first_entry ( $this->ldapconn, $result );
 			$attrs = ldap_get_attributes ( $this->ldapconn, $entry );
 			$dn = ldap_get_dn ( $this->ldapconn, $entry );
-			if(in_array($retClass,$MainProjects))
-				$user = new projectUser ( $dn, $attrs );
-			else 
+			// if(in_array($retClass,$MainProjects))
+			// 	$user = new projectUser ( $dn, $attrs );
+			// else 
 				$user = new portalUser ( $dn, $attrs );
 				
 			return $user;
@@ -108,9 +108,9 @@ class ldapConnect {
 				$attrs = ldap_get_attributes ( $this->ldapconn, $entry );
 				$dn = ldap_get_dn ( $this->ldapconn, $entry );
 				$class=str_replace("User", "", $retClass);
-				if(in_array($class,$MainProjects))
-					$user = new projectUser ( $dn, $attrs );
-				else 
+				// if(in_array($class,$MainProjects))
+				// 	$user = new projectUser ( $dn, $attrs );
+				// else 
 					$user = new portalUser ( $dn, $attrs );
 				return $user;
 			} else {

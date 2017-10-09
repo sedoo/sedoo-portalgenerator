@@ -42,24 +42,24 @@ if (isset ( $_SESSION ['loggedUser'] ) && ! empty ( $_SESSION ['loggedUser'] )) 
 			$formReg->check ();
 		}
 	} else if (isset ( $_POST ['bouton_save'] )) {
-		if (in_array($project_name, $MainProjects)) {
-			$formReg->saveForm ( true );
-			if ($formReg->validate () && $formReg->validateChart ()) {
-				if ($formReg->addUser ( true )) {
-					$formReg->addProjectUser ( true );
-					echo "<font size=\"3\" color='green'><b>\n\nYour portal account was created.\n</b><br><b>Your access privileges will be temporarily limited to public datasets until your identity is verified and approved by the administrator.\n</b>" . "<br><b>Once your registration to access $project_name data will be approved, you will receive a confirmation mail.\n</b></font><br>";
-					return;
-				}
-			}
-		} else {
+		// if (in_array($project_name, $MainProjects)) {
+		// 	$formReg->saveForm ( true );
+		// 	if ($formReg->validate () && $formReg->validateChart ()) {
+		// 		if ($formReg->addUser ( true )) {
+		// 			$formReg->addProjectUser ( true );
+		// 			echo "<font size=\"3\" color='green'><b>\n\nYour portal account was created.\n</b><br><b>Your access privileges will be temporarily limited to public datasets until your identity is verified and approved by the administrator.\n</b>" . "<br><b>Once your registration to access $project_name data will be approved, you will receive a confirmation mail.\n</b></font><br>";
+		// 			return;
+		// 		}
+		// 	}
+		// } else {
 			$formReg->saveForm ();
 			if ($formReg->validate () && $formReg->validateChart ( true )) {
-				if ($formReg->addUser ()) {
+				if ($formReg->addUser (true)) {
 					echo "<font size=\"3\" color='green'><b>\n\nYour portal account was created.\n</b><br><b>Your access privileges will be temporarily limited to public datasets until your identity is verified and approved by the administrator.\n</b>" . "<br><b>Once your registration to access $project_name data will be approved, you will receive a confirmation mail.\n</b></font><br>";
 					return;
 				}
 			}
-		}
+		// }
 	} else if (isset ( $_POST ['bouton_update'] )) {
 		if (in_array($project_name, $MainProjects)) {
 			$formReg->saveForm ( true );
@@ -88,9 +88,9 @@ if (isset ( $_SESSION ['loggedUser'] ) && ! empty ( $_SESSION ['loggedUser'] )) 
 		}
 	}
 	global $project_name;
-	if (in_array($project_name, $MainProjects)) {
-		$formReg->displayForm ( true );
-	}else
+	// if (in_array($project_name, $MainProjects)) {
+	// 	$formReg->displayForm ( true );
+	// }else
 		$formReg->displayForm ( false );
 }
 
