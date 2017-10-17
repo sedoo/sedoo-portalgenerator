@@ -4,17 +4,8 @@ require 'elastic/vendor/autoload.php';
 
 require_once ("conf/conf.php");
 require_once ("utils/elastic/elastic_dataset_factory.php");
-
-/**
- * Charge les classes du dossier bd
- * Notamment ici : gcmd_..., place, variable, personne
- * @todo En faire une classe pour généraliser le processus 
- */
- function bdClassesLoader ($class) {
-    require_once 'bd/' . $class . '.php';
-}
-
-spl_autoload_register('bdClassesLoader');
+require_once ("bd/gcmd_science_keyword.php");
+require_once ("bd/gcmd_location_keyword.php");
 
 class ElasticClient {
 
