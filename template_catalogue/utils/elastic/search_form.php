@@ -168,66 +168,33 @@ class search_form extends HTML_QuickForm {
 				'date_begin',
 				'date_end' 
 		), 'Date end must be after date begin', 'validPeriod' );
+		
+		/* number_range n'est pas une règle de HTML_QuickForm */
+		
 		$this->addRule ( 'maxLatDeg', 'Latitude &deg; must be numeric', 'numeric' );
-		$this->addRule ( 'maxLatDeg', 'Latitude &deg; is incorrect', 'number_range', array (
-				- 90,
-				90 
-		) );
+		// $this->addRule ( 'maxLatDeg', 'Latitude &deg; is incorrect', 'number_range', array (- 90,90) );
 		$this->addRule ( 'minLatDeg', 'Latitude &deg; must be numeric', 'numeric' );
-		$this->addRule ( 'minLatDeg', 'Latitude &deg; is incorrect', 'number_range', array (
-				- 90,
-				90 
-		) );
+		// $this->addRule ( 'minLatDeg', 'Latitude &deg; is incorrect', 'number_range', array (- 90,90) );
 		$this->addRule ( 'maxLonDeg', 'Longitude &deg; must be numeric', 'numeric' );
-		$this->addRule ( 'maxLonDeg', 'Longitude &deg; is incorrect', 'number_range', array (
-				- 180,
-				180 
-		) );
+		// $this->addRule ( 'maxLonDeg', 'Longitude &deg; is incorrect', 'number_range', array (- 180,180) );
 		$this->addRule ( 'minLonDeg', 'Longitude &deg;  must be numeric', 'numeric' );
-		$this->addRule ( 'minLonDeg', 'Longitude &deg; is incorrect', 'number_range', array (
-				- 180,
-				180 
-		) );
+		// $this->addRule ( 'minLonDeg', 'Longitude &deg; is incorrect', 'number_range', array (- 180,180) );
 		$this->addRule ( 'maxLatMin', 'Latitude \' must be numeric', 'numeric' );
-		$this->addRule ( 'maxLatMin', 'Latitude \' is incorrect', 'number_range', array (
-				0,
-				50 
-		) );
+		// $this->addRule ( 'maxLatMin', 'Latitude \' is incorrect', 'number_range', array (0,50) );
 		$this->addRule ( 'minLatMin', 'Latitude \' must be numeric', 'numeric' );
-		$this->addRule ( 'minLatMin', 'Latitude \' is incorrect', 'number_range', array (
-				0,
-				59 
-		) );
+		// $this->addRule ( 'minLatMin', 'Latitude \' is incorrect', 'number_range', array (0,59) );
 		$this->addRule ( 'maxLonMin', 'Longitude \' must be numeric', 'numeric' );
-		$this->addRule ( 'maxLonMin', 'Longitude \'  is incorrect', 'number_range', array (
-				0,
-				59 
-		) );
+		// $this->addRule ( 'maxLonMin', 'Longitude \'  is incorrect', 'number_range', array (0,59) );
 		$this->addRule ( 'minLonMin', 'Longitude \'  must be numeric', 'numeric' );
-		$this->addRule ( 'minLonMin', 'Longitude \' is incorrect', 'number_range', array (
-				0,
-				59 
-		) );
+		// $this->addRule ( 'minLonMin', 'Longitude \' is incorrect', 'number_range', array (0,59) );
 		$this->addRule ( 'maxLatSec', 'Latitude " must be numeric', 'numeric' );
-		$this->addRule ( 'maxLatSec', 'Latitude " is incorrect', 'number_range', array (
-				0,
-				50 
-		) );
+		// $this->addRule ( 'maxLatSec', 'Latitude " is incorrect', 'number_range', array (0,50) );
 		$this->addRule ( 'minLatSec', 'Latitude " must be numeric', 'numeric' );
-		$this->addRule ( 'minLatSec', 'Latitude " is incorrect', 'number_range', array (
-				0,
-				59 
-		) );
+		// $this->addRule ( 'minLatSec', 'Latitude " is incorrect', 'number_range', array (0,59) );
 		$this->addRule ( 'maxLonSec', 'Longitude " must be numeric', 'numeric' );
-		$this->addRule ( 'maxLonSec', 'Longitude " is incorrect', 'number_range', array (
-				0,
-				59 
-		) );
+		// $this->addRule ( 'maxLonSec', 'Longitude " is incorrect', 'number_range', array (0,59) );
 		$this->addRule ( 'minLonSec', 'Longitude " must be numeric', 'numeric' );
-		$this->addRule ( 'minLonSec', 'Longitude " is incorrect', 'number_range', array (
-				0,
-				59 
-		) );
+		// $this->addRule ( 'minLonSec', 'Longitude " is incorrect', 'number_range', array (0,59) );
 	}
 	function displayForm() {
 		$this->addValidationRules ();
