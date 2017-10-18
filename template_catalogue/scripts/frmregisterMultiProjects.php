@@ -22,7 +22,7 @@ if (isset ( $_SESSION ['loggedUser'] ) && ! empty ( $_SESSION ['loggedUser'] )) 
 }
 if (isset ( $_SESSION ['loggedUser'] ) && ! empty ( $_SESSION ['loggedUser'] )) {
 	if ($project_name == strtolower(MainProject))
-		header ( 'Location: http://' . $_SERVER ['HTTP_HOST'] . '/Your-Account/?p&pageId=11' );
+		header ( 'Location: https://' . $_SERVER ['HTTP_HOST'] . '/Your-Account/?p&pageId=11' );
 	else if (in_array ( $project_name, $MainProjects )){
 		$Project_pageId = 11;
 		while ($project = current($MainProjects)) {
@@ -31,7 +31,7 @@ if (isset ( $_SESSION ['loggedUser'] ) && ! empty ( $_SESSION ['loggedUser'] )) 
 			}
 			next($MainProjects);
 		}
-		header ( 'Location: http://' . $_SERVER ['HTTP_HOST'] . '/Your-Account/?p&pageId='.$Project_pageId );
+		header ( 'Location: https://' . $_SERVER ['HTTP_HOST'] . '/Your-Account/?p&pageId='.$Project_pageId );
 	}
 } else {
 	if (isset ( $user ) && ! empty ( $user )) {
