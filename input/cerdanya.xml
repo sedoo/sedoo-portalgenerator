@@ -15,12 +15,14 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <testMode>true</testMode>
   <yearStart>2010</yearStart>
   <ftp>ftp://cerdanya.sedoo.fr</ftp>
-  <adminGroupEmail>cerdanyaAdmin@sedoo.fr</adminGroupEmail>
   <rootEmail>cerdanyaRoot@sedoo.fr</rootEmail>
-  <managerEmail>cerdanyaManager@sedoo.fr</managerEmail>
   <contactEmail>cerdanyaManager@sedoo.fr</contactEmail>
   <datapolicy></datapolicy>  
   <homePage>0</homePage>
+  <roles> 
+     <role>public</role>    
+     <role></role>     
+  </roles>  
   <database>
       <host>shiva</host>
       <name>cerdanya_catalogue</name>

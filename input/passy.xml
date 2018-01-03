@@ -15,12 +15,14 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <testMode>false</testMode>
   <yearStart>2010</yearStart>
   <ftp>ftp://passy.sedoo.fr</ftp>
-  <adminGroupEmail>passyAdmin@sedoo.fr</adminGroupEmail>  
   <rootEmail>passyRoot@sedoo.fr</rootEmail>
-  <managerEmail>passyManager@sedoo.fr</managerEmail>
   <contactEmail>passyManager@sedoo.fr</contactEmail>
   <datapolicy></datapolicy>
   <homePage>0</homePage>   
+  <roles> 
+     <role>public</role>    
+     <role></role>     
+  </roles>
   <database>
       <host>shiva</host>
       <name>passy_catalogue</name>

@@ -17,9 +17,7 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <testMode>true</testMode>
   <yearStart></yearStart>
   <ftp>ftp://sedoo.fr</ftp>
-  <adminGroupEmail>MainProjectAdmins@sedoo.fr</adminGroupEmail>
   <rootEmail>MainProjectdb-admin@sedoo.fr</rootEmail>
-  <managerEmail>MainProjectManager@obs-mip.fr</managerEmail>
   <contactEmail>MainProject-database@sedoo.fr</contactEmail>
   <datapolicy>true</datapolicy>
   <homePage>0</homePage>

@@ -15,12 +15,14 @@ xsi:noNamespaceSchemaLocation="projet-template.xsd">
   <testMode>true</testMode>
   <yearStart>2010</yearStart>
   <ftp>ftp://kascade.sedoo.fr</ftp>
-  <adminGroupEmail>kascadeAdmin@sedoo.fr</adminGroupEmail>
   <rootEmail>kascadeRoot@sedoo.fr</rootEmail>
-  <managerEmail>kascadeManager@sedoo.fr</managerEmail>
   <contactEmail>kascadeManager@sedoo.fr</contactEmail>
   <datapolicy></datapolicy> 
   <homePage>0</homePage>
+  <roles> 
+     <role>public</role>  
+     <role></role>     
+  </roles>  
   <database>
       <host>shiva</host>
       <name>kascade_catalogue</name>

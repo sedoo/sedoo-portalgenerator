@@ -428,21 +428,12 @@ class PortalGenerator {
 			$content .= "define('Portal_FTP_Site','" . $this->xmlContent ['ftp'] . "');\n";
 		else
 			$content .= "define('Portal_FTP_Site','');\n";
+
 		$content .= $this->comment ( "L'adresse mail du groupe admin (ex mistralsAdmins@sedoo.fr)" );
-		if (isset ( $this->xmlContent ['adminGroupEmail'] ) && ! empty ( $this->xmlContent ['adminGroupEmail'] ))
-			$content .= "define('Portal_AdminGroup_Email','" . $this->xmlContent ['adminGroupEmail'] . "');\n";
-		else
-			$content .= "define('Portal_AdminGroup_Email','');\n";
-		$content .= $this->comment ( "Une autre adresse du groupe admin mail mistralsdb-admin@sedoo.fr " );
 		if (isset ( $this->xmlContent ['rootEmail'] ) && ! empty ( $this->xmlContent ['rootEmail'] ))
 			$content .= "define('ROOT_EMAIL','" . $this->xmlContent ['rootEmail'] . "');\n";
 		else
 			$content .= "define('ROOT_EMAIL','');\n";
-		$content .= $this->comment ( "Email du responsable du portail" );
-		if (isset ( $this->xmlContent ['managerEmail'] ) && ! empty ( $this->xmlContent ['managerEmail'] ))
-			$content .= "define('Portal_Manager_Email','" . $this->xmlContent ['managerEmail'] . "');\n";
-		else
-			$content .= "define('Portal_Manager_Email','');\n";
 		$content .= $this->comment ( "Email de contact du portail" );
 		if (isset ( $this->xmlContent ['contactEmail'] ) && ! empty ( $this->xmlContent ['contactEmail'] ))
 			$content .= "define('Portal_Contact_Email','" . $this->xmlContent ['contactEmail'] . "');\n";
@@ -757,21 +748,13 @@ class PortalGenerator {
 							$content .= "define('" . strtolower ( $proj ['name'] ) . "WebSite','" . $proj ['website'] . "');\n";
 						else
 							$content .= "define('" . strtolower ( $proj ['name'] ) . "WebSite','');\n";
-						$content .= $this->comment ( "Email du responsable du projet" );
-						if (isset ( $proj ['managerEmail'] ) && ! empty ( $proj ['managerEmail'] ))
-							$content .= "define('" . strtolower ( $proj ['name'] ) . "Manager_Email','" . $proj ['managerEmail'] . "');\n";
-						else
-							$content .= "define('" . strtolower ( $proj ['name'] ) . "Manager_Email','');\n";
+
 						$content .= $this->comment ( "Email de contact du responsable du projet" );
 						if (isset ( $proj ['contactEmail'] ) && ! empty ( $proj ['contactEmail'] ))
 							$content .= "define('" . strtolower ( $proj ['name'] ) . "Contact_Email','" . $proj ['contactEmail'] . "');\n";
 						else
 							$content .= "define('" . strtolower ( $proj ['name'] ) . "Contact_Email','');\n";
-						$content .= $this->comment ( "l'adresse mail des admin du projet" );
-						if (isset ( $proj ['adminGroupEmail'] ) && ! empty ( $proj ['adminGroupEmail'] ))
-							$content .= "define('" . strtolower ( $proj ['name'] ) . "_AdminGroup_Email','" . $proj ['adminGroupEmail'] . "');\n";
-						else
-							$content .= "define('" . strtolower ( $proj ['name'] ) . "_AdminGroup_Email','');\n";
+						
 						$content .= $this->comment ( "Datapolicy générale du projet" );
 						if (isset ( $proj ['datapolicy'] ) && ! empty ( $proj ['datapolicy'] )) {
 							$content .= "define('" . strtolower ( $proj ['name'] ) . "DataPolicy','" . $proj ['datapolicy'] . "');\n";
