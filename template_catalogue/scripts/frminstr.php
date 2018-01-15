@@ -280,7 +280,7 @@ if ($form->isCat ( $form->dataset,$project_name )) {
 					}else{
 						$messageError = 'http://' . $_SERVER ['HTTP_HOST'] . '/' . $project_name . "/?editDatsId=$dats_id" . "\r\n";
 						$messageError.= $d->isNotValid($xmld, $project_name, $dats_id);
-						$mailsAdmins = strtolower($project_name)._AdminGroup_Email;
+						$mailsAdmins = Portal_Contact_Email;
 						$sujet = 'DOI XML - Errors were found during the update dataset';
 						$text = $messageError;
 						$doms->save("/tmp/current_".MainProject."-".$project_name.".".$dats_id.".xml");

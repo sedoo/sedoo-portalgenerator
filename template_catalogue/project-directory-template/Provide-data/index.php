@@ -32,7 +32,7 @@ following address:
 <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>/#project/Provide-metadata/" >
 <?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>/#project/Provide-metadata</a>
 <p>
-After uploading your data, please <b>inform us</b> by email: <b><?php echo constant(strtolower($project_name)._AdminGroup_Email) ;?></b>
+After uploading your data, please <b>inform us</b> by email: <b><?php echo Portal_Contact_Email; ?></b>
 so that we can make the data avalaible.  Don't forget to mention the following items:
 <ul>
 <li>The name of the FTP directory where you uploaded your data
@@ -45,7 +45,7 @@ Use contraints example: Permission is granted to use these data and images in re
 <br>
 <p><strong>Provide model outputs or value-added datasets</strong></p>
 
-<p>Large dataset providers are invited to contact  <b><?php echo constant(strtolower($project_name).'_AdminGroup_Email');?></b> in order to define the best way to upload the data.</p></div>
+<p>Large dataset providers are invited to contact  <b><?php echo Portal_Contact_Email; ?></b> in order to define the best way to upload the data.</p></div>
 </div>
 <?php
   $milieu = ob_get_clean();

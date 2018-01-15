@@ -88,7 +88,7 @@ ob_start ();
 			<br>
 
 			Do not hesitate to contact us in case of any difficulty:
-			<b><?php if (defined(strtolower($project_name).'_AdminGroup_Email')) echo constant(strtolower($project_name).'_AdminGroup_Email');?></b>
+			<b><?php if (defined('Portal_Contact_Email')) echo Portal_Contact_Email; ?></b>
 			.
 			<br>
 		</p>

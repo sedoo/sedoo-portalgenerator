@@ -747,11 +747,11 @@ class dataset {
 		}
 	}
 	function sendMailErreur(Exception $e) {
-		sendMail ( Portal_AdminGroup_Email, '[' . MainProject . '] Catalogue - Erreur', $e->getMessage () . "\n\n" . $this->toString (), $this->image );
+		sendMail ( Portal_Contact_Email, '[' . MainProject . '] Catalogue - Erreur', $e->getMessage () . "\n\n" . $this->toString (), $this->image );
 	}
 	function sendMailDataset() {
 		$fichePdf = fiche2pdf ( $this->dats_id, true );
-		sendMail ( Portal_AdminGroup_Email, '[' . MainProject . '] Catalogue - Dataset ok', $this->toString (), array (
+		sendMail ( Portal_Contact_Email, '[' . MainProject . '] Catalogue - Dataset ok', $this->toString (), array (
 				$this->image,
 				$fichePdf 
 		) );

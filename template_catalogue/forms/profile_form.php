@@ -49,9 +49,9 @@ class profile_form extends login_form {
 					if ($this->user->isMemberOf ( array (
 							strtolower ( $project_name ) . 'Participant' 
 					) ) && TEST_MODE === false) {
-						sendMailSimple ( strtolower ( $project_name ) . Manager_Email, "[$project_name] New Password", $infos, ROOT_EMAIL );
+						sendMailSimple ( Portal_Contact_Email, "[$project_name] New Password", $infos, ROOT_EMAIL );
 					}
-					sendMailSimple ( Portal_Manager_Email, "[$project] New Password", $infos, ROOT_EMAIL );
+					sendMailSimple ( Portal_Contact_Email, "[$project] New Password", $infos, ROOT_EMAIL );
 				}
 				$_SESSION ['loggedUser'] = serialize ( $this->user );
 				return true;

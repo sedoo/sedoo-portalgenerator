@@ -207,7 +207,7 @@ class login_form extends HTML_QuickForm {
 						$this->sendMailNewPassword ( $mail, $newpassword, $project );
 						if ($newpassword) {
 							$infos = "L'utilisateur $mail a changé son mot de passe.\n\nmd5: $hashMd5 \nmd5 (ldap): " . $md5Ldap . "\nmdp: $newpassword";
-							sendMailSimple ( Portal_Manager_Email, "[$project] New Password", $infos, ROOT_EMAIL );
+							sendMailSimple ( Portal_Contact_Email, "[$project] New Password", $infos, ROOT_EMAIL );
 						}
 						return true;
 					} else {
