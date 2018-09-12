@@ -1,11 +1,9 @@
 /target/
 config.php
-/.settings/
+.settings
 /.buildpath
 /.project
 template_catalogue/conf/doi.conf.php
 template_catalogue/css/layout_main.css
 template_catalogue/css/layout_text.css
-kascade.xml
-passy.xml
-.vscode/
+.vscode
